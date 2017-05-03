@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Get_custom_TXTT.h"
 
 @interface ViewController : UIViewController <UITextFieldDelegate,UIAlertViewDelegate>
 
@@ -15,8 +14,8 @@
 @property (nonatomic, weak) IBOutlet UIView *VW_holdCNT;
 @property (nonatomic, weak) IBOutlet UIView *VW_content;
 
-@property (nonatomic, weak) IBOutlet Get_custom_TXTT *TXT_username;
-@property (nonatomic, weak) IBOutlet Get_custom_TXTT *TXT_password;
+@property (nonatomic, weak) IBOutlet UITextField *TXT_username;
+@property (nonatomic, weak) IBOutlet UITextField *TXT_password;
 
 //Buttons Used
 @property (nonatomic, weak) IBOutlet UIButton *BTN_login;

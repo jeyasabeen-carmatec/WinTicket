@@ -9,7 +9,7 @@
 #import "Normal_sighnUP.h"
 
 @interface Normal_sighnUP ()<UITextFieldDelegate,UIPickerViewDelegate, UIPickerViewDataSource>
-@property (nonatomic, strong) NSArray *pickerNames;
+@property (nonatomic, strong) NSArray *countrypicker,*statepicker;
 
 @end
 
@@ -124,51 +124,51 @@
     _TXT_L_name.layer.borderWidth = 2.0f;
     _TXT_L_name.layer.borderColor = [UIColor whiteColor].CGColor;
     _TXT_L_name.tag=2;
-    _TXT_L_name.enabled = NO;
+//    _TXT_L_name.enabled = NO;
     
     _TXT_addressLine_one.layer.cornerRadius = 5.0f;
     _TXT_addressLine_one.layer.masksToBounds = YES;
     _TXT_addressLine_one.layer.borderWidth = 2.0f;
     _TXT_addressLine_one.layer.borderColor = [UIColor whiteColor].CGColor;
-    _TXT_addressLine_one.enabled = NO;
+//    _TXT_addressLine_one.enabled = NO;
     _TXT_addressLine_one.tag=3;
     _TXT_addressLine_two.layer.cornerRadius = 5.0f;
     _TXT_addressLine_two.layer.masksToBounds = YES;
     _TXT_addressLine_two.layer.borderWidth = 2.0f;
     _TXT_addressLine_two.layer.borderColor = [UIColor whiteColor].CGColor;
-    _TXT_addressLine_two.enabled = NO;
+//    _TXT_addressLine_two.enabled = NO;
     _TXT_addressLine_two.tag=4;
     _TXT_city.layer.cornerRadius = 5.0f;
     _TXT_city.layer.masksToBounds = YES;
     _TXT_city.layer.borderWidth = 2.0f;
     _TXT_city.layer.borderColor = [UIColor whiteColor].CGColor;
-    _TXT_city.enabled = NO;
+//    _TXT_city.enabled = NO;
     _TXT_city.tag=5;
     
     _TXT_phone_number.layer.cornerRadius = 5.0f;
     _TXT_phone_number.layer.masksToBounds = YES;
     _TXT_phone_number.layer.borderWidth = 2.0f;
     _TXT_phone_number.layer.borderColor = [UIColor whiteColor].CGColor;
-    _TXT_phone_number.enabled = NO;
+//    _TXT_phone_number.enabled = NO;
     _TXT_phone_number.tag=6;
     _TXT_country.layer.cornerRadius = 5.0f;
     _TXT_country.layer.masksToBounds = YES;
     _TXT_country.layer.borderWidth = 2.0f;
     _TXT_country.layer.borderColor = [UIColor whiteColor].CGColor;
-    _TXT_country.enabled = NO;
+//    _TXT_country.enabled = NO;
     _TXT_country.tag=7;
     _TXT_state.layer.cornerRadius = 5.0f;
     _TXT_state.layer.masksToBounds = YES;
     _TXT_state.layer.borderWidth = 2.0f;
     _TXT_state.layer.borderColor = [UIColor whiteColor].CGColor;
-    _TXT_state.enabled = NO;
+//    _TXT_state.enabled = NO;
     _TXT_state.tag=8;
     
     _TXT_email.layer.cornerRadius = 5.0f;
     _TXT_email.layer.masksToBounds = YES;
     _TXT_email.layer.borderWidth = 2.0f;
     _TXT_email.layer.borderColor = [UIColor whiteColor].CGColor;
-    _TXT_email.enabled = NO;
+//    _TXT_email.enabled = NO;
     _TXT_email.tag=9;
     
     
@@ -182,13 +182,33 @@
     _state_pickerView = [[UIPickerView alloc] init];
     _state_pickerView.delegate = self;
     _state_pickerView.dataSource = self;
+    
+    UIToolbar* conutry_close = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+    conutry_close.barStyle = UIBarStyleBlackTranslucent;
+    [conutry_close sizeToFit];
+    
+    UIButton *close=[[UIButton alloc]init];
+    close.frame=CGRectMake(conutry_close.frame.size.width - 100, 0, 100, conutry_close.frame.size.height);
+    [close setTitle:@"close" forState:UIControlStateNormal];
+    [close addTarget:self action:@selector(countrybuttonClick) forControlEvents:UIControlEventTouchUpInside];
+//    [numberToolbar setItems:[NSArray arrayWithObjects:close, nil]];
+      [conutry_close addSubview:close];
+    _TXT_country.inputAccessoryView=conutry_close;
+    _TXT_state.inputAccessoryView=conutry_close;
     self.TXT_country.inputView = _contry_pickerView;
     self.TXT_state.inputView=_state_pickerView;
     _TXT_country.tintColor=[UIColor clearColor];
     _TXT_state.tintColor=[UIColor clearColor];
     
-    self.pickerNames = @[ @"Objective-C", @"Swift", @"Java", @"C", @"C++", @"Other"];
+    [self Country_api];
+    [self State_api];
 
+}
+
+-(void)countrybuttonClick
+{
+    [self.TXT_country resignFirstResponder];
+    [self.TXT_state resignFirstResponder];
 }
 #pragma mark-TextField Delegates
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
@@ -508,7 +528,7 @@
     {
         NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"The response %@",json_DATA);
-        NSString *status=[json_DATA objectForKey:@"message"];
+        NSString *status=[json_DATA valueForKey:@"message"];
         
         
         if([status isEqualToString:@"User already exists"])
@@ -563,24 +583,64 @@
 
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
     if (pickerView == _contry_pickerView) {
-        return [self.pickerNames count];
+        return [self.countrypicker count];
     }
     if (pickerView == _state_pickerView) {
-        return [self.pickerNames count];
+        return [self.statepicker count];
     }
 
     
     return 0;
 }
+#pragma mark - UIPickerViewDataSource
+
+-(void)Country_api
+{
+    NSHTTPURLResponse *response = nil;
+    NSError *error;
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/countries",SERVER_URL];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+            NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"The response %@",json_DATA);
+        self.countrypicker=[json_DATA allKeys];
+        
+
+}
+-(void)State_api
+{
+    NSHTTPURLResponse *response = nil;
+    NSError *error;
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/states",SERVER_URL];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+    NSLog(@"The response %@",json_DATA);
+//    NSString *status=[json_DATA objectForKey:@"United States"];
+    self.statepicker=[json_DATA allKeys];
+    
+    
+}
 
 #pragma mark - UIPickerViewDelegate
 
+
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     if (pickerView == _contry_pickerView) {
-        return self.pickerNames[row];
+        return self.countrypicker[row];
     }
     if (pickerView == _state_pickerView) {
-        return self.pickerNames[row];
+        return self.statepicker[row];
     }
     
     return nil;
@@ -589,12 +649,12 @@
 // #6
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     if (pickerView == _contry_pickerView) {
-        self.TXT_country.text = self.pickerNames[row];
+        self.TXT_country.text = self.countrypicker[row];
         self.TXT_state.enabled=YES;
             }
     if (pickerView == _state_pickerView) {
 
-    self.TXT_state.text=self.pickerNames[row];
+    self.TXT_state.text=self.statepicker[row];
         self.TXT_email.enabled=YES;
     }
 }

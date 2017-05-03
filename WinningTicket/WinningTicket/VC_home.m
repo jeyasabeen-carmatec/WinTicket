@@ -11,7 +11,7 @@
 
 @interface VC_home ()
 {
-    NSMutableArray *ARR_allevent,*ARR_upcommingevent;
+    NSArray *ARR_allevent,*ARR_upcommingevent;
 }
 
 @end
@@ -22,7 +22,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-//    [self setup_VIEW];
+    [self get_Data];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -95,28 +95,28 @@
     _TXT_4.tag = 4;
     _TXT_5.tag = 5;
     
-    ARR_allevent = [[NSMutableArray alloc]init];
+//    ARR_allevent = [[NSMutableArray alloc]init];
     
-    NSDictionary *temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
-    [ARR_allevent addObject:temp_Dictn];
-    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Murray Bros. Caddyshack Charity Golf Tournament",@"Event_Name",@"Mar 22, 2017 03:00PM EST",@"Event_Time", nil];
-    [ARR_allevent addObject:temp_Dictn];
-    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Susan G Komen 2017 Golf Classic",@"Event_Name",@"Mar 31,2017 11:00AM EST",@"Event_Time", nil];
-    [ARR_allevent addObject:temp_Dictn];
-    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
-    [ARR_allevent addObject:temp_Dictn];
-    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Murray Bros. Caddyshack Charity Golf Tournament",@"Event_Name",@"Mar 22, 2017 03:00PM EST",@"Event_Time", nil];
-    [ARR_allevent addObject:temp_Dictn];
-    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Susan G Komen 2017 Golf Classic",@"Event_Name",@"Mar 31,2017 11:00AM EST",@"Event_Time", nil];
-    [ARR_allevent addObject:temp_Dictn];
-    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
-    [ARR_allevent addObject:temp_Dictn];
-    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Murray Bros. Caddyshack Charity Golf Tournament",@"Event_Name",@"Mar 22, 2017 03:00PM EST",@"Event_Time", nil];
-    [ARR_allevent addObject:temp_Dictn];
-    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Susan G Komen 2017 Golf Classic",@"Event_Name",@"Mar 31,2017 11:00AM EST",@"Event_Time", nil];
-    [ARR_allevent addObject:temp_Dictn];
-    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
-    [ARR_allevent addObject:temp_Dictn];
+//    NSDictionary *temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
+//    [ARR_allevent addObject:temp_Dictn];
+//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Murray Bros. Caddyshack Charity Golf Tournament",@"Event_Name",@"Mar 22, 2017 03:00PM EST",@"Event_Time", nil];
+//    [ARR_allevent addObject:temp_Dictn];
+//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Susan G Komen 2017 Golf Classic",@"Event_Name",@"Mar 31,2017 11:00AM EST",@"Event_Time", nil];
+//    [ARR_allevent addObject:temp_Dictn];
+//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
+//    [ARR_allevent addObject:temp_Dictn];
+//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Murray Bros. Caddyshack Charity Golf Tournament",@"Event_Name",@"Mar 22, 2017 03:00PM EST",@"Event_Time", nil];
+//    [ARR_allevent addObject:temp_Dictn];
+//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Susan G Komen 2017 Golf Classic",@"Event_Name",@"Mar 31,2017 11:00AM EST",@"Event_Time", nil];
+//    [ARR_allevent addObject:temp_Dictn];
+//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
+//    [ARR_allevent addObject:temp_Dictn];
+//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Murray Bros. Caddyshack Charity Golf Tournament",@"Event_Name",@"Mar 22, 2017 03:00PM EST",@"Event_Time", nil];
+//    [ARR_allevent addObject:temp_Dictn];
+//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Susan G Komen 2017 Golf Classic",@"Event_Name",@"Mar 31,2017 11:00AM EST",@"Event_Time", nil];
+//    [ARR_allevent addObject:temp_Dictn];
+//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
+//    [ARR_allevent addObject:temp_Dictn];
     
     CGRect new_frame = _tbl_upcomming_event.frame;
     new_frame.size.height = [self upcommingEvent_height];
@@ -249,7 +249,7 @@
     if (tableView == _tbl_upcomming_event)
     {
 //        return [ARR_upcommingevent count];
-        return [ARR_allevent count];
+        return [ARR_upcommingevent count];
     }
     return 0;
 }
@@ -277,11 +277,18 @@
 //        cell.lbl_event_name.text = [temp_DICN valueForKey:@"Event_Name"];
 //        cell.lbl_event_time.text = [temp_DICN valueForKey:@"Event_Time"];
         NSDictionary *temp_DICN = [ARR_allevent objectAtIndex:indexPath.row];
-        cell.lbl_event_name.text = [temp_DICN valueForKey:@"Event_Name"];
+        cell.lbl_event_name.text = [temp_DICN valueForKey:@"name"];
         cell.lbl_event_name.numberOfLines = 0;
         [cell.lbl_event_name sizeToFit];
         
-        cell.lbl_event_time.text = [temp_DICN valueForKey:@"Event_Time"];
+//        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//        dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSS";
+//        
+//        NSTimeZone *gmt = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
+//        [dateFormatter setTimeZone:gmt];
+//        NSString *timeStamp = [dateFormatter stringFromDate:[NSDate date]];
+        
+        cell.lbl_event_time.text = [self getLocalDateTimeFromUTC:[temp_DICN valueForKey:@"created_at"]];
         
         [cell.BTN_View_detail setTag:indexPath.row];
         [cell.BTN_View_detail addTarget:self action:@selector(BTN_UP_COMNG_EVENT:) forControlEvents:UIControlEventTouchUpInside];
@@ -289,11 +296,21 @@
     }
     else
     {
+        //        cell.lbl_event_name.text = [temp_DICN valueForKey:@"Event_Name"];
+        //        cell.lbl_event_time.text = [temp_DICN valueForKey:@"Event_Time"];
         NSDictionary *temp_DICN = [ARR_allevent objectAtIndex:indexPath.row];
-        cell.lbl_event_name.text = [temp_DICN valueForKey:@"Event_Name"];
+        cell.lbl_event_name.text = [temp_DICN valueForKey:@"name"];
         cell.lbl_event_name.numberOfLines = 0;
         [cell.lbl_event_name sizeToFit];
-        cell.lbl_event_time.text = [temp_DICN valueForKey:@"Event_Time"];
+        
+        //        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        //        dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSS";
+        //
+        //        NSTimeZone *gmt = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
+        //        [dateFormatter setTimeZone:gmt];
+        //        NSString *timeStamp = [dateFormatter stringFromDate:[NSDate date]];
+        
+        cell.lbl_event_time.text = [self getLocalDateTimeFromUTC:[temp_DICN valueForKey:@"created_at"]];
         
         [cell.BTN_View_detail setTag:indexPath.row];
         [cell.BTN_View_detail addTarget:self action:@selector(BTN_ALL_EVENT:) forControlEvents:UIControlEventTouchUpInside];
@@ -305,31 +322,31 @@
 //}
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView == _tbl_upcomming_event) {
-        
-        NSDictionary *temp_DICN = [ARR_allevent objectAtIndex:indexPath.row];
-        NSString *str = [NSString stringWithFormat:@"%@",[temp_DICN valueForKey:@"Event_Name"]];
-        
-        
-        CGSize labelWidth = CGSizeMake(_tbl_upcomming_event.frame.size.width - 16, CGFLOAT_MAX); // 300 is fixed width of label. You can change this value
-        CGRect textRect;
-        
-        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-        {
-            textRect = [str boundingRectWithSize:labelWidth options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:19.0]} context:nil];
-        }
-        else
-        {
-            textRect = [str boundingRectWithSize:labelWidth options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:14.0]} context:nil];
-        }
-        
-        
-        int calculatedHeight = textRect.size.height+10;
-        
-        return calculatedHeight+20;
-    }
-    else
-    {
+//    if (tableView == _tbl_upcomming_event) {
+//        
+//        NSDictionary *temp_DICN = [ARR_allevent objectAtIndex:indexPath.row];
+//        NSString *str = [NSString stringWithFormat:@"%@",[temp_DICN valueForKey:@"Event_Name"]];
+//        
+//        
+//        CGSize labelWidth = CGSizeMake(_tbl_upcomming_event.frame.size.width - 16, CGFLOAT_MAX); // 300 is fixed width of label. You can change this value
+//        CGRect textRect;
+//        
+//        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+//        {
+//            textRect = [str boundingRectWithSize:labelWidth options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:19.0]} context:nil];
+//        }
+//        else
+//        {
+//            textRect = [str boundingRectWithSize:labelWidth options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:14.0]} context:nil];
+//        }
+//        
+//        
+//        int calculatedHeight = textRect.size.height+10;
+//        
+//        return calculatedHeight+20;
+//    }
+//    else
+//    {
         NSDictionary *temp_DICN = [ARR_allevent objectAtIndex:indexPath.row];
         NSString *str = [NSString stringWithFormat:@"%@",[temp_DICN valueForKey:@"Event_Name"]];
         
@@ -350,7 +367,7 @@
         int calculatedHeight = textRect.size.height+10;
         
         return calculatedHeight+25;
-    }
+//    }
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -614,4 +631,41 @@
     return YES;
 }
 
+-(void) get_Data
+{
+    NSError *error;
+    NSData *aData = [[NSUserDefaults standardUserDefaults] valueForKey:@"JsonEventlist"];
+    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+    NSLog(@"The response dsfdf %@",json_DATA);
+    
+    ARR_allevent = [json_DATA valueForKey:@"all_events"];
+    ARR_upcommingevent = [json_DATA valueForKey:@"upcoming_events"];
+}
+
+#pragma mark - Date Convert
+-(NSString *)getLocalDateTimeFromUTC:(NSString *)strDate
+{
+    /*NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"YYYY-MM-DDThh:mm:ss.sTZD"];
+    // Always use this locale when parsing fixed format date strings
+    NSLocale *posix = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+    [formatter setLocale:posix];
+    NSDate *date = [formatter dateFromString:strDate];
+    
+    NSLog(@"The given date = %@",date);
+    
+    return [formatter stringFromDate:date];*/
+    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
+    
+//    NSString *currentDateString = @"2014-01-08T21:21:22.737+05:30";
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ"];
+    NSDate *currentDate = [dateFormatter dateFromString:strDate];
+    
+    NSLog(@"CurrentDate:%@", currentDate);
+    
+    NSDateFormatter *newFormat = [[NSDateFormatter alloc] init];
+    [newFormat setDateFormat:@"MMM dd, yyyy HH:mm a zzz"];
+    
+    return [newFormat stringFromDate:currentDate];
+}
 @end

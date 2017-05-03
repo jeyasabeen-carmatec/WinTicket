@@ -8,7 +8,8 @@
 
 #import "VC_affiliate_sighnUP.h"
 
-@interface VC_affiliate_sighnUP ()
+@interface VC_affiliate_sighnUP ()<UITextFieldDelegate,UIPickerViewDelegate, UIPickerViewDataSource>
+@property (nonatomic, strong) NSArray *countrypicker,*statepicker;
 
 @end
 
@@ -73,7 +74,7 @@
 {
     [super viewDidLayoutSubviews];
     [_scroll_contents layoutIfNeeded];
-    _scroll_contents.contentSize = CGSizeMake(_scroll_contents.frame.size.width, _IMG_BG.frame.origin.y + _IMG_BG.frame.size.height + 5 + _IMG_logo_WT.frame.size.height + 20);
+    _scroll_contents.contentSize = CGSizeMake(_scroll_contents.frame.size.width, _IMG_BG.frame.origin.y + _IMG_BG.frame.size.height + 5 + _IMG_logo_WT.frame.size.height + 40);
 }
 
 /*
@@ -119,70 +120,606 @@
     
     [_scroll_contents addSubview:_VW_contents];
     
-    _TXT_phone_num.layer.cornerRadius = 5.0f;
-    _TXT_phone_num.layer.masksToBounds = YES;
-    _TXT_phone_num.layer.borderWidth = 2.0f;
-    _TXT_phone_num.layer.borderColor = [UIColor whiteColor].CGColor;
+//    _TXT_phone_num.layer.cornerRadius = 5.0f;
+//    _TXT_phone_num.layer.masksToBounds = YES;
+//    _TXT_phone_num.layer.borderWidth = 2.0f;
+//    _TXT_phone_num.layer.borderColor = [UIColor whiteColor].CGColor;
+//    
     
     _TXT_golfcoursename.layer.cornerRadius = 5.0f;
     _TXT_golfcoursename.layer.masksToBounds = YES;
     _TXT_golfcoursename.layer.borderWidth = 2.0f;
     _TXT_golfcoursename.layer.borderColor = [UIColor whiteColor].CGColor;
+    _TXT_golfcoursename.tag=1;
+    _TXT_golfcoursename.delegate=self;
     
     _TXT_F_name.layer.cornerRadius = 5.0f;
     _TXT_F_name.layer.masksToBounds = YES;
     _TXT_F_name.layer.borderWidth = 2.0f;
     _TXT_F_name.layer.borderColor = [UIColor whiteColor].CGColor;
-    
+    _TXT_F_name.tag=2;
+    _TXT_F_name.delegate=self;
+//    _TXT_F_name.enabled=NO;
+
+
     _TXT_L_name.layer.cornerRadius = 5.0f;
     _TXT_L_name.layer.masksToBounds = YES;
     _TXT_L_name.layer.borderWidth = 2.0f;
     _TXT_L_name.layer.borderColor = [UIColor whiteColor].CGColor;
-    
+    _TXT_L_name.tag=3;
+    _TXT_L_name.delegate=self;
+//    _TXT_L_name.enabled=NO;
+
+
     _TXT_titl.layer.cornerRadius = 5.0f;
     _TXT_titl.layer.masksToBounds = YES;
     _TXT_titl.layer.borderWidth = 2.0f;
     _TXT_titl.layer.borderColor = [UIColor whiteColor].CGColor;
-    
+    _TXT_titl.tag=4;
+    _TXT_titl.delegate=self;
+//    _TXT_titl.enabled=NO;
+
+
     _TXT_addr1.layer.cornerRadius = 5.0f;
     _TXT_addr1.layer.masksToBounds = YES;
     _TXT_addr1.layer.borderWidth = 2.0f;
     _TXT_addr1.layer.borderColor = [UIColor whiteColor].CGColor;
+    _TXT_addr1.tag=5;
+    _TXT_addr1.delegate=self;
+//    _TXT_addr1.enabled=NO;
+
     
     _TXT_addr2.layer.cornerRadius = 5.0f;
     _TXT_addr2.layer.masksToBounds = YES;
     _TXT_addr2.layer.borderWidth = 2.0f;
     _TXT_addr2.layer.borderColor = [UIColor whiteColor].CGColor;
+    _TXT_addr2.tag=6;
+    _TXT_addr2.delegate=self;
+//    _TXT_addr2.enabled=NO;
+
     
     _TXT_city.layer.cornerRadius = 5.0f;
     _TXT_city.layer.masksToBounds = YES;
     _TXT_city.layer.borderWidth = 2.0f;
     _TXT_city.layer.borderColor = [UIColor whiteColor].CGColor;
+    _TXT_city.tag=7;
+    _TXT_city.delegate=self;
+//    _TXT_city.enabled=NO;
+
+
     
     _TXT_phone_num.layer.cornerRadius = 5.0f;
     _TXT_phone_num.layer.masksToBounds = YES;
     _TXT_phone_num.layer.borderWidth = 2.0f;
     _TXT_phone_num.layer.borderColor = [UIColor whiteColor].CGColor;
-    
+    _TXT_phone_num.tag=8;
+    _TXT_phone_num.delegate=self;
+//    _TXT_phone_num.enabled=NO;
+
+
     _TXT_country.layer.cornerRadius = 5.0f;
     _TXT_country.layer.masksToBounds = YES;
     _TXT_country.layer.borderWidth = 2.0f;
     _TXT_country.layer.borderColor = [UIColor whiteColor].CGColor;
+    _TXT_country.tag=9;
+    _TXT_country.delegate=self;
+//    _TXT_country.enabled=NO;
+
+
     
     _TXT_state.layer.cornerRadius = 5.0f;
     _TXT_state.layer.masksToBounds = YES;
     _TXT_state.layer.borderWidth = 2.0f;
     _TXT_state.layer.borderColor = [UIColor whiteColor].CGColor;
-    
+    _TXT_state.tag=10;
+    _TXT_state.delegate=self;
+//    _TXT_state.enabled=NO;
+
+
     _TXT_zip.layer.cornerRadius = 5.0f;
     _TXT_zip.layer.masksToBounds = YES;
     _TXT_zip.layer.borderWidth = 2.0f;
     _TXT_zip.layer.borderColor = [UIColor whiteColor].CGColor;
-    
+    _TXT_zip.tag=11;
+    _TXT_zip.delegate=self;
+//    _TXT_zip.enabled=NO;
+
+
     _TXT_email.layer.cornerRadius = 5.0f;
     _TXT_email.layer.masksToBounds = YES;
     _TXT_email.layer.borderWidth = 2.0f;
     _TXT_email.layer.borderColor = [UIColor whiteColor].CGColor;
+    _TXT_email.tag=12;
+    _TXT_email.delegate=self;
+//    _TXT_email.enabled=NO;
+
+    _BTN_sighnUP.enabled =YES;
+    [_BTN_sighnUP addTarget:self action:@selector(btn_sign_up) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    
+    _contry_pickerView = [[UIPickerView alloc] init];
+    _contry_pickerView.delegate = self;
+    _contry_pickerView.dataSource = self;
+    _state_pickerView = [[UIPickerView alloc] init];
+    _state_pickerView.delegate = self;
+    _state_pickerView.dataSource = self;
+    UIToolbar* conutry_close = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+    conutry_close.barStyle = UIBarStyleBlackTranslucent;
+    [conutry_close sizeToFit];
+    
+    UIButton *close=[[UIButton alloc]init];
+    close.frame=CGRectMake(conutry_close.frame.size.width - 100, 0, 100, conutry_close.frame.size.height);
+    [close setTitle:@"close" forState:UIControlStateNormal];
+    [close addTarget:self action:@selector(countrybuttonClick) forControlEvents:UIControlEventTouchUpInside];
+    //    [numberToolbar setItems:[NSArray arrayWithObjects:close, nil]];
+    [conutry_close addSubview:close];
+    _TXT_country.inputAccessoryView=conutry_close;
+    _TXT_state.inputAccessoryView=conutry_close;
+
+    
+    self.TXT_country.inputView = _contry_pickerView;
+    self.TXT_state.inputView=_state_pickerView;
+   
+
+
+    _TXT_country.tintColor=[UIColor clearColor];
+    _TXT_state.tintColor=[UIColor clearColor];
+    
+//    self.pickerNames = @[ @"Objective-C", @"Swift", @"Java", @"C", @"C++", @"Other"];
+    [self Country_api];
+    [self State_api];
+    
 }
 
+-(void)countrybuttonClick
+{
+    [self.TXT_country resignFirstResponder];
+    [self.TXT_state resignFirstResponder];
+}
+
+
+#pragma mark-TextField Delegates
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [_TXT_addr1 resignFirstResponder];
+    [_TXT_addr2 resignFirstResponder];
+    [_TXT_zip resignFirstResponder];
+    [_TXT_city resignFirstResponder];
+    [_TXT_phone_num resignFirstResponder];
+    [_TXT_country resignFirstResponder];
+    [_TXT_state resignFirstResponder];
+    [_TXT_email resignFirstResponder];
+    return YES;
+}
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if(textField.tag==3)
+    {
+        [textField setTintColor:[UIColor whiteColor]];
+        //if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        // {
+        //Keyboard becomes visible
+        [UIView beginAnimations:nil context:NULL];
+        // [UIView setAnimationDuration:0.25];
+        self.view.frame = CGRectMake(0,-110,self.view.frame.size.width,self.view.frame.size.height);
+        [UIView commitAnimations];
+        //}
+    }
+    if(textField.tag==11)
+    {
+        [textField setTintColor:[UIColor whiteColor]];
+        //if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        // {
+        //Keyboard becomes visible
+        [UIView beginAnimations:nil context:NULL];
+        // [UIView setAnimationDuration:0.25];
+        self.view.frame = CGRectMake(0,-110,self.view.frame.size.width,self.view.frame.size.height);
+        [UIView commitAnimations];
+        //}
+
+        
+    }
+    if(textField.tag==12)
+    {
+        [textField setTintColor:[UIColor whiteColor]];
+        //if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        // {
+        //Keyboard becomes visible
+        [UIView beginAnimations:nil context:NULL];
+        // [UIView setAnimationDuration:0.25];
+        self.view.frame = CGRectMake(0,-140,self.view.frame.size.width,self.view.frame.size.height);
+        [UIView commitAnimations];
+        //}
+    }
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+        if(textField.tag==1)
+    {
+        if(textField.text.length==0)
+        {
+            
+        }
+        NSInteger inte = textField.text.length;
+        if (inte <2 && inte > 30)
+        {
+            return NO;
+        }
+        else
+            _TXT_F_name.enabled=YES;
+        return YES;
+        
+        
+    }
+    if(textField.tag==2)
+    {
+        NSInteger inte = textField.text.length;
+        if (inte <2 && inte > 30)
+        {
+            return NO;
+            
+        }
+        else
+            _TXT_L_name.enabled=YES;
+        return YES;
+    }
+    
+    
+    if(textField.tag==3)
+    {
+        NSInteger inte = textField.text.length;
+        if (inte <2 && inte > 255)
+        {
+            return NO;
+            
+        }
+        else
+            _TXT_titl.enabled=YES;
+        return YES;
+        
+    }
+    if(textField.tag==4)
+    {
+        NSInteger inte = textField.text.length;
+        if (inte <2 && inte > 255)
+        {
+            return NO;
+            
+        }
+        else
+            _TXT_addr1.enabled=YES;
+        return YES;
+    }
+    if(textField.tag==5)
+    {
+        NSInteger inte = textField.text.length;
+        if (inte <1 && inte > 255)
+        {
+            return NO;
+            
+        }
+        else
+            _TXT_addr2.enabled=YES;
+        return YES;
+    }
+    if(textField.tag==6)
+    {
+        NSInteger inte = textField.text.length;
+        if (inte <5 && inte > 30)
+        {
+            return NO;
+            
+        }
+        else
+            _TXT_city.enabled=YES;
+        return YES;
+    }
+    
+    if(textField.tag==7)
+    {
+        NSInteger inte = textField.text.length;
+        if (inte <2 && inte > 30)
+        {
+            return NO;
+            
+        }
+        else
+            _TXT_phone_num.enabled=YES;
+        return YES;
+    }
+    if(textField.tag==8)
+    {
+        NSInteger inte = textField.text.length;
+        if (inte <2 && inte > 15)
+        {
+            return NO;
+            
+        }
+        else
+            _TXT_country.enabled=YES;
+        return YES;
+    }
+    if(textField.tag==9)
+    {
+        NSInteger inte = textField.text.length;
+        if (inte <2 && inte > 30)
+        {
+            return NO;
+            
+        }
+        else
+            _TXT_state.enabled=YES;
+        return YES;
+    }
+    if(textField.tag==10)
+    {
+        NSInteger inte = textField.text.length;
+        if (inte <2 && inte > 30)
+        {
+            return NO;
+            
+        }
+        else
+            _TXT_zip.enabled=YES;
+        return YES;
+    }
+    if(textField.tag==11)
+    {
+        NSInteger inte = textField.text.length;
+        if (inte <2 && inte > 30)
+        {
+            return NO;
+            
+        }
+        else
+            _TXT_email.enabled=YES;
+        return YES;
+    }
+
+    
+    
+    
+    return YES;
+    
+}
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if(textField.tag==12)
+    {
+        NSString *text_to_compare = _TXT_email.text;
+        
+        NSString *emailRegEx = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,10}";
+        NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegEx];
+        
+        if ([emailTest evaluateWithObject:text_to_compare] == NO)
+        {
+            _TXT_email.text = @"";
+            //            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Email ID!" message:@"Please Enter Valid Email Address." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            //            [alert show];
+            
+            //if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            //{
+            //keyboard will hide
+            [UIView beginAnimations:nil context:NULL];
+            // [UIView setAnimationDuration:0.25];
+            self.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
+            [UIView commitAnimations];
+            // }
+            //{
+            //    self.submit_action.enabled = NO;
+            //}
+            
+            // if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            // {
+            //keyboard will hide
+            [UIView beginAnimations:nil context:NULL];
+            // [UIView setAnimationDuration:0.25];
+            self.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
+            [UIView commitAnimations];
+            _BTN_sighnUP.enabled=NO;
+            // }
+        }
+        else{
+            
+            _BTN_sighnUP.enabled=YES;
+            //            [_TXT_password becomeFirstResponder];
+            [UIView beginAnimations:nil context:NULL];
+            // [UIView setAnimationDuration:0.25];
+            self.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
+            [UIView commitAnimations];
+            // }
+            //{
+            //    self.submit_action.enabled = NO;
+            //}
+            
+            // if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            // {
+            //keyboard will hide
+            [UIView beginAnimations:nil context:NULL];
+            // [UIView setAnimationDuration:0.25];
+            self.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
+            [UIView commitAnimations];
+            
+        }
+        
+    }
+    
+}
+#pragma mark - Button Actions
+-(void) btn_sign_up
+{
+    NSLog(@"Sighn UP");
+    NSString *text_to_compare=_TXT_phone_num.text;
+    NSString *phoneRegex = @"[0-9]{10,14}$";
+    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
+    if([_TXT_golfcoursename.text isEqualToString:@""])
+    {
+        [_TXT_golfcoursename becomeFirstResponder];
+    }
+    
+    
+    else if([_TXT_F_name.text isEqualToString:@""])
+    {
+        [_TXT_F_name becomeFirstResponder];
+    }
+    
+    else  if([_TXT_L_name.text isEqualToString:@""])
+    {
+        [_TXT_L_name becomeFirstResponder];
+        
+    }
+    else if([_TXT_titl.text isEqualToString:@""])
+    {
+        [_TXT_titl becomeFirstResponder];
+    }
+    
+    else if([_TXT_addr1.text isEqualToString:@""])
+    {
+        [_TXT_addr1 becomeFirstResponder];
+        
+    }
+    else  if([_TXT_addr2.text isEqualToString:@""])
+    {
+        [_TXT_addr2 becomeFirstResponder];
+        
+    }
+    else if([_TXT_city.text isEqualToString:@""])
+    {
+        [_TXT_city becomeFirstResponder];
+        
+    }
+    
+    
+    else if ([phoneTest evaluateWithObject:text_to_compare] == NO)
+    {
+        [_TXT_phone_num becomeFirstResponder];
+    }
+    
+    else if([_TXT_phone_num.text isEqualToString:@""])
+    {
+        [_TXT_phone_num becomeFirstResponder];
+        
+    }
+    else if([_TXT_country.text isEqualToString:@""])
+    {
+        [_TXT_country becomeFirstResponder];
+    }
+    
+    else if([_TXT_state.text isEqualToString:@""])
+    {
+        [_TXT_state becomeFirstResponder];
+        
+    }
+    else if([_TXT_zip.text isEqualToString:@""])
+    {
+        [_TXT_zip becomeFirstResponder];
+        
+    }
+    
+    else if([_TXT_email.text isEqualToString:@""])
+    {
+        [_TXT_email becomeFirstResponder];
+        
+    }
+
+    else{
+        
+//        [self api_integration];
+        NSLog(@"Validation are aperfect:");
+    }
+}
+#pragma mark - UIPickerViewDataSource
+
+// #3
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    if (pickerView == _contry_pickerView) {
+        return 1;
+    }if(pickerView==_state_pickerView)
+    {
+        return 1;
+    }
+    
+    return 0;
+}
+
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    if (pickerView == _contry_pickerView) {
+        return [self.countrypicker count];
+    }
+    if (pickerView == _state_pickerView) {
+        return [self.statepicker count];
+    }
+    
+    
+    return 0;
+}
+
+
+#pragma mark - UIPickerViewDataSource
+
+-(void)Country_api
+{
+    NSHTTPURLResponse *response = nil;
+    NSError *error;
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/countries",SERVER_URL];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+    NSLog(@"The response %@",json_DATA);
+    self.countrypicker=[json_DATA allKeys];
+    
+    
+}
+-(void)State_api
+{
+    NSHTTPURLResponse *response = nil;
+    NSError *error;
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/states",SERVER_URL];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+    NSLog(@"The response %@",json_DATA);
+    //    NSString *status=[json_DATA objectForKey:@"United States"];
+    self.statepicker=[json_DATA allKeys];
+    
+    
+}
+
+#pragma mark - UIPickerViewDelegate
+
+
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    if (pickerView == _contry_pickerView) {
+        return self.countrypicker[row];
+    }
+    if (pickerView == _state_pickerView) {
+        return self.statepicker[row];
+    }
+    
+    return nil;
+}
+
+// #6
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    if (pickerView == _contry_pickerView) {
+        self.TXT_country.text = self.countrypicker[row];
+        self.TXT_state.enabled=YES;
+    }
+    if (pickerView == _state_pickerView) {
+        
+        self.TXT_state.text=self.statepicker[row];
+        self.TXT_zip.enabled=YES;
+    }
+}
 @end

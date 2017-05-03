@@ -157,7 +157,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                             </button>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="17" id="PkM-WC-8jO" customClass="Get_custom_TXTT">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="17" id="PkM-WC-8jO" customClass="TXT_left">
                                                 <rect key="frame" x="45" y="90" width="500" height="59"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -168,11 +168,8 @@
                                                         <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <outlet property="delegate" destination="66l-Ms-BQJ" id="5L9-He-wLJ"/>
-                                                </connections>
                                             </textField>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" id="oVm-aI-My9" customClass="Get_custom_TXTT">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" id="oVm-aI-My9" customClass="TXT_left">
                                                 <rect key="frame" x="44" y="168" width="500" height="63"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -183,9 +180,6 @@
                                                         <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <outlet property="delegate" destination="66l-Ms-BQJ" id="rqp-7U-nsS"/>
-                                                </connections>
                                             </textField>
                                         </subviews>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.12170911819999999" colorSpace="calibratedRGB"/>
@@ -200,8 +194,8 @@
                     <connections>
                         <outlet property="BTN_forget_PWD" destination="8AU-zS-ydJ" id="SAS-KE-eMd"/>
                         <outlet property="BTN_login" destination="Q9d-AL-zQo" id="hbt-v3-109"/>
-                        <outlet property="TXT_password" destination="oVm-aI-My9" id="Fa5-8p-PpZ"/>
-                        <outlet property="TXT_username" destination="PkM-WC-8jO" id="95H-VC-YSU"/>
+                        <outlet property="TXT_password" destination="oVm-aI-My9" id="z0G-Et-APN"/>
+                        <outlet property="TXT_username" destination="PkM-WC-8jO" id="0VF-f1-dh8"/>
                         <outlet property="VW_content" destination="Rif-Ll-nh9" id="v9b-yv-bjN"/>
                         <outlet property="VW_holdCNT" destination="huw-dK-wwC" id="2bx-o2-zcL"/>
                         <segue destination="FTB-aO-iPB" kind="modal" identifier="logintohomeidentifier" animates="NO" id="a6g-Tr-1Xb"/>
@@ -3793,49 +3787,49 @@
                                 <color key="backgroundColor" red="0.24313725489999999" green="0.59607843140000005" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="j6o-L8-PJt">
-                                <rect key="frame" x="39" y="105" width="42" height="45"/>
+                                <rect key="frame" x="39" y="150" width="42" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="27"/>
                                 <color key="textColor" red="0.52549019610000003" green="0.52941176469999995" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dIu-lH-pDc">
-                                <rect key="frame" x="39" y="169" width="42" height="45"/>
+                                <rect key="frame" x="39" y="214" width="42" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="27"/>
                                 <color key="textColor" red="0.52549019610000003" green="0.52941176469999995" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wOA-Ni-NK5">
-                                <rect key="frame" x="39" y="233" width="42" height="45"/>
+                                <rect key="frame" x="39" y="278" width="42" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="27"/>
                                 <color key="textColor" red="0.52549019610000003" green="0.52941176469999995" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Current Password" textAlignment="natural" minimumFontSize="17" id="zYm-mJ-Pwc" customClass="Get_custom_TXTT">
-                                <rect key="frame" x="89" y="105" width="659" height="45"/>
+                                <rect key="frame" x="89" y="150" width="659" height="45"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New Password" textAlignment="natural" minimumFontSize="17" id="ycZ-Aa-m5x" customClass="Get_custom_TXTT">
-                                <rect key="frame" x="89" y="169" width="659" height="45"/>
+                                <rect key="frame" x="89" y="214" width="659" height="45"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Confirm New Password" textAlignment="natural" minimumFontSize="17" id="1TB-eT-upo" customClass="Get_custom_TXTT">
-                                <rect key="frame" x="89" y="233" width="659" height="45"/>
+                                <rect key="frame" x="89" y="278" width="659" height="45"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="LVy-50-6lR" customClass="BTN_Winnig_TKT">
-                                <rect key="frame" x="184" y="334" width="399" height="70"/>
+                                <rect key="frame" x="184" y="379" width="399" height="70"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.066666666669999999" green="0.33333333329999998" blue="0.42352941179999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="30"/>
@@ -3843,10 +3837,19 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.65000000000000002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="OpZ-tu-FXY">
+                                <rect key="frame" x="0.0" y="64" width="768" height="53"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="Stat_label" destination="OpZ-tu-FXY" id="OrK-Jo-4CD"/>
                         <outlet property="TXT_confirmnewPWD" destination="1TB-eT-upo" id="agp-bm-JQx"/>
                         <outlet property="TXT_currentPWD" destination="zYm-mJ-Pwc" id="uW7-6H-e88"/>
                         <outlet property="TXT_newPWD" destination="ycZ-Aa-m5x" id="hCR-27-9Nl"/>

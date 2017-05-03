@@ -13,5 +13,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *TXT_currentPWD;
 @property (weak, nonatomic) IBOutlet UITextField *TXT_newPWD;
 @property (weak, nonatomic) IBOutlet UITextField *TXT_confirmnewPWD;
-
+@property(nonatomic,weak)IBOutlet UILabel *Stat_label;
+@property(nonatomic,weak)IBOutlet UIButton *done_Btn;
+@property(nonatomic,weak)IBOutlet UIView *actview;
+@property(nonatomic,weak)IBOutlet UIActivityIndicatorView *actviewone;
 @end

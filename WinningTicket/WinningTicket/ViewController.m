@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "ACFloatingTextField.h"
 
 @interface ViewController ()<UITextFieldDelegate>
 {
@@ -78,11 +79,17 @@
     _VW_content.layer.cornerRadius = 5.0f;
     _VW_content.layer.masksToBounds = YES;
     
+//    _TXT_username.layer.cornerRadius = 5.0f;
+//    _TXT_username.layer.masksToBounds = YES;
+//    _TXT_username.layer.borderWidth = 2.0f;
+//    _TXT_username.layer.borderColor = [UIColor whiteColor].CGColor;
+//    _TXT_username.tag=1;
+    
     _TXT_username.layer.cornerRadius = 5.0f;
     _TXT_username.layer.masksToBounds = YES;
     _TXT_username.layer.borderWidth = 2.0f;
     _TXT_username.layer.borderColor = [UIColor whiteColor].CGColor;
-    _TXT_username.tag=1;
+    _TXT_username.tag = 1;
     
     _TXT_password.layer.cornerRadius = 5.0f;
     _TXT_password.layer.masksToBounds = YES;
@@ -184,10 +191,13 @@
 }
 -(void) action_FORGET_PWD
 {
+    // The \n is required so that the alertcontroller keeps space for the message. Add as many \n as you like your textview height to be
+    
     
     UIAlertController * alertController = [UIAlertController alertControllerWithTitle: @"Enter Email Address"
                                                                               message: @"Please enter your email address and we’ll send you a password reset email."
                                                                        preferredStyle:UIAlertControllerStyleAlert];
+    
     [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
         textField.placeholder = @"user@email.com";
         textField.textColor = [UIColor blackColor];
@@ -296,7 +306,7 @@
     {
         NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"The response %@",json_DATA);
-        NSString *status=[json_DATA objectForKey:@"message"];
+        NSString *status = [json_DATA valueForKey:@"message"];
         
         
         if([status isEqualToString:@"Invalid Email or password."])
@@ -313,16 +323,20 @@
         }
         
         else   {
-            UIAlertController *alertcontrollerone=[UIAlertController alertControllerWithTitle: @"Email"message: @"Please Check Your Email"
-                                                                               preferredStyle:UIAlertControllerStyleAlert];
-            [alertcontrollerone addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-                
-                
-            }]];
-            [self presentViewController:alertcontrollerone animated:YES completion:nil];
+//            UIAlertController *alertcontrollerone=[UIAlertController alertControllerWithTitle: @"Email"message: @"Please Check Your Email"
+//                                                                               preferredStyle:UIAlertControllerStyleAlert];
+//            [alertcontrollerone addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+//                
+//                
+//            }]];
+//            [self presentViewController:alertcontrollerone animated:YES completion:nil];
+            status = [json_DATA valueForKey:@"authentication_token"];
+            [[NSUserDefaults standardUserDefaults] setValue:status forKey:@"auth_token"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
             
+            [self parse_listEvents_api];
 
-//            [self performSegueWithIdentifier:@"logintohomeidentifier" sender:self];
+            [self performSegueWithIdentifier:@"logintohomeidentifier" sender:self];
             
         }
         
@@ -341,7 +355,7 @@
 
 -(void)forgot_PWD
 {
-    NSString *email = _TXT_username.text;
+    NSString *email = alert_TXT_email;
 
     NSError *error;
     NSError *err;
@@ -349,7 +363,7 @@
     NSDictionary *parameters = @{ @"user": @{ @"email": email } };
 
     NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&err];
-    NSString *urlGetuser =[NSString stringWithFormat:@"%@v1/users/forgot_password",SERVER_URL];
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@forgot_password",SERVER_USR];
     NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:urlProducts];
@@ -365,10 +379,10 @@
         NSString *status=[json_DATA objectForKey:@"message"];
         
         
-        if([status isEqualToString:@"Invalid Email or password."])
+        if([status isEqualToString:@"User not found."])
         {
             NSLog(@"tplease enter the correct email");
-            UIAlertController *alertcontrollerone=[UIAlertController alertControllerWithTitle: @"Enter Email Address"message: @"Please enter your Correct email address."
+            UIAlertController *alertcontrollerone=[UIAlertController alertControllerWithTitle:nil message:status
                                                                                preferredStyle:UIAlertControllerStyleAlert];
             [alertcontrollerone addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                 
@@ -377,9 +391,16 @@
             
         }
         
-        else   {
+        else
+        {
+            status = [json_DATA valueForKey:@"password"];
             
-            [self performSegueWithIdentifier:@"logintohomeidentifier" sender:self];
+            UIAlertController *alertcontrollerone=[UIAlertController alertControllerWithTitle:nil message:status
+                                                                               preferredStyle:UIAlertControllerStyleAlert];
+            [alertcontrollerone addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                
+            }]];
+            [self presentViewController:alertcontrollerone animated:YES completion:nil];
             
         }
         
@@ -410,6 +431,29 @@ if([_TXT_username.text isEqualToString:@""])
     }
     else{
     [self apiLogin];
+    }
+}
+
+-(void) parse_listEvents_api
+{
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    
+    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@events",SERVER_URL];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+//    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"JsonEventlist"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
 

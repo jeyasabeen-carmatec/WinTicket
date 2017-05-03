@@ -31,5 +31,9 @@
 @property (nonatomic, weak) IBOutlet Get_custom_TXTT *TXT_state;
 @property (nonatomic, weak) IBOutlet Get_custom_TXTT *TXT_zip;
 @property (nonatomic, weak) IBOutlet Get_custom_TXTT *TXT_country;
+@property(nonatomic,weak)IBOutlet UIButton *BTN_sighnUP;
+@property (nonatomic, strong) UIPickerView *contry_pickerView;
+@property (nonatomic, strong) UIPickerView *state_pickerView;
+
 
 @end
