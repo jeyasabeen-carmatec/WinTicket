@@ -27,4 +27,6 @@
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scroll_contents;
 
+@property (weak, nonatomic) IBOutlet UIView *VW_scrol_cntent;
+
 @end

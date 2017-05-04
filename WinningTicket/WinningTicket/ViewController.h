@@ -22,6 +22,8 @@
 @property (nonatomic, weak) IBOutlet UIButton *BTN_signup;
 @property (nonatomic, weak) IBOutlet UIButton *BTN_forget_PWD;
 
+@property (nonatomic, weak) IBOutlet UISwitch *SWITCH_rememberme;
+
 @property(nonatomic, strong)UIAlertAction *submit_action;
 
 @end

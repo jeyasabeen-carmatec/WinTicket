@@ -10,9 +10,6 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface VC_billingaddress ()
-{
-    float orginal_height;
-}
 
 @end
 
@@ -22,6 +19,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [_BTN_previeworder addTarget:self action:@selector(Action_PREV_order) forControlEvents:UIControlEventTouchUpInside];
     [_BTN_state addTarget:self action:@selector(ACTION_state) forControlEvents:UIControlEventTouchUpInside];
 }
 
@@ -90,7 +88,7 @@
 {
     [super viewDidLayoutSubviews];
     [_scroll_contents layoutIfNeeded];
-    _scroll_contents.contentSize = CGSizeMake(_scroll_contents.frame.size.width, orginal_height);
+    _scroll_contents.contentSize = CGSizeMake(_scroll_contents.frame.size.width, _VW_scrol_cntent.frame.size.height);
 }
 
 /*
@@ -108,59 +106,65 @@
     _PICK_state.hidden = YES;
     _TOOL_state.hidden = YES;
     
-//    _TXT_firstname.layer.cornerRadius = 5.0f;
-//    _TXT_firstname.layer.masksToBounds = YES;
-//    _TXT_firstname.layer.borderWidth = 2.0f;
-//    _TXT_firstname.layer.borderColor = [UIColor grayColor].CGColor;
-//    _TXT_firstname.backgroundColor = [UIColor whiteColor];
+    _TXT_firstname.layer.cornerRadius = 5.0f;
+    _TXT_firstname.layer.masksToBounds = YES;
+    _TXT_firstname.layer.borderWidth = 2.0f;
+    _TXT_firstname.layer.borderColor = [UIColor blackColor].CGColor;
+    _TXT_firstname.backgroundColor = [UIColor whiteColor];
     
-//    _TXT_lastname.layer.cornerRadius = 5.0f;
-//    _TXT_lastname.layer.masksToBounds = YES;
-//    _TXT_lastname.layer.borderWidth = 2.0f;
-//    _TXT_lastname.layer.borderColor = [UIColor grayColor].CGColor;
-//    _TXT_lastname.backgroundColor = [UIColor whiteColor];
+    _TXT_lastname.layer.cornerRadius = 5.0f;
+    _TXT_lastname.layer.masksToBounds = YES;
+    _TXT_lastname.layer.borderWidth = 2.0f;
+    _TXT_lastname.layer.borderColor = [UIColor blackColor].CGColor;
+    _TXT_lastname.backgroundColor = [UIColor whiteColor];
     
-//    _TXT_address1.layer.cornerRadius = 5.0f;
-//    _TXT_address1.layer.masksToBounds = YES;
-//    _TXT_address1.layer.borderWidth = 2.0f;
-//    _TXT_address1.layer.borderColor = [UIColor grayColor].CGColor;
-//    _TXT_address1.backgroundColor = [UIColor whiteColor];
+    _TXT_address1.layer.cornerRadius = 5.0f;
+    _TXT_address1.layer.masksToBounds = YES;
+    _TXT_address1.layer.borderWidth = 2.0f;
+    _TXT_address1.layer.borderColor = [UIColor blackColor].CGColor;
+    _TXT_address1.backgroundColor = [UIColor whiteColor];
     
-//    _TXT_address2.layer.cornerRadius = 5.0f;
-//    _TXT_address2.layer.masksToBounds = YES;
-//    _TXT_address2.layer.borderWidth = 2.0f;
-//    _TXT_address2.layer.borderColor = [UIColor grayColor].CGColor;
-//    _TXT_address2.backgroundColor = [UIColor whiteColor];
+    _TXT_address2.layer.cornerRadius = 5.0f;
+    _TXT_address2.layer.masksToBounds = YES;
+    _TXT_address2.layer.borderWidth = 2.0f;
+    _TXT_address2.layer.borderColor = [UIColor blackColor].CGColor;
+    _TXT_address2.backgroundColor = [UIColor whiteColor];
     
-//    _TXT_city.layer.cornerRadius = 5.0f;
-//    _TXT_city.layer.masksToBounds = YES;
-//    _TXT_city.layer.borderWidth = 2.0f;
-//    _TXT_city.layer.borderColor = [UIColor grayColor].CGColor;
-//    _TXT_city.backgroundColor = [UIColor whiteColor];
+    _TXT_city.layer.cornerRadius = 5.0f;
+    _TXT_city.layer.masksToBounds = YES;
+    _TXT_city.layer.borderWidth = 2.0f;
+    _TXT_city.layer.borderColor = [UIColor blackColor].CGColor;
+    _TXT_city.backgroundColor = [UIColor whiteColor];
     
-//    _TXT_state.layer.cornerRadius = 5.0f;
-//    _TXT_state.layer.masksToBounds = YES;
-//    _TXT_state.layer.borderWidth = 2.0f;
-//    _TXT_state.layer.borderColor = [UIColor grayColor].CGColor;
-//    _TXT_state.backgroundColor = [UIColor whiteColor];
+    _TXT_state.layer.cornerRadius = 5.0f;
+    _TXT_state.layer.masksToBounds = YES;
+    _TXT_state.layer.borderWidth = 2.0f;
+    _TXT_state.layer.borderColor = [UIColor blackColor].CGColor;
+    _TXT_state.backgroundColor = [UIColor whiteColor];
     
-//    _TXT_zip.layer.cornerRadius = 5.0f;
-//    _TXT_zip.layer.masksToBounds = YES;
-//    _TXT_zip.layer.borderWidth = 2.0f;
-//    _TXT_zip.layer.borderColor = [UIColor grayColor].CGColor;
-//    _TXT_zip.backgroundColor = [UIColor whiteColor];
+    _TXT_zip.layer.cornerRadius = 5.0f;
+    _TXT_zip.layer.masksToBounds = YES;
+    _TXT_zip.layer.borderWidth = 2.0f;
+    _TXT_zip.layer.borderColor = [UIColor blackColor].CGColor;
+    _TXT_zip.backgroundColor = [UIColor whiteColor];
     
-//    _TXT_phonenumber.layer.cornerRadius = 5.0f;
-//    _TXT_phonenumber.layer.masksToBounds = YES;
-//    _TXT_phonenumber.layer.borderWidth = 2.0f;
-//    _TXT_phonenumber.layer.borderColor = [UIColor grayColor].CGColor;
-//    _TXT_phonenumber.backgroundColor = [UIColor whiteColor];
+    _TXT_phonenumber.layer.cornerRadius = 5.0f;
+    _TXT_phonenumber.layer.masksToBounds = YES;
+    _TXT_phonenumber.layer.borderWidth = 2.0f;
+    _TXT_phonenumber.layer.borderColor = [UIColor blackColor].CGColor;
+    _TXT_phonenumber.backgroundColor = [UIColor whiteColor];
     
-    orginal_height = _scroll_contents.frame.size.height;
+//    orginal_height = _scroll_contents.frame.size.height;
+//    
+//    CGRect frame_new = _scroll_contents.frame;
+//    frame_new.size.height = [UIScreen mainScreen].bounds.size.height - self.navigationController.navigationBar.frame.size.height - 50;
+//    _scroll_contents.frame = frame_new;
     
-    CGRect frame_new = _scroll_contents.frame;
-    frame_new.size.height = [UIScreen mainScreen].bounds.size.height - self.navigationController.navigationBar.frame.size.height - 50;
-    _scroll_contents.frame = frame_new;
+    CGRect frame_new = _VW_scrol_cntent.frame;
+    frame_new.size.width = _scroll_contents.frame.size.width;
+    _VW_scrol_cntent.frame = frame_new;
+    
+    [_scroll_contents addSubview:_VW_scrol_cntent];
 }
 
 #pragma mark - UIButton Actions
@@ -168,6 +172,10 @@
 {
     _PICK_state.hidden = NO;
     _TOOL_state.hidden = NO;
+}
+-(void) Action_PREV_order
+{
+    [self performSegueWithIdentifier:@"prevordertochkoutidentifier" sender:self];
 }
 
 #pragma mark - IBAction Actions

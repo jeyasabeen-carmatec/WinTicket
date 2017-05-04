@@ -14,7 +14,8 @@
     CGRect old_FRAME;
     UIColor *old_color;
     UISearchBar *searchBar1;
-    NSMutableArray *ARR_allevent,*ARR_states;
+    NSMutableArray *ARR_allevent;
+    NSArray *ARR_states;
 }
 
 @end
@@ -24,6 +25,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [self State_api];
+    
+    _TXT_state.layer.borderWidth = 2.0f;
+    _TXT_state.layer.borderColor = [UIColor blackColor].CGColor;
+    
+    _TXT_todate.layer.borderWidth = 2.0f;
+    _TXT_todate.layer.borderColor = [UIColor blackColor].CGColor;
+    
+    _TXT_fromdate.layer.borderWidth = 2.0f;
+    _TXT_fromdate.layer.borderColor = [UIColor blackColor].CGColor;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -72,7 +84,6 @@
     [_BTN_toDATE addTarget:self action:@selector(choose_to_DATE) forControlEvents:UIControlEventTouchUpInside];
     
     ARR_allevent = [[NSMutableArray alloc]init];
-    ARR_states = [[NSMutableArray alloc]init];
     
     NSDictionary *temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
     [ARR_allevent addObject:temp_Dictn];
@@ -95,39 +106,39 @@
     temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
     [ARR_allevent addObject:temp_Dictn];
     
-    [ARR_states addObject:@"Qassim"];
-    [ARR_states addObject:@"Riyadh"];
-    [ARR_states addObject:@"Tabuk"];
-    [ARR_states addObject:@"Madinah"];
-    [ARR_states addObject:@"Makkah"];
-    [ARR_states addObject:@"Northern Borders"];
-    [ARR_states addObject:@"Jawf"];
-    [ARR_states addObject:@"Ha'il"];
-    [ARR_states addObject:@"Bahah"];
-    [ARR_states addObject:@"Jizan"];
-    [ARR_states addObject:@"'Asir"];
-    [ARR_states addObject:@"Qassim"];
-    [ARR_states addObject:@"Riyadh"];
-    [ARR_states addObject:@"Tabuk"];
-    [ARR_states addObject:@"Madinah"];
-    [ARR_states addObject:@"Makkah"];
-    [ARR_states addObject:@"Northern Borders"];
-    [ARR_states addObject:@"Jawf"];
-    [ARR_states addObject:@"Ha'il"];
-    [ARR_states addObject:@"Bahah"];
-    [ARR_states addObject:@"Jizan"];
-    [ARR_states addObject:@"'Asir"];
-    [ARR_states addObject:@"Qassim"];
-    [ARR_states addObject:@"Riyadh"];
-    [ARR_states addObject:@"Tabuk"];
-    [ARR_states addObject:@"Madinah"];
-    [ARR_states addObject:@"Makkah"];
-    [ARR_states addObject:@"Northern Borders"];
-    [ARR_states addObject:@"Jawf"];
-    [ARR_states addObject:@"Ha'il"];
-    [ARR_states addObject:@"Bahah"];
-    [ARR_states addObject:@"Jizan"];
-    [ARR_states addObject:@"'Asir"];
+//    [ARR_states addObject:@"Qassim"];
+//    [ARR_states addObject:@"Riyadh"];
+//    [ARR_states addObject:@"Tabuk"];
+//    [ARR_states addObject:@"Madinah"];
+//    [ARR_states addObject:@"Makkah"];
+//    [ARR_states addObject:@"Northern Borders"];
+//    [ARR_states addObject:@"Jawf"];
+//    [ARR_states addObject:@"Ha'il"];
+//    [ARR_states addObject:@"Bahah"];
+//    [ARR_states addObject:@"Jizan"];
+//    [ARR_states addObject:@"'Asir"];
+//    [ARR_states addObject:@"Qassim"];
+//    [ARR_states addObject:@"Riyadh"];
+//    [ARR_states addObject:@"Tabuk"];
+//    [ARR_states addObject:@"Madinah"];
+//    [ARR_states addObject:@"Makkah"];
+//    [ARR_states addObject:@"Northern Borders"];
+//    [ARR_states addObject:@"Jawf"];
+//    [ARR_states addObject:@"Ha'il"];
+//    [ARR_states addObject:@"Bahah"];
+//    [ARR_states addObject:@"Jizan"];
+//    [ARR_states addObject:@"'Asir"];
+//    [ARR_states addObject:@"Qassim"];
+//    [ARR_states addObject:@"Riyadh"];
+//    [ARR_states addObject:@"Tabuk"];
+//    [ARR_states addObject:@"Madinah"];
+//    [ARR_states addObject:@"Makkah"];
+//    [ARR_states addObject:@"Northern Borders"];
+//    [ARR_states addObject:@"Jawf"];
+//    [ARR_states addObject:@"Ha'il"];
+//    [ARR_states addObject:@"Bahah"];
+//    [ARR_states addObject:@"Jizan"];
+//    [ARR_states addObject:@"'Asir"];
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];
@@ -309,10 +320,15 @@
     CGRect frameimg = CGRectMake(15,5, 80,44);
     UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
     [someButton setTitle:@"" forState:UIControlStateNormal];
-    [someButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [someButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     //    [someButton setBackgroundColor:[UIColor colorWithRed:0.07 green:0.33 blue:0.42 alpha:1.0]];
     [someButton.titleLabel setFont:[UIFont fontWithName:@"FontAwesome" size:24.0f]];
+    [someButton.titleLabel setTextColor:[UIColor colorWithRed:0.07 green:0.33 blue:0.42 alpha:1.0]];
     //    [someButton setBackgroundImage:image3 forState:UIControlStateNormal];
+    [someButton setBackgroundColor:[UIColor clearColor]];
+    [someButton setTitleColor:[UIColor colorWithRed:0.07 green:0.33 blue:0.42 alpha:1.0] forState:UIControlStateNormal];
+    [someButton setTitleColor:[UIColor colorWithRed:0.07 green:0.33 blue:0.42 alpha:1.0] forState:UIControlStateHighlighted];
+    
     [someButton addTarget:self action:@selector(whenSearchClicked)
          forControlEvents:UIControlEventTouchUpInside];
     [someButton setShowsTouchWhenHighlighted:YES];
@@ -471,6 +487,11 @@
 //    [someButton setBackgroundColor:[UIColor colorWithRed:0.07 green:0.33 blue:0.42 alpha:1.0]];
     [someButton.titleLabel setFont:[UIFont fontWithName:@"FontAwesome" size:24.0f]];
 //        [someButton setBackgroundImage:image3 forState:UIControlStateNormal];
+    
+    [someButton setBackgroundColor:[UIColor clearColor]];
+    [someButton setTitleColor:[UIColor colorWithRed:0.07 green:0.33 blue:0.42 alpha:1.0] forState:UIControlStateNormal];
+    [someButton setTitleColor:[UIColor colorWithRed:0.07 green:0.33 blue:0.42 alpha:1.0] forState:UIControlStateHighlighted];
+    
     [someButton addTarget:self action:@selector(whenSearchClicked)
          forControlEvents:UIControlEventTouchUpInside];
     [someButton setShowsTouchWhenHighlighted:YES];
@@ -590,7 +611,7 @@ numberOfRowsInComponent:(NSInteger)component
              titleForRow:(NSInteger)row
             forComponent:(NSInteger)component
 {
-    return [ARR_states objectAtIndex:row];
+    return [NSString stringWithFormat:@"%@",[ARR_states objectAtIndex:row]];
 }
 
 #pragma mark -
@@ -696,6 +717,27 @@ numberOfRowsInComponent:(NSInteger)component
         NSLog(@"Selected Date :- %@",string);
         _TXT_todate.text = string;
     }
+}
+
+#pragma mark - API Integration
+-(void)State_api
+{
+    NSHTTPURLResponse *response = nil;
+    NSError *error;
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/states",SERVER_URL];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+    NSLog(@"The response %@",json_DATA);
+    //    NSString *status=[json_DATA objectForKey:@"United States"];
+    ARR_states = [json_DATA allKeys];
+    
+    
 }
 
 @end

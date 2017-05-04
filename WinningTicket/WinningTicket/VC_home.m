@@ -276,7 +276,7 @@
 //        NSDictionary *temp_DICN = [ARR_allevent objectAtIndex:indexPath.row];
 //        cell.lbl_event_name.text = [temp_DICN valueForKey:@"Event_Name"];
 //        cell.lbl_event_time.text = [temp_DICN valueForKey:@"Event_Time"];
-        NSDictionary *temp_DICN = [ARR_allevent objectAtIndex:indexPath.row];
+        NSDictionary *temp_DICN = [ARR_upcommingevent objectAtIndex:indexPath.row];
         cell.lbl_event_name.text = [temp_DICN valueForKey:@"name"];
         cell.lbl_event_name.numberOfLines = 0;
         [cell.lbl_event_name sizeToFit];
@@ -322,33 +322,33 @@
 //}
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (tableView == _tbl_upcomming_event) {
-//        
-//        NSDictionary *temp_DICN = [ARR_allevent objectAtIndex:indexPath.row];
-//        NSString *str = [NSString stringWithFormat:@"%@",[temp_DICN valueForKey:@"Event_Name"]];
-//        
-//        
-//        CGSize labelWidth = CGSizeMake(_tbl_upcomming_event.frame.size.width - 16, CGFLOAT_MAX); // 300 is fixed width of label. You can change this value
-//        CGRect textRect;
-//        
-//        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-//        {
-//            textRect = [str boundingRectWithSize:labelWidth options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:19.0]} context:nil];
-//        }
-//        else
-//        {
-//            textRect = [str boundingRectWithSize:labelWidth options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:14.0]} context:nil];
-//        }
-//        
-//        
-//        int calculatedHeight = textRect.size.height+10;
-//        
-//        return calculatedHeight+20;
-//    }
-//    else
-//    {
+    if (tableView == _tbl_upcomming_event) {
+        
+        NSDictionary *temp_DICN = [ARR_upcommingevent objectAtIndex:indexPath.row];
+        NSString *str = [NSString stringWithFormat:@"%@",[temp_DICN valueForKey:@"name"]];
+        
+        
+        CGSize labelWidth = CGSizeMake(_tbl_upcomming_event.frame.size.width - 16, CGFLOAT_MAX); // 300 is fixed width of label. You can change this value
+        CGRect textRect;
+        
+        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+        {
+            textRect = [str boundingRectWithSize:labelWidth options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:19.0]} context:nil];
+        }
+        else
+        {
+            textRect = [str boundingRectWithSize:labelWidth options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:14.0]} context:nil];
+        }
+        
+        
+        int calculatedHeight = textRect.size.height+10;
+        
+        return calculatedHeight+20;
+    }
+    else
+    {
         NSDictionary *temp_DICN = [ARR_allevent objectAtIndex:indexPath.row];
-        NSString *str = [NSString stringWithFormat:@"%@",[temp_DICN valueForKey:@"Event_Name"]];
+        NSString *str = [NSString stringWithFormat:@"%@",[temp_DICN valueForKey:@"name"]];
         
         
         CGSize labelWidth = CGSizeMake(_tbl_all_event.frame.size.width - 16, CGFLOAT_MAX); // 300 is fixed width of label. You can change this value
@@ -367,7 +367,7 @@
         int calculatedHeight = textRect.size.height+10;
         
         return calculatedHeight+25;
-//    }
+    }
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {

@@ -212,12 +212,13 @@
 }
 #pragma mark-TextField Delegates
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
-    [_TXT_addressLine_two resignFirstResponder];
-    [_TXT_city resignFirstResponder];
-    [_TXT_phone_number resignFirstResponder];
-    [_TXT_country resignFirstResponder];
-    [_TXT_state resignFirstResponder];
-    [_TXT_email resignFirstResponder];
+//    [_TXT_addressLine_two resignFirstResponder];
+//    [_TXT_city resignFirstResponder];
+//    [_TXT_phone_number resignFirstResponder];
+//    [_TXT_country resignFirstResponder];
+//    [_TXT_state resignFirstResponder];
+//    [_TXT_email resignFirstResponder];
+    [textField resignFirstResponder];
     return YES;
 }
 -(void)textFieldDidBeginEditing:(UITextField *)textField
@@ -403,27 +404,27 @@
             
             _BTN_sighnUP.enabled=YES;
             //            [_TXT_password becomeFirstResponder];
-            [UIView beginAnimations:nil context:NULL];
-            // [UIView setAnimationDuration:0.25];
-            self.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
-            [UIView commitAnimations];
-            // }
-            //{
-            //    self.submit_action.enabled = NO;
-            //}
             
-            // if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-            // {
-            //keyboard will hide
-            [UIView beginAnimations:nil context:NULL];
-            // [UIView setAnimationDuration:0.25];
-            self.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
-            [UIView commitAnimations];
 
         }
         
     }
+    [UIView beginAnimations:nil context:NULL];
+    // [UIView setAnimationDuration:0.25];
+    self.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
+    [UIView commitAnimations];
+    // }
+    //{
+    //    self.submit_action.enabled = NO;
+    //}
     
+    // if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    // {
+    //keyboard will hide
+    [UIView beginAnimations:nil context:NULL];
+    // [UIView setAnimationDuration:0.25];
+    self.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
+    [UIView commitAnimations];
 }
 
 

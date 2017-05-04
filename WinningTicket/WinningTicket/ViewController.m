@@ -75,6 +75,13 @@
 #pragma mark - View Customisation
 -(void) setup_VIEW
 {
+    
+    NSString *user_name = [[NSUserDefaults standardUserDefaults] valueForKey:@"loginEmail"];
+    if (user_name)
+    {
+        _TXT_username.text = user_name;
+    }
+    
     _VW_holdCNT.center = self.view.center;
     _VW_content.layer.cornerRadius = 5.0f;
     _VW_content.layer.masksToBounds = YES;
@@ -121,12 +128,13 @@
     //if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
    // {
         //Keyboard becomes visible
-        [UIView beginAnimations:nil context:NULL];
-        // [UIView setAnimationDuration:0.25];
-        self.view.frame = CGRectMake(0,-110,self.view.frame.size.width,self.view.frame.size.height);
-        [UIView commitAnimations];
+       
     //}
     }
+    [UIView beginAnimations:nil context:NULL];
+    // [UIView setAnimationDuration:0.25];
+    self.view.frame = CGRectMake(0,-110,self.view.frame.size.width,self.view.frame.size.height);
+    [UIView commitAnimations];
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField
@@ -159,11 +167,7 @@
             // if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
             // {
             //keyboard will hide
-            [UIView beginAnimations:nil context:NULL];
-            // [UIView setAnimationDuration:0.25];
-            self.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
-            [UIView commitAnimations];
-            // }
+                       // }
         }
         else{
             
@@ -171,6 +175,11 @@
             //            [_TXT_password becomeFirstResponder];
         }
     }
+    [UIView beginAnimations:nil context:NULL];
+    // [UIView setAnimationDuration:0.25];
+    self.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
+    [UIView commitAnimations];
+
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -183,7 +192,18 @@
 #pragma mark - Button Actions
 -(void) action_LOGIN
 {
-    
+    if([_TXT_username.text isEqualToString:@""])
+    {
+        [_TXT_username becomeFirstResponder];
+        
+    }
+    else if([_TXT_password.text isEqualToString:@""])
+    {
+        [_TXT_password becomeFirstResponder];
+    }
+    else{
+        [self apiLogin];
+    }
 }
 -(void) action_SIGHN_UP
 {
@@ -247,24 +267,24 @@
 }
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;
 {
-    if(textField.tag==2)
-    {
-        if(_TXT_password.text.length>0)
-        {
-            self.BTN_login.enabled = YES;
-            NSLog(@"password entered");
+//    if(textField.tag==2)
+//    {
+//        if(_TXT_password.text.length>0)
+//        {
+//            self.BTN_login.enabled = YES;
+//            NSLog(@"password entered");
+//            
+//        }
+//        else{
+//            self.BTN_login.enabled = NO;
             
-        }
-        else{
-            self.BTN_login.enabled = NO;
-            
-        }
-    }
-    
-    else
-    {
-        self.BTN_login.enabled = NO;
-    }
+//        }
+//    }
+//    
+//    else
+//    {
+//        self.BTN_login.enabled = NO;
+//    }
     
     
     return YES;
@@ -304,6 +324,17 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
     {
+        
+        if (_SWITCH_rememberme.on) {
+            [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"loginEmail"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+        else
+        {
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"loginEmail"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+        
         NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"The response %@",json_DATA);
         NSString *status = [json_DATA valueForKey:@"message"];
@@ -418,21 +449,7 @@
 
     
 }
-- (IBAction)login_ACTION:(id)sender
-{
-if([_TXT_username.text isEqualToString:@""])
-{
-    [_TXT_username becomeFirstResponder];
-    
-}
-    else if([_TXT_password.text isEqualToString:@""])
-    {
-        [_TXT_password becomeFirstResponder];
-    }
-    else{
-    [self apiLogin];
-    }
-}
+
 
 -(void) parse_listEvents_api
 {
