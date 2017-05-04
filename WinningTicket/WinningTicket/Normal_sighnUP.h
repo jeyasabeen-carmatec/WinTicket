@@ -7,19 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Get_custom_TXTT.h"
+//#import "Get_custom_TXTT.h"
 
 @interface Normal_sighnUP : UIViewController <UITextFieldDelegate>
 
-@property (nonatomic, weak) IBOutlet Get_custom_TXTT *TXT_F_name;
-@property (nonatomic, weak) IBOutlet Get_custom_TXTT *TXT_L_name;
-@property (nonatomic, weak) IBOutlet Get_custom_TXTT *TXT_email;
-@property (nonatomic, weak) IBOutlet Get_custom_TXTT *TXT_phone_number;
-@property (nonatomic, weak) IBOutlet Get_custom_TXTT *TXT_country;
-@property (nonatomic, weak) IBOutlet Get_custom_TXTT *TXT_state;
-@property (nonatomic, weak) IBOutlet Get_custom_TXTT *TXT_addressLine_one;
-@property (nonatomic, weak) IBOutlet Get_custom_TXTT *TXT_addressLine_two;
-@property (nonatomic, weak) IBOutlet Get_custom_TXTT *TXT_city;
+@property (nonatomic, weak) IBOutlet UITextField *TXT_F_name;
+@property (nonatomic, weak) IBOutlet UITextField *TXT_L_name;
+@property (nonatomic, weak) IBOutlet UITextField *TXT_email;
+@property (nonatomic, weak) IBOutlet UITextField *TXT_phone_number;
+@property (nonatomic, weak) IBOutlet UITextField *TXT_country;
+@property (nonatomic, weak) IBOutlet UITextField *TXT_state;
+@property (nonatomic, weak) IBOutlet UITextField *TXT_addressLine_one;
+@property (nonatomic, weak) IBOutlet UITextField *TXT_addressLine_two;
+@property (nonatomic, weak) IBOutlet UITextField *TXT_city;
 @property (nonatomic, strong) UIPickerView *contry_pickerView;
 @property (nonatomic, strong) UIPickerView *state_pickerView;
 
