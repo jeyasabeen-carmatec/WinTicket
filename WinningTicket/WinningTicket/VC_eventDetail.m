@@ -118,6 +118,9 @@
 
 -(void) set_FRAME
 {
+    NSError *error;
+    NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
+    NSLog(@"thedata is Upcoming:%@",dict);
     _lbl_eventname.text = @"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
     _lbl_eventname.numberOfLines = 0;
     [_lbl_eventname sizeToFit];
@@ -125,13 +128,25 @@
     float image_height = _img_event.frame.size.height;
     float lbl_event_name_ht = _lbl_eventname.frame.size.height;
     
-    NSString *location = @"Grand Cypress Country Club";
+    _lbl_code.text=[dict valueForKey:@"code"];
+    NSString *location = [NSString stringWithFormat:@"%@",[dict valueForKey:@"location"]];
     NSString *address = @"1 N Jacaranda ST, Orlando, FL 32836";
+    NSString *date = [self getLocalDateFromUTC:[dict valueForKey:@"start_date"]];
+    NSString *time = [self getLocalTimeFromUTC:[dict valueForKey:@"start_date"]];
     
+    NSLog(@"Date format %@",date);
+    NSLog(@"Time format %@",time);
+    
+    _lbl_date.text=date;
+    _lbl_time.text=time;
+
+    if ([location isEqualToString:@"<null>"])
+    {
+       location = @"Not Mentioned";
+    }
+    
+
     NSString *text = [NSString stringWithFormat:@"%@\n%@",location,address];
-    
-    text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
-    text = [text stringByReplacingOccurrencesOfString:@"(null)" withString:@"Not Mentioned"];
     
     // If attributed text is supported (iOS6+)
     if ([self.lbl_eventdetail respondsToSelector:@selector(setAttributedText:)]) {
@@ -321,6 +336,30 @@
     NSString *reqDateString = [dateFormatter stringFromDate:date];
     NSLog(@"date is %@", reqDateString);
     return reqDateString;
+}
+
+#pragma mark - Date Convert
+-(NSString *)getLocalDateFromUTC:(NSString *)strDate
+{
+    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ"];
+    NSDate *currentDate = [dateFormatter dateFromString:strDate];
+    NSLog(@"CurrentDate:%@", currentDate);
+    NSDateFormatter *newFormat = [[NSDateFormatter alloc] init];
+    [newFormat setDateFormat:@"EEEE, MMMM dd, yyyy"];
+    return [newFormat stringFromDate:currentDate];
+}
+-(NSString *)getLocalTimeFromUTC:(NSString *)strDate
+{
+    NSLog(@"Input Date %@",strDate);
+    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ"];
+    NSDate *currentDate = [dateFormatter dateFromString:strDate];
+    NSLog(@"CurrentDate:%@", currentDate);
+    NSDateFormatter *newFormat = [[NSDateFormatter alloc] init];
+    [newFormat setTimeZone:[NSTimeZone systemTimeZone]];
+    [newFormat setDateFormat:@"h:mm a"];
+    return [newFormat stringFromDate:currentDate];
 }
 
 @end

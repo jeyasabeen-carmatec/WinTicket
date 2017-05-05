@@ -7,11 +7,14 @@
 //
 
 #import "ViewController.h"
-#import "ACFloatingTextField.h"
+#import "DejalActivityView.h"
+#import "DGActivityIndicatorView.h"
 
 @interface ViewController ()<UITextFieldDelegate>
 {
     NSString *alert_TXT_email;
+    UIView *VW_overlay;
+    DGActivityIndicatorView *activityIndicatorView;
 }
 
 @end
@@ -110,6 +113,31 @@
     [_BTN_signup addTarget:self action:@selector(action_SIGHN_UP) forControlEvents:UIControlEventTouchUpInside];
     [_BTN_forget_PWD addTarget:self action:@selector(action_FORGET_PWD) forControlEvents:UIControlEventTouchUpInside];
 //    _BTN_login.enabled=NO;
+    
+    VW_overlay = [[UIView alloc]init];
+    VW_overlay.frame = [UIScreen mainScreen].bounds;
+//    VW_overlay.center = self.view.center;
+    
+    [self.view addSubview:VW_overlay];
+    VW_overlay.backgroundColor = [UIColor blackColor];
+    VW_overlay.alpha = 0.2;
+    
+    
+    
+    
+    activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallSpinFadeLoader tintColor:[UIColor whiteColor]];
+    
+    CGRect frame_M = activityIndicatorView.frame;
+    frame_M.origin.x = 0;
+    frame_M.origin.y = 0;
+    frame_M.size.width = VW_overlay.frame.size.width;
+    frame_M.size.height = VW_overlay.frame.size.height;
+    activityIndicatorView.frame = frame_M;
+    
+    [VW_overlay addSubview:activityIndicatorView];
+    //        activityIndicatorView.center=myview.center;
+    
+    VW_overlay.hidden = YES;
 
 }
 
@@ -201,8 +229,14 @@
     {
         [_TXT_password becomeFirstResponder];
     }
-    else{
-        [self apiLogin];
+    else
+    {
+        [_TXT_username resignFirstResponder];
+        [_TXT_password resignFirstResponder];
+        
+        VW_overlay.hidden = NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(apiLogin) withObject:activityIndicatorView afterDelay:0.01];
     }
 }
 -(void) action_SIGHN_UP
@@ -324,7 +358,8 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
     {
-        
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
         if (_SWITCH_rememberme.on) {
             [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"loginEmail"];
             [[NSUserDefaults standardUserDefaults] synchronize];
@@ -347,20 +382,11 @@
                                                                                preferredStyle:UIAlertControllerStyleAlert];
             [alertcontrollerone addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
             
-                
             }]];
             [self presentViewController:alertcontrollerone animated:YES completion:nil];
-            
         }
-        
-        else   {
-//            UIAlertController *alertcontrollerone=[UIAlertController alertControllerWithTitle: @"Email"message: @"Please Check Your Email"
-//                                                                               preferredStyle:UIAlertControllerStyleAlert];
-//            [alertcontrollerone addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-//                
-//                
-//            }]];
-//            [self presentViewController:alertcontrollerone animated:YES completion:nil];
+        else
+        {
             status = [json_DATA valueForKey:@"authentication_token"];
             [[NSUserDefaults standardUserDefaults] setValue:status forKey:@"auth_token"];
             [[NSUserDefaults standardUserDefaults] synchronize];
@@ -370,18 +396,19 @@
             [self performSegueWithIdentifier:@"logintohomeidentifier" sender:self];
             
         }
-        
-        
-        
     }
-    NSLog(@"Error %@",err);
-    UIAlertController *alertcontrollertwo=[UIAlertController alertControllerWithTitle: @"Server Not Coneected"message: @"Please Check your Connection."
-                                                                       preferredStyle:UIAlertControllerStyleAlert];
-    [alertcontrollertwo addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-        
-    }]];
-    [self presentViewController:alertcontrollertwo animated:YES completion:nil];
-
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        NSLog(@"Error %@",err);
+        UIAlertController *alertcontrollertwo=[UIAlertController alertControllerWithTitle: @"Server Not Coneected"message: @"Please Check your Connection."
+                                                                           preferredStyle:UIAlertControllerStyleAlert];
+        [alertcontrollertwo addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            
+        }]];
+        [self presentViewController:alertcontrollertwo animated:YES completion:nil];
+    }
 }
 
 -(void)forgot_PWD

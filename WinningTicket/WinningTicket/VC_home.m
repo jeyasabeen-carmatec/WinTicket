@@ -8,10 +8,14 @@
 
 #import "VC_home.h"
 #import "TBL_VW_Cell_EVENTS.h"
+#import "DejalActivityView.h"
+#import "DGActivityIndicatorView.h"
 
 @interface VC_home ()
 {
     NSArray *ARR_allevent,*ARR_upcommingevent;
+    UIView *VW_overlay;
+    DGActivityIndicatorView *activityIndicatorView;
 }
 
 @end
@@ -21,6 +25,31 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    VW_overlay = [[UIView alloc]init];
+    VW_overlay.frame = [UIScreen mainScreen].bounds;
+    //    VW_overlay.center = self.view.center;
+    
+    [self.view addSubview:VW_overlay];
+    VW_overlay.backgroundColor = [UIColor blackColor];
+    VW_overlay.alpha = 0.2;
+    
+    
+    
+    
+    activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallSpinFadeLoader tintColor:[UIColor whiteColor]];
+    
+    CGRect frame_M = activityIndicatorView.frame;
+    frame_M.origin.x = 0;
+    frame_M.origin.y = 0;
+    frame_M.size.width = VW_overlay.frame.size.width;
+    frame_M.size.height = VW_overlay.frame.size.height;
+    activityIndicatorView.frame = frame_M;
+    
+    [VW_overlay addSubview:activityIndicatorView];
+    //        activityIndicatorView.center=myview.center;
+    
+    VW_overlay.hidden = YES;
     
     [self get_Data];
 }
@@ -384,12 +413,18 @@
 {
     NSIndexPath *buttonIndexPath = [NSIndexPath indexPathForRow:sender.tag inSection:0];
     NSLog(@"From Delete Skill %ld",(long)buttonIndexPath.row);
-    
     NSString *index_str = [NSString stringWithFormat:@"%ld",(long)buttonIndexPath.row];
-    
     NSLog(@"Index path of Upcomming Event %@",index_str);
+    NSLog(@"thedata:%@",[ARR_upcommingevent objectAtIndex:[index_str intValue]]);
+    NSDictionary *dictdat =[ARR_upcommingevent objectAtIndex:[index_str intValue]];
+    [[NSUserDefaults standardUserDefaults] setValue:[dictdat valueForKey:@"id"] forKey:@"event_id"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    NSLog(@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"event_id"]);
     
-    [self performSegueWithIdentifier:@"hometoeventdetail" sender:self];
+//    [self geteventcode];
+    VW_overlay.hidden = NO;
+    [activityIndicatorView startAnimating];
+    [self performSelector:@selector(geteventcode) withObject:activityIndicatorView afterDelay:0.01];
 }
 -(void) BTN_ALL_EVENT : (UIButton *) sender
 {
@@ -668,4 +703,40 @@
     
     return [newFormat stringFromDate:currentDate];
 }
+
+#pragma mark - Api Integration
+-(void)geteventcode
+{
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    NSString *event_id = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"event_id"]];
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@events/event_detail/?id=%@",SERVER_URL,event_id];
+    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+            [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"upcoming_events"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            [self performSegueWithIdentifier:@"hometoeventdetail" sender:self];
+    }
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Interrupted" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+}
+
 @end

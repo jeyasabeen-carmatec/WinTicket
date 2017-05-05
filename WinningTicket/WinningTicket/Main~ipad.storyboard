@@ -936,10 +936,12 @@
                         <outlet property="img_cstmlbl" destination="nIQ-EG-m0n" id="Qzk-Me-CoD"/>
                         <outlet property="img_event" destination="y5r-5t-PwF" id="1ot-FI-9uI"/>
                         <outlet property="lbl_code" destination="nBB-6L-xr2" id="EGt-zz-Blm"/>
+                        <outlet property="lbl_date" destination="3HI-9F-QQQ" id="btI-Kd-wCQ"/>
                         <outlet property="lbl_eventdetail" destination="po6-j0-ELR" id="flj-JW-k4i"/>
                         <outlet property="lbl_eventname" destination="GId-Y3-RHF" id="4Wd-zl-Y1T"/>
                         <outlet property="lbl_location" destination="ZoJ-8b-a3a" id="9vL-Fp-6Fp"/>
                         <outlet property="lbl_ticketdescription" destination="nb5-aO-b9s" id="BdO-Jg-Egh"/>
+                        <outlet property="lbl_time" destination="08z-0H-Mya" id="1Bn-5p-pkb"/>
                         <outlet property="scroll_contents" destination="0oL-OQ-AfR" id="1Fn-9r-0Yq"/>
                         <outlet property="segment_bottom" destination="e2f-zr-Bgv" id="6vq-lB-LnD"/>
                         <outlet property="tab_HOME" destination="UL1-dr-rB8" id="CJ0-vx-fS7"/>
@@ -1443,7 +1445,7 @@
                                     <rect key="frame" x="0.0" y="28" width="768" height="269"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Q52-ov-C4f" id="anf-Xa-Eyn">
-                                        <rect key="frame" x="0.0" y="0.0" width="768" height="268.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="768" height="269"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" misplaced="YES" id="ggZ-bg-pOq">
@@ -5093,10 +5095,10 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="nOz-Ar-hxz"/>
-        <segue reference="cbC-uE-OEU"/>
-        <segue reference="JKe-Nx-Mhp"/>
+        <segue reference="yXB-5M-Xbh"/>
         <segue reference="al3-eI-ip9"/>
+        <segue reference="cbC-uE-OEU"/>
+        <segue reference="r6C-KU-ds0"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.3921568627" green="0.71764705880000002" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

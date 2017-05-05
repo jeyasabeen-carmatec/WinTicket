@@ -823,7 +823,7 @@
                                                 <rect key="frame" x="0.0" y="110" width="320" height="40"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Monday February 20, 2017" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mEf-rT-P5g">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Monday February 20, 2017" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mEf-rT-P5g">
                                                         <rect key="frame" x="0.0" y="0.0" width="226" height="30"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" red="0.72156862745098038" green="0.72156862745098038" blue="0.72156862745098038" alpha="1" colorSpace="calibratedRGB"/>
@@ -939,10 +939,12 @@
                         <outlet property="img_cstmlbl" destination="G8J-hj-D0N" id="Hqc-dt-nzm"/>
                         <outlet property="img_event" destination="ztd-re-AZs" id="ysP-gF-QlT"/>
                         <outlet property="lbl_code" destination="zpD-IJ-wLz" id="uX1-g0-9pn"/>
+                        <outlet property="lbl_date" destination="mEf-rT-P5g" id="fXz-NF-Y8F"/>
                         <outlet property="lbl_eventdetail" destination="V67-12-bZM" id="Qoy-PT-6oC"/>
                         <outlet property="lbl_eventname" destination="GYY-sV-nNA" id="Wlz-8y-lR8"/>
                         <outlet property="lbl_location" destination="QOW-VJ-9QM" id="AKf-3I-zGe"/>
                         <outlet property="lbl_ticketdescription" destination="fMm-DJ-KoF" id="UBz-9L-Gid"/>
+                        <outlet property="lbl_time" destination="sg1-VT-6BQ" id="ax4-O4-9Cb"/>
                         <outlet property="scroll_contents" destination="S4Z-M5-R7k" id="fFI-Ym-LLc"/>
                         <outlet property="segment_bottom" destination="7dK-P3-zfo" id="oZX-W3-qzR"/>
                         <outlet property="tab_HOME" destination="EpN-lO-cu1" id="FmV-Xw-aXe"/>
@@ -5191,10 +5193,10 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="DMu-9q-611"/>
         <segue reference="yxA-85-JlB"/>
         <segue reference="Kfz-vY-8cB"/>
-        <segue reference="1vX-2T-Wey"/>
-        <segue reference="wAH-bn-HZS"/>
+        <segue reference="GIe-p2-gAS"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.3921568627" green="0.71764705880000002" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>
