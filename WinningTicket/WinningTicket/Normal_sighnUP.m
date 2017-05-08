@@ -7,8 +7,15 @@
 //
 
 #import "Normal_sighnUP.h"
+#import "DejalActivityView.h"
+#import "DGActivityIndicatorView.h"
 
 @interface Normal_sighnUP ()<UITextFieldDelegate,UIPickerViewDelegate, UIPickerViewDataSource>
+{
+    UIView *VW_overlay;
+    DGActivityIndicatorView *activityIndicatorView;
+}
+
 @property (nonatomic, strong) NSArray *countrypicker,*statepicker;
 
 @end
@@ -86,6 +93,31 @@
 #pragma mark - Customise View
 -(void) setup_VIEW
 {
+    VW_overlay = [[UIView alloc]init];
+    VW_overlay.frame = [UIScreen mainScreen].bounds;
+    //    VW_overlay.center = self.view.center;
+    
+    [self.view addSubview:VW_overlay];
+    VW_overlay.backgroundColor = [UIColor blackColor];
+    VW_overlay.alpha = 0.2;
+    
+    
+    
+    
+    activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallSpinFadeLoader tintColor:[UIColor whiteColor]];
+    
+    CGRect frame_M = activityIndicatorView.frame;
+    frame_M.origin.x = 0;
+    frame_M.origin.y = 0;
+    frame_M.size.width = VW_overlay.frame.size.width;
+    frame_M.size.height = VW_overlay.frame.size.height;
+    activityIndicatorView.frame = frame_M;
+    
+    [VW_overlay addSubview:activityIndicatorView];
+    //        activityIndicatorView.center=myview.center;
+    
+    VW_overlay.hidden = YES;
+    
     CGRect frame = _VW_contents.frame;
     frame.size.width = self.navigationController.navigationBar.frame.size.width - 20;
     _VW_contents.frame = frame;
@@ -488,9 +520,12 @@
         [_TXT_country becomeFirstResponder];
         
     }
-            else{
-
-    [self api_integration];
+    else
+    {
+//        [self api_integration];
+        VW_overlay.hidden = NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(api_integration) withObject:activityIndicatorView afterDelay:0.01];
     }
 }
 
@@ -527,6 +562,8 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
         NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"The response %@",json_DATA);
         NSString *status=[json_DATA valueForKey:@"message"];
@@ -534,38 +571,40 @@
         
         if([status isEqualToString:@"User already exists"])
         {
-            NSLog(@"tplease enter the correct email");
-            UIAlertController *alertcontrollerone=[UIAlertController alertControllerWithTitle: @"User"message: @"User Already Exixted" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alertcontrollerone=[UIAlertController alertControllerWithTitle: @"User"message: @"User Already Exists" preferredStyle:UIAlertControllerStyleAlert];
             [alertcontrollerone addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                 
             }]];
             [self presentViewController:alertcontrollerone animated:YES completion:nil];
             
         }
-        
-        else   {
+        else
+        {
             
-            NSLog(@"Success");
-            UIAlertController *alertcontrollertwo=[UIAlertController alertControllerWithTitle: @"User"message: @"Deatils are Posted" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alertcontrollertwo = [UIAlertController alertControllerWithTitle:@"User" message: @"Deatils are Posted" preferredStyle:UIAlertControllerStyleAlert];
             [alertcontrollertwo addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
                 
-                [self performSegueWithIdentifier:@"success_segue" sender:self];
+//                [self performSegueWithIdentifier:@"success_segue" sender:self];
                 
                 
             }]];
             [self presentViewController:alertcontrollertwo animated:YES completion:nil];
-
+            [self dismissViewControllerAnimated:YES completion:nil];
         }
         
-        
-        
     }
-    UIAlertController *alertcontrollertwo=[UIAlertController alertControllerWithTitle: @"Server Not Coneected"message: @"Please Check your Connection."
-                                                                       preferredStyle:UIAlertControllerStyleAlert];
-    [alertcontrollertwo addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
         
-    }]];
-    [self presentViewController:alertcontrollertwo animated:YES completion:nil];
+        UIAlertController *alertcontrollertwo=[UIAlertController alertControllerWithTitle: @"Server Not Coneected"message: @"Please Check your Connection."
+                                                                           preferredStyle:UIAlertControllerStyleAlert];
+        [alertcontrollertwo addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            
+        }]];
+        [self presentViewController:alertcontrollertwo animated:YES completion:nil];
+    }
 
 }
 #pragma mark - UIPickerViewDataSource

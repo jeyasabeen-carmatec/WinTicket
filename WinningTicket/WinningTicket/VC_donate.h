@@ -31,6 +31,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *TXT_state;
 @property (weak, nonatomic) IBOutlet UITextField *TXT_zip;
 @property (weak, nonatomic) IBOutlet UITextField *TXT_phonenumber;
+@property (nonatomic, strong) UIPickerView *state_pickerView;
 
 @property (weak, nonatomic) IBOutlet UIButton *BTN_state;
 

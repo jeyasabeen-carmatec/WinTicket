@@ -23,18 +23,16 @@
 @property (weak, nonatomic) IBOutlet UIView *VW_event_titl;
 @property (weak, nonatomic) IBOutlet UIView *tbl_eventlst;
 
-@property (weak, nonatomic) IBOutlet UIButton *BTN_choose;
-@property (weak, nonatomic) IBOutlet UIButton *BTN_fromDATE;
-@property (weak, nonatomic) IBOutlet UIButton *BTN_toDATE;
-
 @property (weak, nonatomic) IBOutlet UITextField *TXT_state;
 @property (weak, nonatomic) IBOutlet UITextField *TXT_fromdate;
 @property (weak, nonatomic) IBOutlet UITextField *TXT_todate;
 
-@property (weak, nonatomic) IBOutlet UIPickerView *picker_STATE;
-@property (weak, nonatomic) IBOutlet UIDatePicker *picker_DATE;
+@property (nonatomic, strong) UIDatePicker *picker_fromdate;
+@property (nonatomic, strong) UIDatePicker *picker_todate;
 
-@property (weak, nonatomic) IBOutlet UIToolbar *tool_STATE;
-@property (weak, nonatomic) IBOutlet UIToolbar *tool_DATE;
+@property (nonatomic, strong) UIPickerView *state_pickerView;
+
+
+
 
 @end

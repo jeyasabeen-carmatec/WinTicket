@@ -15,9 +15,9 @@
     UIColor *old_color;
     UISearchBar *searchBar1;
     NSMutableArray *ARR_allevent;
-    NSArray *ARR_states;
+    
 }
-
+@property(nonatomic,strong)NSArray *ARR_states;
 @end
 
 @implementation VC_all_events
@@ -28,14 +28,56 @@
     
     [self State_api];
     
-    _TXT_state.layer.borderWidth = 2.0f;
+    _TXT_state.layer.borderWidth = 1.0f;
     _TXT_state.layer.borderColor = [UIColor blackColor].CGColor;
     
-    _TXT_todate.layer.borderWidth = 2.0f;
+    _TXT_todate.layer.borderWidth = 1.0f;
     _TXT_todate.layer.borderColor = [UIColor blackColor].CGColor;
     
-    _TXT_fromdate.layer.borderWidth = 2.0f;
+    _TXT_fromdate.layer.borderWidth = 1.0f;
     _TXT_fromdate.layer.borderColor = [UIColor blackColor].CGColor;
+}
+-(void) fromdateTextField:(id)sender
+{
+//    [_fromdate_picker setMaximumDate:[NSDate date]];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    NSDate *eventDate = _picker_fromdate.date;
+    [dateFormat setDateFormat:@"MM/dd/YY"];
+    
+    NSString *dateString = [dateFormat stringFromDate:eventDate];
+    _TXT_fromdate.text = [NSString stringWithFormat:@"%@",dateString];
+    _TXT_todate.text = @"";
+}
+
+-(void) todateTextField:(id)sender
+{
+    if ([_TXT_fromdate.text isEqualToString:@""])
+    {
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        NSDate *eventDate = _picker_todate.date;
+        [dateFormat setDateFormat:@"MM/dd/YY"];
+        
+        NSString *dateString = [dateFormat stringFromDate:eventDate];
+        _TXT_fromdate.text = [NSString stringWithFormat:@"%@",dateString];
+        _TXT_todate.text = @"";
+    }
+    else
+    {
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"MM/dd/yy"];
+        
+        NSString *STR_tmp = [NSString stringWithFormat:@"%@",_TXT_fromdate.text];
+        
+        NSDate *min_date = [[NSDate alloc] init];
+        min_date = [formatter dateFromString:STR_tmp];
+        
+        [_picker_todate setMinimumDate:min_date];
+        
+        NSDate *eventDate = _picker_todate.date;
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"MM/dd/YY"];
+        _TXT_todate.text = [dateFormat stringFromDate:eventDate];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -72,16 +114,17 @@
     _lbl_Serch_char.hidden = YES;
     _VW_filter.hidden = YES;
     
-    _picker_STATE.hidden = YES;
-    _picker_DATE.hidden = YES;
-    [_picker_DATE setBackgroundColor:[UIColor whiteColor]];
+//    _picker_STATE.hidden = YES;
+//    _picker_DATE.hidden = YES;
+//    [_picker_DATE setBackgroundColor:[UIColor whiteColor]];
     
-    _tool_DATE.hidden = YES;
-    _tool_STATE.hidden = YES;
     
-    [_BTN_choose addTarget:self action:@selector(choose_STATE) forControlEvents:UIControlEventTouchUpInside];
-    [_BTN_fromDATE addTarget:self action:@selector(choose_from_DATE) forControlEvents:UIControlEventTouchUpInside];
-    [_BTN_toDATE addTarget:self action:@selector(choose_to_DATE) forControlEvents:UIControlEventTouchUpInside];
+//    _tool_DATE.hidden = YES;
+//    _tool_STATE.hidden = YES;
+    
+//    [_BTN_choose addTarget:self action:@selector(choose_STATE) forControlEvents:UIControlEventTouchUpInside];
+//    [_BTN_fromDATE addTarget:self action:@selector(choose_from_DATE) forControlEvents:UIControlEventTouchUpInside];
+//    [_BTN_toDATE addTarget:self action:@selector(choose_to_DATE) forControlEvents:UIControlEventTouchUpInside];
     
     ARR_allevent = [[NSMutableArray alloc]init];
     
@@ -198,8 +241,69 @@
     
     UIBarButtonItem *mailbutton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
     self.navigationItem.rightBarButtonItem =mailbutton;
-}
+    
+    UIToolbar* state_close = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+    state_close.barStyle = UIBarStyleBlackTranslucent;
+    [state_close sizeToFit];
+    UILabel *statelbl=[[UILabel alloc]initWithFrame:CGRectMake(state_close.frame.size.width-250, 0, 100, state_close.frame.size.height)];
+    [state_close addSubview:statelbl];
+    statelbl.text=@"Select State";
+    statelbl.textColor=[UIColor redColor];
+    statelbl.backgroundColor=[UIColor clearColor];
+    
+    UIButton *close=[[UIButton alloc]init];
+    close.frame=CGRectMake(state_close.frame.size.width - 100, 0, 100, state_close.frame.size.height);
+    [close setTitle:@"close" forState:UIControlStateNormal];
+    [close addTarget:self action:@selector(closebuttonClick) forControlEvents:UIControlEventTouchUpInside];
+    //    [numberToolbar setItems:[NSArray arrayWithObjects:close, nil]];
+    [state_close addSubview:close];
+    
+    UIToolbar* date_close = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+    date_close.barStyle = UIBarStyleBlackTranslucent;
+    [date_close sizeToFit];
+    UILabel *datelbl=[[UILabel alloc]initWithFrame:CGRectMake(date_close.frame.size.width-250, 0, 100, date_close.frame.size.height)];
+    [date_close addSubview:datelbl];
+    datelbl.text=@"Select Date";
+    datelbl.textColor=[UIColor redColor];
 
+    UIButton *closeDate =[[UIButton alloc]init];
+    closeDate.frame=CGRectMake(date_close.frame.size.width - 90, 0, 100, date_close.frame.size.height);
+    [closeDate setTitle:@"Close" forState:UIControlStateNormal];
+    [closeDate addTarget:self action:@selector(closebuttonClick) forControlEvents:UIControlEventTouchUpInside];
+    //    [numberToolbar setItems:[NSArray arrayWithObjects:close, nil]];
+    [date_close addSubview:closeDate];
+    
+    _TXT_state.inputAccessoryView=state_close;
+        _TXT_todate.inputAccessoryView=date_close;
+       _TXT_fromdate.inputAccessoryView=date_close;
+//    NSDateComponents *comps = [[NSDateComponents alloc] init];
+//    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+//    NSDate *currentDate = [NSDate date];
+//    NSDateComponents *comps = [[NSDateComponents alloc] init];
+//    [comps setYear:-25];
+//    NSDate *minDate = [gregorian dateByAddingComponents:comps toDate:currentDate  options:0];
+//    [comps setYear:18];
+//    NSDate *maxDate = [gregorian dateByAddingComponents:comps toDate:currentDate  options:0];
+    
+//    NSDate *maxDate = [formatter1 dateFromString:dateString];
+//    NSDate *todaysDate = [NSDate date];
+//    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+//    [dateComponents setYear:15];
+//    NSDate *targetDate = [gregorian dateByAddingComponents:dateComponents toDate:todaysDate  options:0];
+//    [_fromdate_picker setMaximumDate:[NSDate date]];
+//    [_fromdate_picker setMinimumDate:minDate];
+//   [_todate_picker setMaximumDate:self.fromdate_picker.maximumDate];
+//    [_todate_picker setMinimumDate:targetDate];
+
+//[_todate_picker addTarget:self action:@selector(choose_to_DATE) forControlEvents:UIControlEventTouchUpInside];
+
+}
+-(void)closebuttonClick
+{
+    [_TXT_state resignFirstResponder];
+    [_TXT_todate resignFirstResponder];
+    [_TXT_fromdate resignFirstResponder];
+}
 /*
 #pragma mark - Navigation
 
@@ -283,9 +387,28 @@
 {
     NSLog(@"Filter Tapped");
     
+    _state_pickerView=[[UIPickerView alloc]init];
+    
+    _picker_fromdate = [[UIDatePicker alloc]init];
+    _picker_fromdate.datePickerMode = UIDatePickerModeDate;
+    
+    _picker_todate=[[UIDatePicker alloc]init];
+    _picker_todate.datePickerMode=UIDatePickerModeDate;
+    
+    _state_pickerView.dataSource = self;
+    _state_pickerView.delegate = self;
+    
+    [_picker_fromdate addTarget:self action:@selector(fromdateTextField:) forControlEvents:UIControlEventValueChanged];
+    
+    
+    [_picker_todate addTarget:self action:@selector(todateTextField:) forControlEvents:UIControlEventValueChanged];
+    
     _TXT_state.text = @"";
     _TXT_fromdate.text = @"";
     _TXT_todate.text = @"";
+    _TXT_state.inputView = _state_pickerView;
+    _TXT_todate.inputView = _picker_todate;
+    _TXT_fromdate.inputView = _picker_fromdate;
     
     self.navigationItem.rightBarButtonItem = nil;
     self.navigationItem.leftBarButtonItem = nil;
@@ -358,7 +481,7 @@
         [UIView animateWithDuration:0.5 animations:^{
             _VW_event_titl.frame = CGRectMake(_VW_event_titl.frame.origin.x, _VW_filter.frame.origin.y + _search_BAR.frame.size.height + 5, _VW_event_titl.frame.size.width, _VW_event_titl.frame.size.height);
             _tbl_eventlst.frame = old_FRAME;
-//            _tbl_eventlst.frame = CGRectMake(_tbl_eventlst.frame.origin.x, _VW_event_titl.frame.origin.y + _VW_event_titl.frame.size.height, _tbl_eventlst.frame.size.width, _tbl_eventlst.frame.origin.y + _tab_HOME.frame.origin.y);
+            //            _tbl_eventlst.frame = CGRectMake(_tbl_eventlst.frame.origin.x, _VW_event_titl.frame.origin.y + _VW_event_titl.frame.size.height, _tbl_eventlst.frame.size.width, _tbl_eventlst.frame.origin.y + _tab_HOME.frame.origin.y);
         }];
         [UIView commitAnimations];
     }
@@ -595,54 +718,47 @@
 #pragma mark -
 #pragma mark PickerView DataSource
 
-- (NSInteger)numberOfComponentsInPickerView:
-(UIPickerView *)pickerView
-{
-    return 1;
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+   if(pickerView==_state_pickerView)
+    {
+        return 1;
+    }
+    
+    return 0;
 }
 
-- (NSInteger)pickerView:(UIPickerView *)pickerView
-numberOfRowsInComponent:(NSInteger)component
-{
-    return ARR_states.count;
-}
-
-- (NSString *)pickerView:(UIPickerView *)pickerView
-             titleForRow:(NSInteger)row
-            forComponent:(NSInteger)component
-{
-    return [NSString stringWithFormat:@"%@",[ARR_states objectAtIndex:row]];
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    
+    if (pickerView == _state_pickerView) {
+        return [_ARR_states count];
+    }
+    
+    
+    return 0;
 }
 
 #pragma mark -
 #pragma mark PickerView Delegate
--(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row
-      inComponent:(NSInteger)component
-{
-    
-    NSString *resultString =[ARR_states objectAtIndex:row];
-    _TXT_state.text = resultString;
-}
+//-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row
+//      inComponent:(NSInteger)component
+//{
+//    
+//    NSString *resultString =[ARR_states objectAtIndex:row];
+//    _TXT_state.text = resultString;
+//}
 
--(void) choose_STATE
-{
-    _picker_STATE.hidden = NO;
-    _tool_STATE.hidden = NO;
-    _tool_DATE.hidden = YES;
-    _picker_DATE.hidden = YES;
-}
+//-(void) choose_STATE
+//{
+//    _picker_STATE.hidden = NO;
+//    _tool_STATE.hidden = NO;
+//    _tool_DATE.hidden = YES;
+//    _picker_DATE.hidden = YES;
+//}
 -(void) choose_from_DATE
 {
     NSLog(@"Tapped from date");
-    _tool_DATE.hidden = NO;
-    _picker_DATE.hidden = NO;
-    _picker_STATE.hidden = YES;
-    _tool_STATE.hidden = YES;
     
-    [_picker_DATE setMinimumDate:nil];
-    
-    _picker_DATE.tag = 1;
-    _tool_DATE.tag = 1;
+//    [_fromdate_picker setMinimumDate:nil];
     
     _TXT_todate.text = @"";
 }
@@ -662,62 +778,79 @@ numberOfRowsInComponent:(NSInteger)component
         NSDate *min_date = [[NSDate alloc] init];
         min_date = [formatter dateFromString:STR_tmp];
         
-        [_picker_DATE setMinimumDate:min_date];
+//        [_fromdate_picker setMinimumDate:min_date];
         
         NSLog(@"Tapped to date");
-        _tool_DATE.hidden = NO;
-        _picker_DATE.hidden = NO;
-        _picker_STATE.hidden = YES;
-        _tool_STATE.hidden = YES;
         
-        _picker_DATE.tag = 2;
-        _tool_DATE.tag = 2;
     }
 }
+//
+//-(IBAction) pickertapCANCEL
+//{
+//    NSLog(@"State pickercancelClicked");
+//    _picker_STATE.hidden = YES;
+//    _tool_STATE.hidden = YES;
+//    _TXT_state.text = @"";
+//}
+//-(IBAction) pickertapDONE
+//{
+//    NSLog(@"Date pickerDoneClicked");
+//    _picker_STATE.hidden = YES;
+//    _tool_STATE.hidden = YES;
+//}
+//
+//-(IBAction) datePICKER_CANCEL
+//{
+//    NSLog(@"datePICKER_CANCEL Tapped");
+//    _picker_DATE.hidden = YES;
+//    _tool_DATE.hidden = YES;
+//}
+//-(IBAction) datePICKER_DONE
+//{
+//    NSLog(@"datePICKER_DONE Tapped");
+//    _picker_DATE.hidden = YES;
+//    _tool_DATE.hidden = YES;
+//    
+//    if (_picker_DATE.tag == 1)
+//    {
+//        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//        formatter.dateFormat = @"MM/dd/YY";
+//        NSString *string = [formatter stringFromDate:_picker_DATE.date];
+//        NSLog(@"Selected Date :- %@",string);
+//        _TXT_fromdate.text = string;
+//    }
+//    else
+//    {
+//        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//        formatter.dateFormat = @"MM/dd/YY";
+//        NSString *string = [formatter stringFromDate:_picker_DATE.date];
+//        NSLog(@"Selected Date :- %@",string);
+//        _TXT_todate.text = string;
+//    }
+//}
 
--(IBAction) pickertapCANCEL
-{
-    NSLog(@"State pickercancelClicked");
-    _picker_STATE.hidden = YES;
-    _tool_STATE.hidden = YES;
-    _TXT_state.text = @"";
-}
--(IBAction) pickertapDONE
-{
-    NSLog(@"Date pickerDoneClicked");
-    _picker_STATE.hidden = YES;
-    _tool_STATE.hidden = YES;
-}
 
--(IBAction) datePICKER_CANCEL
-{
-    NSLog(@"datePICKER_CANCEL Tapped");
-    _picker_DATE.hidden = YES;
-    _tool_DATE.hidden = YES;
-}
--(IBAction) datePICKER_DONE
-{
-    NSLog(@"datePICKER_DONE Tapped");
-    _picker_DATE.hidden = YES;
-    _tool_DATE.hidden = YES;
+#pragma mark - UIPickerViewDelegate
+
+
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     
-    if (_picker_DATE.tag == 1)
-    {
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        formatter.dateFormat = @"MM/dd/YY";
-        NSString *string = [formatter stringFromDate:_picker_DATE.date];
-        NSLog(@"Selected Date :- %@",string);
-        _TXT_fromdate.text = string;
+    if (pickerView == _state_pickerView) {
+        return _ARR_states[row];
     }
-    else
-    {
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        formatter.dateFormat = @"MM/dd/YY";
-        NSString *string = [formatter stringFromDate:_picker_DATE.date];
-        NSLog(@"Selected Date :- %@",string);
-        _TXT_todate.text = string;
+    
+    return nil;
+}
+
+// #6
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+       if (pickerView == _state_pickerView) {
+        
+        self.TXT_state.text=[_ARR_states objectAtIndex:row];
     }
 }
+
 
 #pragma mark - API Integration
 -(void)State_api
@@ -735,7 +868,7 @@ numberOfRowsInComponent:(NSInteger)component
     NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
     NSLog(@"The response %@",json_DATA);
     //    NSString *status=[json_DATA objectForKey:@"United States"];
-    ARR_states = [json_DATA allKeys];
+    _ARR_states = [json_DATA allKeys];
     
     
 }

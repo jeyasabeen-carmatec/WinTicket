@@ -342,6 +342,7 @@
 -(NSString *)getLocalDateFromUTC:(NSString *)strDate
 {
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
     [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ"];
     NSDate *currentDate = [dateFormatter dateFromString:strDate];
     NSLog(@"CurrentDate:%@", currentDate);
@@ -353,13 +354,16 @@
 {
     NSLog(@"Input Date %@",strDate);
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
     [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ"];
     NSDate *currentDate = [dateFormatter dateFromString:strDate];
     NSLog(@"CurrentDate:%@", currentDate);
-    NSDateFormatter *newFormat = [[NSDateFormatter alloc] init];
-    [newFormat setTimeZone:[NSTimeZone systemTimeZone]];
-    [newFormat setDateFormat:@"h:mm a"];
-    return [newFormat stringFromDate:currentDate];
+    
+    NSDateFormatter *userFormatter = [[NSDateFormatter alloc] init];
+    [userFormatter setDateFormat:@"h:mm a"];
+    [userFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"EST"]];
+    
+    return [userFormatter stringFromDate:currentDate];
 }
 
 @end

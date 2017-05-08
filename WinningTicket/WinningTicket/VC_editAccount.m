@@ -9,6 +9,7 @@
 #import "VC_editAccount.h"
 
 @interface VC_editAccount ()
+@property(nonatomic,strong)NSArray *ARR_states;
 
 @end
 
@@ -30,7 +31,7 @@
     [super viewDidLayoutSubviews];
     [_scroll_contents layoutIfNeeded];
     
-    _scroll_contents.contentSize = CGSizeMake(_scroll_contents.frame.size.width, _VW_contents.frame.size.height);
+    _scroll_contents.contentSize = CGSizeMake(_scroll_contents.frame.size.width, _VW_contents.frame.size.height+200);
 }
 /*
 #pragma mark - Navigation
@@ -99,13 +100,79 @@
     _TXT_phone.layer.masksToBounds = YES;
     _TXT_phone.layer.borderWidth = 2.0f;
     _TXT_phone.layer.borderColor = [UIColor grayColor].CGColor;
+    
+    
+    _state_pickerView = [[UIPickerView alloc] init];
+    _state_pickerView.delegate = self;
+    _state_pickerView.dataSource = self;
+    
+    UIToolbar* state_close = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+    state_close.barStyle = UIBarStyleBlackTranslucent;
+    [state_close sizeToFit];
+    UILabel *statelbl=[[UILabel alloc]initWithFrame:CGRectMake(state_close.frame.size.width-250, 0, 100, state_close.frame.size.height)];
+    [state_close addSubview:statelbl];
+    statelbl.text=@"Select State";
+    statelbl.textColor=[UIColor redColor];
+    statelbl.backgroundColor=[UIColor clearColor];
+    
+    UIButton *close=[[UIButton alloc]init];
+    close.frame=CGRectMake(state_close.frame.size.width - 100, 0, 100, state_close.frame.size.height);
+    [close setTitle:@"close" forState:UIControlStateNormal];
+    [close addTarget:self action:@selector(closebuttonClick) forControlEvents:UIControlEventTouchUpInside];
+    //    [numberToolbar setItems:[NSArray arrayWithObjects:close, nil]];
+    [state_close addSubview:close];
+
+    self.TXT_state.inputView=_state_pickerView;
+    _TXT_state.inputAccessoryView=state_close;
+    _TXT_state.tintColor=[UIColor clearColor];
+    
+//    [self State_api];
+    
 }
+
+-(void)closebuttonClick
+{
+    [self.TXT_state resignFirstResponder];
+}
+
+
 
 
 #pragma mark - BTN Actions
 -(IBAction)BTN_close:(id)sender
 {
     [self dismissViewControllerAnimated:NO completion:nil];
+}
+#pragma mark PickerView DataSource
+
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    if(pickerView==_state_pickerView)
+    {
+        return 1;
+    }
+    
+    return 0;
+}
+
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    
+    if (pickerView == _state_pickerView) {
+        return [_ARR_states count];
+    }
+    
+    
+    return 0;
+}
+#pragma mark - UIPickerViewDelegate
+
+
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    
+    if (pickerView == _state_pickerView) {
+        return _ARR_states[row];
+    }
+    
+    return nil;
 }
 
 

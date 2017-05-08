@@ -317,7 +317,7 @@
 //        [dateFormatter setTimeZone:gmt];
 //        NSString *timeStamp = [dateFormatter stringFromDate:[NSDate date]];
         
-        cell.lbl_event_time.text = [self getLocalDateTimeFromUTC:[temp_DICN valueForKey:@"created_at"]];
+        cell.lbl_event_time.text = [self getLocalDateTimeFromUTC:[temp_DICN valueForKey:@"start_date"]];
         
         [cell.BTN_View_detail setTag:indexPath.row];
         [cell.BTN_View_detail addTarget:self action:@selector(BTN_UP_COMNG_EVENT:) forControlEvents:UIControlEventTouchUpInside];
@@ -339,7 +339,7 @@
         //        [dateFormatter setTimeZone:gmt];
         //        NSString *timeStamp = [dateFormatter stringFromDate:[NSDate date]];
         
-        cell.lbl_event_time.text = [self getLocalDateTimeFromUTC:[temp_DICN valueForKey:@"created_at"]];
+        cell.lbl_event_time.text = [self getLocalDateTimeFromUTC:[temp_DICN valueForKey:@"start_date"]];
         
         [cell.BTN_View_detail setTag:indexPath.row];
         [cell.BTN_View_detail addTarget:self action:@selector(BTN_ALL_EVENT:) forControlEvents:UIControlEventTouchUpInside];
@@ -675,33 +675,38 @@
     
     ARR_allevent = [json_DATA valueForKey:@"all_events"];
     ARR_upcommingevent = [json_DATA valueForKey:@"upcoming_events"];
+    
+    NSLog(@"All zones %@",[NSTimeZone abbreviationDictionary]);
 }
 
 #pragma mark - Date Convert
 -(NSString *)getLocalDateTimeFromUTC:(NSString *)strDate
 {
-    /*NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"YYYY-MM-DDThh:mm:ss.sTZD"];
-    // Always use this locale when parsing fixed format date strings
-    NSLocale *posix = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
-    [formatter setLocale:posix];
-    NSDate *date = [formatter dateFromString:strDate];
+
+    NSLog(@"Date Input tbl %@",strDate);
+//
+//    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
+//
+//    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ"];
+//    NSDate *currentDate = [dateFormatter dateFromString:strDate];
+//    
+//    NSLog(@"CurrentDate:%@", currentDate);
+//    
+//    NSDateFormatter *newFormat = [[NSDateFormatter alloc] init];
+//    [newFormat setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"EST"]]; //MMM dd, yyyy HH:mm a
+//    [newFormat setDateFormat:@"MMM dd, yyyy HH:mm a"];
+//    
+//    return [NSString stringWithFormat:@"%@ EST",[newFormat stringFromDate:currentDate]];
     
-    NSLog(@"The given date = %@",date);
-    
-    return [formatter stringFromDate:date];*/
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
-    
-//    NSString *currentDateString = @"2014-01-08T21:21:22.737+05:30";
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
     [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ"];
     NSDate *currentDate = [dateFormatter dateFromString:strDate];
-    
     NSLog(@"CurrentDate:%@", currentDate);
-    
     NSDateFormatter *newFormat = [[NSDateFormatter alloc] init];
-    [newFormat setDateFormat:@"MMM dd, yyyy HH:mm a zzz"];
-    
-    return [newFormat stringFromDate:currentDate];
+    [newFormat setDateFormat:@"MMM dd, yyyy h:mm a"];
+    [newFormat setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"EST"]];
+    return [NSString stringWithFormat:@"%@ EST",[newFormat stringFromDate:currentDate]];
 }
 
 #pragma mark - Api Integration

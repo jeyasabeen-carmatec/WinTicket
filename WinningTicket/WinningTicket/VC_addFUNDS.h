@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface VC_addFUNDS : UIViewController <UITextFieldDelegate>
+@interface VC_addFUNDS : UIViewController <UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UIButton *BTN_10;
 @property (weak, nonatomic) IBOutlet UIButton *BTN_25;
@@ -27,9 +27,10 @@
 @property (weak, nonatomic) IBOutlet UITextField *TXT_zip;
 @property (weak, nonatomic) IBOutlet UITextField *TXT_phonenumber;
 
-@property (weak, nonatomic) IBOutlet UIButton *BTN_state;
+//@property (weak, nonatomic) IBOutlet UIButton *BTN_state;
+@property (nonatomic, strong) UIPickerView *state_pickerView;
 
-@property (weak, nonatomic) IBOutlet UIPickerView *PICK_state;
-@property (weak, nonatomic) IBOutlet UIToolbar *TOOL_state;
+//@property (weak, nonatomic) IBOutlet UIPickerView *PICK_state;
+//@property (weak, nonatomic) IBOutlet UIToolbar *TOOL_state;
 
 @end

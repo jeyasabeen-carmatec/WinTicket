@@ -559,71 +559,32 @@
                                     <outlet property="delegate" destination="g0C-lB-g3v" id="B9U-c3-r3K"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" misplaced="YES" id="5ws-ej-Gb7">
-                                <rect key="frame" x="0.0" y="65" width="768" height="112"/>
+                            <view contentMode="scaleToFill" misplaced="YES" id="mlN-Wp-Civ">
+                                <rect key="frame" x="0.0" y="67" width="768" height="112"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="By State:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="leb-Ls-KoI">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By State:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dEj-lI-Ipk">
                                         <rect key="frame" x="8" y="8" width="72" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Choose a state" textAlignment="natural" minimumFontSize="17" id="wdg-dq-uFS" customClass="ACFloatingTextField">
-                                        <rect key="frame" x="109" y="4" width="636" height="40"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
-                                    </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="PPQ-cW-2n4">
-                                        <rect key="frame" x="109" y="4" width="636" height="40"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="By Date:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="w4T-u3-2sf">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By Date:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ww7-zF-25w">
                                         <rect key="frame" x="8" y="59" width="72" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="From" textAlignment="natural" minimumFontSize="17" id="gNO-bU-f6y" customClass="ACFloatingTextField">
-                                        <rect key="frame" x="109" y="54" width="89" height="40"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
-                                    </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3Vg-v3-sMF">
-                                        <rect key="frame" x="109" y="54" width="89" height="40"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="QV8-X4-W0C">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BjX-B3-VWg">
                                         <rect key="frame" x="201" y="63" width="15" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="To" textAlignment="natural" minimumFontSize="17" id="WRv-31-5hZ" customClass="ACFloatingTextField">
-                                        <rect key="frame" x="219" y="54" width="87" height="40"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
-                                    </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="UJK-Qh-IkU">
-                                        <rect key="frame" x="219" y="54" width="87" height="40"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="JgE-wH-UsI" customClass="BTN_Winnig_TKT">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Ei8-iH-TYu" customClass="BTN_Winnig_TKT">
                                         <rect key="frame" x="642" y="54" width="103" height="40"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.066666666669999999" green="0.33333333329999998" blue="0.42352941179999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -632,6 +593,42 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="Select State" textAlignment="natural" minimumFontSize="17" id="OLp-Ye-qa3" customClass="ACFloatingTextField">
+                                        <rect key="frame" x="109" y="4" width="636" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
+                                                <color key="value" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="From" textAlignment="natural" minimumFontSize="17" id="ShW-wK-LNI" customClass="ACFloatingTextField">
+                                        <rect key="frame" x="109" y="54" width="89" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
+                                                <color key="value" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="State" textAlignment="natural" minimumFontSize="17" id="CVQ-W8-O53" customClass="ACFloatingTextField">
+                                        <rect key="frame" x="219" y="54" width="87" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
+                                                <color key="value" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </textField>
                                 </subviews>
                                 <color key="backgroundColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
@@ -661,117 +658,23 @@
                                     <outlet property="delegate" destination="g0C-lB-g3v" id="81K-LF-CMy"/>
                                 </connections>
                             </tabBar>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" id="3cv-Nm-v22">
-                                <rect key="frame" x="0.0" y="764" width="768" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <items>
-                                    <barButtonItem title="Cancel" id="1Zg-E1-QLr">
-                                        <connections>
-                                            <action selector="pickertapCANCEL" destination="g0C-lB-g3v" id="MXw-cv-Nj0"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="hZ0-4s-Hhx"/>
-                                    <barButtonItem style="plain" id="9X8-vz-sUY">
-                                        <view key="customView" contentMode="scaleToFill" id="XDi-s8-78f">
-                                            <rect key="frame" x="72" y="6" width="634" height="33"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select a state" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="P3A-Te-a1r">
-                                                    <rect key="frame" x="34" y="6" width="558" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Hv4-Un-b7A"/>
-                                    <barButtonItem title="Done" id="O4W-wS-b5h">
-                                        <connections>
-                                            <action selector="pickertapDONE" destination="g0C-lB-g3v" id="jzD-6n-H9R"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                                <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </toolbar>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" id="oD6-2i-HcQ">
-                                <rect key="frame" x="0.0" y="764" width="768" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <items>
-                                    <barButtonItem title="Cancel" id="2wz-vd-Ql5">
-                                        <connections>
-                                            <action selector="datePICKER_CANCEL" destination="g0C-lB-g3v" id="LcO-t2-yFT"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="E78-xf-cvO"/>
-                                    <barButtonItem style="plain" id="6Kk-w0-5ZI">
-                                        <view key="customView" contentMode="scaleToFill" id="BnR-ad-pgx">
-                                            <rect key="frame" x="72" y="6" width="634" height="33"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Date" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eOG-QD-Ckt">
-                                                    <rect key="frame" x="34" y="6" width="558" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="16"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="3DY-gB-U6B"/>
-                                    <barButtonItem title="Done" id="QmI-Bt-2fk">
-                                        <connections>
-                                            <action selector="datePICKER_DONE" destination="g0C-lB-g3v" id="cGc-mS-ywx"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                                <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </toolbar>
-                            <pickerView contentMode="scaleToFill" misplaced="YES" id="AY4-D8-zBi">
-                                <rect key="frame" x="0.0" y="808" width="768" height="216"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="g0C-lB-g3v" id="5pN-iI-zo2"/>
-                                    <outlet property="delegate" destination="g0C-lB-g3v" id="f41-fh-7N5"/>
-                                </connections>
-                            </pickerView>
-                            <datePicker contentMode="scaleAspectFit" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" id="Zpx-2v-dvJ">
-                                <rect key="frame" x="0.0" y="808" width="768" height="216"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <date key="date" timeIntervalSinceReferenceDate="512283452.550318">
-                                    <!--2017-03-27 04:57:32 +0000-->
-                                </date>
-                            </datePicker>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="t65-ua-UfF"/>
                     <connections>
-                        <outlet property="BTN_choose" destination="PPQ-cW-2n4" id="pln-u1-R9n"/>
-                        <outlet property="BTN_fromDATE" destination="3Vg-v3-sMF" id="oT4-AW-Mcv"/>
-                        <outlet property="BTN_toDATE" destination="UJK-Qh-IkU" id="y7l-X2-o4J"/>
-                        <outlet property="TXT_fromdate" destination="gNO-bU-f6y" id="GKC-6p-bzd"/>
-                        <outlet property="TXT_state" destination="wdg-dq-uFS" id="dAe-f5-lcf"/>
-                        <outlet property="TXT_todate" destination="WRv-31-5hZ" id="yHR-Zc-ZHX"/>
+                        <outlet property="TXT_fromdate" destination="ShW-wK-LNI" id="AcW-vZ-1UF"/>
+                        <outlet property="TXT_state" destination="OLp-Ye-qa3" id="quw-j9-QlO"/>
+                        <outlet property="TXT_todate" destination="CVQ-W8-O53" id="aT4-l1-LVZ"/>
                         <outlet property="VW_event_titl" destination="bj6-Qv-jK6" id="sXO-Go-UDA"/>
-                        <outlet property="VW_filter" destination="5ws-ej-Gb7" id="mgv-8b-gcM"/>
+                        <outlet property="VW_filter" destination="mlN-Wp-Civ" id="sC6-z3-hef"/>
                         <outlet property="VW_line" destination="13v-hA-khC" id="c4d-kp-PB3"/>
                         <outlet property="VW_nav_TOP" destination="Wch-fo-y7d" id="xB1-VQ-rvd"/>
                         <outlet property="lbl_Serch_char" destination="V95-uy-mxq" id="MHB-nI-mcg"/>
-                        <outlet property="picker_DATE" destination="Zpx-2v-dvJ" id="x0p-ib-xLZ"/>
-                        <outlet property="picker_STATE" destination="AY4-D8-zBi" id="lKp-ZG-Izd"/>
                         <outlet property="search_BAR" destination="vfO-hp-dKQ" id="uFs-w1-28e"/>
                         <outlet property="segment_bottom" destination="UNX-Ug-AaP" id="TBE-bF-gra"/>
                         <outlet property="tab_HOME" destination="LRZ-Zi-hdE" id="Phd-yg-Inx"/>
                         <outlet property="tbl_eventlst" destination="4QM-VA-IhV" id="5IX-XF-otc"/>
-                        <outlet property="tool_DATE" destination="oD6-2i-HcQ" id="lIB-9z-sZs"/>
-                        <outlet property="tool_STATE" destination="3cv-Nm-v22" id="0kC-Ob-M1T"/>
                         <segue destination="O3Y-Qw-gkH" kind="modal" identifier="alleventtoaccountidentifier" animates="NO" id="nOz-Ar-hxz"/>
                         <segue destination="pqJ-YB-Eu0" kind="modal" identifier="alleventtocourseidentifier" animates="NO" id="JKe-Nx-Mhp"/>
                         <segue destination="buR-HU-xdL" kind="modal" identifier="eventDetailidentifier" animates="NO" id="al3-eI-ip9"/>
@@ -2395,23 +2298,6 @@
                                 <rect key="frame" x="0.0" y="61" width="768" height="963"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             </scrollView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" id="VB9-dF-tNe">
-                                <rect key="frame" x="0.0" y="764" width="768" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="jQc-0e-kVD"/>
-                                    <barButtonItem title="Done" id="E7K-O8-6Yw">
-                                        <connections>
-                                            <action selector="TAP_done" destination="zeQ-D4-9uW" id="oLn-vJ-RWX"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
-                            <pickerView contentMode="scaleToFill" misplaced="YES" id="sS9-aG-amJ">
-                                <rect key="frame" x="0.0" y="808" width="768" height="216"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" red="0.89803921568627454" green="0.90196078431372551" blue="0.90588235294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
@@ -2419,9 +2305,6 @@
                         <outlet property="BTN_10" destination="Kkr-LA-oPd" id="RDe-9A-GHc"/>
                         <outlet property="BTN_25" destination="HHm-MU-e3w" id="28h-vF-8pd"/>
                         <outlet property="BTN_50" destination="8rE-3b-qzx" id="Gmq-cE-Ahn"/>
-                        <outlet property="BTN_state" destination="Clx-is-zep" id="QXD-u4-BGE"/>
-                        <outlet property="PICK_state" destination="sS9-aG-amJ" id="VAT-mm-Jvg"/>
-                        <outlet property="TOOL_state" destination="VB9-dF-tNe" id="pJh-DR-2Xg"/>
                         <outlet property="TXT_address1" destination="gji-KC-3QE" id="n5i-3T-Avy"/>
                         <outlet property="TXT_address2" destination="Ocm-tc-CE4" id="8Vs-g6-EwT"/>
                         <outlet property="TXT_amount" destination="v4T-Eq-f9M" id="6qh-4t-7UX"/>
@@ -2501,10 +2384,10 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First Name" textAlignment="natural" minimumFontSize="17" id="DPC-mI-Ev3" customClass="Get_custom_TXTT">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First Name" textAlignment="natural" minimumFontSize="17" id="DPC-mI-Ev3" customClass="ACFloatingTextField">
                             <rect key="frame" x="10" y="207" width="748" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
@@ -2514,10 +2397,10 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" id="mdu-XA-ETH" customClass="Get_custom_TXTT">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" id="mdu-XA-ETH" customClass="ACFloatingTextField">
                             <rect key="frame" x="10" y="260" width="748" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
@@ -2527,10 +2410,10 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Address Line 1" textAlignment="natural" minimumFontSize="17" id="gji-KC-3QE" customClass="Get_custom_TXTT">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Address Line 1" textAlignment="natural" minimumFontSize="17" id="gji-KC-3QE" customClass="ACFloatingTextField">
                             <rect key="frame" x="10" y="313" width="748" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
@@ -2540,10 +2423,10 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Address Line 2" textAlignment="natural" minimumFontSize="17" id="Ocm-tc-CE4" customClass="Get_custom_TXTT">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Address Line 2" textAlignment="natural" minimumFontSize="17" id="Ocm-tc-CE4" customClass="ACFloatingTextField">
                             <rect key="frame" x="10" y="366" width="748" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
@@ -2553,10 +2436,10 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="City" textAlignment="natural" minimumFontSize="17" id="T6L-XO-eN6" customClass="Get_custom_TXTT">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="City" textAlignment="natural" minimumFontSize="17" id="T6L-XO-eN6" customClass="ACFloatingTextField">
                             <rect key="frame" x="10" y="419" width="748" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
@@ -2566,10 +2449,10 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="State" textAlignment="natural" minimumFontSize="17" id="9kt-6s-FYK" customClass="Get_custom_TXTT">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="State" textAlignment="natural" minimumFontSize="17" id="9kt-6s-FYK" customClass="ACFloatingTextField">
                             <rect key="frame" x="10" y="472" width="748" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
@@ -2579,10 +2462,10 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Zip Code" textAlignment="natural" minimumFontSize="17" id="Fje-3m-dzw" customClass="Get_custom_TXTT">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Zip Code" textAlignment="natural" minimumFontSize="17" id="Fje-3m-dzw" customClass="ACFloatingTextField">
                             <rect key="frame" x="10" y="525" width="748" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
@@ -2592,10 +2475,10 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone Number" textAlignment="natural" minimumFontSize="17" id="Uu9-Ih-ja3" customClass="Get_custom_TXTT">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone Number" textAlignment="natural" minimumFontSize="17" id="Uu9-Ih-ja3" customClass="ACFloatingTextField">
                             <rect key="frame" x="10" y="578" width="748" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
@@ -2613,18 +2496,6 @@
                             <state key="normal" title="DEPOSIT FUNDS">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
-                        </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hFT-aN-ZY1">
-                            <rect key="frame" x="694" y="474" width="54" height="40"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="30"/>
-                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Clx-is-zep">
-                            <rect key="frame" x="10" y="474" width="748" height="40"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                         </button>
                     </subviews>
                     <color key="backgroundColor" red="0.89803921568627454" green="0.90196078431372551" blue="0.90588235294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -2669,31 +2540,11 @@
                                 <rect key="frame" x="0.0" y="62" width="768" height="962"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </scrollView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" id="5xf-Ni-EnE">
-                                <rect key="frame" x="0.0" y="764" width="768" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="2XR-ks-Pj4"/>
-                                    <barButtonItem title="Done" id="2od-Lk-CcC">
-                                        <connections>
-                                            <action selector="TAP_done" destination="FvZ-dG-fiC" id="1WJ-gh-JBi"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
-                            <pickerView contentMode="scaleToFill" misplaced="YES" id="j1T-wj-zg4">
-                                <rect key="frame" x="0.0" y="808" width="768" height="216"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="BTN_deposit" destination="R9e-8b-x7C" id="z03-YN-zyy"/>
-                        <outlet property="BTN_state" destination="TrV-Ze-uok" id="0iT-Nf-qSx"/>
-                        <outlet property="PICK_state" destination="j1T-wj-zg4" id="9SU-pG-0m7"/>
-                        <outlet property="TOOL_state" destination="5xf-Ni-EnE" id="fLN-7d-xvY"/>
                         <outlet property="TXTVW_organisationname" destination="NgO-uT-h7K" id="3iP-yZ-WNk"/>
                         <outlet property="TXT_address1" destination="sJq-Dx-Cyf" id="gjv-Hy-Gal"/>
                         <outlet property="TXT_address2" destination="IfE-jZ-G4x" id="kA6-xO-Xkc"/>
@@ -2707,7 +2558,6 @@
                         <outlet property="VW_contents" destination="e4A-ok-nNC" id="Dhz-OL-FuZ"/>
                         <outlet property="VW_organisationdetail" destination="AJU-GP-0Es" id="ZK9-Vc-nnT"/>
                         <outlet property="lbl_currencyTYP" destination="Se3-yS-7Sr" id="x4r-cI-DIP"/>
-                        <outlet property="lbl_dropdown" destination="LiL-J6-9hO" id="I10-v8-uM1"/>
                         <outlet property="lbl_titlbillingaddress" destination="y3w-xy-SHq" id="mN5-mQ-21Y"/>
                         <outlet property="lbl_titledonationAMT" destination="ryc-7P-1DN" id="8qa-iw-E6L"/>
                         <outlet property="scroll_Contents" destination="baP-8n-h1o" id="6EL-4j-Wuu"/>
@@ -2768,10 +2618,10 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First Name" textAlignment="natural" minimumFontSize="17" id="jOY-Is-nqR" customClass="Get_custom_TXTT">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="First Name" textAlignment="natural" minimumFontSize="17" id="jOY-Is-nqR" customClass="ACFloatingTextField">
                             <rect key="frame" x="10" y="207" width="748" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
@@ -2781,10 +2631,10 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" id="Bza-51-Wse" customClass="Get_custom_TXTT">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Last Name" textAlignment="natural" minimumFontSize="17" id="Bza-51-Wse" customClass="ACFloatingTextField">
                             <rect key="frame" x="10" y="260" width="748" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
@@ -2794,10 +2644,10 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Address Line 1" textAlignment="natural" minimumFontSize="17" id="sJq-Dx-Cyf" customClass="Get_custom_TXTT">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Address Line 1" textAlignment="natural" minimumFontSize="17" id="sJq-Dx-Cyf" customClass="ACFloatingTextField">
                             <rect key="frame" x="10" y="313" width="748" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
@@ -2807,10 +2657,10 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Address Line 2" textAlignment="natural" minimumFontSize="17" id="IfE-jZ-G4x" customClass="Get_custom_TXTT">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Address Line 2" textAlignment="natural" minimumFontSize="17" id="IfE-jZ-G4x" customClass="ACFloatingTextField">
                             <rect key="frame" x="10" y="366" width="748" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
@@ -2820,10 +2670,10 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="City" textAlignment="natural" minimumFontSize="17" id="5rU-zp-Ird" customClass="Get_custom_TXTT">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="City" textAlignment="natural" minimumFontSize="17" id="5rU-zp-Ird" customClass="ACFloatingTextField">
                             <rect key="frame" x="10" y="419" width="748" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
@@ -2833,10 +2683,10 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="State" textAlignment="natural" minimumFontSize="17" id="LSd-s7-UK2" customClass="Get_custom_TXTT">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="State" textAlignment="natural" minimumFontSize="17" id="LSd-s7-UK2" customClass="ACFloatingTextField">
                             <rect key="frame" x="10" y="472" width="748" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
@@ -2846,10 +2696,10 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Zip Code" textAlignment="natural" minimumFontSize="17" id="Ro3-2L-M8p" customClass="Get_custom_TXTT">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Zip Code" textAlignment="natural" minimumFontSize="17" id="Ro3-2L-M8p" customClass="ACFloatingTextField">
                             <rect key="frame" x="10" y="525" width="748" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
@@ -2859,10 +2709,10 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone Number" textAlignment="natural" minimumFontSize="17" id="jnh-23-U5L" customClass="Get_custom_TXTT">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone Number" textAlignment="natural" minimumFontSize="17" id="jnh-23-U5L" customClass="ACFloatingTextField">
                             <rect key="frame" x="10" y="578" width="748" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
@@ -2880,18 +2730,6 @@
                             <state key="normal" title="DEPOSIT FUNDS">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
-                        </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LiL-J6-9hO">
-                            <rect key="frame" x="694" y="474" width="54" height="40"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="30"/>
-                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="TrV-Ze-uok">
-                            <rect key="frame" x="10" y="474" width="748" height="40"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                         </button>
                     </subviews>
                     <color key="backgroundColor" red="0.8980392157" green="0.90196078430000004" blue="0.90588235289999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -5095,9 +4933,9 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="yXB-5M-Xbh"/>
         <segue reference="al3-eI-ip9"/>
         <segue reference="cbC-uE-OEU"/>
+        <segue reference="yXB-5M-Xbh"/>
         <segue reference="r6C-KU-ds0"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.3921568627" green="0.71764705880000002" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

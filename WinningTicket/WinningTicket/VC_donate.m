@@ -8,7 +8,9 @@
 
 #import "VC_donate.h"
 
-@interface VC_donate ()
+@interface VC_donate ()<UIPickerViewDelegate,UIPickerViewDataSource>
+@property(nonatomic,strong)NSArray *ARR_states;
+
 
 @end
 
@@ -192,7 +194,77 @@
     
     _PICK_state.hidden = YES;
     _TOOL_state.hidden = YES;
+    
+    _state_pickerView=[[UIPickerView alloc]init];
+    _state_pickerView.dataSource=self;
+    _state_pickerView.delegate=self;
+    
+    
+    
+    UIToolbar* state_close = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+    state_close.barStyle = UIBarStyleBlackTranslucent;
+    [state_close sizeToFit];
+    UILabel *statelbl=[[UILabel alloc]initWithFrame:CGRectMake(state_close.frame.size.width-250, 0, 100, state_close.frame.size.height)];
+    [state_close addSubview:statelbl];
+    statelbl.text=@"Select State";
+    statelbl.textColor=[UIColor redColor];
+    statelbl.backgroundColor=[UIColor clearColor];
+    
+    UIButton *close=[[UIButton alloc]init];
+    close.frame=CGRectMake(state_close.frame.size.width - 100, 0, 100, state_close.frame.size.height);
+    [close setTitle:@"close" forState:UIControlStateNormal];
+    [close addTarget:self action:@selector(closebuttonClick) forControlEvents:UIControlEventTouchUpInside];
+    //    [numberToolbar setItems:[NSArray arrayWithObjects:close, nil]];
+    [state_close addSubview:close];
+    _TXT_state.inputView=_state_pickerView;
+    _TXT_state.inputAccessoryView=state_close;
 }
+-(void)closebuttonClick
+{
+    [_TXT_state resignFirstResponder];
+}
+
+#pragma mark PickerView DataSource
+
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    if(pickerView==_state_pickerView)
+    {
+        return 1;
+    }
+    
+    return 0;
+}
+
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    
+    if (pickerView == _state_pickerView) {
+        return [_ARR_states count];
+    }
+    
+    
+    return 0;
+}
+#pragma mark - UIPickerViewDelegate
+
+
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    
+    if (pickerView == _state_pickerView) {
+        return _ARR_states[row];
+    }
+    
+    return nil;
+}
+
+// #6
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    if (pickerView == _state_pickerView) {
+        
+        self.TXT_state.text=[_ARR_states objectAtIndex:row];
+    }
+}
+
 
 
 #pragma mark - BTN Actions
