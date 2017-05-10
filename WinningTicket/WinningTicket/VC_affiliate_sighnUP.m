@@ -19,6 +19,14 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    NSError *error;
+    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults] valueForKey:@"Country_response"] options:NSASCIIStringEncoding error:&error];
+    NSLog(@"The response %@",json_DATA);
+    self.countrypicker=[json_DATA allValues];
+    NSMutableDictionary *json_DAT = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"state_response"] options:NSASCIIStringEncoding error:&error];
+    NSLog(@"The response %@",json_DAT);
+    self.statepicker=[json_DAT allKeys];
+    
     [self setup_VIEW];
 }
 
@@ -267,8 +275,8 @@
     _TXT_state.tintColor=[UIColor clearColor];
     
 //    self.pickerNames = @[ @"Objective-C", @"Swift", @"Java", @"C", @"C++", @"Other"];
-    [self Country_api];
-    [self State_api];
+//    [self Country_api];
+//    [self State_api];
     
 }
 
@@ -658,43 +666,43 @@
 
 #pragma mark - UIPickerViewDataSource
 
--(void)Country_api
-{
-    NSHTTPURLResponse *response = nil;
-    NSError *error;
-    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/countries",SERVER_URL];
-    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:urlProducts];
-    [request setHTTPMethod:@"GET"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPShouldHandleCookies:NO];
-    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-    NSLog(@"The response %@",json_DATA);
-    self.countrypicker=[json_DATA allKeys];
-    
-    
-}
--(void)State_api
-{
-    NSHTTPURLResponse *response = nil;
-    NSError *error;
-    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/states",SERVER_URL];
-    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:urlProducts];
-    [request setHTTPMethod:@"GET"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPShouldHandleCookies:NO];
-    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-    NSLog(@"The response %@",json_DATA);
-    //    NSString *status=[json_DATA objectForKey:@"United States"];
-    self.statepicker=[json_DATA allKeys];
-    
-    
-}
+//-(void)Country_api
+//{
+//    NSHTTPURLResponse *response = nil;
+//    NSError *error;
+//    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/countries",SERVER_URL];
+//    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+//    [request setURL:urlProducts];
+//    [request setHTTPMethod:@"GET"];
+//    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+//    [request setHTTPShouldHandleCookies:NO];
+//    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+//    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+//    NSLog(@"The response %@",json_DATA);
+//    self.countrypicker=[json_DATA allKeys];
+//    
+//    
+//}
+//-(void)State_api
+//{
+//    NSHTTPURLResponse *response = nil;
+//    NSError *error;
+//    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/states",SERVER_URL];
+//    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+//    [request setURL:urlProducts];
+//    [request setHTTPMethod:@"GET"];
+//    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+//    [request setHTTPShouldHandleCookies:NO];
+//    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+//    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+//    NSLog(@"The response %@",json_DATA);
+//    //    NSString *status=[json_DATA objectForKey:@"United States"];
+//    self.statepicker=[json_DATA allKeys];
+//    
+//    
+//}
 
 #pragma mark - UIPickerViewDelegate
 

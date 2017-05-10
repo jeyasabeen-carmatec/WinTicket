@@ -121,7 +121,7 @@
     NSError *error;
     NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
     NSLog(@"thedata is Upcoming:%@",dict);
-    _lbl_eventname.text = @"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
+    _lbl_eventname.text = [dict valueForKey:@"name"];
     _lbl_eventname.numberOfLines = 0;
     [_lbl_eventname sizeToFit];
     

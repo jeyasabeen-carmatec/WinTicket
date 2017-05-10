@@ -26,6 +26,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+//    [self Country_api];
+//    [self State_api];
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [UIImage new];
@@ -324,16 +326,12 @@
     return YES;
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-}
+//}
 
-- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
-{
-//    return NO;
-    return YES;
-}
+
 
 #pragma mark - Button Actions
 -(void) apiLogin
@@ -500,5 +498,7 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
+
+
 
 @end

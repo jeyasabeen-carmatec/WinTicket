@@ -31,6 +31,12 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     self.navigationItem.hidesBackButton = YES;
+    
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    
     [self setup_VIEW];
 }
 
@@ -95,21 +101,31 @@
 
 -(void) backAction
 {
-    [self.navigationController popViewControllerAnimated:NO];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void) setup_FRAME
 {
+    NSError *error;
+    NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
+    NSLog(@"thedata is Upcoming:%@",dict);
+    
     [_scroll_contents addSubview:_VW_qtycontent];
     [_scroll_contents addSubview:_VW_line1];
     [_scroll_contents addSubview:_VW_line2];
     [_scroll_contents addSubview:_VW_promo];
     
+    NSString *location=[NSString stringWithFormat:@"%@",[dict valueForKey:@"location"]];
+    if([location isEqualToString:@"<null>"])
+    {
+            location=@"Not mentioned";
+    }
     _TXT_qty.text = @"1";
     NSString *show = @"Winning Ticket";
-    NSString *place = @"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
-    NSString *ticketnumber = @"56A8WQ";
+    NSString *place = [dict valueForKey:@"name"];
+    NSString *ticketnumber = [dict valueForKey:@"code"];
     NSString *club_name = @"Grand Cypress Country Club";
+    _lbl_price.text=[NSString stringWithFormat:@"$ %@",[dict valueForKey:@"ticket_price"]];
     
     NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@ - %@",show,place,ticketnumber,club_name];
     
@@ -211,6 +227,8 @@
     [tap setCancelsTouchesInView:NO];
     tap.delegate = self;
     [self.view addGestureRecognizer:tap];
+    
+    [self.TXT_qty addTarget:self action:@selector(get_caluculated_text) forControlEvents:UIControlEventEditingChanged];
 }
 
 -(void) Tap_DTECt :(UITapGestureRecognizer *)sender
@@ -356,6 +374,14 @@
         }
     }
     return YES;
+}
+
+#pragma mark - Quantity Update
+-(void)get_caluculated_text
+{
+    NSArray *arr=[_lbl_price.text componentsSeparatedByString:@"$"];
+    _lbl_dataTotal.text=[NSString stringWithFormat:@"$ %d.00",[_TXT_qty.text intValue] * [[arr objectAtIndex:1] intValue]];
+    _lbl_datasubtotal.text=[NSString stringWithFormat:@"$ %d.00",[_TXT_qty.text intValue] * [[arr objectAtIndex:1] intValue]];
 }
 
 @end

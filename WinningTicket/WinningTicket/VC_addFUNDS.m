@@ -17,6 +17,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSError *error;
+    NSMutableDictionary *json_DAT = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"state_response"] options:NSASCIIStringEncoding error:&error];
+    NSLog(@"The response %@",json_DAT);
+    self.ARR_states=[json_DAT allKeys];
     [self setup_VIEW];
 }
 
@@ -78,6 +82,7 @@
     _TXT_amount.layer.borderColor = [UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0].CGColor;
 //    _TXT_amount.titleLabel.textColor = [UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0];
     [_TXT_amount addTarget:self action:@selector(check_TXT_stat:) forControlEvents:UIControlEventEditingChanged];
+    _TXT_amount.delegate=self;
     
     [_BTN_10 addTarget:self action:@selector(BTN_10Method) forControlEvents:UIControlEventTouchUpInside];
     [_BTN_25 addTarget:self action:@selector(BTN_25Method) forControlEvents:UIControlEventTouchUpInside];
@@ -175,7 +180,11 @@
 #pragma mark - UIButton Actions
 -(void) BTN_10Method
 {
+    
     NSLog(@"Button 10 tapped");
+    NSString *temptext=_BTN_10.titleLabel.text;
+    NSArray *arr=[temptext componentsSeparatedByString:@"$"];
+    self.TXT_amount.text=[NSString stringWithFormat:@"%@.00",[arr objectAtIndex:1]];
     [_BTN_10 setBackgroundColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0]];
     [_BTN_10 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
@@ -185,10 +194,14 @@
     [_BTN_50 setBackgroundColor:[UIColor whiteColor]];
     [_BTN_50 setTitleColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0] forState:UIControlStateNormal];
     
+    
 }
 -(void) BTN_25Method
 {
     NSLog(@"Button 25 tapped");
+   NSString *temptext=_BTN_25.titleLabel.text;
+    NSArray *arr=[temptext componentsSeparatedByString:@"$"];
+    self.TXT_amount.text=[NSString stringWithFormat:@"%@.00",[arr objectAtIndex:1]];
     [_BTN_10 setBackgroundColor:[UIColor whiteColor]];
     [_BTN_10 setTitleColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0] forState:UIControlStateNormal];
     
@@ -201,6 +214,9 @@
 -(void) BTN_50Method
 {
     NSLog(@"Button 50 tapped");
+    NSString *temptext=_BTN_50.titleLabel.text;
+    NSArray *arr=[temptext componentsSeparatedByString:@"$"];
+    self.TXT_amount.text=[NSString stringWithFormat:@"%@.00",[arr objectAtIndex:1]];
     [_BTN_10 setBackgroundColor:[UIColor whiteColor]];
     [_BTN_10 setTitleColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0] forState:UIControlStateNormal];
     
@@ -315,6 +331,45 @@
             }
         }
     }
+    if([_TXT_amount.text isEqualToString:@"10.00"])
+        
+    {
+        [_BTN_10 setBackgroundColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0]];
+        [_BTN_10 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _BTN_25.backgroundColor=[UIColor clearColor];
+        _BTN_50.backgroundColor=[UIColor clearColor];
+        
+       
+        
+    }
+    else if([_TXT_amount.text isEqualToString:@"25.00"])
+        
+    {
+        [_BTN_25 setBackgroundColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0]];
+        [_BTN_25 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _BTN_10.backgroundColor=[UIColor clearColor];
+        _BTN_50.backgroundColor=[UIColor clearColor];
+        
+       
+        
+        
+    }else if([_TXT_amount.text isEqualToString:@"50.00"])
+        
+    {
+        [_BTN_50 setBackgroundColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0]];
+        [_BTN_50 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _BTN_10.backgroundColor=[UIColor clearColor];
+        _BTN_25.backgroundColor=[UIColor clearColor];
+
+        
+        
+        
+    }
+    else{
+        _TXT_amount.text=@"";
+    }
+    
+
 }
 
 -(void) check_TXT_stat :(id)sender

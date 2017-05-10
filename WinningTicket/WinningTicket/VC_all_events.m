@@ -8,6 +8,8 @@
 
 #import "VC_all_events.h"
 #import "TBL_VW_Cell_EVENTS.h"
+#import "DejalActivityView.h"
+#import "DGActivityIndicatorView.h"
 
 @interface VC_all_events ()
 {
@@ -15,6 +17,8 @@
     UIColor *old_color;
     UISearchBar *searchBar1;
     NSMutableArray *ARR_allevent;
+    UIView *VW_overlay;
+    DGActivityIndicatorView *activityIndicatorView;
     
 }
 @property(nonatomic,strong)NSArray *ARR_states;
@@ -25,6 +29,42 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    ARR_allevent = [[NSMutableArray alloc]init];
+    
+    VW_overlay = [[UIView alloc]init];
+    VW_overlay.frame = [UIScreen mainScreen].bounds;
+    //    VW_overlay.center = self.view.center;
+    
+    [self.view addSubview:VW_overlay];
+    VW_overlay.backgroundColor = [UIColor blackColor];
+    VW_overlay.alpha = 0.2;
+    
+    
+    
+    
+    activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallSpinFadeLoader tintColor:[UIColor whiteColor]];
+    
+    CGRect frame_M = activityIndicatorView.frame;
+    frame_M.origin.x = 0;
+    frame_M.origin.y = 0;
+    frame_M.size.width = VW_overlay.frame.size.width;
+    frame_M.size.height = VW_overlay.frame.size.height;
+    activityIndicatorView.frame = frame_M;
+    
+    [VW_overlay addSubview:activityIndicatorView];
+    //        activityIndicatorView.center=myview.center;
+    
+    VW_overlay.hidden = YES;
+    
+    NSError *error;
+    NSData *aData = [[NSUserDefaults standardUserDefaults] valueForKey:@"ALLEvents"];
+    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+    NSLog(@"The response ALLEvents %@",json_DATA);
+    
+    NSArray *ARR_tmp = [json_DATA valueForKey:@"events"];
+    
+    [ARR_allevent addObjectsFromArray:ARR_tmp];
     
     [self State_api];
     
@@ -87,6 +127,9 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    _tbl_eventlst.estimatedRowHeight = 10.0;
+    _tbl_eventlst.rowHeight = UITableViewAutomaticDimension;
+    
     [self setup_VIEW];
     
     for (int i=0; i<[self.segment_bottom.subviews count]; i++)
@@ -126,28 +169,27 @@
 //    [_BTN_fromDATE addTarget:self action:@selector(choose_from_DATE) forControlEvents:UIControlEventTouchUpInside];
 //    [_BTN_toDATE addTarget:self action:@selector(choose_to_DATE) forControlEvents:UIControlEventTouchUpInside];
     
-    ARR_allevent = [[NSMutableArray alloc]init];
     
-    NSDictionary *temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
-    [ARR_allevent addObject:temp_Dictn];
-    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Murray Bros. Caddyshack Charity Golf Tournament",@"Event_Name",@"Mar 22, 2017 03:00PM EST",@"Event_Time", nil];
-    [ARR_allevent addObject:temp_Dictn];
-    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Susan G Komen 2017 Golf Classic",@"Event_Name",@"Mar 31,2017 11:00AM EST",@"Event_Time", nil];
-    [ARR_allevent addObject:temp_Dictn];
-    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
-    [ARR_allevent addObject:temp_Dictn];
-    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Murray Bros. Caddyshack Charity Golf Tournament",@"Event_Name",@"Mar 22, 2017 03:00PM EST",@"Event_Time", nil];
-    [ARR_allevent addObject:temp_Dictn];
-    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Susan G Komen 2017 Golf Classic",@"Event_Name",@"Mar 31,2017 11:00AM EST",@"Event_Time", nil];
-    [ARR_allevent addObject:temp_Dictn];
-    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
-    [ARR_allevent addObject:temp_Dictn];
-    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Murray Bros. Caddyshack Charity Golf Tournament",@"Event_Name",@"Mar 22, 2017 03:00PM EST",@"Event_Time", nil];
-    [ARR_allevent addObject:temp_Dictn];
-    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Susan G Komen 2017 Golf Classic",@"Event_Name",@"Mar 31,2017 11:00AM EST",@"Event_Time", nil];
-    [ARR_allevent addObject:temp_Dictn];
-    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
-    [ARR_allevent addObject:temp_Dictn];
+//    NSDictionary *temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
+//    [ARR_allevent addObject:temp_Dictn];
+//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Murray Bros. Caddyshack Charity Golf Tournament",@"Event_Name",@"Mar 22, 2017 03:00PM EST",@"Event_Time", nil];
+//    [ARR_allevent addObject:temp_Dictn];
+//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Susan G Komen 2017 Golf Classic",@"Event_Name",@"Mar 31,2017 11:00AM EST",@"Event_Time", nil];
+//    [ARR_allevent addObject:temp_Dictn];
+//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
+//    [ARR_allevent addObject:temp_Dictn];
+//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Murray Bros. Caddyshack Charity Golf Tournament",@"Event_Name",@"Mar 22, 2017 03:00PM EST",@"Event_Time", nil];
+//    [ARR_allevent addObject:temp_Dictn];
+//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Susan G Komen 2017 Golf Classic",@"Event_Name",@"Mar 31,2017 11:00AM EST",@"Event_Time", nil];
+//    [ARR_allevent addObject:temp_Dictn];
+//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
+//    [ARR_allevent addObject:temp_Dictn];
+//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Murray Bros. Caddyshack Charity Golf Tournament",@"Event_Name",@"Mar 22, 2017 03:00PM EST",@"Event_Time", nil];
+//    [ARR_allevent addObject:temp_Dictn];
+//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Susan G Komen 2017 Golf Classic",@"Event_Name",@"Mar 31,2017 11:00AM EST",@"Event_Time", nil];
+//    [ARR_allevent addObject:temp_Dictn];
+//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
+//    [ARR_allevent addObject:temp_Dictn];
     
 //    [ARR_states addObject:@"Qassim"];
 //    [ARR_states addObject:@"Riyadh"];
@@ -658,11 +700,12 @@
     }
     
         NSDictionary *temp_DICN = [ARR_allevent objectAtIndex:indexPath.row];
-        cell.lbl_event_name.text = [temp_DICN valueForKey:@"Event_Name"];
+        cell.lbl_event_name.text = [temp_DICN valueForKey:@"name"];
         cell.lbl_event_name.numberOfLines = 0;
         [cell.lbl_event_name sizeToFit];
-        cell.lbl_event_time.text = [temp_DICN valueForKey:@"Event_Time"];
-        
+    
+        cell.lbl_event_time.text = [self getLocalDateTimeFromUTC:[temp_DICN valueForKey:@"start_date"]];
+    
         [cell.BTN_View_detail setTag:indexPath.row];
         [cell.BTN_View_detail addTarget:self action:@selector(BTN_ALL_EVENT:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -671,28 +714,7 @@
 //- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 //{
 //}
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-    NSDictionary *temp_DICN = [ARR_allevent objectAtIndex:indexPath.row];
-    NSString *str = [NSString stringWithFormat:@"%@",[temp_DICN valueForKey:@"Event_Name"]];
 
-    CGSize labelWidth = CGSizeMake(_tbl_eventlst.frame.size.width - 16, CGFLOAT_MAX); // 300 is fixed width of label. You can change this value
-    CGRect textRect;
-    
-    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-    {
-        textRect = [str boundingRectWithSize:labelWidth options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:19.0]} context:nil];
-    }
-    else
-    {
-        textRect = [str boundingRectWithSize:labelWidth options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:14.0]} context:nil];
-    }
-    
-    int calculatedHeight = textRect.size.height+10;
-    return calculatedHeight+20;
-    
-}
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row % 2) {
@@ -712,7 +734,16 @@
     
     NSLog(@"Index path of All Event %@",index_str);
     
-    [self performSegueWithIdentifier:@"eventDetailidentifier" sender:self];
+    NSDictionary *dictdat =[ARR_allevent objectAtIndex:[index_str intValue]];
+    [[NSUserDefaults standardUserDefaults] setValue:[dictdat valueForKey:@"id"] forKey:@"event_id"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    //    [self performSegueWithIdentifier:@"hometoeventdetail" sender:self];
+    VW_overlay.hidden = NO;
+    [activityIndicatorView startAnimating];
+    [self performSelector:@selector(geteventcode) withObject:activityIndicatorView afterDelay:0.01];
+    
+//    [self performSegueWithIdentifier:@"eventDetailidentifier" sender:self];
 }
 
 #pragma mark -
@@ -871,6 +902,58 @@
     _ARR_states = [json_DATA allKeys];
     
     
+}
+
+#pragma mark - Date Convert
+-(NSString *)getLocalDateTimeFromUTC:(NSString *)strDate
+{
+    
+    NSLog(@"Date Input tbl %@",strDate);
+    
+    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ"];
+    NSDate *currentDate = [dateFormatter dateFromString:strDate];
+    NSLog(@"CurrentDate:%@", currentDate);
+    NSDateFormatter *newFormat = [[NSDateFormatter alloc] init];
+    [newFormat setDateFormat:@"MMM dd, yyyy h:mm a"];
+    [newFormat setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"EST"]];
+    return [NSString stringWithFormat:@"%@ EST",[newFormat stringFromDate:currentDate]];
+}
+
+#pragma mark - Api Integration
+-(void)geteventcode
+{
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    NSString *event_id = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"event_id"]];
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@events/event_detail/?id=%@",SERVER_URL,event_id];
+    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"upcoming_events"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [self performSegueWithIdentifier:@"eventDetailidentifier" sender:self];
+    }
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
 }
 
 @end

@@ -97,105 +97,103 @@
 
 -(void) button_TAPPed
 {
-    [self performSegueWithIdentifier:@"qtytochkoutdetidentifier" sender:self];
+    [self performSegueWithIdentifier:@"qtydetailtoplaceorder" sender:self];
 }
 
 #pragma mark - Uiview customisation
 -(void) setup_View
 {
     
-    self.lbl_name_ticket.text=@"Winning Ticket";
+//    self.lbl_name_ticket.text=@"Winning Ticket";
     qtynum = [[[NSUserDefaults standardUserDefaults] valueForKey:@"QUANTITY"]intValue];
-    self.lbl_qty.text=[NSString stringWithFormat:@"Qty:%d",qtynum];
+//    self.lbl_qty.text=[NSString stringWithFormat:@"Qty:%d",qtynum];
     
-    NSString *show = @"Winning Ticket";
-    NSString *place = @"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
-    NSString *ticketnumber = @"56A8WQ";
-    NSString *club_name = @"Grand Cypress Country Club";
+//    NSString *show = @"Winning Ticket";
+//    NSString *place = @"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
+//    NSString *ticketnumber = @"56A8WQ";
+//    NSString *club_name = @"Grand Cypress Country Club";
     
-    NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@ - %@",show,place,ticketnumber,club_name];
+//    NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@ - %@",show,place,ticketnumber,club_name];
     
-    text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
-    text = [text stringByReplacingOccurrencesOfString:@"(null)" withString:@"Not Mentioned"];
+//    text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
+//    text = [text stringByReplacingOccurrencesOfString:@"(null)" withString:@"Not Mentioned"];
     
     // If attributed text is supported (iOS6+)
-    if ([self.lbl_des_cription respondsToSelector:@selector(setAttributedText:)]) {
+//    if ([self.lbl_des_cription respondsToSelector:@selector(setAttributedText:)]) {
         
         // Define general attributes for the entire text
-        NSDictionary *attribs = @{
-                                  NSForegroundColorAttributeName: self.lbl_des_cription.textColor,
-                                  NSFontAttributeName: self.lbl_des_cription.font
-                                  };
-        NSMutableAttributedString *attributedText =
-        [[NSMutableAttributedString alloc] initWithString:text
-                                               attributes:attribs];
+//        NSDictionary *attribs = @{
+//                                  NSForegroundColorAttributeName: self.lbl_des_cription.textColor,
+//                                 NSFontAttributeName: self.lbl_des_cription.font
+//                                  };
+//        NSMutableAttributedString *attributedText =
+//        [[NSMutableAttributedString alloc] initWithString:text
+//                                               attributes:attribs];
         
         // Red text attributes
         //            UIColor *redColor = [UIColor redColor];
-        NSRange cmp = [text rangeOfString:show];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0]}
-                                range:cmp];
+//        NSRange cmp = [text rangeOfString:show];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+//        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0]}
+//                               range:cmp];
         
-        NSRange plce = [text rangeOfString:place];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0]}
-                                range:plce];
+//        NSRange plce = [text rangeOfString:place];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+//        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0]}
+//                                range:plce];
         
         
-        self.lbl_des_cription.attributedText = attributedText;
-    }
-    else
-    {
-        self.lbl_des_cription.text = text;
-    }
+//        self.lbl_des_cription.attributedText = attributedText;
+//    }
+//    else
+//    {
+//        self.lbl_des_cription.text = text;
+//    }
     
-    _lbl_des_cription.numberOfLines = 0;
-    [_lbl_des_cription sizeToFit];
+//    _lbl_des_cription.numberOfLines = 0;
+//    [_lbl_des_cription sizeToFit];
     
-    CGRect frame_NEW;
+//    CGRect frame_NEW;
     
-    frame_NEW = _VW_line1.frame;
-    frame_NEW.origin.y = _lbl_des_cription.frame.origin.y + _lbl_des_cription.frame.size.height + 10;
-    _VW_line1.frame = frame_NEW;
+//    frame_NEW = _VW_line1.frame;
+//    frame_NEW.origin.y = _lbl_des_cription.frame.origin.y + _lbl_des_cription.frame.size.height + 10;
+//    _VW_line1.frame = frame_NEW;
     
-    frame_NEW = _lbl_sub_total.frame;
-    frame_NEW.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
-    _lbl_sub_total.frame = frame_NEW;
+//    frame_NEW = _lbl_sub_total.frame;
+//    frame_NEW.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
+//    _lbl_sub_total.frame = frame_NEW;
     
-    frame_NEW = _lbl_sub_amount.frame;
-    frame_NEW.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
-    _lbl_sub_amount.frame = frame_NEW;
+//    frame_NEW = _lbl_sub_amount.frame;
+//    frame_NEW.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
+//   _lbl_sub_amount.frame = frame_NEW;
     
-    frame_NEW = _VW_line2.frame;
-    frame_NEW.origin.y = _lbl_sub_total.frame.origin.y + _lbl_sub_total.frame.size.height + 10;
-    _VW_line2.frame = frame_NEW;
+//    frame_NEW = _VW_line2.frame;
+//    frame_NEW.origin.y = _lbl_sub_total.frame.origin.y + _lbl_sub_total.frame.size.height + 10;
+//    _VW_line2.frame = frame_NEW;
     
-    frame_NEW = _lbl_total.frame;
-    frame_NEW.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
-    _lbl_total.frame = frame_NEW;
+//    frame_NEW = _lbl_total.frame;
+//    frame_NEW.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
+//    _lbl_total.frame = frame_NEW;
     
-    frame_NEW = _lbl_total_amount.frame;
-    frame_NEW.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
-    _lbl_total_amount.frame = frame_NEW;
+//    frame_NEW = _lbl_total_amount.frame;
+//    frame_NEW.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
+//    _lbl_total_amount.frame = frame_NEW;
     
 //    frame_NEW = _VW_main.frame;
 //    frame_NEW.size.height = _lbl_total.frame.origin.y + _VW_line2.frame.size.height + 15;
 //    _VW_main.frame = frame_NEW;
     
-    self.VW_main.frame = CGRectMake(0,self.navigationController.navigationBar.frame.size.height + 20,
-                                  self.view.bounds.size.width,_lbl_des_cription.frame.size.height);
-    [self.view addSubview:self.VW_main];
+//    self.VW_main.frame = CGRectMake(0,self.navigationController.navigationBar.frame.size.height + 20,
+//                                  self.view.bounds.size.width,_lbl_des_cription.frame.size.height);
+//    [self.view addSubview:self.VW_main];
     
-    [self.view addSubview:self.VW_pur];
-    //    [self.VW_pur addSubview:self.prchase_tab];
-    NSArray *Array = [self.lbl_qty.text componentsSeparatedByString:@":"];
-    NSLog(@"the values:%@",Array);
+//    [self.view addSubview:self.VW_pur];
+
     
-    t = [[Array objectAtIndex:1] intValue];
+    t = qtynum;
     NSLog(@"the values:%d",t);
     [_tbl_content reloadData];
     
-    float height = self.view.frame.size.height-_VW_main.frame.size.height;
-    self.VW_pur.frame=CGRectMake(0,self.VW_main.frame.size.height+225,self.view.bounds.size.width,height-225);
+//    float height = self.view.frame.size.height-_VW_main.frame.size.height;
+//    self.VW_pur.frame=CGRectMake(0,self.VW_main.frame.size.height+225,self.view.bounds.size.width,height-225);
     
     [_BTN_checkout addTarget:self action:@selector(button_TAPPed) forControlEvents:UIControlEventTouchUpInside];
 }

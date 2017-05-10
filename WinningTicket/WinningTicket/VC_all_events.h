@@ -21,7 +21,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *VW_filter;
 @property (weak, nonatomic) IBOutlet UIView *VW_event_titl;
-@property (weak, nonatomic) IBOutlet UIView *tbl_eventlst;
+@property (weak, nonatomic) IBOutlet UITableView *tbl_eventlst;
 
 @property (weak, nonatomic) IBOutlet UITextField *TXT_state;
 @property (weak, nonatomic) IBOutlet UITextField *TXT_fromdate;

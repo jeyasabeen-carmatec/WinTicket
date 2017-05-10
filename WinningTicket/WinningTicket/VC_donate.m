@@ -20,6 +20,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    NSError *error;
+    NSMutableDictionary *json_DAT = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"state_response"] options:NSASCIIStringEncoding error:&error];
+    NSLog(@"The response %@",json_DAT);
+    self.ARR_states=[json_DAT allKeys];
+    
     [self setup_view];
 }
 

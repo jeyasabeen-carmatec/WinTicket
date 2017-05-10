@@ -21,7 +21,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *TXT_zip;
 @property (weak, nonatomic) IBOutlet UITextField *TXT_phone;
 @property (nonatomic, strong) UIPickerView *state_pickerView;
-
+@property(nonatomic,weak)IBOutlet UIButton *BTN_save;
 @property (weak, nonatomic) IBOutlet UIView *VW_contents;
 @property (weak, nonatomic) IBOutlet UIScrollView *scroll_contents;
 

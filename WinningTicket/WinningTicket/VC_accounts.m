@@ -8,10 +8,13 @@
 
 #import "VC_accounts.h"
 #import "cellACCOUNTS.h"
+#import "DGActivityIndicatorView.h"
 
 @interface VC_accounts ()
 {
     NSArray *section1,*section2;
+    UIView *VW_overlay;
+    DGActivityIndicatorView *activityIndicatorView;
 }
 
 @end
@@ -235,10 +238,8 @@
                 
             case 3:
             {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self performSegueWithIdentifier:@"acounttotransactionidentifier" sender:self];
-                    
-                });
+                [self transaction_history];
+                
             }
                 break;
                 
@@ -251,6 +252,7 @@
         switch (indexPath.row) {
             case 0:
             {
+                
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self performSegueWithIdentifier:@"accnttonotificationidentifier" sender:self];
                     
@@ -305,10 +307,13 @@
                 
             case 6:
             {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self performSegueWithIdentifier:@"accountstoeditprofileidentifier" sender:self];
-                    
-                });
+                [self myprofileapicalling];
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    [self performSegueWithIdentifier:@"accountstoeditprofileidentifier" sender:self];
+//                    
+//                    
+//                    
+//                });
             }
                 break;
                 
@@ -335,6 +340,79 @@
         }
     }
 }
+-(void)myprofileapicalling
+{
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@view_profile",SERVER_USR];
+    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+//        NSLog(@" THe user data is :%@",[[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"]);
+       [self performSegueWithIdentifier:@"accountstoeditprofileidentifier" sender:self];
+        
+    }
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Interrupted" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
 
+}
+-(void)transaction_history
+{
+    
+        NSError *error;
+        NSHTTPURLResponse *response = nil;
+        
+        NSString *urlGetuser =[NSString stringWithFormat:@"%@payments/transaction_history",SERVER_URL];
+        NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+        NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setURL:urlProducts];
+        [request setHTTPMethod:@"GET"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
+        [request setHTTPShouldHandleCookies:NO];
+        NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        if (aData)
+        {
+            
+            [activityIndicatorView stopAnimating];
+            VW_overlay.hidden = YES;
+            [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"transaction_data"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            //        NSLog(@" THe user data is :%@",[[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"]);
+            [self performSegueWithIdentifier:@"acounttotransactionidentifier" sender:self];
+            
+            
+        }
+        else
+        {
+            [activityIndicatorView stopAnimating];
+            VW_overlay.hidden = YES;
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Interrupted" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            [alert show];
+        }
+
+}
 
 @end

@@ -11,6 +11,7 @@
 
 @interface VC_transactionhistory ()
 {
+    NSMutableArray *transaction_history;
     NSMutableArray *ARR_contents;
 }
 
@@ -43,6 +44,9 @@
 #pragma mark - View customisation
 -(void) setup_VIEW
 {
+    NSError *error;
+   transaction_history=(NSMutableArray *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"transaction_data"] options:NSASCIIStringEncoding error:&error];
+    NSLog(@"the user data is:%@",transaction_history);
     ARR_contents = [[NSMutableArray alloc] init];
     NSDictionary *temp_Dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"#0003125",@"ticket_number",@"Nov 29, 2016 5:12pm EST",@"date",@"Donation",@"purpose",@"-200.00",@"amount", nil];
     [ARR_contents addObject:temp_Dictin];
@@ -50,7 +54,14 @@
     [ARR_contents addObject:temp_Dictin];
     temp_Dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"#0001561",@"ticket_number",@"Oct 31, 2016 2:27pm EST",@"date",@"Add Funds",@"purpose",@"60.00",@"amount", nil];
     [ARR_contents addObject:temp_Dictin];
-    
+    if(temp_Dictin[@"value"] ==(id)[NSNull null])
+    {
+        NSLog(@"dict is having null");
+    }
+    else{
+        NSLog(@"Not NUll");
+    }
+
     [_tbl_contents reloadData];
 }
 
@@ -63,7 +74,7 @@
 #pragma mark - UITableview
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [ARR_contents count];
+    return [transaction_history count];
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -86,16 +97,33 @@
     
 //    [NSDictionary dictionaryWithObjectsAndKeys:@"#0003125",@"ticket_number",@"Nov 29, 2016 5:12pm EST",@"date",@"Donation",@"purpose",@"-200.00",@"amount", nil];
     
-    NSDictionary *temp_dictin = [ARR_contents objectAtIndex:indexPath.row];
-    NSString *ticket_number = [temp_dictin valueForKey:@"ticket_number"];
-    NSString *date = [temp_dictin valueForKey:@"date"];
-    NSString *purpose = [temp_dictin valueForKey:@"purpose"];
-    NSString *amount = [temp_dictin valueForKey:@"amount"];
+    NSDictionary *temp_dictin = [transaction_history objectAtIndex:indexPath.row];
+    NSString *ticket_number = [NSString stringWithFormat:@"#%@",[temp_dictin valueForKey:@"order_id"]];
+    NSString *date = [self getLocalDateTimeFromUTC:[temp_dictin valueForKey:@"created_at"]];
+    NSString *purpose = [temp_dictin valueForKey:@"transaction_type"];
+    NSString *amount = [NSString stringWithFormat:@"-%@",[temp_dictin valueForKey:@"amount"]];
     
     cell.lbl_ticket_ID.text = ticket_number;
     cell.lbl_datetime.text = date;
     cell.lbl_ticketreson.text = purpose;
+    NSString *credit=[temp_dictin valueForKey:@"credit"];
+    NSString *debit=[temp_dictin valueForKey:@"debit"];
+    if(temp_dictin[@"value" ] !=(id)[NSNull null])
+    {
+        NSLog(@"dict is having null");
+    }
+    else{
+        NSLog(@"Not NUll");
+    }
     
+//    if([credit isEqualToString:@"<null>"])
+//    {
+//        credit=@"No amount";
+//    }
+//    if([debit isEqualToString:@"<null>"])
+//    {
+//        debit=@"-you are debited";
+//    }
     
     float new_val = [amount floatValue];
     if (new_val < 0) {
@@ -128,5 +156,34 @@
         return 95;
     }
 }
+-(NSString *)getLocalDateTimeFromUTC:(NSString *)strDate
+{
+    
+    NSLog(@"Date Input tbl %@",strDate);
+    //
+    //    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
+    //
+    //    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ"];
+    //    NSDate *currentDate = [dateFormatter dateFromString:strDate];
+    //
+    //    NSLog(@"CurrentDate:%@", currentDate);
+    //
+    //    NSDateFormatter *newFormat = [[NSDateFormatter alloc] init];
+    //    [newFormat setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"EST"]]; //MMM dd, yyyy HH:mm a
+    //    [newFormat setDateFormat:@"MMM dd, yyyy HH:mm a"];
+    //
+    //    return [NSString stringWithFormat:@"%@ EST",[newFormat stringFromDate:currentDate]];
+    
+    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ"];
+    NSDate *currentDate = [dateFormatter dateFromString:strDate];
+    NSLog(@"CurrentDate:%@", currentDate);
+    NSDateFormatter *newFormat = [[NSDateFormatter alloc] init];
+    [newFormat setDateFormat:@"MMM dd, yyyy h:mm a"];
+    [newFormat setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"EST"]];
+    return [NSString stringWithFormat:@"%@ EST",[newFormat stringFromDate:currentDate]];
+}
+
 
 @end

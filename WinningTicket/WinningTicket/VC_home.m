@@ -26,6 +26,38 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+ 
+*/
+-(void) viewWillAppear:(BOOL)animated
+{
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    
+    
+    _tbl_all_event.estimatedRowHeight = 10.0;
+    _tbl_all_event.rowHeight = UITableViewAutomaticDimension;
+    
+    [self get_Data];
+    [self setup_VIEW];
+    [self setup_VIEW];
+    
     VW_overlay = [[UIView alloc]init];
     VW_overlay.frame = [UIScreen mainScreen].bounds;
     //    VW_overlay.center = self.view.center;
@@ -50,32 +82,6 @@
     //        activityIndicatorView.center=myview.center;
     
     VW_overlay.hidden = YES;
-    
-    [self get_Data];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
--(void) viewWillAppear:(BOOL)animated
-{
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
-                                                  forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    
-    [self setup_VIEW];
     
     
     
@@ -107,6 +113,8 @@
     [_tab_HOME setSelectedItem:[_tab_HOME.items objectAtIndex:0]];
     [_segment_bottom setSelectedSegmentIndex:0];
     
+    
+    
     _lbl_titl_event_code.hidden = YES;
     _VW_hold_code.hidden = YES;
     _BTN_cancel.hidden = YES;
@@ -116,6 +124,8 @@
     [_BTN_view_all_event addTarget:self action:@selector(BTN_enter_event_code:) forControlEvents:UIControlEventTouchUpInside];
     [_BTN_cancel addTarget:self action:@selector(BTN_cancel:) forControlEvents:UIControlEventTouchUpInside];
     [_BTN_enter_event_code addTarget:self action:@selector(BTN_enter_code:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
     
     _TXT_0.tag = 0;
     _TXT_1.tag = 1;
@@ -146,6 +156,54 @@
 //    [ARR_allevent addObject:temp_Dictn];
 //    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
 //    [ARR_allevent addObject:temp_Dictn];
+    
+
+    if (_BTN_view_all_event.hidden == YES) {
+    
+        _TXT_0.text = @"";
+        _TXT_1.text = @"";
+        _TXT_2.text = @"";
+        _TXT_3.text = @"";
+        _TXT_4.text = @"";
+        _TXT_5.text = @"";
+        
+        [UIView beginAnimations:@"LeftFlip" context:nil];
+        [UIView setAnimationDuration:0.8];
+        _BTN_view_all_event.hidden = NO;
+        [UIView setAnimationCurve:UIViewAnimationCurveLinear];
+        [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:_BTN_view_all_event cache:YES];
+        [UIView commitAnimations];
+        
+        _lbl_titl_event_code.hidden = YES;
+        
+        [UIView transitionWithView:_VW_hold_code
+                          duration:0.4
+                           options:UIViewAnimationOptionTransitionCurlUp
+                        animations:NULL
+                        completion:NULL];
+        [self.VW_hold_code  setHidden:YES];
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            _lbl_upcoming_event.frame = CGRectMake(_lbl_upcoming_event.frame.origin.x, _lbl_upcoming_event.frame.origin.y - 90, _lbl_upcoming_event.frame.size.width, _lbl_upcoming_event.frame.size.height);
+            _scroll_content.frame = CGRectMake(_scroll_content.frame.origin.x, _scroll_content.frame.origin.y - 90, _scroll_content.frame.size.width, _scroll_content.frame.size.height + 90);
+            _VW_hold_BTN.frame = CGRectMake(_VW_hold_BTN.frame.origin.x, _VW_hold_BTN.frame.origin.y, _VW_hold_BTN.frame.size.width, _VW_hold_BTN.frame.size.height - 90);
+        }];
+        [UIView commitAnimations];
+        
+        [UIView transitionWithView:_BTN_cancel
+                          duration:0.1
+                           options:UIViewAnimationOptionTransitionCurlUp
+                        animations:NULL
+                        completion:NULL];
+        [self.BTN_cancel  setHidden:YES];
+        
+        [UIView transitionWithView:_BTN_enter_event_code
+                          duration:0.4
+                           options:UIViewAnimationOptionTransitionCurlUp
+                        animations:NULL
+                        completion:NULL];
+        [self.BTN_enter_event_code  setHidden:YES];
+    }
     
     CGRect new_frame = _tbl_upcomming_event.frame;
     new_frame.size.height = [self upcommingEvent_height];
@@ -251,6 +309,8 @@
 {
     [super viewDidLayoutSubviews];
     [self.scroll_content layoutIfNeeded];
+    [_tbl_upcomming_event layoutIfNeeded];
+    [_tbl_all_event layoutIfNeeded];
     _scroll_content.contentSize = CGSizeMake(_scroll_content.frame.size.width, _VW_Scroll_CONTENT.frame.size.height);
 }
 
@@ -258,12 +318,18 @@
 - (CGFloat)upcommingEvent_height
 {
     [_tbl_upcomming_event layoutIfNeeded];
+    
+    NSLog(@"Upcomming event Height = %f",[_tbl_upcomming_event contentSize].height);
+    
     return [_tbl_upcomming_event contentSize].height;
     
 }
 - (CGFloat)allEvent_height
 {
     [_tbl_all_event layoutIfNeeded];
+    
+    NSLog(@"All event Height = %f",[_tbl_all_event contentSize].height);
+    
     return [_tbl_all_event contentSize].height;
     
 }
@@ -349,55 +415,7 @@
 //- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 //{
 //}
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (tableView == _tbl_upcomming_event) {
-        
-        NSDictionary *temp_DICN = [ARR_upcommingevent objectAtIndex:indexPath.row];
-        NSString *str = [NSString stringWithFormat:@"%@",[temp_DICN valueForKey:@"name"]];
-        
-        
-        CGSize labelWidth = CGSizeMake(_tbl_upcomming_event.frame.size.width - 16, CGFLOAT_MAX); // 300 is fixed width of label. You can change this value
-        CGRect textRect;
-        
-        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-        {
-            textRect = [str boundingRectWithSize:labelWidth options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:19.0]} context:nil];
-        }
-        else
-        {
-            textRect = [str boundingRectWithSize:labelWidth options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:14.0]} context:nil];
-        }
-        
-        
-        int calculatedHeight = textRect.size.height+10;
-        
-        return calculatedHeight+20;
-    }
-    else
-    {
-        NSDictionary *temp_DICN = [ARR_allevent objectAtIndex:indexPath.row];
-        NSString *str = [NSString stringWithFormat:@"%@",[temp_DICN valueForKey:@"name"]];
-        
-        
-        CGSize labelWidth = CGSizeMake(_tbl_all_event.frame.size.width - 16, CGFLOAT_MAX); // 300 is fixed width of label. You can change this value
-        CGRect textRect;
-        
-        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-        {
-            textRect = [str boundingRectWithSize:labelWidth options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:19.0]} context:nil];
-        }
-        else
-        {
-            textRect = [str boundingRectWithSize:labelWidth options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:14.0]} context:nil];
-        }
-        
-        
-        int calculatedHeight = textRect.size.height+10;
-        
-        return calculatedHeight+25;
-    }
-}
+
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row % 2) {
@@ -435,7 +453,14 @@
     
     NSLog(@"Index path of All Event %@",index_str);
     
-    [self performSegueWithIdentifier:@"hometoeventdetail" sender:self];
+    NSDictionary *dictdat =[ARR_allevent objectAtIndex:[index_str intValue]];
+    [[NSUserDefaults standardUserDefaults] setValue:[dictdat valueForKey:@"id"] forKey:@"event_id"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+//    [self performSegueWithIdentifier:@"hometoeventdetail" sender:self];
+    VW_overlay.hidden = NO;
+    [activityIndicatorView startAnimating];
+    [self performSelector:@selector(geteventcode) withObject:activityIndicatorView afterDelay:0.01];
 }
 
 #pragma mark - Button Actions
@@ -529,6 +554,11 @@
 -(void)BTN_enter_code:(id)sender
 {
     NSLog(@"Enter Code Tapped");
+    
+    VW_overlay.hidden = NO;
+    [activityIndicatorView startAnimating];
+    
+    [self performSelector:@selector(get_EVENTDETAIL) withObject:activityIndicatorView afterDelay:0.01];
 }
 
 #pragma mark - Textfield editing
@@ -676,7 +706,6 @@
     ARR_allevent = [json_DATA valueForKey:@"all_events"];
     ARR_upcommingevent = [json_DATA valueForKey:@"upcoming_events"];
     
-    NSLog(@"All zones %@",[NSTimeZone abbreviationDictionary]);
 }
 
 #pragma mark - Date Convert
@@ -684,19 +713,6 @@
 {
 
     NSLog(@"Date Input tbl %@",strDate);
-//
-//    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
-//
-//    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ"];
-//    NSDate *currentDate = [dateFormatter dateFromString:strDate];
-//    
-//    NSLog(@"CurrentDate:%@", currentDate);
-//    
-//    NSDateFormatter *newFormat = [[NSDateFormatter alloc] init];
-//    [newFormat setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"EST"]]; //MMM dd, yyyy HH:mm a
-//    [newFormat setDateFormat:@"MMM dd, yyyy HH:mm a"];
-//    
-//    return [NSString stringWithFormat:@"%@ EST",[newFormat stringFromDate:currentDate]];
     
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
     [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
@@ -743,5 +759,98 @@
         [alert show];
     }
 }
+
+- (BOOL) get_ALLevents
+{
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    
+    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@events/all_events",SERVER_URL];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    //    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+    
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"ALLEvents"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        return YES;
+    }
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+        return NO;
+    }
+}
+
+- (void) get_EVENTDETAIL
+{
+    NSError *error;
+    NSError *err;
+    NSHTTPURLResponse *response = nil;
+    NSString *code = [NSString stringWithFormat:@"%@%@%@%@%@%@",_TXT_0.text,_TXT_1.text,_TXT_2.text,_TXT_3.text,_TXT_4.text,_TXT_5.text];
+    NSDictionary *parameters = @{ @"code":  code};
+    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&err];
+    NSString *urlGetuser = [NSString stringWithFormat:@"%@events/event_code",SERVER_URL];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    [request setHTTPBody:postData];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+//        NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+//        NSLog(@"The response CODE %@",json_DATA);
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"upcoming_events"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [self performSegueWithIdentifier:@"hometoeventdetail" sender:self];
+    }
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+}
+
+#pragma mark - Custom Segue
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    if ([identifier isEqualToString:@"alleventsidentifier"])
+    {
+        VW_overlay.hidden = NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(get_ALLevents) withObject:activityIndicatorView afterDelay:0.01];
+//        [self get_ALLevents];
+    }
+    return YES;
+}
+
+
 
 @end
