@@ -11,7 +11,9 @@
 
 @interface VC_qty_detail ()
 {
-    int qtynum,t;
+    int t;
+    CGRect main_Frame;
+    NSMutableArray *userDetails;
 }
 
 @end
@@ -97,136 +99,205 @@
 
 -(void) button_TAPPed
 {
-    [self performSegueWithIdentifier:@"qtydetailtoplaceorder" sender:self];
+    NSLog(@"BTN checkout tapped Current values are %@",userDetails);
+    
+    int i;
+    
+    purchase_Cell *pu_cell = [[purchase_Cell alloc]init];
+    for(i = 0; i < userDetails.count; i++)
+        {
+           NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
+           dict = [userDetails objectAtIndex:i];
+            
+            NSString *email = [dict objectForKey:@"email"];
+            
+            if([[dict objectForKey:@"first_name"] isEqual:@""])
+                {
+                   NSLog(@"emailnull index %i",i);
+                   NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
+                   NSLog(@"path  = %@",path);
+                   pu_cell = [self.tbl_content cellForRowAtIndexPath:path];
+                   [pu_cell.fname becomeFirstResponder];
+                   break;
+                 }
+
+            if([[dict objectForKey:@"last_name"] isEqual:@""])
+            {
+                NSLog(@"first_namenull index %i",i);
+                NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
+                NSLog(@"path  = %@",path);
+                pu_cell = [self.tbl_content cellForRowAtIndexPath:path];
+                [pu_cell.lname becomeFirstResponder];
+                break;
+            }
+            if([[dict objectForKey:@"email"] isEqual:@""])
+             {
+                 NSLog(@"last_namenull index %i",i);
+                 NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
+                 NSLog(@"path  = %@",path);
+                 pu_cell = [self.tbl_content cellForRowAtIndexPath:path];
+                 [pu_cell.email becomeFirstResponder];
+                 break;
+              }
+            if (email.length !=0) {
+                    NSString *emailRegEx = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,10}";
+                    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegEx];
+                    
+                    if ([emailTest evaluateWithObject:email] == NO)
+                    {
+                        NSLog(@"last_namenull index %i",i);
+                        NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
+                        NSLog(@"path  = %@",path);
+                        pu_cell = [self.tbl_content cellForRowAtIndexPath:path];
+                        [pu_cell.email becomeFirstResponder];
+                        break;
+                    }
+            }
+    }
+//
+    
+    if (i == userDetails.count) {
+        [self qty_detailPage];
+    }
+    
+    
 }
+
+-(void) qty_detailPage
+{
+    NSError *error;
+    NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"QUANTITY"] options:NSASCIIStringEncoding error:&error];
+    
+    
+    NSError *err;
+    NSHTTPURLResponse *response = nil;
+    NSDictionary *parameters = @{ @"recipients": userDetails, @"order_item" : @{ @"id":[dict valueForKey:@"order_item_id"]}};
+    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&err];
+    NSString *urlGetuser = [NSString stringWithFormat:@"%@events/create_update_recipients",SERVER_URL];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    [request setHTTPBody:postData];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        dict = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"Updated Status %@",dict);
+        
+        if ([[dict valueForKey:@"message"] isEqualToString:@"Recipient(s) created/updated successfully."]) {
+            [self performSegueWithIdentifier:@"qtydetailtoplaceorder" sender:self];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            [alert show];
+        }
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+}
+
 
 #pragma mark - Uiview customisation
 -(void) setup_View
 {
-    
-//    self.lbl_name_ticket.text=@"Winning Ticket";
-    qtynum = [[[NSUserDefaults standardUserDefaults] valueForKey:@"QUANTITY"]intValue];
-//    self.lbl_qty.text=[NSString stringWithFormat:@"Qty:%d",qtynum];
-    
-//    NSString *show = @"Winning Ticket";
-//    NSString *place = @"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
-//    NSString *ticketnumber = @"56A8WQ";
-//    NSString *club_name = @"Grand Cypress Country Club";
-    
-//    NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@ - %@",show,place,ticketnumber,club_name];
-    
-//    text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
-//    text = [text stringByReplacingOccurrencesOfString:@"(null)" withString:@"Not Mentioned"];
-    
-    // If attributed text is supported (iOS6+)
-//    if ([self.lbl_des_cription respondsToSelector:@selector(setAttributedText:)]) {
-        
-        // Define general attributes for the entire text
-//        NSDictionary *attribs = @{
-//                                  NSForegroundColorAttributeName: self.lbl_des_cription.textColor,
-//                                 NSFontAttributeName: self.lbl_des_cription.font
-//                                  };
-//        NSMutableAttributedString *attributedText =
-//        [[NSMutableAttributedString alloc] initWithString:text
-//                                               attributes:attribs];
-        
-        // Red text attributes
-        //            UIColor *redColor = [UIColor redColor];
-//        NSRange cmp = [text rangeOfString:show];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-//        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0]}
-//                               range:cmp];
-        
-//        NSRange plce = [text rangeOfString:place];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-//        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0]}
-//                                range:plce];
-        
-        
-//        self.lbl_des_cription.attributedText = attributedText;
-//    }
-//    else
-//    {
-//        self.lbl_des_cription.text = text;
-//    }
-    
-//    _lbl_des_cription.numberOfLines = 0;
-//    [_lbl_des_cription sizeToFit];
-    
-//    CGRect frame_NEW;
-    
-//    frame_NEW = _VW_line1.frame;
-//    frame_NEW.origin.y = _lbl_des_cription.frame.origin.y + _lbl_des_cription.frame.size.height + 10;
-//    _VW_line1.frame = frame_NEW;
-    
-//    frame_NEW = _lbl_sub_total.frame;
-//    frame_NEW.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
-//    _lbl_sub_total.frame = frame_NEW;
-    
-//    frame_NEW = _lbl_sub_amount.frame;
-//    frame_NEW.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
-//   _lbl_sub_amount.frame = frame_NEW;
-    
-//    frame_NEW = _VW_line2.frame;
-//    frame_NEW.origin.y = _lbl_sub_total.frame.origin.y + _lbl_sub_total.frame.size.height + 10;
-//    _VW_line2.frame = frame_NEW;
-    
-//    frame_NEW = _lbl_total.frame;
-//    frame_NEW.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
-//    _lbl_total.frame = frame_NEW;
-    
-//    frame_NEW = _lbl_total_amount.frame;
-//    frame_NEW.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
-//    _lbl_total_amount.frame = frame_NEW;
-    
-//    frame_NEW = _VW_main.frame;
-//    frame_NEW.size.height = _lbl_total.frame.origin.y + _VW_line2.frame.size.height + 15;
-//    _VW_main.frame = frame_NEW;
-    
-//    self.VW_main.frame = CGRectMake(0,self.navigationController.navigationBar.frame.size.height + 20,
-//                                  self.view.bounds.size.width,_lbl_des_cription.frame.size.height);
-//    [self.view addSubview:self.VW_main];
-    
-//    [self.view addSubview:self.VW_pur];
+    [_scroll_TBL addSubview:_tbl_content];
 
+    NSError *error;
+    NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"QUANTITY"] options:NSASCIIStringEncoding error:&error];
     
-    t = qtynum;
-    NSLog(@"the values:%d",t);
+    NSLog(@"The value stored is %@",dict);
+    t = [[dict valueForKey:@"quantity"] intValue];
+    
+    [[NSUserDefaults standardUserDefaults] setValue:[dict valueForKey:@"quantity"] forKey:@"QTY"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    userDetails = [[NSMutableArray alloc] init];
+    if (t-1 != 0)
+    {
+        for(int i=0; i < t-1; i++)
+        {
+            NSDictionary *userDictionary = [[NSDictionary alloc] initWithObjectsAndKeys: @"", @"first_name", @"", @"last_name",@"", @"email", nil];
+            [userDetails addObject:userDictionary];
+        }
+    }
+    
     [_tbl_content reloadData];
-    
-//    float height = self.view.frame.size.height-_VW_main.frame.size.height;
-//    self.VW_pur.frame=CGRectMake(0,self.VW_main.frame.size.height+225,self.view.bounds.size.width,height-225);
-    
+    main_Frame = _scroll_TBL.frame;
+    _tbl_content.scrollEnabled = NO;
     [_BTN_checkout addTarget:self action:@selector(button_TAPPed) forControlEvents:UIControlEventTouchUpInside];
 }
 
 #pragma mark - Uitableview datasource/deligate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return t;
+    return t-1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    purchase_Cell *pu_cell=[tableView dequeueReusableCellWithIdentifier:@"pu_cell"];
+    static NSString *simpleTableIdentifier = @"SimpleTableItem";
+    
+    purchase_Cell *pu_cell = (purchase_Cell *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    if (pu_cell == nil)
+    {
+        NSArray *nib;
+        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+        {
+            nib = [[NSBundle mainBundle] loadNibNamed:@"purchase_Cell~iPad" owner:self options:nil];
+        }
+        else
+        {
+            nib = [[NSBundle mainBundle] loadNibNamed:@"purchase_Cell" owner:self options:nil];
+        }
+        pu_cell = [nib objectAtIndex:0];
+    }
+    
     pu_cell.VW_contentcell.layer.borderColor = [[UIColor darkGrayColor] CGColor];
     pu_cell.VW_contentcell.layer.borderWidth = 1;
     pu_cell.VW_contentcell.layer.cornerRadius=10;
     pu_cell.VW_contentcell.layer.masksToBounds=YES;
+    
+    NSDictionary *temp_dictin = [userDetails objectAtIndex:indexPath.row];
+    
     pu_cell.fname.layer.cornerRadius=5;
     pu_cell.fname.layer.borderWidth = 1;
+    pu_cell.fname.tag = 1;
+    pu_cell.fname.text = [temp_dictin valueForKey:@"first_name"];
+    
+    pu_cell.fname.delegate = self;
+    [pu_cell.fname setTag:indexPath.row];
+    [pu_cell.fname addTarget:self action:@selector(TXT_Fname:) forControlEvents:UIControlEventEditingChanged];
     
     pu_cell.lname.layer.cornerRadius=5;
     pu_cell.lname.layer.borderWidth = 1;
+    pu_cell.lname.text = [temp_dictin valueForKey:@"last_name"];
+    
+    pu_cell.lname.delegate = self;
+    [pu_cell.lname setTag:indexPath.row];
+    [pu_cell.lname addTarget:self action:@selector(TXT_Lname:) forControlEvents:UIControlEventEditingChanged];
     
     pu_cell.email.layer.cornerRadius=5;
     pu_cell.email.layer.borderWidth = 1;
+    pu_cell.email.text = [temp_dictin valueForKey:@"email"];
     
+    pu_cell.email.delegate = self;
+    [pu_cell.email setTag:indexPath.row];
+    [pu_cell.email addTarget:self action:@selector(TXT_Email:) forControlEvents:UIControlEventEditingChanged];
     
     pu_cell.stat_lbl.text=[NSString stringWithFormat:@"Ticket : %ld",indexPath.row + 1];
     
-    
     return pu_cell;
-    
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -253,22 +324,31 @@
     
     NSIndexPath *index_NN = [_tbl_content indexPathForCell:pu_cell];
     NSInteger row = index_NN.row;
-    CGSize result = [[UIScreen mainScreen] bounds].size;
-    if (row == t-2 || row ==0 || result.height <=1334) {
+    if (row == t - 2 && row != 0)
+    {
         [UIView beginAnimations:nil context:NULL];
         
         if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
         {
-            self.view.frame = CGRectMake(0,- 269,self.view.frame.size.width,self.view.frame.size.height);
+            float new_Y = _tbl_content.frame.origin.y;
+            if (new_Y < 0)
+            {
+                _scroll_TBL.frame = CGRectMake(_scroll_TBL.frame.origin.x, _scroll_TBL.frame.origin.y + 310,_scroll_TBL.frame.size.width,self.view.frame.size.height);
+            }
+            
+            _scroll_TBL.frame = CGRectMake(_scroll_TBL.frame.origin.x, _scroll_TBL.frame.origin.y - 310,_scroll_TBL.frame.size.width,self.view.frame.size.height);
         }
         else
         {
-            self.view.frame = CGRectMake(0,- 212,self.view.frame.size.width,self.view.frame.size.height);
+            float new_Y = _scroll_TBL.frame.origin.y;
+            if (new_Y < 0)
+            {
+                _scroll_TBL.frame = CGRectMake(_scroll_TBL.frame.origin.x, _scroll_TBL.frame.origin.y + 310,_scroll_TBL.frame.size.width,self.view.frame.size.height);
+            }
+            _scroll_TBL.frame = CGRectMake(_scroll_TBL.frame.origin.x, _scroll_TBL.frame.origin.y - 250,_tbl_content.frame.size.width,self.view.frame.size.height);
         }
-//        self.view.frame = CGRectMake(0,- 212,self.view.frame.size.width,self.view.frame.size.height);
         [UIView commitAnimations];
     }
-    [_tbl_content scrollToRowAtIndexPath:[_tbl_content indexPathForCell:pu_cell] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
@@ -280,7 +360,6 @@
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
     purchase_Cell *pu_cell;
-    
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
         // Load resources for iOS 6.1 or earlier
         pu_cell = (purchase_Cell *) textField.superview.superview;
@@ -293,13 +372,70 @@
     
     NSIndexPath *index_NN = [_tbl_content indexPathForCell:pu_cell];
     NSInteger row = index_NN.row;
-    CGSize result = [[UIScreen mainScreen] bounds].size;
-    if (row == t-2 || row ==0 || result.height < 1334)
+    if (row == t - 2 && row != 0)
     {
-        [UIView beginAnimations:nil context:NULL];
-        self.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
+        _scroll_TBL.frame = main_Frame;
         [UIView commitAnimations];
     }
+}
+
+-(void) TXT_Fname : (UITextField *) sender
+{
+    NSIndexPath *buttonIndexPath = [NSIndexPath indexPathForRow:sender.tag inSection:0];
+    purchase_Cell *pu_cell;
+    pu_cell = [self.tbl_content cellForRowAtIndexPath:buttonIndexPath];
+    
+    NSString *store_TXT = [NSString stringWithFormat:@"%@",pu_cell.fname.text];
+    
+    NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
+    NSDictionary *oldDict = (NSDictionary *)[userDetails objectAtIndex:buttonIndexPath.row];
+    [newDict addEntriesFromDictionary:oldDict];
+    [newDict setObject:store_TXT forKey:@"first_name"];
+    [userDetails replaceObjectAtIndex:buttonIndexPath.row withObject:newDict];
+    
+    [newDict release];
+}
+-(void) TXT_Lname : (UITextField *) sender
+{
+    NSIndexPath *buttonIndexPath = [NSIndexPath indexPathForRow:sender.tag inSection:0];
+    purchase_Cell *pu_cell;
+    pu_cell = [self.tbl_content cellForRowAtIndexPath:buttonIndexPath];
+    
+    NSString *store_TXT = [NSString stringWithFormat:@"%@",pu_cell.lname.text];
+    
+    NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
+    NSDictionary *oldDict = (NSDictionary *)[userDetails objectAtIndex:buttonIndexPath.row];
+    [newDict addEntriesFromDictionary:oldDict];
+    [newDict setObject:store_TXT forKey:@"last_name"];
+    [userDetails replaceObjectAtIndex:buttonIndexPath.row withObject:newDict];
+    
+    [newDict release];
+}
+-(void) TXT_Email : (UITextField *) sender
+{
+    NSIndexPath *buttonIndexPath = [NSIndexPath indexPathForRow:sender.tag inSection:0];
+    purchase_Cell *pu_cell;
+    pu_cell = [self.tbl_content cellForRowAtIndexPath:buttonIndexPath];
+    
+    NSString *store_TXT = [NSString stringWithFormat:@"%@",pu_cell.email.text];
+    
+    NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
+    NSDictionary *oldDict = (NSDictionary *)[userDetails objectAtIndex:buttonIndexPath.row];
+    [newDict addEntriesFromDictionary:oldDict];
+    [newDict setObject:store_TXT forKey:@"email"];
+    [userDetails replaceObjectAtIndex:buttonIndexPath.row withObject:newDict];
+    
+    [newDict release];
+}
+
+-(void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    [_scroll_TBL layoutIfNeeded];
+    CGRect frame_NN = _tbl_content.frame;
+    frame_NN.size.height = [_tbl_content contentSize].height;
+    _tbl_content.frame = frame_NN;
+    _scroll_TBL.contentSize = CGSizeMake(_scroll_TBL.frame.size.width, [_tbl_content contentSize].height);
 }
 
 

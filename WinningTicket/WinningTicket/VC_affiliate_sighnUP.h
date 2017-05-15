@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 //#import "Get_custom_TXTT.h"
 
-@interface VC_affiliate_sighnUP : UIViewController <UITextFieldDelegate>
+@interface VC_affiliate_sighnUP : UIViewController <UITextFieldDelegate,UIGestureRecognizerDelegate>
 
 @property (nonatomic, weak) IBOutlet UIView *VW_contents;
 @property (nonatomic, weak) IBOutlet UIScrollView *scroll_contents;

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface VC_editAccount : UIViewController<UIPickerViewDataSource,UIPickerViewDelegate>
+@interface VC_editAccount : UIViewController<UIPickerViewDataSource,UIPickerViewDelegate, UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *TXT_fname;
 @property (weak, nonatomic) IBOutlet UITextField *TXT_lname;
@@ -24,5 +24,6 @@
 @property(nonatomic,weak)IBOutlet UIButton *BTN_save;
 @property (weak, nonatomic) IBOutlet UIView *VW_contents;
 @property (weak, nonatomic) IBOutlet UIScrollView *scroll_contents;
-
+@property (nonatomic, weak) IBOutlet UITextField *TXT_country;
+@property (nonatomic, strong) UIPickerView *contry_pickerView;
 @end

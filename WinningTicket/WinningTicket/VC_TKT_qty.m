@@ -347,17 +347,16 @@
     NSString *STR_chk = _TXT_qty.text;
     NSCharacterSet *myCharSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
     
+    int count = 0;
+    
     if (STR_chk.length !=0 )
     {
-        
-        for (int i = 0; i < [STR_chk length]; i++) {
+        for (int i = 0; i < [STR_chk length]; i++)
+        {
             unichar c = [STR_chk characterAtIndex:i];
-            if ([myCharSet characterIsMember:c]) {
-                
-                [[NSUserDefaults standardUserDefaults] setObject:STR_chk forKey:@"QUANTITY"];
-                [[NSUserDefaults standardUserDefaults] synchronize];
-                
-                return YES;
+            if ([myCharSet characterIsMember:c])
+            {
+                count ++;
             }
         }
     }
@@ -365,15 +364,17 @@
     {
         return NO;
     }
-    for (int i = 0; i < [STR_chk length]; i++) {
-        unichar c = [STR_chk characterAtIndex:i];
-        if (![myCharSet characterIsMember:c]) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Enter quantity" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-            [alert show];
-            return NO;
-        }
+    
+    BOOL stat = [self update_QTY_api];
+    
+    if (count == STR_chk.length)
+    {
+        return stat;
     }
-    return YES;
+    else
+    {
+        return NO;
+    }
 }
 
 #pragma mark - Quantity Update
@@ -382,6 +383,44 @@
     NSArray *arr=[_lbl_price.text componentsSeparatedByString:@"$"];
     _lbl_dataTotal.text=[NSString stringWithFormat:@"$ %d.00",[_TXT_qty.text intValue] * [[arr objectAtIndex:1] intValue]];
     _lbl_datasubtotal.text=[NSString stringWithFormat:@"$ %d.00",[_TXT_qty.text intValue] * [[arr objectAtIndex:1] intValue]];
+}
+
+#pragma mark - API Integration
+-(BOOL) update_QTY_api
+{
+    NSString *STR_chk = _TXT_qty.text;
+    
+    NSError *error;
+    NSError *err;
+    NSHTTPURLResponse *response = nil;
+    
+    NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
+    
+    NSDictionary *parameters = @{ @"event_id":  [dict valueForKey:@"id"], @"quantity": STR_chk};
+    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&err];
+    NSString *urlGetuser = [NSString stringWithFormat:@"%@events/create_order",SERVER_URL];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    [request setHTTPBody:postData];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"QUANTITY"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
 }
 
 @end

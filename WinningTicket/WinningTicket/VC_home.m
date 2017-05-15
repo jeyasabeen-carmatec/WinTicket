@@ -54,6 +54,9 @@
     _tbl_all_event.estimatedRowHeight = 10.0;
     _tbl_all_event.rowHeight = UITableViewAutomaticDimension;
     
+    _tbl_upcomming_event.estimatedRowHeight = 10.0;
+    _tbl_upcomming_event.rowHeight = UITableViewAutomaticDimension;
+    
     [self get_Data];
     [self setup_VIEW];
     [self setup_VIEW];
@@ -226,6 +229,8 @@
     new_frame.origin.y = _tbl_all_event.frame.origin.y + [self allEvent_height] + 10;
     new_frame.size.height = _BTN_all_event.frame.size.height;
     _BTN_all_event.frame = new_frame;
+    
+    [_BTN_all_event addTarget:self action:@selector(get_ALLevents) forControlEvents:UIControlEventTouchUpInside];
 //    [_VW_Scroll_CONTENT addSubview:_BTN_all_event];
     
     CGRect frame = _scroll_content.frame;
@@ -557,7 +562,6 @@
     
     VW_overlay.hidden = NO;
     [activityIndicatorView startAnimating];
-    
     [self performSelector:@selector(get_EVENTDETAIL) withObject:activityIndicatorView afterDelay:0.01];
 }
 
@@ -760,7 +764,14 @@
     }
 }
 
-- (BOOL) get_ALLevents
+- (void) get_ALLevents
+{
+    VW_overlay.hidden = NO;
+    [activityIndicatorView startAnimating];
+    [self performSelector:@selector(allevents_VC_model) withObject:activityIndicatorView afterDelay:0.01];
+}
+
+-(void) allevents_VC_model
 {
     NSError *error;
     NSHTTPURLResponse *response = nil;
@@ -780,10 +791,12 @@
     {
         [activityIndicatorView stopAnimating];
         VW_overlay.hidden = YES;
-    
+        
         [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"ALLEvents"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        return YES;
+        
+        [self performSegueWithIdentifier:@"alleventsidentifier" sender:self];
+        
     }
     else
     {
@@ -792,7 +805,6 @@
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
-        return NO;
     }
 }
 
@@ -821,12 +833,23 @@
         [activityIndicatorView stopAnimating];
         VW_overlay.hidden = YES;
         
-//        NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-//        NSLog(@"The response CODE %@",json_DATA);
-        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"upcoming_events"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        NSError *error;
+        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"thedata is Upcoming:%@",dict);
         
-        [self performSegueWithIdentifier:@"hometoeventdetail" sender:self];
+        
+        if ([dict valueForKey:@"message"]) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[dict valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            [alert show];
+        }
+        else
+        {
+            [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"upcoming_events"];
+            [[NSUserDefaults standardUserDefaults] setValue:@"from enter code" forKey:@"VCSTAT"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            [self performSegueWithIdentifier:@"hometoeventdetail" sender:self];
+        }
     }
     else
     {
@@ -837,20 +860,6 @@
         [alert show];
     }
 }
-
-#pragma mark - Custom Segue
-- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
-{
-    if ([identifier isEqualToString:@"alleventsidentifier"])
-    {
-        VW_overlay.hidden = NO;
-        [activityIndicatorView startAnimating];
-        [self performSelector:@selector(get_ALLevents) withObject:activityIndicatorView afterDelay:0.01];
-//        [self get_ALLevents];
-    }
-    return YES;
-}
-
 
 
 @end

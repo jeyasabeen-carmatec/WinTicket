@@ -10,8 +10,9 @@
 
 @interface VC_qty_detail : UIViewController <UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 
-@property (weak, nonatomic) IBOutlet UITableView *tbl_content;
-@property (weak, nonatomic) IBOutlet UIButton *BTN_checkout;
+@property (strong, nonatomic) IBOutlet UITableView *tbl_content;
+@property (strong, nonatomic) IBOutlet UIButton *BTN_checkout;
 
+@property (strong, nonatomic) IBOutlet UIScrollView *scroll_TBL;
 
 @end

@@ -9,8 +9,9 @@
 #import "VC_donate.h"
 
 @interface VC_donate ()<UIPickerViewDelegate,UIPickerViewDataSource>
-@property(nonatomic,strong)NSArray *ARR_states;
+@property (nonatomic, strong) NSArray *countrypicker,*statepicker;
 
+@property(nonatomic,strong)NSMutableDictionary *json_DATA;/*for getting the JSON data  */
 
 @end
 
@@ -20,10 +21,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    NSError *error;
-    NSMutableDictionary *json_DAT = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"state_response"] options:NSASCIIStringEncoding error:&error];
-    NSLog(@"The response %@",json_DAT);
-    self.ARR_states=[json_DAT allKeys];
+//    NSError *error;
+//    NSMutableDictionary *json_DAT = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"state_response"] options:NSASCIIStringEncoding error:&error];
+//    NSLog(@"The response %@",json_DAT);
+//    self.ARR_states=[json_DAT allKeys];
     
     [self setup_view];
 }
@@ -152,6 +153,17 @@
     frame_new.origin.y = _TXT_city.frame.origin.y + framehight;
     _TXT_city.frame = frame_new;
     
+    _TXT_country.layer.cornerRadius = 5.0f;
+    _TXT_country.layer.masksToBounds = YES;
+    _TXT_country.layer.borderWidth = 2.0f;
+    _TXT_country.layer.borderColor = [UIColor grayColor].CGColor;
+    _TXT_country.backgroundColor = [UIColor whiteColor];
+    _TXT_country.tag=5;
+    frame_new = _TXT_country.frame;
+    frame_new.origin.y = _TXT_country.frame.origin.y + framehight;
+    _TXT_country.frame = frame_new;
+
+    
     _TXT_state.layer.cornerRadius = 5.0f;
     _TXT_state.layer.masksToBounds = YES;
     _TXT_state.layer.borderWidth = 2.0f;
@@ -206,33 +218,57 @@
     
     
     
-    UIToolbar* state_close = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
-    state_close.barStyle = UIBarStyleBlackTranslucent;
-    [state_close sizeToFit];
-    UILabel *statelbl=[[UILabel alloc]initWithFrame:CGRectMake(state_close.frame.size.width-250, 0, 100, state_close.frame.size.height)];
-    [state_close addSubview:statelbl];
-    statelbl.text=@"Select State";
-    statelbl.textColor=[UIColor redColor];
-    statelbl.backgroundColor=[UIColor clearColor];
+    _contry_pickerView = [[UIPickerView alloc] init];
+    _contry_pickerView.delegate = self;
+    _contry_pickerView.dataSource = self;
+    _state_pickerView = [[UIPickerView alloc] init];
+    _state_pickerView.delegate = self;
+    _state_pickerView.dataSource = self;
+    
+    
+    UITapGestureRecognizer *tapToSelect = [[UITapGestureRecognizer alloc]initWithTarget:self
+                                                                                 action:@selector(tappedToSelectRow:)];
+    tapToSelect.delegate = self;
+    [_contry_pickerView addGestureRecognizer:tapToSelect];
+    UITapGestureRecognizer *satetap = [[UITapGestureRecognizer alloc]initWithTarget:self
+                                                                             action:@selector(tappedToSelectRowstate:)];
+    satetap.delegate = self;
+    [_state_pickerView addGestureRecognizer:satetap];
+
+    
+    
+    UIToolbar* conutry_close = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+    conutry_close.barStyle = UIBarStyleBlackTranslucent;
+    [conutry_close sizeToFit];
     
     UIButton *close=[[UIButton alloc]init];
-    close.frame=CGRectMake(state_close.frame.size.width - 100, 0, 100, state_close.frame.size.height);
+    close.frame=CGRectMake(conutry_close.frame.size.width - 100, 0, 100, conutry_close.frame.size.height);
     [close setTitle:@"close" forState:UIControlStateNormal];
     [close addTarget:self action:@selector(closebuttonClick) forControlEvents:UIControlEventTouchUpInside];
     //    [numberToolbar setItems:[NSArray arrayWithObjects:close, nil]];
-    [state_close addSubview:close];
-    _TXT_state.inputView=_state_pickerView;
-    _TXT_state.inputAccessoryView=state_close;
+    [conutry_close addSubview:close];
+    _TXT_country.inputAccessoryView=conutry_close;
+    _TXT_state.inputAccessoryView=conutry_close;
+    self.TXT_country.inputView = _contry_pickerView;
+    self.TXT_state.inputView=_state_pickerView;
+    _TXT_country.tintColor=[UIColor clearColor];
+    _TXT_state.tintColor=[UIColor clearColor];
+    [self Country_api];
+    [self State_api];
 }
 -(void)closebuttonClick
 {
     [_TXT_state resignFirstResponder];
+    [_TXT_country resignFirstResponder];
 }
 
-#pragma mark PickerView DataSource
+#pragma mark - UIPickerViewDataSource
 
+// #3
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    if(pickerView==_state_pickerView)
+    if (pickerView == _contry_pickerView) {
+        return 1;
+    }if(pickerView==_state_pickerView)
     {
         return 1;
     }
@@ -241,35 +277,116 @@
 }
 
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    
+    if (pickerView == _contry_pickerView) {
+        return [self.countrypicker count];
+    }
     if (pickerView == _state_pickerView) {
-        return [_ARR_states count];
+        return [self.statepicker count];
     }
     
     
     return 0;
 }
+#pragma mark - UIPickerViewDataSource
+
+-(void)Country_api
+{
+    NSHTTPURLResponse *response = nil;
+    NSError *error;
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/countries",SERVER_URL];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    _json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+    NSLog(@"The response %@",_json_DATA);
+    self.countrypicker=[_json_DATA allKeys];
+    
+  
+    
+    
+}
+-(void)State_api
+{
+    NSHTTPURLResponse *response = nil;
+    NSError *error;
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/states?country=%@",SERVER_URL,[self.json_DATA valueForKey:_TXT_country.text]];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+    NSLog(@"The response %@",json_DATA);
+    //    NSString *status=[json_DATA objectForKey:@"United States"];
+    self.statepicker=[json_DATA allKeys];
+    
+    
+}
+
 #pragma mark - UIPickerViewDelegate
 
 
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    
+    if (pickerView == _contry_pickerView) {
+        return self.countrypicker[row];
+    }
     if (pickerView == _state_pickerView) {
-        return _ARR_states[row];
+        return self.statepicker[row];
     }
     
     return nil;
 }
 
 // #6
-
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    if (pickerView == _contry_pickerView) {
+        self.TXT_country.text = self.countrypicker[row];
+        [self State_api];
+        self.TXT_state.enabled=YES;
+    }
     if (pickerView == _state_pickerView) {
         
-        self.TXT_state.text=[_ARR_states objectAtIndex:row];
+        self.TXT_state.text=self.statepicker[row];
+        //        self.TXT_email.enabled=YES;
     }
 }
 
+- (IBAction)tappedToSelectRow:(UITapGestureRecognizer *)tapRecognizer
+{
+    if (tapRecognizer.state == UIGestureRecognizerStateEnded) {
+        CGFloat rowHeight = [_contry_pickerView rowSizeForComponent:0].height;
+        CGRect selectedRowFrame = CGRectInset(_contry_pickerView.bounds, 0.0, (CGRectGetHeight(_contry_pickerView.frame) - rowHeight) / 2.0 );
+        BOOL userTappedOnSelectedRow = (CGRectContainsPoint(selectedRowFrame, [tapRecognizer locationInView:_contry_pickerView]));
+        if (userTappedOnSelectedRow) {
+            NSInteger selectedRow = [_contry_pickerView selectedRowInComponent:0];
+            [self pickerView:_contry_pickerView didSelectRow:selectedRow inComponent:0];
+        }
+    }
+}
+- (IBAction)tappedToSelectRowstate:(UITapGestureRecognizer *)tapRecognizer
+{
+    if (tapRecognizer.state == UIGestureRecognizerStateEnded) {
+        CGFloat rowHeight = [_state_pickerView rowSizeForComponent:0].height;
+        CGRect selectedRowFrame = CGRectInset(_state_pickerView.bounds, 0.0, (CGRectGetHeight(_state_pickerView.frame) - rowHeight) / 2.0 );
+        BOOL userTappedOnSelectedRow = (CGRectContainsPoint(selectedRowFrame, [tapRecognizer locationInView:_state_pickerView]));
+        if (userTappedOnSelectedRow) {
+            NSInteger selectedRow = [_state_pickerView selectedRowInComponent:0];
+            [self pickerView:_state_pickerView didSelectRow:selectedRow inComponent:0];
+        }
+    }
+}
+#pragma mark - UIGestureRecognizerDelegate
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return true;
+}
 
 
 #pragma mark - BTN Actions

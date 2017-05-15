@@ -17,6 +17,8 @@
 }
 
 @property (nonatomic, strong) NSArray *countrypicker,*statepicker;
+@property(nonatomic,strong)NSMutableDictionary *json_DATA;/*for getting the JSON data  */
+
 
 @end
 
@@ -26,13 +28,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    NSError *error;
-    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults] valueForKey:@"Country_response"] options:NSASCIIStringEncoding error:&error];
-    NSLog(@"The response %@",json_DATA);
-    self.countrypicker=[json_DATA allValues];
-    NSMutableDictionary *json_DAT = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"state_response"] options:NSASCIIStringEncoding error:&error];
-    NSLog(@"The response %@",json_DAT);
-    self.statepicker=[json_DAT allKeys];
+//    NSError *error;
+//    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults] valueForKey:@"Country_response"] options:NSASCIIStringEncoding error:&error];
+//    NSLog(@"The response %@",json_DATA);
+//    self.countrypicker=[json_DATA allValues];
+//    NSMutableDictionary *json_DAT = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"state_response"] options:NSASCIIStringEncoding error:&error];
+//    NSLog(@"The response %@",json_DAT);
+//    self.statepicker=[json_DAT allKeys];
     
     [self setup_VIEW];
 }
@@ -211,7 +213,7 @@
     _TXT_email.tag=9;
     
     
-    _BTN_sighnUP.enabled=NO;
+    _BTN_sighnUP.enabled=YES;
     
     [_BTN_affiliateorcharity addTarget:self action:@selector(button_affilate_charity) forControlEvents:UIControlEventTouchUpInside];
     [_BTN_sighnUP addTarget:self action:@selector(btn_sign_up) forControlEvents:UIControlEventTouchUpInside];
@@ -221,6 +223,19 @@
     _state_pickerView = [[UIPickerView alloc] init];
     _state_pickerView.delegate = self;
     _state_pickerView.dataSource = self;
+    
+    
+    UITapGestureRecognizer *tapToSelect = [[UITapGestureRecognizer alloc]initWithTarget:self
+                                                                                 action:@selector(tappedToSelectRow:)];
+    tapToSelect.delegate = self;
+    [_contry_pickerView addGestureRecognizer:tapToSelect];
+    UITapGestureRecognizer *satetap = [[UITapGestureRecognizer alloc]initWithTarget:self
+                                                                             action:@selector(tappedToSelectRowstate:)];
+    satetap.delegate = self;
+    [_state_pickerView addGestureRecognizer:satetap];
+    
+    
+
     
     UIToolbar* conutry_close = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
     conutry_close.barStyle = UIBarStyleBlackTranslucent;
@@ -239,8 +254,8 @@
     _TXT_country.tintColor=[UIColor clearColor];
     _TXT_state.tintColor=[UIColor clearColor];
     
-//    [self Country_api];
-//    [self State_api];
+    [self Country_api];
+
 
 }
 
@@ -641,43 +656,44 @@
 }
 #pragma mark - UIPickerViewDataSource
 
-//-(void)Country_api
-//{
-//    NSHTTPURLResponse *response = nil;
-//    NSError *error;
-//    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/countries",SERVER_URL];
-//    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
-//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-//    [request setURL:urlProducts];
-//    [request setHTTPMethod:@"GET"];
-//    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-//    [request setHTTPShouldHandleCookies:NO];
-//    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-//            NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-//        NSLog(@"The response %@",json_DATA);
-//        self.countrypicker=[json_DATA allKeys];
-//        
-//
-//}
-//-(void)State_api
-//{
-//    NSHTTPURLResponse *response = nil;
-//    NSError *error;
-//    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/states",SERVER_URL];
-//    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
-//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-//    [request setURL:urlProducts];
-//    [request setHTTPMethod:@"GET"];
-//    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-//    [request setHTTPShouldHandleCookies:NO];
-//    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-//    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-//    NSLog(@"The response %@",json_DATA);
-////    NSString *status=[json_DATA objectForKey:@"United States"];
-//    self.statepicker=[json_DATA allKeys];
-//    
-//    
-//}
+-(void)Country_api
+{
+    NSHTTPURLResponse *response = nil;
+    NSError *error;
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/countries",SERVER_URL];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+          _json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"The response %@",_json_DATA);
+        self.countrypicker=[_json_DATA allKeys];
+    
+
+}
+-(void)State_api
+{
+    NSHTTPURLResponse *response = nil;
+    NSError *error;
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/states?country=%@",SERVER_URL,[self.json_DATA valueForKey:_TXT_country.text]];
+    NSLog(@"the state:%@",[self.json_DATA valueForKey:_TXT_country.text]);
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+    NSLog(@"The response %@",json_DATA);
+//    NSString *status=[json_DATA objectForKey:@"United States"];
+    self.statepicker=[json_DATA allKeys];
+    
+    
+}
 
 #pragma mark - UIPickerViewDelegate
 
@@ -697,6 +713,9 @@
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     if (pickerView == _contry_pickerView) {
         self.TXT_country.text = self.countrypicker[row];
+        NSLog(@"the text is:%@",_TXT_country.text);
+        
+        [self State_api];
         self.TXT_state.enabled=YES;
             }
     if (pickerView == _state_pickerView) {
@@ -705,5 +724,34 @@
         self.TXT_email.enabled=YES;
     }
 }
+- (IBAction)tappedToSelectRow:(UITapGestureRecognizer *)tapRecognizer
+{
+    if (tapRecognizer.state == UIGestureRecognizerStateEnded) {
+        CGFloat rowHeight = [_contry_pickerView rowSizeForComponent:0].height;
+        CGRect selectedRowFrame = CGRectInset(_contry_pickerView.bounds, 0.0, (CGRectGetHeight(_contry_pickerView.frame) - rowHeight) / 2.0 );
+        BOOL userTappedOnSelectedRow = (CGRectContainsPoint(selectedRowFrame, [tapRecognizer locationInView:_contry_pickerView]));
+        if (userTappedOnSelectedRow) {
+            NSInteger selectedRow = [_contry_pickerView selectedRowInComponent:0];
+            [self pickerView:_contry_pickerView didSelectRow:selectedRow inComponent:0];
+        }
+    }
+}
+- (IBAction)tappedToSelectRowstate:(UITapGestureRecognizer *)tapRecognizer
+{
+    if (tapRecognizer.state == UIGestureRecognizerStateEnded) {
+        CGFloat rowHeight = [_state_pickerView rowSizeForComponent:0].height;
+        CGRect selectedRowFrame = CGRectInset(_state_pickerView.bounds, 0.0, (CGRectGetHeight(_state_pickerView.frame) - rowHeight) / 2.0 );
+        BOOL userTappedOnSelectedRow = (CGRectContainsPoint(selectedRowFrame, [tapRecognizer locationInView:_state_pickerView]));
+        if (userTappedOnSelectedRow) {
+            NSInteger selectedRow = [_state_pickerView selectedRowInComponent:0];
+            [self pickerView:_state_pickerView didSelectRow:selectedRow inComponent:0];
+        }
+    }
+}
+#pragma mark - UIGestureRecognizerDelegate
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return true;
+}
 @end

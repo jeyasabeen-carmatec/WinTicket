@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 //#import "Get_custom_TXTT.h"
 
-@interface Normal_sighnUP : UIViewController <UITextFieldDelegate>
+@interface Normal_sighnUP : UIViewController <UITextFieldDelegate,UIGestureRecognizerDelegate>
 
 @property (nonatomic, weak) IBOutlet UITextField *TXT_F_name;
 @property (nonatomic, weak) IBOutlet UITextField *TXT_L_name;

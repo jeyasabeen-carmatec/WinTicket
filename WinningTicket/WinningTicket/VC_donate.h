@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface VC_donate : UIViewController
+@interface VC_donate : UIViewController<UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextView *TXTVW_organisationname;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_titledonationAMT;
@@ -32,6 +32,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *TXT_zip;
 @property (weak, nonatomic) IBOutlet UITextField *TXT_phonenumber;
 @property (nonatomic, strong) UIPickerView *state_pickerView;
+@property (nonatomic, weak) IBOutlet UITextField *TXT_country;
+@property (nonatomic, strong) UIPickerView *contry_pickerView;
 
 @property (weak, nonatomic) IBOutlet UIButton *BTN_state;
 

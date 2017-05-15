@@ -232,6 +232,16 @@
     _BTN_purchasetkt.frame = frame_HT;
     
     [_BTN_purchasetkt addTarget:self action:@selector(tap_purchaseTKT) forControlEvents:UIControlEventTouchUpInside];
+    
+    if ([[NSUserDefaults standardUserDefaults] valueForKey:@"VCSTAT"]) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"VCSTAT"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    else
+    {
+        _BTN_purchasetkt.hidden = YES;
+        _lbl_ticketdescription.hidden = YES;
+    }
 }
 
 /*
