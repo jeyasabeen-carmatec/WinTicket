@@ -219,6 +219,7 @@
     t = [[dict valueForKey:@"quantity"] intValue];
     
     [[NSUserDefaults standardUserDefaults] setValue:[dict valueForKey:@"quantity"] forKey:@"QTY"];
+    [[NSUserDefaults standardUserDefaults] setValue:[dict valueForKey:@"price"] forKey:@"PriceSTR"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     userDetails = [[NSMutableArray alloc] init];

@@ -146,9 +146,13 @@
     _TXT_phonenumber.tag=9;
     _TXT_phonenumber.delegate=self;
 
-    
-    
     NSError *error;
+    NSMutableDictionary *temp_dictin = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
+    
+    _lbl_amount_des.text = [NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"ticket_price"]];
+    _lbl_sub_amount.text = [NSString stringWithFormat:@"$ %d.00",[_lbl_amount_des.text intValue] * [[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"] intValue]];
+    _lbl_total_amount.text = _lbl_sub_amount.text;
+    
     NSMutableDictionary *user_data=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"User_data"] options:NSASCIIStringEncoding error:&error];
     NSLog(@"the user data is:%@",user_data);
     
@@ -198,14 +202,15 @@
     self.lbl_qty.text=[NSString stringWithFormat:@"Qty:%d",qtynum];
     
     NSString *show = @"Winning Ticket";
-    NSString *place = @"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
-    NSString *ticketnumber = @"56A8WQ";
-    NSString *club_name = @"Grand Cypress Country Club";
+    NSString *place = [NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"location"]];//@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
+    place = [place stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
+    NSString *ticketnumber = [temp_dictin valueForKey:@"code"];
+    NSString *club_name = [temp_dictin valueForKey:@"name"];
     
     NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@ - %@",show,place,ticketnumber,club_name];
     
     text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
-    text = [text stringByReplacingOccurrencesOfString:@"(null)" withString:@"Not Mentioned"];
+
     
     if ([self.lbl_des_cription respondsToSelector:@selector(setAttributedText:)])
     {
@@ -279,6 +284,16 @@
     [self.scroll_contents addSubview:self.VW_titladdress];
     
     NSString *address_str=[NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@%@",[user_data valueForKey:@"first_name"],[user_data valueForKey:@"last_name"],[user_data valueForKey:@"address1"],[user_data valueForKey:@"address2"],[user_data valueForKey:@"city"],[user_data valueForKey:@"state"],[user_data valueForKey:@"country"],[user_data valueForKey:@"zipcode"]];
+    
+    _TXT_firstname.text = [user_data valueForKey:@"first_name"];
+    _TXT_lastname.text = [user_data valueForKey:@"last_name"];
+    _TXT_address1.text = [user_data valueForKey:@"address1"];
+    _TXT_address2.text = [user_data valueForKey:@"address2"];
+    _TXT_city.text = [user_data valueForKey:@"city"];
+    _TXT_country.text = [user_data valueForKey:@"country"];
+    _TXT_state.text = [user_data valueForKey:@"state"];
+    _TXT_zip.text = [user_data valueForKey:@"zipcode"];
+    _TXT_phonenumber.text = [user_data valueForKey:@"phone"];
     
     _lbl_address.text = address_str;
     [_lbl_address sizeToFit];
@@ -457,7 +472,7 @@
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    if(textField.tag==3)
+    if(textField.tag == 3 || textField.tag == 8 || textField.tag == 9)
     {
         [textField setTintColor:[UIColor whiteColor]];
         //if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
@@ -469,26 +484,13 @@
         [UIView commitAnimations];
         //}
     }
-    if(textField.tag==8)
-    {
-        [textField setTintColor:[UIColor whiteColor]];
-        //if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-        // {
-        //Keyboard becomes visible
-        [UIView beginAnimations:nil context:NULL];
-        // [UIView setAnimationDuration:0.25];
-        self.view.frame = CGRectMake(0,-110,self.view.frame.size.width,self.view.frame.size.height);
-        [UIView commitAnimations];
-        //}
-    }
-
     
     
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
-    if(textField.tag==8)
-    {
+//    if(textField.tag==8)
+//    {
         [UIView beginAnimations:nil context:NULL];
    
         self.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
@@ -497,7 +499,7 @@
   
         self.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
         [UIView commitAnimations];
-    }
+//    }
 }
 #pragma mark - UIPickerViewDataSource
 
@@ -541,10 +543,6 @@
     self.json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
     NSLog(@"The response %@",self.json_DATA);
     self.countrypicker=[self.json_DATA allKeys];
-    
-   
-    
-    
 }
 -(void)State_api
 {

@@ -127,6 +127,10 @@
     NSString *club_name = @"Grand Cypress Country Club";
     _lbl_price.text=[NSString stringWithFormat:@"$ %@",[dict valueForKey:@"ticket_price"]];
     
+    NSArray *arr = [_lbl_price.text componentsSeparatedByString:@"$"];
+    _lbl_dataTotal.text = [NSString stringWithFormat:@"$ %d.00",[_TXT_qty.text intValue] * [[arr objectAtIndex:1] intValue]];
+    _lbl_datasubtotal.text = [NSString stringWithFormat:@"$ %d.00",[_TXT_qty.text intValue] * [[arr objectAtIndex:1] intValue]];
+    
     NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@ - %@",show,place,ticketnumber,club_name];
     
     text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
@@ -380,9 +384,9 @@
 #pragma mark - Quantity Update
 -(void)get_caluculated_text
 {
-    NSArray *arr=[_lbl_price.text componentsSeparatedByString:@"$"];
-    _lbl_dataTotal.text=[NSString stringWithFormat:@"$ %d.00",[_TXT_qty.text intValue] * [[arr objectAtIndex:1] intValue]];
-    _lbl_datasubtotal.text=[NSString stringWithFormat:@"$ %d.00",[_TXT_qty.text intValue] * [[arr objectAtIndex:1] intValue]];
+    NSArray *arr = [_lbl_price.text componentsSeparatedByString:@"$"];
+    _lbl_dataTotal.text = [NSString stringWithFormat:@"$ %d.00",[_TXT_qty.text intValue] * [[arr objectAtIndex:1] intValue]];
+    _lbl_datasubtotal.text = [NSString stringWithFormat:@"$ %d.00",[_TXT_qty.text intValue] * [[arr objectAtIndex:1] intValue]];
 }
 
 #pragma mark - API Integration
