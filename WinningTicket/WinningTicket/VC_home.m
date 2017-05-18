@@ -710,6 +710,7 @@
     ARR_allevent = [json_DATA valueForKey:@"all_events"];
     ARR_upcommingevent = [json_DATA valueForKey:@"upcoming_events"];
     
+    
 }
 
 #pragma mark - Date Convert

@@ -114,6 +114,14 @@
        NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:22.0f]}];
     self.navigationItem.title = @"Event Detail";
     
+    UIImage *newImage = [_img_cstmlbl.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIGraphicsBeginImageContextWithOptions(_img_cstmlbl.image.size, NO, newImage.scale);
+    [_VW_dateandtime.backgroundColor set];
+    [newImage drawInRect:CGRectMake(0, 0, _img_cstmlbl.image.size.width, newImage.size.height)];
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    _img_cstmlbl.image = newImage;
 }
 
 -(void) set_FRAME
@@ -121,18 +129,21 @@
     NSError *error;
     NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
     NSLog(@"thedata is Upcoming:%@",dict);
-    _lbl_eventname.text = [dict valueForKey:@"name"];
+    
+    NSDictionary *temp_dict=[dict valueForKey:@"event"];
+    
+    _lbl_eventname.text = [temp_dict valueForKey:@"name"];
     _lbl_eventname.numberOfLines = 0;
     [_lbl_eventname sizeToFit];
     
     float image_height = _img_event.frame.size.height;
     float lbl_event_name_ht = _lbl_eventname.frame.size.height;
     
-    _lbl_code.text=[dict valueForKey:@"code"];
-    NSString *location = [NSString stringWithFormat:@"%@",[dict valueForKey:@"location"]];
+    _lbl_code.text=[temp_dict valueForKey:@"code"];
+    NSString *location = [NSString stringWithFormat:@"%@",[temp_dict valueForKey:@"location"]];
     NSString *address = @"1 N Jacaranda ST, Orlando, FL 32836";
-    NSString *date = [self getLocalDateFromUTC:[dict valueForKey:@"start_date"]];
-    NSString *time = [self getLocalTimeFromUTC:[dict valueForKey:@"start_date"]];
+    NSString *date = [self getLocalDateFromUTC:[temp_dict valueForKey:@"start_date"]];
+    NSString *time = [self getLocalTimeFromUTC:[temp_dict valueForKey:@"start_date"]];
     
     NSLog(@"Date format %@",date);
     NSLog(@"Time format %@",time);
@@ -143,6 +154,9 @@
     if ([location isEqualToString:@"<null>"])
     {
        location = @"Not Mentioned";
+    }else
+    {
+        location=@"US";
     }
     
 

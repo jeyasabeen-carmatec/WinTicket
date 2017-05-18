@@ -219,6 +219,15 @@
     frame_HT = _BTN_liveAUCTN.frame;
     frame_HT.origin.y = _BTN_liveSCR.frame.origin.y + _BTN_liveSCR.frame.size.height + 10;
     _BTN_liveAUCTN.frame = frame_HT;
+    
+    UIImage *newImage = [_img_cstmlbl.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIGraphicsBeginImageContextWithOptions(_img_cstmlbl.image.size, NO, newImage.scale);
+    [_VW_dateandtime.backgroundColor set];
+    [newImage drawInRect:CGRectMake(0, 0, _img_cstmlbl.image.size.width, newImage.size.height)];
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    _img_cstmlbl.image = newImage;
 }
 
 #pragma mark - Tabbar deligate

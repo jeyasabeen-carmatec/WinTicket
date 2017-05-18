@@ -53,7 +53,7 @@
 {
     [super viewDidLayoutSubviews];
     [_scroll_contents layoutIfNeeded];
-    _scroll_contents.contentSize = CGSizeMake(_scroll_contents.frame.size.width,original_height);
+    _scroll_contents.contentSize = CGSizeMake(_scroll_contents.frame.size.width,original_height+10);
 }
 
 /*
@@ -69,9 +69,6 @@
 #pragma mark - Uiview Customisation
 -(void) setup_VIEW
 {
-    
-    
-    
     _TXT_firstname.layer.cornerRadius = 5.0f;
     _TXT_firstname.layer.masksToBounds = YES;
     _TXT_firstname.layer.borderWidth = 2.0f;
@@ -147,9 +144,9 @@
     _TXT_phonenumber.delegate=self;
 
     NSError *error;
-    NSMutableDictionary *temp_dictin = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
-    
-    _lbl_amount_des.text = [NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"ticket_price"]];
+    NSMutableDictionary *dict = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
+    NSMutableDictionary *temp_dictin=[dict valueForKey:@"event"];
+    _lbl_amount_des.text = [NSString stringWithFormat:@"%@",[dict valueForKey:@"price"]];
     _lbl_sub_amount.text = [NSString stringWithFormat:@"$ %d.00",[_lbl_amount_des.text intValue] * [[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"] intValue]];
     _lbl_total_amount.text = _lbl_sub_amount.text;
     
@@ -234,7 +231,7 @@
     
     _lbl_des_cription.numberOfLines = 0;
     [_lbl_des_cription sizeToFit];
-    original_height= _BTN_checkout.frame.origin.y + _BTN_checkout.frame.size.height + 40;
+    original_height= _lbl_agree.frame.origin.y + _lbl_agree.frame.size.height + 80;
     CGRect frame_NEW;
     
     frame_NEW = _VW_line1.frame;
@@ -283,17 +280,7 @@
     _VW_titladdress.frame = frame_NEW;
     [self.scroll_contents addSubview:self.VW_titladdress];
     
-    NSString *address_str=[NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@%@",[user_data valueForKey:@"first_name"],[user_data valueForKey:@"last_name"],[user_data valueForKey:@"address1"],[user_data valueForKey:@"address2"],[user_data valueForKey:@"city"],[user_data valueForKey:@"state"],[user_data valueForKey:@"country"],[user_data valueForKey:@"zipcode"]];
-    
-    _TXT_firstname.text = [user_data valueForKey:@"first_name"];
-    _TXT_lastname.text = [user_data valueForKey:@"last_name"];
-    _TXT_address1.text = [user_data valueForKey:@"address1"];
-    _TXT_address2.text = [user_data valueForKey:@"address2"];
-    _TXT_city.text = [user_data valueForKey:@"city"];
-    _TXT_country.text = [user_data valueForKey:@"country"];
-    _TXT_state.text = [user_data valueForKey:@"state"];
-    _TXT_zip.text = [user_data valueForKey:@"zipcode"];
-    _TXT_phonenumber.text = [user_data valueForKey:@"phone"];
+    NSString *address_str=[NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone:%@",[user_data valueForKey:@"first_name"],[user_data valueForKey:@"last_name"],[user_data valueForKey:@"address1"],[user_data valueForKey:@"address2"],[user_data valueForKey:@"city"],[user_data valueForKey:@"state"],[user_data valueForKey:@"country"],[user_data valueForKey:@"zipcode"],[user_data valueForKey:@"phone"]];
     
     _lbl_address.text = address_str;
     [_lbl_address sizeToFit];
@@ -303,17 +290,23 @@
     frame_NEW.origin.y=_VW_titladdress.frame.origin.y+_VW_titladdress.frame.size.height+10;
     _lbl_address.frame=frame_NEW;
     
-    frame_NEW = _lbl_agree.frame;
-    
-    frame_NEW.origin.y = _lbl_address.frame.origin.y + _lbl_address.frame.size.height + 25;
-    _lbl_agree.frame = frame_NEW;
-
     [_BTN_checkout addTarget:self action:@selector(chckout_ACtin:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    frame_NEW=_proceed_TOPAY.frame;
+    frame_NEW.origin.y=_lbl_address.frame.origin.y+_lbl_address.frame.size.height+10;
+    _proceed_TOPAY.frame=frame_NEW;
     
     frame_NEW = _BTN_checkout.frame;
     
-    frame_NEW.origin.y = _lbl_agree.frame.origin.y + _lbl_agree.frame.size.height + 20;
+    frame_NEW.origin.y = _proceed_TOPAY.frame.origin.y + _proceed_TOPAY.frame.size.height + 10;
     _BTN_checkout.frame = frame_NEW;
+    
+    
+    frame_NEW = _lbl_agree.frame;
+    
+    frame_NEW.origin.y = _BTN_checkout.frame.origin.y + _BTN_checkout.frame.size.height + 10;
+    _lbl_agree.frame = frame_NEW;
     
     _VW_address.frame=CGRectMake(_VW_titladdress.frame.origin.x,_VW_titladdress.frame.origin.y+60,self.scroll_contents.frame.size.width,_VW_address.frame.size.height);
     [self.scroll_contents addSubview:_VW_address];
@@ -414,9 +407,17 @@
         [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:_VW_address cache:YES];
         [UIView commitAnimations];
         [UIView animateWithDuration:0.5 animations:^{
+            
+            /*Frame Change*/
             _lbl_address.hidden=YES;
-            _lbl_agree.frame = CGRectMake(_lbl_agree.frame.origin.x, _VW_address.frame.origin.y + _VW_address.frame.size.height+10 , _lbl_agree.frame.size.width, _lbl_agree.frame.size.height+10);
-            _BTN_checkout.frame = CGRectMake(_BTN_checkout.frame.origin.x, _lbl_agree.frame.origin.y + _lbl_agree.frame.size.height + 10, _BTN_checkout.frame.size.width, _BTN_checkout.frame.size.height);
+            
+            _proceed_TOPAY.frame=CGRectMake(_proceed_TOPAY.frame.origin.x
+                                            ,  _VW_address.frame.origin.y+_VW_address.frame.size.height+10, _proceed_TOPAY.frame.size.width, _proceed_TOPAY.frame.size.height);
+            
+            _BTN_checkout.frame = CGRectMake(_BTN_checkout.frame.origin.x, _proceed_TOPAY.frame.origin.y + _proceed_TOPAY.frame.size.height + 10, _BTN_checkout.frame.size.width, _BTN_checkout.frame.size.height);
+            
+            _lbl_agree.frame = CGRectMake(_lbl_agree.frame.origin.x, _BTN_checkout.frame.origin.y + _BTN_checkout.frame.size.height+10 , _lbl_agree.frame.size.width, _lbl_agree.frame.size.height+10);
+            
         }];
         [UIView commitAnimations];
         original_height =  self.BTN_checkout.frame.origin.y + _BTN_checkout.frame.size.height + 20;

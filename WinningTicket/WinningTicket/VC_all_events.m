@@ -10,6 +10,7 @@
 #import "TBL_VW_Cell_EVENTS.h"
 #import "DejalActivityView.h"
 #import "DGActivityIndicatorView.h"
+#import "WinningTicket_Universal-Swift.h"
 
 @interface VC_all_events ()
 {
@@ -20,8 +21,10 @@
     UIView *VW_overlay;
     DGActivityIndicatorView *activityIndicatorView;
     
+    NSMutableArray *searchResults;
 }
 @property(nonatomic,strong)NSArray *ARR_states;
+
 @end
 
 @implementation VC_all_events
@@ -29,6 +32,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [self setup_VIEW];
     
     ARR_allevent = [[NSMutableArray alloc]init];
     
@@ -130,7 +135,9 @@
     _tbl_eventlst.estimatedRowHeight = 10.0;
     _tbl_eventlst.rowHeight = UITableViewAutomaticDimension;
     
-    [self setup_VIEW];
+    _tbl_search.estimatedRowHeight = 10.0;
+    _tbl_search.rowHeight = UITableViewAutomaticDimension;
+    _tbl_search.tableFooterView.hidden = YES;
     
     for (int i=0; i<[self.segment_bottom.subviews count]; i++)
     {
@@ -156,74 +163,7 @@
     _VW_line.hidden = YES;
     _lbl_Serch_char.hidden = YES;
     _VW_filter.hidden = YES;
-    
-//    _picker_STATE.hidden = YES;
-//    _picker_DATE.hidden = YES;
-//    [_picker_DATE setBackgroundColor:[UIColor whiteColor]];
-    
-    
-//    _tool_DATE.hidden = YES;
-//    _tool_STATE.hidden = YES;
-    
-//    [_BTN_choose addTarget:self action:@selector(choose_STATE) forControlEvents:UIControlEventTouchUpInside];
-//    [_BTN_fromDATE addTarget:self action:@selector(choose_from_DATE) forControlEvents:UIControlEventTouchUpInside];
-//    [_BTN_toDATE addTarget:self action:@selector(choose_to_DATE) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-//    NSDictionary *temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
-//    [ARR_allevent addObject:temp_Dictn];
-//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Murray Bros. Caddyshack Charity Golf Tournament",@"Event_Name",@"Mar 22, 2017 03:00PM EST",@"Event_Time", nil];
-//    [ARR_allevent addObject:temp_Dictn];
-//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Susan G Komen 2017 Golf Classic",@"Event_Name",@"Mar 31,2017 11:00AM EST",@"Event_Time", nil];
-//    [ARR_allevent addObject:temp_Dictn];
-//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
-//    [ARR_allevent addObject:temp_Dictn];
-//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Murray Bros. Caddyshack Charity Golf Tournament",@"Event_Name",@"Mar 22, 2017 03:00PM EST",@"Event_Time", nil];
-//    [ARR_allevent addObject:temp_Dictn];
-//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Susan G Komen 2017 Golf Classic",@"Event_Name",@"Mar 31,2017 11:00AM EST",@"Event_Time", nil];
-//    [ARR_allevent addObject:temp_Dictn];
-//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
-//    [ARR_allevent addObject:temp_Dictn];
-//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Murray Bros. Caddyshack Charity Golf Tournament",@"Event_Name",@"Mar 22, 2017 03:00PM EST",@"Event_Time", nil];
-//    [ARR_allevent addObject:temp_Dictn];
-//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Susan G Komen 2017 Golf Classic",@"Event_Name",@"Mar 31,2017 11:00AM EST",@"Event_Time", nil];
-//    [ARR_allevent addObject:temp_Dictn];
-//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
-//    [ARR_allevent addObject:temp_Dictn];
-    
-//    [ARR_states addObject:@"Qassim"];
-//    [ARR_states addObject:@"Riyadh"];
-//    [ARR_states addObject:@"Tabuk"];
-//    [ARR_states addObject:@"Madinah"];
-//    [ARR_states addObject:@"Makkah"];
-//    [ARR_states addObject:@"Northern Borders"];
-//    [ARR_states addObject:@"Jawf"];
-//    [ARR_states addObject:@"Ha'il"];
-//    [ARR_states addObject:@"Bahah"];
-//    [ARR_states addObject:@"Jizan"];
-//    [ARR_states addObject:@"'Asir"];
-//    [ARR_states addObject:@"Qassim"];
-//    [ARR_states addObject:@"Riyadh"];
-//    [ARR_states addObject:@"Tabuk"];
-//    [ARR_states addObject:@"Madinah"];
-//    [ARR_states addObject:@"Makkah"];
-//    [ARR_states addObject:@"Northern Borders"];
-//    [ARR_states addObject:@"Jawf"];
-//    [ARR_states addObject:@"Ha'il"];
-//    [ARR_states addObject:@"Bahah"];
-//    [ARR_states addObject:@"Jizan"];
-//    [ARR_states addObject:@"'Asir"];
-//    [ARR_states addObject:@"Qassim"];
-//    [ARR_states addObject:@"Riyadh"];
-//    [ARR_states addObject:@"Tabuk"];
-//    [ARR_states addObject:@"Madinah"];
-//    [ARR_states addObject:@"Makkah"];
-//    [ARR_states addObject:@"Northern Borders"];
-//    [ARR_states addObject:@"Jawf"];
-//    [ARR_states addObject:@"Ha'il"];
-//    [ARR_states addObject:@"Bahah"];
-//    [ARR_states addObject:@"Jizan"];
-//    [ARR_states addObject:@"'Asir"];
+    _tbl_search.hidden = YES;
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];
@@ -276,7 +216,6 @@
     [someButton setTitle:@"FILTER" forState:UIControlStateNormal];
     [someButton setBackgroundColor:[UIColor colorWithRed:0.07 green:0.33 blue:0.42 alpha:1.0]];
     [someButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:15.0]];
-//    [someButton setBackgroundImage:image3 forState:UIControlStateNormal];
     [someButton addTarget:self action:@selector(BTN_filter)
          forControlEvents:UIControlEventTouchUpInside];
     [someButton setShowsTouchWhenHighlighted:YES];
@@ -297,7 +236,6 @@
     close.frame=CGRectMake(state_close.frame.size.width - 100, 0, 100, state_close.frame.size.height);
     [close setTitle:@"close" forState:UIControlStateNormal];
     [close addTarget:self action:@selector(closebuttonClick) forControlEvents:UIControlEventTouchUpInside];
-    //    [numberToolbar setItems:[NSArray arrayWithObjects:close, nil]];
     [state_close addSubview:close];
     
     UIToolbar* date_close = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
@@ -312,33 +250,12 @@
     closeDate.frame=CGRectMake(date_close.frame.size.width - 90, 0, 100, date_close.frame.size.height);
     [closeDate setTitle:@"Close" forState:UIControlStateNormal];
     [closeDate addTarget:self action:@selector(closebuttonClick) forControlEvents:UIControlEventTouchUpInside];
-    //    [numberToolbar setItems:[NSArray arrayWithObjects:close, nil]];
     [date_close addSubview:closeDate];
     
-    _TXT_state.inputAccessoryView=state_close;
-        _TXT_todate.inputAccessoryView=date_close;
-       _TXT_fromdate.inputAccessoryView=date_close;
-//    NSDateComponents *comps = [[NSDateComponents alloc] init];
-//    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-//    NSDate *currentDate = [NSDate date];
-//    NSDateComponents *comps = [[NSDateComponents alloc] init];
-//    [comps setYear:-25];
-//    NSDate *minDate = [gregorian dateByAddingComponents:comps toDate:currentDate  options:0];
-//    [comps setYear:18];
-//    NSDate *maxDate = [gregorian dateByAddingComponents:comps toDate:currentDate  options:0];
+    _TXT_state.inputAccessoryView = state_close;
+    _TXT_todate.inputAccessoryView = date_close;
+    _TXT_fromdate.inputAccessoryView = date_close;
     
-//    NSDate *maxDate = [formatter1 dateFromString:dateString];
-//    NSDate *todaysDate = [NSDate date];
-//    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
-//    [dateComponents setYear:15];
-//    NSDate *targetDate = [gregorian dateByAddingComponents:dateComponents toDate:todaysDate  options:0];
-//    [_fromdate_picker setMaximumDate:[NSDate date]];
-//    [_fromdate_picker setMinimumDate:minDate];
-//   [_todate_picker setMaximumDate:self.fromdate_picker.maximumDate];
-//    [_todate_picker setMinimumDate:targetDate];
-
-//[_todate_picker addTarget:self action:@selector(choose_to_DATE) forControlEvents:UIControlEventTouchUpInside];
-
 }
 -(void)closebuttonClick
 {
@@ -511,6 +428,7 @@
 }
 -(void) whenSearchClicked
 {
+    _tbl_search.hidden = YES;
     if (_VW_filter.hidden == NO) {
         
         [UIView transitionWithView:_VW_filter
@@ -601,6 +519,7 @@
     self.navigationItem.rightBarButtonItem =mailbutton;
 }
 
+#pragma mark - UISearchBar Deligate
 -(BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
     self.navigationItem.rightBarButtonItem = nil;
@@ -614,44 +533,30 @@
     
     old_color = _VW_nav_TOP.backgroundColor;
     
-    //_VW_nav_TOP.backgroundColor = [UIColor whiteColor];
     _VW_nav_TOP.backgroundColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1.0];
     
     [_search_BAR resignFirstResponder];
-    [_search_BAR endEditing:YES];
     _search_BAR.hidden = YES;
     
-//    CGRect frame = CGRectMake(0,0, self.navigationController.navigationBar.frame.size.width - 140,44);
-//    _search_BAR.frame = frame;
-//    _search_BAR.hidden = NO;
     
     searchBar1 = [[UISearchBar alloc]initWithFrame:CGRectMake(0,0, self.navigationController.navigationBar.frame.size.width - 140,44)];
     [searchBar1 setSearchBarStyle:UISearchBarStyleMinimal];
     [searchBar1 setBarStyle:UIBarStyleBlack];
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setDefaultTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
     [searchBar1 setTintColor:[UIColor blackColor]];
-    [_search_BAR resignFirstResponder];
     [searchBar1 becomeFirstResponder];
-//    searchBar1
     
     searchBar1.placeholder = @"Search";
     UIBarButtonItem *searchBarItem = [[UIBarButtonItem alloc]initWithCustomView:searchBar1];
     searchBarItem.tag = 123;
-//    searchBarItem.customView.hidden = YES;
-//    searchBarItem.customView.alpha = 0.0f;
     self.navigationItem.leftBarButtonItem = searchBarItem;
-    
-//    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithTitle:@"Search" style:UIBarButtonItemStylePlain target:self action:@selector(whenSearchClicked)];
-//    self.navigationItem.rightBarButtonItem = leftItem;
     
     CGRect frameimg = CGRectMake(15,5, 80,44);
     
     UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
     [someButton setTitle:@"" forState:UIControlStateNormal];
     [someButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//    [someButton setBackgroundColor:[UIColor colorWithRed:0.07 green:0.33 blue:0.42 alpha:1.0]];
     [someButton.titleLabel setFont:[UIFont fontWithName:@"FontAwesome" size:24.0f]];
-//        [someButton setBackgroundImage:image3 forState:UIControlStateNormal];
     
     [someButton setBackgroundColor:[UIColor clearColor]];
     [someButton setTitleColor:[UIColor colorWithRed:0.07 green:0.33 blue:0.42 alpha:1.0] forState:UIControlStateNormal];
@@ -668,59 +573,162 @@
 }
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    if (searchBar == _search_BAR) {
-        [_search_BAR resignFirstResponder];
-        [searchBar1 becomeFirstResponder];
+    searchBar1.text = searchText;
+    UITextField *searchBarTextField = [self findTextFieldFromControl:searchBar1];
+    [searchBarTextField addTarget:self action:@selector(getSearch_TXT) forControlEvents:UIControlEventEditingChanged];
+    
+    [searchResults removeAllObjects];
+    
+    if([searchText length] != 0)
+    {
+        VW_overlay.hidden = NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(searcH_API) withObject:activityIndicatorView afterDelay:0.01];
     }
+}
+
+-(void) getSearch_TXT
+{
+    NSString *str = searchBar1.text;
+    NSLog(@"Updated Text working %@",str);
+    
+    if([str length] != 0)
+    {
+        VW_overlay.hidden = NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(searcH_API) withObject:activityIndicatorView afterDelay:0.01];
+    }
+}
+
+- (UITextField *) findTextFieldFromControl:(UIView *) view
+{
+    for (UIView *subview in view.subviews)
+    {
+        if ([subview isKindOfClass:[UITextField class]])
+        {
+            return (UITextField *)subview;
+        }
+        else if ([subview.subviews count] > 0)
+        {
+            UIView *view = [self findTextFieldFromControl:subview];
+            if (view) {
+                return (UITextField *)view;
+            }
+        }
+    }
+    return nil;
+}
+
+- (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    NSString* newText = [searchBar.text stringByReplacingCharactersInRange:range withString:text];
+    NSLog(@"Search text = %@",newText);
+    
+    return YES;
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    NSLog(@"Search done tapped");
+//    UITextField *searchBarTextField = [self findTextFieldFromControl:searchBar1];
+//    [searchBarTextField addTarget:self action:@selector(getSearch_TXT) forControlEvents:UIControlEventEditingChanged];
+//    [searchBarTextField resignFirstResponder];
 }
 
 #pragma mark - UITableview Deligate
 #pragma Mark - UITableview
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (tableView == _tbl_search) {
+        return [searchResults count];
+    }
     return [ARR_allevent count];
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *simpleTableIdentifier = @"SimpleTableItem";
-    
-    TBL_VW_Cell_EVENTS *cell = (TBL_VW_Cell_EVENTS *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    if (cell == nil)
+    if (tableView == _tbl_search)
     {
-        NSArray *nib;
-        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+        static NSString *CellIdentifier = @"Cell";
+        
+        Cell_search *cell = (Cell_search *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil)
         {
-            nib = [[NSBundle mainBundle] loadNibNamed:@"TBL_VW_Cell_EVENTS~iPad" owner:self options:nil];
+            NSArray *nib;
+            if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+            {
+                nib = [[NSBundle mainBundle] loadNibNamed:@"Cell_search~iPad" owner:self options:nil];
+            }
+            else
+            {
+                nib = [[NSBundle mainBundle] loadNibNamed:@"Cell_search" owner:self options:nil];
+            }
+            cell = [nib objectAtIndex:0];
         }
-        else
-        {
-            nib = [[NSBundle mainBundle] loadNibNamed:@"TBL_VW_Cell_EVENTS" owner:self options:nil];
-        }
-        cell = [nib objectAtIndex:0];
+        
+        cell.lbl_eventName.text = [searchResults objectAtIndex:indexPath.row];
+        cell.lbl_eventName.numberOfLines = 0;
+        [cell.lbl_eventName sizeToFit];
+        
+        return cell;
     }
-    
+    else
+    {
+        static NSString *simpleTableIdentifier = @"SimpleTableItem";
+        
+        TBL_VW_Cell_EVENTS *cell = (TBL_VW_Cell_EVENTS *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+        if (cell == nil)
+        {
+            NSArray *nib;
+            if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+            {
+                nib = [[NSBundle mainBundle] loadNibNamed:@"TBL_VW_Cell_EVENTS~iPad" owner:self options:nil];
+            }
+            else
+            {
+                nib = [[NSBundle mainBundle] loadNibNamed:@"TBL_VW_Cell_EVENTS" owner:self options:nil];
+            }
+            cell = [nib objectAtIndex:0];
+        }
+        
         NSDictionary *temp_DICN = [ARR_allevent objectAtIndex:indexPath.row];
         cell.lbl_event_name.text = [temp_DICN valueForKey:@"name"];
         cell.lbl_event_name.numberOfLines = 0;
         [cell.lbl_event_name sizeToFit];
-    
+        
         cell.lbl_event_time.text = [self getLocalDateTimeFromUTC:[temp_DICN valueForKey:@"start_date"]];
-    
+        
         [cell.BTN_View_detail setTag:indexPath.row];
         [cell.BTN_View_detail addTarget:self action:@selector(BTN_ALL_EVENT:) forControlEvents:UIControlEventTouchUpInside];
-
-    return cell;
+        
+        return cell;
+    }
 }
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView == _tbl_search)
+    {
+        NSString *STR_eventname = [searchResults objectAtIndex:indexPath.row];
+        [[NSUserDefaults standardUserDefaults] setValue:STR_eventname forKey:@"EVENT_NAME_STORED"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        VW_overlay.hidden = NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(get_event_ID) withObject:activityIndicatorView afterDelay:0.01];
+    }
+}
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row % 2) {
-        cell.contentView.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.95 alpha:1.0];
-    } else {
-        cell.contentView.backgroundColor = [UIColor colorWithRed:0.88 green:0.88 blue:0.88 alpha:1.0];
+    if (tableView != _tbl_search)
+    {
+        if (indexPath.row % 2)
+        {
+            cell.contentView.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.95 alpha:1.0];
+        }
+        else
+        {
+            cell.contentView.backgroundColor = [UIColor colorWithRed:0.88 green:0.88 blue:0.88 alpha:1.0];
+        }
     }
 }
 
@@ -945,6 +953,107 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
         
         [self performSegueWithIdentifier:@"eventDetailidentifier" sender:self];
+    }
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+}
+
+#pragma mark - Search API
+-(void) searcH_API
+{
+    searchResults = [[NSMutableArray alloc] init];
+    
+    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSString *search_char = searchBar1.text;
+    NSHTTPURLResponse *response = nil;
+    NSError *error;
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@events/autocomplete?query=%@",SERVER_URL,search_char];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    [request setHTTPShouldHandleCookies:NO];
+    
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSMutableDictionary *json_DATA;
+    if (aData)
+    {
+        json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"The response %@",json_DATA);
+        
+        NSArray *ARR_events = [json_DATA valueForKey:@"events"];
+        for (int i = 0; i < [ARR_events count]; i ++)
+        {
+            NSDictionary *temp_DICTN = [ARR_events objectAtIndex:i];
+            NSString *event_name = [temp_DICTN valueForKey:@"name"];
+            [searchResults addObject:event_name];
+        }
+        
+        if ([searchResults count] != 0)
+        {
+            _tbl_search.hidden = NO;
+        }
+        else
+        {
+            _tbl_search.hidden = YES;
+        }
+        
+        [_tbl_search reloadData];
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+    }
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+}
+
+//Auto sugession Tap Event name
+-(void) get_event_ID
+{
+    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSString *event_NME = [[NSUserDefaults standardUserDefaults] valueForKey:@"EVENT_NAME_STORED"];
+    event_NME = [event_NME stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+    NSHTTPURLResponse *response = nil;
+    NSError *error;
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@events/all_events?event_name=%@",SERVER_URL,event_NME];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    [request setHTTPShouldHandleCookies:NO];
+    
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSMutableDictionary *json_DATA;
+    if (aData)
+    {
+        json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"Search Event tapped %@",json_DATA);
+        
+        NSArray *ARR_tmp = [json_DATA valueForKey:@"events"];
+        
+        ARR_allevent = [[NSMutableArray alloc]init];
+        [ARR_allevent addObjectsFromArray:ARR_tmp];
+        
+        _tbl_search.hidden = YES;
+        [_tbl_eventlst reloadData];
+        
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
     }
     else
     {

@@ -250,15 +250,15 @@
 }
 
 #pragma mark - UIButton Actions
--(void) BTN_order1action
-{
-    NSLog(@"BTN_order1action tapped");
-    [self performSegueWithIdentifier:@"orderdetailidentifier" sender:self];
-}
+//-(void) BTN_order1action
+//{
+//    NSLog(@"BTN_order1action tapped");
+//    [self performSegueWithIdentifier:@"orderdetailidentifier" sender:self];
+//}
 -(void) BTN_order2action
 {
     NSLog(@"BTN_order2action tapped");
-    [self performSegueWithIdentifier:@"orderdetailidentifier" sender:self];
+    [self performSegueWithIdentifier:@"purchaseidentifier" sender:self];
 }
 
 @end

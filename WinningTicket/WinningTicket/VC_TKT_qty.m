@@ -110,22 +110,25 @@
     NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
     NSLog(@"thedata is Upcoming:%@",dict);
     
+    NSDictionary *temp_dict=[dict valueForKey:@"event"];
+
+    
     [_scroll_contents addSubview:_VW_qtycontent];
     [_scroll_contents addSubview:_VW_line1];
     [_scroll_contents addSubview:_VW_line2];
     [_scroll_contents addSubview:_VW_promo];
     
-    NSString *location=[NSString stringWithFormat:@"%@",[dict valueForKey:@"location"]];
+    NSString *location=[NSString stringWithFormat:@"%@",[temp_dict valueForKey:@"location"]];
     if([location isEqualToString:@"<null>"])
     {
             location=@"Not mentioned";
     }
     _TXT_qty.text = @"1";
     NSString *show = @"Winning Ticket";
-    NSString *place = [dict valueForKey:@"name"];
-    NSString *ticketnumber = [dict valueForKey:@"code"];
+    NSString *place = [temp_dict valueForKey:@"name"];
+    NSString *ticketnumber = [temp_dict  valueForKey:@"code"];
     NSString *club_name = @"Grand Cypress Country Club";
-    _lbl_price.text=[NSString stringWithFormat:@"$ %@",[dict valueForKey:@"ticket_price"]];
+    _lbl_price.text=[NSString stringWithFormat:@"$ %@",[dict valueForKey:@"price"]];
     
     NSArray *arr = [_lbl_price.text componentsSeparatedByString:@"$"];
     _lbl_dataTotal.text = [NSString stringWithFormat:@"$ %d.00",[_TXT_qty.text intValue] * [[arr objectAtIndex:1] intValue]];
@@ -399,8 +402,9 @@
     NSHTTPURLResponse *response = nil;
     
     NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
-    
-    NSDictionary *parameters = @{ @"event_id":  [dict valueForKey:@"id"], @"quantity": STR_chk};
+    NSDictionary *temp_dict=[dict valueForKey:@"event"];
+
+    NSDictionary *parameters = @{ @"event_id":  [temp_dict valueForKey:@"id"], @"quantity": STR_chk};
     NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
     
     NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&err];

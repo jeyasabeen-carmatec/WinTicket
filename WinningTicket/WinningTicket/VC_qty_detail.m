@@ -109,9 +109,11 @@
            NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
            dict = [userDetails objectAtIndex:i];
             
-            NSString *email = [dict objectForKey:@"email"];
+            NSString *email = [dict valueForKey:@"email"];
+            NSString *fname = [dict valueForKey:@"first_name"];
+            NSString *lname = [dict valueForKey:@"last_name"];
             
-            if([[dict objectForKey:@"first_name"] isEqual:@""])
+            if([fname isEqual:@""])
                 {
                    NSLog(@"emailnull index %i",i);
                    NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
@@ -120,8 +122,18 @@
                    [pu_cell.fname becomeFirstResponder];
                    break;
                  }
+            
+            if (fname.length < 2)
+            {
+                NSLog(@"emailnull index %i",i);
+                NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
+                NSLog(@"path  = %@",path);
+                pu_cell = [self.tbl_content cellForRowAtIndexPath:path];
+                [pu_cell.fname becomeFirstResponder];
+                break;
+            }
 
-            if([[dict objectForKey:@"last_name"] isEqual:@""])
+            if([lname isEqual:@""])
             {
                 NSLog(@"first_namenull index %i",i);
                 NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
@@ -130,7 +142,18 @@
                 [pu_cell.lname becomeFirstResponder];
                 break;
             }
-            if([[dict objectForKey:@"email"] isEqual:@""])
+            
+            if (lname.length < 2)
+            {
+                NSLog(@"first_namenull index %i",i);
+                NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
+                NSLog(@"path  = %@",path);
+                pu_cell = [self.tbl_content cellForRowAtIndexPath:path];
+                [pu_cell.lname becomeFirstResponder];
+                break;
+            }
+            
+            if([email isEqual:@""])
              {
                  NSLog(@"last_namenull index %i",i);
                  NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
@@ -160,7 +183,7 @@
         [self qty_detailPage];
     }
     
-    
+    [self myprofileapicalling];
 }
 
 -(void) qty_detailPage
@@ -439,5 +462,41 @@
     _scroll_TBL.contentSize = CGSizeMake(_scroll_TBL.frame.size.width, [_tbl_content contentSize].height);
 }
 
+-(void)myprofileapicalling
+{
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@view_profile",SERVER_USR];
+    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        
+//        [activityIndicatorView stopAnimating];
+//        VW_overlay.hidden = YES;
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        //        NSLog(@" THe user data is :%@",[[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"]);
+//        [self performSegueWithIdentifier:@"accountstoeditprofileidentifier" sender:self];
+        
+    }
+    else
+    {
+//        [activityIndicatorView stopAnimating];
+//        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Interrupted" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+    
+}
 
 @end

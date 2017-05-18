@@ -34,6 +34,7 @@
 @property (nonatomic, weak) IBOutlet UITextField *TXT_country;
 @property (nonatomic, strong) UIPickerView *contry_pickerView;
 
+@property (weak, nonatomic) IBOutlet UIButton *proceed_TOPAY;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scroll_contents;
 
