@@ -124,9 +124,6 @@
     VW_overlay.backgroundColor = [UIColor blackColor];
     VW_overlay.alpha = 0.2;
     
-    
-    
-    
     activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallSpinFadeLoader tintColor:[UIColor whiteColor]];
     
     CGRect frame_M = activityIndicatorView.frame;

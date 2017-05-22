@@ -53,7 +53,7 @@
 {
     [super viewDidLayoutSubviews];
     [_scroll_contents layoutIfNeeded];
-    _scroll_contents.contentSize = CGSizeMake(_scroll_contents.frame.size.width,original_height+10);
+    _scroll_contents.contentSize = CGSizeMake(_scroll_contents.frame.size.width,original_height+50);
 }
 
 /*
@@ -69,6 +69,8 @@
 #pragma mark - Uiview Customisation
 -(void) setup_VIEW
 {
+    lbl_origin_FRAME = _lbl_agree.frame;
+    
     _TXT_firstname.layer.cornerRadius = 5.0f;
     _TXT_firstname.layer.masksToBounds = YES;
     _TXT_firstname.layer.borderWidth = 2.0f;
@@ -200,7 +202,15 @@
     
     NSString *show = @"Winning Ticket";
     NSString *place = [NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"location"]];//@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
-    place = [place stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
+    if(!place)
+    {
+        place=@"Notmentioned";
+    }
+    else{
+        place=@"Notmentioned";
+        
+    }
+//    place = [place stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
     NSString *ticketnumber = [temp_dictin valueForKey:@"code"];
     NSString *club_name = [temp_dictin valueForKey:@"name"];
     
@@ -228,11 +238,13 @@
     {
         self.lbl_des_cription.text = text;
     }
-    
+   
     _lbl_des_cription.numberOfLines = 0;
     [_lbl_des_cription sizeToFit];
-    original_height= _lbl_agree.frame.origin.y + _lbl_agree.frame.size.height + 80;
     CGRect frame_NEW;
+    frame_NEW=_lbl_amount_des.frame;
+    frame_NEW.origin.y=_lbl_des_cription.frame.origin.y+20;
+    _lbl_amount_des.frame=frame_NEW;
     
     frame_NEW = _VW_line1.frame;
     frame_NEW.origin.y = _lbl_des_cription.frame.origin.y + _lbl_des_cription.frame.size.height + 10;
@@ -271,11 +283,12 @@
     _lbl_agree.text = @"You will not be charged until you confirm your order";
     _lbl_agree.numberOfLines = 0;
     [_lbl_agree sizeToFit];
+
     
     [_BTN_edit addTarget:self action:@selector(edit_BTN_action:) forControlEvents:UIControlEventTouchUpInside];
     
     frame_NEW = _VW_titladdress.frame;
-    frame_NEW.origin.y = _scroll_contents.frame.origin.y + heiht1;
+    frame_NEW.origin.y = _scroll_contents.frame.origin.y + heiht1-50;
     frame_NEW.size.width = _scroll_contents.frame.size.width;
     _VW_titladdress.frame = frame_NEW;
     [self.scroll_contents addSubview:self.VW_titladdress];
@@ -294,7 +307,7 @@
     
     
     frame_NEW=_proceed_TOPAY.frame;
-    frame_NEW.origin.y=_lbl_address.frame.origin.y+_lbl_address.frame.size.height+10;
+    frame_NEW.origin.y=_lbl_address.frame.origin.y+_lbl_address.frame.size.height+30;
     _proceed_TOPAY.frame=frame_NEW;
     
     frame_NEW = _BTN_checkout.frame;
@@ -303,11 +316,18 @@
     _BTN_checkout.frame = frame_NEW;
     
     
+    
     frame_NEW = _lbl_agree.frame;
+    frame_NEW.size.width = lbl_origin_FRAME.size.width;
+    _lbl_agree.frame = frame_NEW;
+    
+//    frame_NEW = _lbl_agree.frame;
     
     frame_NEW.origin.y = _BTN_checkout.frame.origin.y + _BTN_checkout.frame.size.height + 10;
     _lbl_agree.frame = frame_NEW;
     
+    original_height= _lbl_agree.frame.origin.y + _lbl_agree.frame.size.height;
+
     _VW_address.frame=CGRectMake(_VW_titladdress.frame.origin.x,_VW_titladdress.frame.origin.y+60,self.scroll_contents.frame.size.width,_VW_address.frame.size.height);
     [self.scroll_contents addSubview:_VW_address];
     _VW_address.hidden=YES;
@@ -393,8 +413,6 @@
 {
     if(_VW_address.hidden==YES)
     {
-        
-        lbl_origin_FRAME = _lbl_agree.frame;
         BTN_originY = _BTN_checkout.frame.origin.y;
         
         
@@ -416,7 +434,7 @@
             
             _BTN_checkout.frame = CGRectMake(_BTN_checkout.frame.origin.x, _proceed_TOPAY.frame.origin.y + _proceed_TOPAY.frame.size.height + 10, _BTN_checkout.frame.size.width, _BTN_checkout.frame.size.height);
             
-            _lbl_agree.frame = CGRectMake(_lbl_agree.frame.origin.x, _BTN_checkout.frame.origin.y + _BTN_checkout.frame.size.height+10 , _lbl_agree.frame.size.width, _lbl_agree.frame.size.height+10);
+            _lbl_agree.frame = CGRectMake(_lbl_agree.frame.origin.x, _BTN_checkout.frame.origin.y + _BTN_checkout.frame.size.height+10 , lbl_origin_FRAME.size.width, _lbl_agree.frame.size.height+10);
             
         }];
         [UIView commitAnimations];

@@ -8,21 +8,45 @@
 
 #import "VC_item_deatail.h"
 #import "similar_collectioncell.h"
+#import "TAExampleDotView.h"
+#import "TAPageControl.h"
 
 
-@interface VC_item_deatail ()
+
+@interface VC_item_deatail () <UIScrollViewDelegate, TAPageControlDelegate>
+
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView1;
+@property (strong, nonatomic) IBOutletCollection(UIScrollView) NSArray *scrollViews;
+
+@property (weak, nonatomic) IBOutlet TAPageControl *customStoryboardPageControl;
+
+@property (strong, nonatomic) NSArray *imagesData;
+
 
 @end
 
 @implementation VC_item_deatail
 
-@synthesize scrollView,pageControl;
+//@synthesize scrollView,pageControl;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self setup_VIEW];
+    
+     [self setup_VIEW];
+    self.imagesData = @[@"image1.jpg", @"image2.jpg", @"image3.jpg", @"image4.jpg", @"image5.jpg", @"image6.jpg"];
+    [self setupScrollViewImages];
+    _lbl_count.text = [NSString stringWithFormat:@"%lu of %lu",(unsigned long)_imagesData.count,(unsigned long)_imagesData.count];
+    
+
+    
+    for (UIScrollView *scrollView in self.scrollViews) {
+        scrollView.delegate = self;
+    }
+
+    self.customStoryboardPageControl.numberOfPages = self.imagesData.count;
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -35,7 +59,53 @@
     [super viewDidLayoutSubviews];
     [_scroll_contents layoutIfNeeded];
     _scroll_contents.contentSize = CGSizeMake(_scroll_contents.frame.size.width, _VW_contents.frame.size.height);
+    for (UIScrollView *scrollView in self.scrollViews) {
+        scrollView.contentSize = CGSizeMake(CGRectGetWidth(scrollView.frame) * self.imagesData.count, CGRectGetHeight(scrollView.frame));
+    }
+
 }
+#pragma mark - ScrollView delegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    NSInteger pageIndex = scrollView.contentOffset.x / CGRectGetWidth(scrollView.frame);
+    
+    if (scrollView == self.scrollView1) {
+        self.customStoryboardPageControl.currentPage = pageIndex;
+        _lbl_count.text = [NSString stringWithFormat:@"%lu of %lu",(long)self.customStoryboardPageControl.currentPage + 1,(unsigned long)_imagesData.count];
+
+    }
+    NSLog(@"scrollview frame:%@",NSStringFromCGRect(_scrollView1.frame));
+}
+
+#pragma mark - Utils
+- (void)setupScrollViewImages
+{
+    for (UIScrollView *scrollView in self.scrollViews) {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            [self.imagesData enumerateObjectsUsingBlock:^(NSString *imageName, NSUInteger idx, BOOL *stop) {
+                UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(scrollView.frame) * idx, 0, CGRectGetWidth(scrollView.frame)+80, CGRectGetHeight(scrollView.frame))];
+//                imageView.contentMode = UIViewContentModeScaleAspectFill;
+                imageView.image = [UIImage imageNamed:imageName];
+                [scrollView addSubview:imageView];
+            }];
+           
+                }
+                else
+                {
+                    [self.imagesData enumerateObjectsUsingBlock:^(NSString *imageName, NSUInteger idx, BOOL *stop) {
+                        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(scrollView.frame) * idx, 0, CGRectGetWidth(scrollView.frame)+30, CGRectGetHeight(scrollView.frame))];
+//                        imageView.contentMode = UIViewContentModeScaleAspectFill;
+                        imageView.image = [UIImage imageNamed:imageName];
+                        [scrollView addSubview:imageView];
+                    }];
+                }
+                
+
+        
+        
+    }
+}
+
 
 /*
 #pragma mark - Navigation
@@ -47,34 +117,34 @@
 }
 */
 
-- (void)scrollViewDidScroll:(UIScrollView *)sender {
-    if (!pageControlBeingUsed) {
-        // Switch the indicator when more than 50% of the previous/next page is visible
-        CGFloat pageWidth = self.scrollView.frame.size.width;
-        int page = floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
-        self.pageControl.currentPage = page;
-        
-        _lbl_count.text = [NSString stringWithFormat:@"%lu of %lu",(long)self.pageControl.currentPage + 1,(unsigned long)self.pageControl.numberOfPages];
-        
-//        [self changePage];
-        
-//        CGRect frame;
-//        frame.origin.x = self.scrollView.frame.size.width * page;
-//        frame.origin.y = 0;
-//        frame.size = self.scrollView.frame.size;
-//        [self.scrollView scrollRectToVisible:frame animated:YES];
-        
-    }
-}
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    pageControlBeingUsed = NO;
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    pageControlBeingUsed = NO;
-}
-
+//- (void)scrollViewDidScroll:(UIScrollView *)sender {
+//    if (!pageControlBeingUsed) {
+//        // Switch the indicator when more than 50% of the previous/next page is visible
+//        CGFloat pageWidth = self.scrollView.frame.size.width;
+//        int page = floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+//        self.pageControl.currentPage = page;
+//        
+//        _lbl_count.text = [NSString stringWithFormat:@"%lu of %lu",(long)self.pageControl.currentPage + 1,(unsigned long)self.pageControl.numberOfPages];
+//        
+////        [self changePage];
+//        
+////        CGRect frame;
+////        frame.origin.x = self.scrollView.frame.size.width * page;
+////        frame.origin.y = 0;
+////        frame.size = self.scrollView.frame.size;
+////        [self.scrollView scrollRectToVisible:frame animated:YES];
+//        
+//    }
+//}
+//
+//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+//    pageControlBeingUsed = NO;
+//}
+//
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+//    pageControlBeingUsed = NO;
+//}
+//
 #pragma mark - UIView Customisation
 -(void) setup_VIEW
 {
@@ -121,48 +191,55 @@
     [self.navigationItem setLeftBarButtonItems:@[negativeSpacer, anotherButton ] animated:NO];
     //    [self.navigationItem setRightBarButtonItems:@[anotherButton1, negativeSpacer]animated:NO];
     
-    [self setup_Values];
+    
+    
+        [self setup_Values];
 }
-- (void)viewDidUnload {
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-    self.scrollView = nil;
-    self.pageControl = nil;
-}
+//- (void)viewDidUnload {
+//    // Release any retained subviews of the main view.
+//    // e.g. self.myOutlet = nil;
+//    self.scrollView = nil;
+//    self.pageControl = nil;
+//}
 
 -(void) setup_Values
 {
     
     _lbl_count.layer.cornerRadius = 5.0f;
     _lbl_count.layer.masksToBounds = YES;
-//    _lbl_count.layer.backgroundColor = [UIColor whiteColor].CGColor;
-    
-    NSArray *images = [[NSArray alloc] initWithObjects:[UIImage imageNamed:@"IMG_0002.PNG"],[UIImage imageNamed:@"IMG_0003.PNG"],[UIImage imageNamed:@"IMG_0004.PNG" ],[UIImage imageNamed:@"IMG_0009.PNG"],[UIImage imageNamed:@"IMG_0010.PNG"],[UIImage imageNamed:@"IMG_0011.PNG" ],[UIImage imageNamed:@"IMG_0002.PNG"], nil];
-    
-    self.scrollView.contentSize = CGSizeMake(_scroll_contents.frame.size.width * images.count, self.scrollView.frame.size.height);
     
     
     
-    for (int i = 0; i < images.count; i++) {
-        CGRect frame;
-        frame.origin.x = _scroll_contents.frame.size.width * i;
-        frame.origin.y = 0;
-        frame.size.width = _scroll_contents.frame.size.width;
-        frame.size.height = scrollView.frame.size.height;
-        UIImageView* imgView = [[UIImageView alloc] init];
-        imgView.image = [images objectAtIndex:i];
-        imgView.frame = frame;
-        [scrollView addSubview:imgView];
-    }
+    // TAPageControl from storyboard
     
-    self.pageControl.currentPage = 0;
-    self.pageControl.numberOfPages = images.count;
+
+    _lbl_count.layer.backgroundColor = [UIColor whiteColor].CGColor;
+    
+//    NSArray *images = [[NSArray alloc] initWithObjects:[UIImage imageNamed:@"IMG_0002.PNG"],[UIImage imageNamed:@"IMG_0003.PNG"],[UIImage imageNamed:@"IMG_0004.PNG" ],[UIImage imageNamed:@"IMG_0009.PNG"],[UIImage imageNamed:@"IMG_0010.PNG"],[UIImage imageNamed:@"IMG_0011.PNG" ],[UIImage imageNamed:@"IMG_0002.PNG"], nil];
+    
+//    self.scrollView.contentSize = CGSizeMake(_scroll_contents.frame.size.width * images.count, self.scrollView.frame.size.height);
+//    
+//    
+//    
+//    for (int i = 0; i < images.count; i++) {
+//        CGRect frame;
+//        frame.origin.x = _scroll_contents.frame.size.width * i;
+//        frame.origin.y = 0;
+//        frame.size.width = _scroll_contents.frame.size.width;
+//        frame.size.height = scrollView.frame.size.height;
+//        UIImageView* imgView = [[UIImageView alloc] init];
+//        imgView.image = [images objectAtIndex:i];
+//        imgView.frame = frame;
+//        [scrollView addSubview:imgView];
+//    }
+//    
+//    self.pageControl.currentPage = 0;
+//    self.pageControl.numberOfPages = images.count;
+//    
+//    
     
     
-    _lbl_count.text = [NSString stringWithFormat:@"%lu of %lu",(long)self.pageControl.currentPage + 1,(unsigned long)images.count];
-    
-    CGRect new_frame;
-    
+ 
     NSString *STR_event_name = @"Jordan Spieth Autographed Golf Ball with Certificate of Authenticity";
     NSString *STR_price = @"US $59.99";
     NSString *STR_bid = @"Starting bid";
@@ -199,20 +276,29 @@
     
     self.lbl_itemNAME.numberOfLines = 0;
     [self.lbl_itemNAME sizeToFit];
-    
-    new_frame = self.pageControl.frame;
-    
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        
-        new_frame.origin.y = _lbl_itemNAME.frame.origin.y - self.pageControl.frame.size.height - 160;;
-    }
-    else
-    {
-        new_frame.origin.y = _lbl_itemNAME.frame.origin.y - self.pageControl.frame.size.height - 20;
-    }
+    NSLog(@"Label  frame:%@",NSStringFromCGRect(_lbl_itemNAME.frame));
     
     
-    self.pageControl.frame = new_frame;
+    NSLog(@"The origin y = %f height = %f",self.scrollView1.frame.origin.y,self.scrollView1.frame.size.height);
+    
+    CGRect new_frame;
+    new_frame=self.lbl_itemNAME.frame;
+    new_frame.origin.y = self.scrollView1.frame.origin.y + self.scrollView1.frame.size.height + 10 + self.navigationController.navigationBar.frame.size.height + 10;
+    _lbl_itemNAME.frame=new_frame;
+    
+//    new_frame = self.customStoryboardPageControl.frame;
+//    
+//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+//        
+//         new_frame.origin.y = _lbl_itemNAME.frame.origin.y - self.customStoryboardPageControl.frame.size.height-260;
+//    }
+//    else
+//    {
+//        new_frame.origin.y = _lbl_itemNAME.frame.origin.y - self.customStoryboardPageControl.frame.size.height;
+//    }
+//    
+//    self.customStoryboardPageControl.frame = new_frame;
+//    
     
     new_frame = _BTN_place_BID.frame;
     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
@@ -299,17 +385,17 @@
 }
 
 
-- (IBAction)changePage{
-    // update the scroll view to the appropriate page
-    CGRect frame;
-    frame.origin.x = self.scrollView.frame.size.width * self.pageControl.currentPage;
-    frame.origin.y = 0;
-    frame.size = self.scrollView.frame.size;
-    [self.scrollView scrollRectToVisible:frame animated:YES];
-    pageControlBeingUsed = YES;
-    
-    _lbl_count.text = [NSString stringWithFormat:@"%lu of %lu",(long)self.pageControl.currentPage + 1,(unsigned long)self.pageControl.numberOfPages];
-}
+//- (IBAction)changePage{
+//    // update the scroll view to the appropriate page
+//    CGRect frame;
+//    frame.origin.x = self.scrollView.frame.size.width * self.pageControl.currentPage;
+//    frame.origin.y = 0;
+//    frame.size = self.scrollView.frame.size;
+//    [self.scrollView scrollRectToVisible:frame animated:YES];
+//    pageControlBeingUsed = YES;
+//    
+//    _lbl_count.text = [NSString stringWithFormat:@"%lu of %lu",(long)self.pageControl.currentPage + 1,(unsigned long)self.pageControl.numberOfPages];
+//}
 #pragma mark - Back Action
 -(void) backAction
 {

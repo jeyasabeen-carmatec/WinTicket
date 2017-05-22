@@ -9,20 +9,20 @@
 #import <UIKit/UIKit.h>
 
 @interface VC_item_deatail : UIViewController <UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIActionSheetDelegate>
-{
-    UIScrollView *scrollView;
-    UIPageControl *pageControl;
-    
-    BOOL pageControlBeingUsed;
-}
+//{
+//    UIScrollView *scrollView;
+//    UIPageControl *pageControl;
+//    
+//    BOOL pageControlBeingUsed;
+//}
 
 @property (weak, nonatomic) IBOutlet UIView *VW_contents;
 @property (weak, nonatomic) IBOutlet UIScrollView *scroll_contents;
 
-@property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
-@property (nonatomic, retain) IBOutlet UIPageControl *pageControl;
+//@property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
+//@property (nonatomic, retain) IBOutlet UIPageControl *pageControl;
 
-- (IBAction)changePage;
+//- (IBAction)changePage;
 
 @property (weak, nonatomic) IBOutlet UILabel *lbl_itemNAME;
 

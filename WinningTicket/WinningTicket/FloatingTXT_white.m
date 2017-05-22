@@ -1,9 +1,9 @@
 //
 //  AppTextField.m
-//  TFDemoApp
+//  WinningTicket
 //
-//  Created by Abhishek Chandani on 19/05/16.
-//  Copyright © 2016 Abhishek. All rights reserved.
+//  Created by Test User on 21/03/17.
+//  Copyright © 2017 Carmatec IT Solutions. All rights reserved.
 //
 
 #import "FloatingTXT_white.h"

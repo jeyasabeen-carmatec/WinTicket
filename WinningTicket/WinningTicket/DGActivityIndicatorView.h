@@ -1,22 +1,22 @@
 //
 //  DGActivityIndicatorView.h
-//  DGActivityIndicatorExample
+//  WinningTicket
 //
-//  Created by Danil Gontovnik on 5/23/15.
-//  Copyright (c) 2015 Danil Gontovnik. All rights reserved.
+//  Created by Test User on 06/04/17.
+//  Copyright © 2017 Carmatec IT Solutions. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSUInteger, DGActivityIndicatorAnimationType) {
 //    DGActivityIndicatorAnimationTypeNineDots,
-//    DGActivityIndicatorAnimationTypeTriplePulse,
+    DGActivityIndicatorAnimationTypeTriplePulse,
 //    DGActivityIndicatorAnimationTypeFiveDots,
 //    DGActivityIndicatorAnimationTypeRotatingSquares,
 //    DGActivityIndicatorAnimationTypeDoubleBounce,
-//    DGActivityIndicatorAnimationTypeTwoDots,
+    DGActivityIndicatorAnimationTypeTwoDots,
 //    DGActivityIndicatorAnimationTypeThreeDots,
-//    DGActivityIndicatorAnimationTypeBallPulse,
+    DGActivityIndicatorAnimationTypeBallPulse,
 //    DGActivityIndicatorAnimationTypeBallClipRotate,
 //    DGActivityIndicatorAnimationTypeBallClipRotatePulse,
 //    DGActivityIndicatorAnimationTypeBallClipRotateMultiple,

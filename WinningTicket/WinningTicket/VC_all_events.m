@@ -11,8 +11,27 @@
 #import "DejalActivityView.h"
 #import "DGActivityIndicatorView.h"
 #import "WinningTicket_Universal-Swift.h"
+#import "UITableView+NewCategory.h"
 
-@interface VC_all_events ()
+@class FrameObservingView;
+
+@protocol FrameObservingViewDelegate <NSObject>
+- (void)frameObservingViewFrameChanged:(FrameObservingView *)view;
+@end
+
+@interface FrameObservingView : UIView
+@property (nonatomic,assign) id<FrameObservingViewDelegate>delegate;
+@end
+
+@implementation FrameObservingView
+- (void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+    [self.delegate frameObservingViewFrameChanged:self];
+}
+@end
+
+@interface VC_all_events () <FrameObservingViewDelegate, UITableViewDragLoadDelegate>
 {
     CGRect old_FRAME;
     UIColor *old_color;
@@ -22,6 +41,7 @@
     DGActivityIndicatorView *activityIndicatorView;
     
     NSMutableArray *searchResults;
+    int intvalue;
 }
 @property(nonatomic,strong)NSArray *ARR_states;
 
@@ -29,10 +49,16 @@
 
 @implementation VC_all_events
 
+- (void)frameObservingViewFrameChanged:(FrameObservingView *)view
+{
+    _tbl_eventlst.frame = self.view.bounds;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    _lbl_Serch_char.text = @"";
     [self setup_VIEW];
     
     ARR_allevent = [[NSMutableArray alloc]init];
@@ -81,6 +107,9 @@
     
     _TXT_fromdate.layer.borderWidth = 1.0f;
     _TXT_fromdate.layer.borderColor = [UIColor blackColor].CGColor;
+    
+    [_tbl_eventlst setDragDelegate:self refreshDatePermanentKey:@"FriendList"];
+    _tbl_eventlst.showLoadMoreView = YES;
 }
 -(void) fromdateTextField:(id)sender
 {
@@ -214,7 +243,7 @@
     
     UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
     [someButton setTitle:@"FILTER" forState:UIControlStateNormal];
-    [someButton setBackgroundColor:[UIColor colorWithRed:0.07 green:0.33 blue:0.42 alpha:1.0]];
+    [someButton setBackgroundColor:_segment_bottom.tintColor];
     [someButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:15.0]];
     [someButton addTarget:self action:@selector(BTN_filter)
          forControlEvents:UIControlEventTouchUpInside];
@@ -405,11 +434,10 @@
 //    [someButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     //    [someButton setBackgroundColor:[UIColor colorWithRed:0.07 green:0.33 blue:0.42 alpha:1.0]];
     [someButton.titleLabel setFont:[UIFont fontWithName:@"FontAwesome" size:24.0f]];
-    [someButton.titleLabel setTextColor:[UIColor colorWithRed:0.07 green:0.33 blue:0.42 alpha:1.0]];
+    [someButton.titleLabel setTextColor:_segment_bottom.tintColor];
     //    [someButton setBackgroundImage:image3 forState:UIControlStateNormal];
     [someButton setBackgroundColor:[UIColor clearColor]];
-    [someButton setTitleColor:[UIColor colorWithRed:0.07 green:0.33 blue:0.42 alpha:1.0] forState:UIControlStateNormal];
-    [someButton setTitleColor:[UIColor colorWithRed:0.07 green:0.33 blue:0.42 alpha:1.0] forState:UIControlStateHighlighted];
+    [someButton setTitleColor:_segment_bottom.tintColor forState:UIControlStateNormal];
     
     [someButton addTarget:self action:@selector(whenSearchClicked)
          forControlEvents:UIControlEventTouchUpInside];
@@ -509,7 +537,7 @@
     
     UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
     [someButton setTitle:@"FILTER" forState:UIControlStateNormal];
-    [someButton setBackgroundColor:[UIColor colorWithRed:0.07 green:0.33 blue:0.42 alpha:1.0]];
+    [someButton setBackgroundColor:_segment_bottom.tintColor];
     [someButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:15.0]];
     [someButton addTarget:self action:@selector(BTN_filter)
          forControlEvents:UIControlEventTouchUpInside];
@@ -559,8 +587,7 @@
     [someButton.titleLabel setFont:[UIFont fontWithName:@"FontAwesome" size:24.0f]];
     
     [someButton setBackgroundColor:[UIColor clearColor]];
-    [someButton setTitleColor:[UIColor colorWithRed:0.07 green:0.33 blue:0.42 alpha:1.0] forState:UIControlStateNormal];
-    [someButton setTitleColor:[UIColor colorWithRed:0.07 green:0.33 blue:0.42 alpha:1.0] forState:UIControlStateHighlighted];
+    [someButton setTitleColor:_segment_bottom.tintColor forState:UIControlStateNormal];
     
     [someButton addTarget:self action:@selector(whenSearchClicked)
          forControlEvents:UIControlEventTouchUpInside];
@@ -574,6 +601,8 @@
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     searchBar1.text = searchText;
+    _lbl_Serch_char.text = [NSString stringWithFormat:@"Searching ' %@ '",searchText];
+    
     UITextField *searchBarTextField = [self findTextFieldFromControl:searchBar1];
     [searchBarTextField addTarget:self action:@selector(getSearch_TXT) forControlEvents:UIControlEventEditingChanged];
     
@@ -590,6 +619,7 @@
 -(void) getSearch_TXT
 {
     NSString *str = searchBar1.text;
+    _lbl_Serch_char.text = [NSString stringWithFormat:@"Searching ' %@ '",str];
     NSLog(@"Updated Text working %@",str);
     
     if([str length] != 0)
@@ -711,6 +741,8 @@
         [[NSUserDefaults standardUserDefaults] setValue:STR_eventname forKey:@"EVENT_NAME_STORED"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
+        _lbl_Serch_char.text = STR_eventname;
+        
         VW_overlay.hidden = NO;
         [activityIndicatorView startAnimating];
         [self performSelector:@selector(get_event_ID) withObject:activityIndicatorView afterDelay:0.01];
@@ -817,61 +849,13 @@
         NSDate *min_date = [[NSDate alloc] init];
         min_date = [formatter dateFromString:STR_tmp];
         
-//        [_fromdate_picker setMinimumDate:min_date];
-        
         NSLog(@"Tapped to date");
         
     }
 }
-//
-//-(IBAction) pickertapCANCEL
-//{
-//    NSLog(@"State pickercancelClicked");
-//    _picker_STATE.hidden = YES;
-//    _tool_STATE.hidden = YES;
-//    _TXT_state.text = @"";
-//}
-//-(IBAction) pickertapDONE
-//{
-//    NSLog(@"Date pickerDoneClicked");
-//    _picker_STATE.hidden = YES;
-//    _tool_STATE.hidden = YES;
-//}
-//
-//-(IBAction) datePICKER_CANCEL
-//{
-//    NSLog(@"datePICKER_CANCEL Tapped");
-//    _picker_DATE.hidden = YES;
-//    _tool_DATE.hidden = YES;
-//}
-//-(IBAction) datePICKER_DONE
-//{
-//    NSLog(@"datePICKER_DONE Tapped");
-//    _picker_DATE.hidden = YES;
-//    _tool_DATE.hidden = YES;
-//    
-//    if (_picker_DATE.tag == 1)
-//    {
-//        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//        formatter.dateFormat = @"MM/dd/YY";
-//        NSString *string = [formatter stringFromDate:_picker_DATE.date];
-//        NSLog(@"Selected Date :- %@",string);
-//        _TXT_fromdate.text = string;
-//    }
-//    else
-//    {
-//        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//        formatter.dateFormat = @"MM/dd/YY";
-//        NSString *string = [formatter stringFromDate:_picker_DATE.date];
-//        NSLog(@"Selected Date :- %@",string);
-//        _TXT_todate.text = string;
-//    }
-//}
 
 
 #pragma mark - UIPickerViewDelegate
-
-
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     
     if (pickerView == _state_pickerView) {
@@ -881,7 +865,6 @@
     return nil;
 }
 
-// #6
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
        if (pickerView == _state_pickerView) {
@@ -906,18 +889,13 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
     NSLog(@"The response %@",json_DATA);
-    //    NSString *status=[json_DATA objectForKey:@"United States"];
     _ARR_states = [json_DATA allKeys];
-    
-    
 }
 
 #pragma mark - Date Convert
 -(NSString *)getLocalDateTimeFromUTC:(NSString *)strDate
 {
-    
     NSLog(@"Date Input tbl %@",strDate);
-    
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
     [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
     [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ"];
@@ -1000,6 +978,7 @@
         if ([searchResults count] != 0)
         {
             _tbl_search.hidden = NO;
+            _lbl_Serch_char.text = [NSString stringWithFormat:@"%lu ' %@ ' Found",(unsigned long)[searchResults count],searchBar1.text];
         }
         else
         {
@@ -1065,4 +1044,58 @@
     }
 }
 
+#pragma mark - Control datasource
+- (void)finishRefresh
+{
+    [_tbl_eventlst finishRefresh];
+}
+
+- (void)finishLoadMore
+{
+   /* intvalue =intvalue+10;
+    NSString *strUrl = [NSString stringWithFormat:@"http://www.estadaldoha.com/Apis/emagazinesList/%d/",intvalue];
+    NSURL *url = [NSURL URLWithString:strUrl];
+    NSError *error;
+    
+    NSData *aData = [NSData dataWithContentsOfURL:url];
+    
+    if (aData) {
+        NSDictionary *jsonDictin  = (NSDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSJSONReadingAllowFragments error:&error];
+        
+        
+        //                NSLog(@"Old Arr %@ Json data = %@ Error = %@",jsonarr,[jsonDictin valueForKey:@"result"],error);
+        
+        NSArray *temp = [jsonDictin valueForKey:@"result"];
+        NSLog(@"the array data%lu%@ ",(unsigned long)temp.count,temp);
+        [jsonarr addObjectsFromArray:temp];
+        [self.tableView reloadData];
+        
+    }*/
+    [_tbl_eventlst finishLoadMore];
+}
+
+#pragma mark - Drag delegate methods
+- (void)dragTableDidTriggerRefresh:(UITableView *)tableView
+{
+    //send refresh request(generally network request) here
+    [self performSelector:@selector(finishRefresh) withObject:nil afterDelay:2];
+}
+
+- (void)dragTableRefreshCanceled:(UITableView *)tableView
+{
+    //cancel refresh request(generally network request) here
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(finishRefresh) object:nil];
+}
+
+- (void)dragTableDidTriggerLoadMore:(UITableView *)tableView
+{
+    //send load more request(generally network request) here
+    [self performSelector:@selector(finishLoadMore) withObject:nil afterDelay:2];
+}
+
+- (void)dragTableLoadMoreCanceled:(UITableView *)tableView
+{
+    //cancel load more request(generally network request) here
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(finishLoadMore) object:nil];
+}
 @end

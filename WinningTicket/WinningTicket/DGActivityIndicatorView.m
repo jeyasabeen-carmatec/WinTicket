@@ -1,21 +1,21 @@
 //
 //  DGActivityIndicatorView.m
-//  DGActivityIndicatorExample
+//  WinningTicket
 //
-//  Created by Danil Gontovnik on 5/23/15.
-//  Copyright (c) 2015 Danil Gontovnik. All rights reserved.
+//  Created by Test User on 06/04/17.
+//  Copyright © 2017 Carmatec IT Solutions. All rights reserved.
 //
 
 #import "DGActivityIndicatorView.h"
 
 //#import "DGActivityIndicatorNineDotsAnimation.h"
-//#import "DGActivityIndicatorTriplePulseAnimation.h"
+#import "DGActivityIndicatorTriplePulseAnimation.h"
 //#import "DGActivityIndicatorFiveDotsAnimation.h"
 //#import "DGActivityIndicatorRotatingSquaresAnimation.h"
 //#import "DGActivityIndicatorDoubleBounceAnimation.h"
-//#import "DGActivityIndicatorTwoDotsAnimation.h"
+#import "DGActivityIndicatorTwoDotsAnimation.h"
 //#import "DGActivityIndicatorThreeDotsAnimation.h"
-//#import "DGActivityIndicatorBallPulseAnimation.h"
+#import "DGActivityIndicatorBallPulseAnimation.h"
 //#import "DGActivityIndicatorBallClipRotateAnimation.h"
 //#import "DGActivityIndicatorBallClipRotatePulseAnimation.h"
 //#import "DGActivityIndicatorBallClipRotateMultipleAnimation.h"
@@ -168,20 +168,20 @@ static const CGFloat kDGActivityIndicatorDefaultSize = 40.0f;
     switch (type) {
 //        case DGActivityIndicatorAnimationTypeNineDots:
 //            return [[DGActivityIndicatorNineDotsAnimation alloc] init];
-//        case DGActivityIndicatorAnimationTypeTriplePulse:
-//            return [[DGActivityIndicatorTriplePulseAnimation alloc] init];
+        case DGActivityIndicatorAnimationTypeTriplePulse:
+            return [[DGActivityIndicatorTriplePulseAnimation alloc] init];
 //        case DGActivityIndicatorAnimationTypeFiveDots:
 //            return [[DGActivityIndicatorFiveDotsAnimation alloc] init];
 //        case DGActivityIndicatorAnimationTypeRotatingSquares:
 //            return [[DGActivityIndicatorRotatingSquaresAnimation alloc] init];
 //        case DGActivityIndicatorAnimationTypeDoubleBounce:
 //            return [[DGActivityIndicatorDoubleBounceAnimation alloc] init];
-//        case DGActivityIndicatorAnimationTypeTwoDots:
-//            return [[DGActivityIndicatorTwoDotsAnimation alloc] init];
+        case DGActivityIndicatorAnimationTypeTwoDots:
+            return [[DGActivityIndicatorTwoDotsAnimation alloc] init];
 //        case DGActivityIndicatorAnimationTypeThreeDots:
 //            return [[DGActivityIndicatorThreeDotsAnimation alloc] init];
-//        case DGActivityIndicatorAnimationTypeBallPulse:
-//            return [[DGActivityIndicatorBallPulseAnimation alloc] init];
+        case DGActivityIndicatorAnimationTypeBallPulse:
+            return [[DGActivityIndicatorBallPulseAnimation alloc] init];
 //        case DGActivityIndicatorAnimationTypeBallClipRotate:
 //            return [[DGActivityIndicatorBallClipRotateAnimation alloc] init];
 //        case DGActivityIndicatorAnimationTypeBallClipRotatePulse:

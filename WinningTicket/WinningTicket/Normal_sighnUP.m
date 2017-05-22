@@ -27,15 +27,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-//    NSError *error;
-//    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults] valueForKey:@"Country_response"] options:NSASCIIStringEncoding error:&error];
-//    NSLog(@"The response %@",json_DATA);
-//    self.countrypicker=[json_DATA allValues];
-//    NSMutableDictionary *json_DAT = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"state_response"] options:NSASCIIStringEncoding error:&error];
-//    NSLog(@"The response %@",json_DAT);
-//    self.statepicker=[json_DAT allKeys];
-    
     [self setup_VIEW];
 }
 
@@ -91,7 +82,7 @@
 {
     [super viewDidLayoutSubviews];
     [_scroll_contents layoutIfNeeded];
-    _scroll_contents.contentSize = CGSizeMake(_scroll_contents.frame.size.width, _IMG_BG.frame.origin.y + _IMG_BG.frame.size.height + 5 + _IMG_logo_WT.frame.size.height + 20);
+    _scroll_contents.contentSize = CGSizeMake(_scroll_contents.frame.size.width, _VW_contents.frame.size.height + 10 + _IMG_logo_WT.frame.size.height + 20);
 }
 
 -(void) backAction
@@ -104,14 +95,10 @@
 {
     VW_overlay = [[UIView alloc]init];
     VW_overlay.frame = [UIScreen mainScreen].bounds;
-    //    VW_overlay.center = self.view.center;
     
     [self.view addSubview:VW_overlay];
     VW_overlay.backgroundColor = [UIColor blackColor];
     VW_overlay.alpha = 0.2;
-    
-    
-    
     
     activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallSpinFadeLoader tintColor:[UIColor whiteColor]];
     
@@ -123,8 +110,6 @@
     activityIndicatorView.frame = frame_M;
     
     [VW_overlay addSubview:activityIndicatorView];
-    //        activityIndicatorView.center=myview.center;
-    
     VW_overlay.hidden = YES;
     
     CGRect frame = _VW_contents.frame;
@@ -133,10 +118,6 @@
     frame.origin.x = 10.0f;
     frame.origin.y = self.navigationController.navigationBar.frame.size.height;
     CGRect new_frame = [UIScreen mainScreen].bounds;
-    //    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-    //    {
-    //        frame.origin.y = 288.0f;
-    //    }
     frame.size.height = new_frame.origin.y + new_frame.size.height - self.navigationController.navigationBar.frame.size.height - 20;
     _scroll_contents.frame = frame;
     
@@ -150,10 +131,12 @@
     new_frame = _VW_contents.frame;
     new_frame.origin.y = _IMG_logo_WT.frame.size.height + 20;
     _VW_contents.frame = new_frame;
-    
     [_scroll_contents addSubview:_VW_contents];
     
-    
+    _vw_background.layer.borderWidth=2;
+    _vw_background.layer.cornerRadius=5;
+    _vw_background.layer.borderColor=[UIColor whiteColor].CGColor;
+
     _TXT_F_name.layer.cornerRadius = 5.0f;
     _TXT_F_name.layer.masksToBounds = YES;
     _TXT_F_name.layer.borderWidth = 2.0f;
@@ -165,51 +148,47 @@
     _TXT_L_name.layer.borderWidth = 2.0f;
     _TXT_L_name.layer.borderColor = [UIColor whiteColor].CGColor;
     _TXT_L_name.tag=2;
-//    _TXT_L_name.enabled = NO;
     
     _TXT_addressLine_one.layer.cornerRadius = 5.0f;
     _TXT_addressLine_one.layer.masksToBounds = YES;
     _TXT_addressLine_one.layer.borderWidth = 2.0f;
     _TXT_addressLine_one.layer.borderColor = [UIColor whiteColor].CGColor;
-//    _TXT_addressLine_one.enabled = NO;
     _TXT_addressLine_one.tag=3;
+    
     _TXT_addressLine_two.layer.cornerRadius = 5.0f;
     _TXT_addressLine_two.layer.masksToBounds = YES;
     _TXT_addressLine_two.layer.borderWidth = 2.0f;
     _TXT_addressLine_two.layer.borderColor = [UIColor whiteColor].CGColor;
-//    _TXT_addressLine_two.enabled = NO;
     _TXT_addressLine_two.tag=4;
+    
     _TXT_city.layer.cornerRadius = 5.0f;
     _TXT_city.layer.masksToBounds = YES;
     _TXT_city.layer.borderWidth = 2.0f;
     _TXT_city.layer.borderColor = [UIColor whiteColor].CGColor;
-//    _TXT_city.enabled = NO;
     _TXT_city.tag=5;
     
     _TXT_phone_number.layer.cornerRadius = 5.0f;
     _TXT_phone_number.layer.masksToBounds = YES;
     _TXT_phone_number.layer.borderWidth = 2.0f;
     _TXT_phone_number.layer.borderColor = [UIColor whiteColor].CGColor;
-//    _TXT_phone_number.enabled = NO;
     _TXT_phone_number.tag=6;
+    
     _TXT_country.layer.cornerRadius = 5.0f;
     _TXT_country.layer.masksToBounds = YES;
     _TXT_country.layer.borderWidth = 2.0f;
     _TXT_country.layer.borderColor = [UIColor whiteColor].CGColor;
-//    _TXT_country.enabled = NO;
     _TXT_country.tag=7;
+    
     _TXT_state.layer.cornerRadius = 5.0f;
     _TXT_state.layer.masksToBounds = YES;
     _TXT_state.layer.borderWidth = 2.0f;
     _TXT_state.layer.borderColor = [UIColor whiteColor].CGColor;
-//    _TXT_state.enabled = NO;
     _TXT_state.tag=8;
     
     _TXT_email.layer.cornerRadius = 5.0f;
     _TXT_email.layer.masksToBounds = YES;
     _TXT_email.layer.borderWidth = 2.0f;
     _TXT_email.layer.borderColor = [UIColor whiteColor].CGColor;
-//    _TXT_email.enabled = NO;
     _TXT_email.tag=9;
     
     
@@ -245,8 +224,7 @@
     close.frame=CGRectMake(conutry_close.frame.size.width - 100, 0, 100, conutry_close.frame.size.height);
     [close setTitle:@"close" forState:UIControlStateNormal];
     [close addTarget:self action:@selector(countrybuttonClick) forControlEvents:UIControlEventTouchUpInside];
-//    [numberToolbar setItems:[NSArray arrayWithObjects:close, nil]];
-      [conutry_close addSubview:close];
+    [conutry_close addSubview:close];
     _TXT_country.inputAccessoryView=conutry_close;
     _TXT_state.inputAccessoryView=conutry_close;
     self.TXT_country.inputView = _contry_pickerView;
@@ -255,8 +233,6 @@
     _TXT_state.tintColor=[UIColor clearColor];
     
     [self Country_api];
-
-
 }
 
 -(void)countrybuttonClick
@@ -668,9 +644,19 @@
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPShouldHandleCookies:NO];
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-          _json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+    
+    if (aData)
+    {
+        _json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"The response %@",_json_DATA);
         self.countrypicker=[_json_DATA allKeys];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+    
     
 
 }
@@ -687,12 +673,16 @@
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPShouldHandleCookies:NO];
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-    NSLog(@"The response %@",json_DATA);
-//    NSString *status=[json_DATA objectForKey:@"United States"];
-    self.statepicker=[json_DATA allKeys];
-    
-    
+    if (aData) {
+        NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"The response %@",json_DATA);
+        self.statepicker=[json_DATA allKeys];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
 }
 
 #pragma mark - UIPickerViewDelegate

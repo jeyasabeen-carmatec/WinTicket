@@ -16,8 +16,9 @@
 
 //@property (nonatomic, weak) IBOutlet UIButton *BTN_affiliateorcharity;
 
-@property (nonatomic, weak) IBOutlet UIImageView *IMG_BG;
+@property (nonatomic, weak) IBOutlet UIView *IMG_BG;
 @property (nonatomic, weak) IBOutlet UIImageView *IMG_logo_WT;
+@property(nonatomic,weak)IBOutlet UIView *VW_back;
 
 @property (nonatomic, weak) IBOutlet UITextField *TXT_F_name;
 @property (nonatomic, weak) IBOutlet UITextField *TXT_L_name;

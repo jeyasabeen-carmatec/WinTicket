@@ -77,7 +77,7 @@
 {
     [super viewDidLayoutSubviews];
     [_scroll_contents layoutIfNeeded];
-    _scroll_contents.contentSize = CGSizeMake(_scroll_contents.frame.size.width, _IMG_BG.frame.origin.y + _IMG_BG.frame.size.height + 5 + _IMG_logo_WT.frame.size.height + 40);
+    _scroll_contents.contentSize = CGSizeMake(_scroll_contents.frame.size.width, _VW_contents.frame.size.height + 10 + _IMG_logo_WT.frame.size.height + 20);
 }
 
 /*
@@ -127,7 +127,11 @@
 //    _TXT_phone_num.layer.masksToBounds = YES;
 //    _TXT_phone_num.layer.borderWidth = 2.0f;
 //    _TXT_phone_num.layer.borderColor = [UIColor whiteColor].CGColor;
-//    
+//
+    
+    _VW_back.layer.borderWidth=2;
+    _VW_back.layer.cornerRadius=5;
+    _VW_back.layer.borderColor=[UIColor whiteColor].CGColor;
     
     _TXT_golfcoursename.layer.cornerRadius = 5.0f;
     _TXT_golfcoursename.layer.masksToBounds = YES;
@@ -495,10 +499,6 @@
             _TXT_email.enabled=YES;
         return YES;
     }
-
-    
-    
-    
     return YES;
     
 }
@@ -514,49 +514,12 @@
         if ([emailTest evaluateWithObject:text_to_compare] == NO)
         {
             _TXT_email.text = @"";
-            //            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Email ID!" message:@"Please Enter Valid Email Address." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            //            [alert show];
-            
-            //if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-            //{
-            //keyboard will hide
             [UIView beginAnimations:nil context:NULL];
             // [UIView setAnimationDuration:0.25];
             self.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
             [UIView commitAnimations];
-            // }
-            //{
-            //    self.submit_action.enabled = NO;
-            //}
-            
-            // if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-            // {
-            //keyboard will hide
-            [UIView beginAnimations:nil context:NULL];
-            // [UIView setAnimationDuration:0.25];
-            self.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
-            [UIView commitAnimations];
-            // }
         }
-        else{
-            
-            //            [_TXT_password becomeFirstResponder];
-            
-        }
-        
     }
-    [UIView beginAnimations:nil context:NULL];
-    // [UIView setAnimationDuration:0.25];
-    self.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
-    [UIView commitAnimations];
-    // }
-    //{
-    //    self.submit_action.enabled = NO;
-    //}
-    
-    // if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-    // {
-    //keyboard will hide
     [UIView beginAnimations:nil context:NULL];
     // [UIView setAnimationDuration:0.25];
     self.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
@@ -573,40 +536,30 @@
     {
         [_TXT_golfcoursename becomeFirstResponder];
     }
-    
-    
     else if([_TXT_F_name.text isEqualToString:@""])
     {
         [_TXT_F_name becomeFirstResponder];
     }
-    
     else  if([_TXT_L_name.text isEqualToString:@""])
     {
         [_TXT_L_name becomeFirstResponder];
-        
     }
     else if([_TXT_titl.text isEqualToString:@""])
     {
         [_TXT_titl becomeFirstResponder];
     }
-    
     else if([_TXT_addr1.text isEqualToString:@""])
     {
         [_TXT_addr1 becomeFirstResponder];
-        
     }
     else  if([_TXT_addr2.text isEqualToString:@""])
     {
         [_TXT_addr2 becomeFirstResponder];
-        
     }
     else if([_TXT_city.text isEqualToString:@""])
     {
         [_TXT_city becomeFirstResponder];
-        
     }
-    
-    
     else if ([phoneTest evaluateWithObject:text_to_compare] == NO)
     {
         [_TXT_phone_num becomeFirstResponder];
@@ -630,18 +583,13 @@
     else if([_TXT_zip.text isEqualToString:@""])
     {
         [_TXT_zip becomeFirstResponder];
-        
     }
-    
     else if([_TXT_email.text isEqualToString:@""])
     {
         [_TXT_email becomeFirstResponder];
-        
     }
-
-    else{
-        
-//        [self api_integration];
+    else
+    {
         NSLog(@"Validation are aperfect:");
     }
 }
@@ -686,11 +634,16 @@
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPShouldHandleCookies:NO];
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    _json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-    NSLog(@"The response %@",_json_DATA);
-    self.countrypicker=[_json_DATA allKeys];
-    
-    
+    if (aData) {
+        _json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"The response %@",_json_DATA);
+        self.countrypicker=[_json_DATA allKeys];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }    
 }
 -(void)State_api
 {
@@ -705,12 +658,17 @@
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPShouldHandleCookies:NO];
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-    NSLog(@"The response %@",json_DATA);
-    //    NSString *status=[json_DATA objectForKey:@"United States"];
-    self.statepicker=[json_DATA allKeys];
-    
-    
+    if (aData)
+    {
+        NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"The response %@",json_DATA);
+        self.statepicker=[json_DATA allKeys];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
 }
 
 #pragma mark - UIPickerViewDelegate
@@ -723,7 +681,6 @@
     if (pickerView == _state_pickerView) {
         return self.statepicker[row];
     }
-    
     return nil;
 }
 

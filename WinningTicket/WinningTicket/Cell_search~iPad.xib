@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -25,16 +24,17 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nEa-Up-Eph">
-                        <rect key="frame" x="8" y="12" width="752" height="19.5"/>
+                        <rect key="frame" x="8" y="8" width="752" height="28"/>
                         <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="18"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="nEa-Up-Eph" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="UlD-kh-aSj"/>
-                    <constraint firstItem="nEa-Up-Eph" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="pvJ-t8-H7P"/>
-                    <constraint firstItem="nEa-Up-Eph" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="sp9-41-CZi"/>
+                    <constraint firstItem="nEa-Up-Eph" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="J04-1G-IFR"/>
+                    <constraint firstAttribute="trailing" secondItem="nEa-Up-Eph" secondAttribute="trailing" constant="8" id="SVX-wj-OTg"/>
+                    <constraint firstItem="nEa-Up-Eph" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="q1d-Uw-lPV"/>
+                    <constraint firstAttribute="bottom" secondItem="nEa-Up-Eph" secondAttribute="bottom" constant="7.5" id="tjD-1c-aUU"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

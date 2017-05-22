@@ -1,9 +1,9 @@
 //
 //  DGActivityIndicatorBallSpinFadeLoader.m
-//  CheeseDigest
+//  WinningTicket
 //
-//  Created by Robin.Chao on 9/8/15.
-//  Copyright (c) 2015 mRocker. All rights reserved.
+//  Created by Test User on 06/04/17.
+//  Copyright © 2017 Carmatec IT Solutions. All rights reserved.
 //
 
 #import "DGActivityIndicatorBallSpinFadeLoader.h"

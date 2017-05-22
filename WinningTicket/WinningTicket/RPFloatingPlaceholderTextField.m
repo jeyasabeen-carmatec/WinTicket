@@ -3,7 +3,7 @@
 //  WinningTicket
 //
 //  Created by Test User on 21/03/17.
-//  Copyright © 2017 Test User. All rights reserved.
+//  Copyright © 2017 Carmatec IT Solutions. All rights reserved.
 //
 
 #import "RPFloatingPlaceholderTextField.h"

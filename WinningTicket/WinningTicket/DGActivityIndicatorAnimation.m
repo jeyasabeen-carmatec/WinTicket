@@ -1,9 +1,9 @@
 //
 //  DGActivityIndicatorAnimation.m
-//  DGActivityIndicatorExample
+//  WinningTicket
 //
-//  Created by Danil Gontovnik on 8/10/16.
-//  Copyright © 2016 Danil Gontovnik. All rights reserved.
+//  Created by Test User on 06/04/17.
+//  Copyright © 2017 Carmatec IT Solutions. All rights reserved.
 //
 
 #import "DGActivityIndicatorAnimation.h"

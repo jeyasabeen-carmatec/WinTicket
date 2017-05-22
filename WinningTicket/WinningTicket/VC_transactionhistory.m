@@ -45,8 +45,10 @@
 -(void) setup_VIEW
 {
     NSError *error;
-   transaction_history=(NSMutableArray *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"transaction_data"] options:NSASCIIStringEncoding error:&error];
-    NSLog(@"the user data is:%@",transaction_history);
+    NSMutableDictionary *temp_arr =(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"transaction_data"] options:NSASCIIStringEncoding error:&error];
+    
+   transaction_history=[temp_arr valueForKey:@"transactions"];
+    NSLog(@"the user Transaction data is:%@",transaction_history);
     ARR_contents = [[NSMutableArray alloc] init];
     NSDictionary *temp_Dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"#0003125",@"ticket_number",@"Nov 29, 2016 5:12pm EST",@"date",@"Donation",@"purpose",@"-200.00",@"amount", nil];
     [ARR_contents addObject:temp_Dictin];
@@ -78,9 +80,17 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    
+   
     static NSString *simpleTableIdentifier = @"SimpleTableItem";
     
     CELL_trans_hstry *cell = (CELL_trans_hstry *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+     NSMutableDictionary *temp_dictin=[transaction_history objectAtIndex:indexPath.row];
+    
+    
+    NSLog(@"the data count is:%lu",(unsigned long)temp_dictin.count);
+    
     if (cell == nil)
     {
         NSArray *nib;
@@ -97,17 +107,17 @@
     
 //    [NSDictionary dictionaryWithObjectsAndKeys:@"#0003125",@"ticket_number",@"Nov 29, 2016 5:12pm EST",@"date",@"Donation",@"purpose",@"-200.00",@"amount", nil];
     
-    NSDictionary *temp_dictin = [transaction_history objectAtIndex:indexPath.row];
+    
     NSString *ticket_number = [NSString stringWithFormat:@"#%@",[temp_dictin valueForKey:@"order_id"]];
     NSString *date = [self getLocalDateTimeFromUTC:[temp_dictin valueForKey:@"created_at"]];
     NSString *purpose = [temp_dictin valueForKey:@"transaction_type"];
-    NSString *amount = [NSString stringWithFormat:@"-%@",[temp_dictin valueForKey:@"amount"]];
+    NSString *amount = [NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"amount"]];
     
     cell.lbl_ticket_ID.text = ticket_number;
     cell.lbl_datetime.text = date;
     cell.lbl_ticketreson.text = purpose;
-    NSString *credit=[temp_dictin valueForKey:@"credit"];
-    NSString *debit=[temp_dictin valueForKey:@"debit"];
+//    NSString *credit=[temp_dictin valueForKey:@"credit"];
+//    NSString *debit=[temp_dictin valueForKey:@"debit"];
     if(temp_dictin[@"value" ] !=(id)[NSNull null])
     {
         NSLog(@"dict is having null");

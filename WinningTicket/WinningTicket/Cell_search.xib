@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -21,20 +20,21 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CbM-bs-Uax">
-                        <rect key="frame" x="8" y="14" width="304" height="16.5"/>
+                        <rect key="frame" x="8" y="8" width="304" height="28"/>
                         <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="15"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="CbM-bs-Uax" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="Har-Vx-4nD"/>
-                    <constraint firstItem="CbM-bs-Uax" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Zek-dx-YB3"/>
-                    <constraint firstItem="CbM-bs-Uax" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="qQB-Oi-Ily"/>
+                    <constraint firstAttribute="bottom" secondItem="CbM-bs-Uax" secondAttribute="bottom" constant="7.5" id="JNk-vS-kzp"/>
+                    <constraint firstAttribute="trailing" secondItem="CbM-bs-Uax" secondAttribute="trailing" constant="8" id="SuU-3F-Zhd"/>
+                    <constraint firstItem="CbM-bs-Uax" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="Yuf-cZ-M64"/>
+                    <constraint firstItem="CbM-bs-Uax" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="Z2h-vs-9yx"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
