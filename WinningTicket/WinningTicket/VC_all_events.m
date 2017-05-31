@@ -91,10 +91,9 @@
     NSError *error;
     NSData *aData = [[NSUserDefaults standardUserDefaults] valueForKey:@"ALLEvents"];
     NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-    NSLog(@"The response ALLEvents %@",json_DATA);
+//    NSLog(@"The response ALLEvents %@",json_DATA);
     
     NSArray *ARR_tmp = [json_DATA valueForKey:@"events"];
-    
     [ARR_allevent addObjectsFromArray:ARR_tmp];
     
     [self State_api];
@@ -307,7 +306,7 @@
 {
     if ([item.title isEqualToString:@"EVENTS"])
     {
-        NSLog(@"Events selected");
+//        NSLog(@"Events selected");
         [_segment_bottom setSelectedSegmentIndex:0];
         for (int i=0; i<[self.segment_bottom.subviews count]; i++)
         {
@@ -326,7 +325,7 @@
     }
     else if ([item.title isEqualToString:@"COURSES"])
     {
-        NSLog(@"COURSES selected");
+//        NSLog(@"COURSES selected");
         [_segment_bottom setSelectedSegmentIndex:1];
         for (int i=0; i<[self.segment_bottom.subviews count]; i++)
         {
@@ -346,7 +345,7 @@
     }
     else
     {
-        NSLog(@"ACCOUNT selected");
+//        NSLog(@"ACCOUNT selected");
         [_segment_bottom setSelectedSegmentIndex:2];
         for (int i=0; i<[self.segment_bottom.subviews count]; i++)
         {
@@ -373,7 +372,7 @@
 }
 -(void) BTN_filter
 {
-    NSLog(@"Filter Tapped");
+//    NSLog(@"Filter Tapped");
     
     _state_pickerView=[[UIPickerView alloc]init];
     
@@ -489,7 +488,7 @@
     
     _VW_nav_TOP.backgroundColor = old_color;
     
-    NSLog(@"whenSearchClicked");
+//    NSLog(@"whenSearchClicked");
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [UIImage new];
@@ -651,15 +650,15 @@
 
 - (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    NSString* newText = [searchBar.text stringByReplacingCharactersInRange:range withString:text];
-    NSLog(@"Search text = %@",newText);
+//    NSString* newText = [searchBar.text stringByReplacingCharactersInRange:range withString:text];
+//    NSLog(@"Search text = %@",newText);
     
     return YES;
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    NSLog(@"Search done tapped");
+//    NSLog(@"Search done tapped");
 //    UITextField *searchBarTextField = [self findTextFieldFromControl:searchBar1];
 //    [searchBarTextField addTarget:self action:@selector(getSearch_TXT) forControlEvents:UIControlEventEditingChanged];
 //    [searchBarTextField resignFirstResponder];
@@ -768,11 +767,11 @@
 -(void) BTN_ALL_EVENT : (UIButton *) sender
 {
     NSIndexPath *buttonIndexPath = [NSIndexPath indexPathForRow:sender.tag inSection:0];
-    NSLog(@"From Delete Skill %ld",(long)buttonIndexPath.row);
+//    NSLog(@"From Delete Skill %ld",(long)buttonIndexPath.row);
     
     NSString *index_str = [NSString stringWithFormat:@"%ld",(long)buttonIndexPath.row];
     
-    NSLog(@"Index path of All Event %@",index_str);
+//    NSLog(@"Index path of All Event %@",index_str);
     
     NSDictionary *dictdat =[ARR_allevent objectAtIndex:[index_str intValue]];
     [[NSUserDefaults standardUserDefaults] setValue:[dictdat valueForKey:@"id"] forKey:@"event_id"];
@@ -827,7 +826,7 @@
 //}
 -(void) choose_from_DATE
 {
-    NSLog(@"Tapped from date");
+//    NSLog(@"Tapped from date");
     
 //    [_fromdate_picker setMinimumDate:nil];
     
@@ -849,7 +848,7 @@
         NSDate *min_date = [[NSDate alloc] init];
         min_date = [formatter dateFromString:STR_tmp];
         
-        NSLog(@"Tapped to date");
+//        NSLog(@"Tapped to date");
         
     }
 }
@@ -887,20 +886,30 @@
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPShouldHandleCookies:NO];
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if(aData)
+    {
     NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-    NSLog(@"The response %@",json_DATA);
+//    NSLog(@"The response %@",json_DATA);
     _ARR_states = [json_DATA allKeys];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+    
+
 }
 
 #pragma mark - Date Convert
 -(NSString *)getLocalDateTimeFromUTC:(NSString *)strDate
 {
-    NSLog(@"Date Input tbl %@",strDate);
+//    NSLog(@"Date Input tbl %@",strDate);
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
     [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
     [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ"];
     NSDate *currentDate = [dateFormatter dateFromString:strDate];
-    NSLog(@"CurrentDate:%@", currentDate);
+//    NSLog(@"CurrentDate:%@", currentDate);
     NSDateFormatter *newFormat = [[NSDateFormatter alloc] init];
     [newFormat setDateFormat:@"MMM dd, yyyy h:mm a"];
     [newFormat setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"EST"]];
@@ -952,6 +961,7 @@
     NSHTTPURLResponse *response = nil;
     NSError *error;
     NSString *urlGetuser =[NSString stringWithFormat:@"%@events/autocomplete?query=%@",SERVER_URL,search_char];
+    urlGetuser = [urlGetuser stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
     NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:urlProducts];
@@ -965,7 +975,7 @@
     if (aData)
     {
         json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-        NSLog(@"The response %@",json_DATA);
+//        NSLog(@"The response %@",json_DATA);
         
         NSArray *ARR_events = [json_DATA valueForKey:@"events"];
         for (int i = 0; i < [ARR_events count]; i ++)
@@ -979,13 +989,16 @@
         {
             _tbl_search.hidden = NO;
             _lbl_Serch_char.text = [NSString stringWithFormat:@"%lu ' %@ ' Found",(unsigned long)[searchResults count],searchBar1.text];
+            [_tbl_search reloadData];
         }
         else
         {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"No results Found" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            [alert show];
             _tbl_search.hidden = YES;
         }
         
-        [_tbl_search reloadData];
+        
         [activityIndicatorView stopAnimating];
         VW_overlay.hidden = YES;
     }
@@ -1007,7 +1020,24 @@
     event_NME = [event_NME stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
     NSHTTPURLResponse *response = nil;
     NSError *error;
-    NSString *urlGetuser =[NSString stringWithFormat:@"%@events/all_events?event_name=%@",SERVER_URL,event_NME];
+    NSString *urlGetuser;
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    {
+        if ([UIScreen mainScreen].bounds.size.height > 667)
+        {
+            urlGetuser = [NSString stringWithFormat:@"%@events/all_events?per_page=13&event_name=%@",SERVER_URL,event_NME];
+        }
+        else
+        {
+            urlGetuser = [NSString stringWithFormat:@"%@events/all_events?per_page=10&event_name=%@",SERVER_URL,event_NME];
+        }
+    }
+    else
+    {
+        urlGetuser = [NSString stringWithFormat:@"%@events/all_events?per_page=20&event_name=%@",SERVER_URL,event_NME];
+    }
+    
     NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:urlProducts];
@@ -1021,7 +1051,7 @@
     if (aData)
     {
         json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-        NSLog(@"Search Event tapped %@",json_DATA);
+//        NSLog(@"Search Event tapped %@",json_DATA);
         
         NSArray *ARR_tmp = [json_DATA valueForKey:@"events"];
         
@@ -1052,33 +1082,18 @@
 
 - (void)finishLoadMore
 {
-   /* intvalue =intvalue+10;
-    NSString *strUrl = [NSString stringWithFormat:@"http://www.estadaldoha.com/Apis/emagazinesList/%d/",intvalue];
-    NSURL *url = [NSURL URLWithString:strUrl];
-    NSError *error;
-    
-    NSData *aData = [NSData dataWithContentsOfURL:url];
-    
-    if (aData) {
-        NSDictionary *jsonDictin  = (NSDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSJSONReadingAllowFragments error:&error];
-        
-        
-        //                NSLog(@"Old Arr %@ Json data = %@ Error = %@",jsonarr,[jsonDictin valueForKey:@"result"],error);
-        
-        NSArray *temp = [jsonDictin valueForKey:@"result"];
-        NSLog(@"the array data%lu%@ ",(unsigned long)temp.count,temp);
-        [jsonarr addObjectsFromArray:temp];
-        [self.tableView reloadData];
-        
-    }*/
     [_tbl_eventlst finishLoadMore];
 }
 
 #pragma mark - Drag delegate methods
 - (void)dragTableDidTriggerRefresh:(UITableView *)tableView
 {
-    //send refresh request(generally network request) here
-    [self performSelector:@selector(finishRefresh) withObject:nil afterDelay:2];
+    //Pull up go to First Page
+    NSString *url_STR = [NSString stringWithFormat:@"%@&page=1",[[NSUserDefaults standardUserDefaults] valueForKey:@"URL_SAVED"]];
+    [[NSUserDefaults standardUserDefaults] setObject:url_STR forKey:@"URL_SAVED"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
+    [self performSelector:@selector(Firstpage_API) withObject:nil afterDelay:0.01];
 }
 
 - (void)dragTableRefreshCanceled:(UITableView *)tableView
@@ -1089,8 +1104,28 @@
 
 - (void)dragTableDidTriggerLoadMore:(UITableView *)tableView
 {
-    //send load more request(generally network request) here
-    [self performSelector:@selector(finishLoadMore) withObject:nil afterDelay:2];
+    //Pull up go to NextPage
+    NSError *error;
+    NSData *aData = [[NSUserDefaults standardUserDefaults] valueForKey:@"ALLEvents"];
+    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+//    NSLog(@"The response ALLEvents Pagination Method %@",json_DATA);
+    NSString *url_STR;
+    
+    NSDictionary *temp_Dictin = [json_DATA valueForKey:@"meta"];
+    NSString *nextPAGE = [NSString stringWithFormat:@"%@",[temp_Dictin valueForKey:@"next_page"]];
+    if ([nextPAGE isEqualToString:@"0"])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Already in Last Page" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+        [self performSelector:@selector(finishLoadMore) withObject:nil afterDelay:2];
+    }
+    else
+    {
+        url_STR = [NSString stringWithFormat:@"%@&page=%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"URL_SAVED"],nextPAGE];
+        [[NSUserDefaults standardUserDefaults] setObject:url_STR forKey:@"URL_SAVED"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self performSelector:@selector(NEXTpage_API) withObject:nil afterDelay:0.01];
+    }
 }
 
 - (void)dragTableLoadMoreCanceled:(UITableView *)tableView
@@ -1098,4 +1133,92 @@
     //cancel load more request(generally network request) here
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(finishLoadMore) object:nil];
 }
+
+-(void) NEXTpage_API
+{
+    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    
+    NSURL *urlProducts=[NSURL URLWithString:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"URL_SAVED"]]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"From VC_all_events Pagination testing :%@",dict);
+        
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"ALLEvents"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        NSData *aData = [[NSUserDefaults standardUserDefaults] valueForKey:@"ALLEvents"];
+        NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSArray *ARR_tmp = [json_DATA valueForKey:@"events"];
+        [ARR_allevent addObjectsFromArray:ARR_tmp];
+        
+        [_tbl_eventlst reloadData];
+        
+    }
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+    [self performSelector:@selector(finishLoadMore) withObject:nil afterDelay:0.01];
+}
+
+-(void) Firstpage_API
+{
+    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    
+    NSURL *urlProducts=[NSURL URLWithString:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"URL_SAVED"]]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"From VC_all_events Pagination testing :%@",dict);
+        
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"ALLEvents"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [ARR_allevent removeAllObjects];
+        NSData *aData = [[NSUserDefaults standardUserDefaults] valueForKey:@"ALLEvents"];
+        NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSArray *ARR_tmp = [json_DATA valueForKey:@"events"];
+        [ARR_allevent addObjectsFromArray:ARR_tmp];
+        
+        [_tbl_eventlst reloadData];
+        
+    }
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+    [self performSelector:@selector(finishRefresh) withObject:nil afterDelay:0.01];
+}
+
 @end

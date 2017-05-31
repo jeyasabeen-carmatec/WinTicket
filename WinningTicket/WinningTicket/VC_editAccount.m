@@ -13,6 +13,10 @@
 {
     UIView *VW_overlay;
     DGActivityIndicatorView *activityIndicatorView;
+    
+        NSMutableDictionary *states,*countryS;
+    
+
 }
 @property (nonatomic, strong) NSArray *countrypicker,*statepicker;
 @property(nonatomic,strong)NSMutableDictionary *json_DATA;/*for getting the JSON data  */
@@ -278,11 +282,18 @@
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPShouldHandleCookies:NO];
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    _json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-    NSLog(@"The response %@",_json_DATA);
-    self.countrypicker=[_json_DATA allKeys];
+    if (aData) {
+        countryS = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"The response %@",countryS);
+        self.countrypicker=[countryS allKeys];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
     
-   
+
     
     
 }
@@ -290,7 +301,7 @@
 {
     NSHTTPURLResponse *response = nil;
     NSError *error;
-    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/states?country=%@",SERVER_URL,[self.json_DATA valueForKey:_TXT_country.text]];
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/states?country=%@",SERVER_URL,[countryS valueForKey:_TXT_country.text]];
     NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:urlProducts];
@@ -298,10 +309,19 @@
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPShouldHandleCookies:NO];
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-    NSLog(@"The response %@",json_DATA);
-    //    NSString *status=[json_DATA objectForKey:@"United States"];
-    self.statepicker=[json_DATA allKeys];
+    if (aData) {
+        states = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"The response %@",states);
+        self.statepicker=[states allKeys];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+    
+
+    
     
     
 }

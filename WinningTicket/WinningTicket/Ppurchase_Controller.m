@@ -23,6 +23,10 @@
 
 -(void)set_UP_VW
 {
+    NSError *error;
+    NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults] valueForKey:@"PurchaseRESPONSE"] options:NSASCIIStringEncoding error:&error];
+    NSLog(@"Response from purchase controller :%@",dict);
+    
     CGRect content_frame = _content_view.frame;
     content_frame.size.width =_scroll.frame.size.width;
     _content_view.frame = content_frame;
@@ -35,16 +39,15 @@
     //    self.pur_view.frame=CGRectMake(0, self.content_view.frame.origin.y-self.navigationController.navigationBar.frame.size.height+self.start_View.frame.size.height+80+self.main_View.frame.size.height+260, self.content_view.bounds.size.width,self.navigationController.navigationBar.frame.size.height+40-self.start_View.frame.size.height-40-self.main_View.frame.size.height-40);
     [self.content_view addSubview:self.pur_view];
     
-    self.status_Label.text=@"Thank You For Purchase";
+    self.status_Label.text = @"Thank You For Purchase";
     
-    self.confirm_mail.text=@"A Confirmation mail Has been Sent to your Mail \n abc@samplemail.comA Confirmation mail Has been Sent to your Mail \n abc@samplemail.com";
+    self.confirm_mail.text = [NSString stringWithFormat:@"A Confirmation mail Has been Sent to your Mail %@",[dict valueForKey:@"email"]];
     [self.confirm_mail sizeToFit];
-    self.order.text=@"Order #JN19369";
-    self.order_summary.text=@"Order Summary";
-    int  qtynum=2;
-    self.qty.text=[NSString stringWithFormat:@"Qty:%d",qtynum];
-    NSString *des = @"Make a wish Foundation OF Central Florida's Annual Forthevent";
-    NSString *code = @"56A8WQ-Grand Cypress Club";
+    self.order.text = [NSString stringWithFormat:@"Order #%@",[dict valueForKey:@"order_id"]];
+    self.order_summary.text = @"Order Summary";
+    self.qty.text=[NSString stringWithFormat:@"Qty:%@",[dict valueForKey:@"quantity"]];
+    NSString *des = [dict valueForKey:@"name"];
+    NSString *code = [NSString stringWithFormat:@"%@-%@",[dict valueForKey:@"code"],[dict valueForKey:@"name"]];
     NSString *text = [NSString stringWithFormat:@"%@,\n%@",des,code];
     // Define general attributes for the entire text
     NSDictionary *attribs = @{
@@ -69,6 +72,7 @@
     
     [self.des_cription sizeToFit];
     [self.confirm_mail sizeToFit];
+    
     
     
     //after displaying the data new FRAME

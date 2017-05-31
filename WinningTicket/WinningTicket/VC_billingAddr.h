@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Braintree/Braintree.h>
 
-@interface VC_billingAddr : UIViewController<UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,UIGestureRecognizerDelegate>
+@interface VC_billingAddr : UIViewController<UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,UIGestureRecognizerDelegate,BTDropInViewControllerDelegate,BTPaymentMethodCreationDelegate>
+
+@property (nonatomic, strong) Braintree *braintree;
 
 @property(nonatomic,weak)IBOutlet UIView *VW_main;
 @property(nonatomic,weak)IBOutlet UILabel *lbl_name_ticket;
@@ -34,7 +37,7 @@
 @property (nonatomic, weak) IBOutlet UITextField *TXT_country;
 @property (nonatomic, strong) UIPickerView *contry_pickerView;
 
-@property (weak, nonatomic) IBOutlet UIButton *proceed_TOPAY;
+//@property (weak, nonatomic) IBOutlet UIButton *proceed_TOPAY;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scroll_contents;
 

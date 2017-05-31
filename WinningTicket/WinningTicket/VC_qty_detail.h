@@ -15,4 +15,16 @@
 
 @property (strong, nonatomic) IBOutlet UIScrollView *scroll_TBL;
 
+@property (nonatomic, strong) IBOutlet UIView *VW_main;
+@property (nonatomic, strong) IBOutlet UILabel *lbl_name_ticket;
+@property (nonatomic, strong) IBOutlet UILabel *lbl_qty;
+@property (nonatomic, strong) IBOutlet UILabel *lbl_des_cription;
+@property (nonatomic, strong) IBOutlet UILabel *lbl_amount_des;
+@property (nonatomic, strong) IBOutlet UILabel *lbl_sub_total;
+@property (nonatomic, strong) IBOutlet UILabel *lbl_sub_amount;
+@property (nonatomic, strong) IBOutlet UILabel *lbl_total;
+@property (nonatomic, strong) IBOutlet UILabel *lbl_total_amount;
+@property (strong, nonatomic) IBOutlet UIView *VW_line1;
+@property (strong, nonatomic) IBOutlet UIView *VW_line2;
+
 @end

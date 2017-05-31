@@ -21,4 +21,8 @@
 #define SERVER_URL @"http://192.168.3.135:3000/api/v1/"
 #define SERVER_USR @"http://192.168.3.135:3000/api/v1/users/"
 
+//#define SERVER_URL @"http://winningticket.carmatec.com/api/v1/"
+//#define SERVER_USR @"http://winningticket.carmatec.com/api/v1/users/"
+
+
 #endif /* WinningTicket_pch */

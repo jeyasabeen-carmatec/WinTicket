@@ -9,8 +9,10 @@
 #import "VC_affiliate_sighnUP.h"
 
 @interface VC_affiliate_sighnUP ()<UITextFieldDelegate,UIPickerViewDelegate, UIPickerViewDataSource>
+{
+    NSMutableDictionary *states,*countryS;
+}
 @property (nonatomic, strong) NSArray *countrypicker,*statepicker;
-@property(nonatomic,strong)NSMutableDictionary *json_DATA;/*for getting the JSON data  */
 
 
 @end
@@ -591,6 +593,7 @@
     else
     {
         NSLog(@"Validation are aperfect:");
+        [self affiliate_SignUP];
     }
 }
 #pragma mark - UIPickerViewDataSource
@@ -635,22 +638,25 @@
     [request setHTTPShouldHandleCookies:NO];
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData) {
-        _json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-        NSLog(@"The response %@",_json_DATA);
-        self.countrypicker=[_json_DATA allKeys];
+        countryS = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"The response %@",countryS);
+        self.countrypicker=[countryS allKeys];
     }
     else
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
-    }    
+    }
+    
+    
+    
+    
 }
 -(void)State_api
 {
     NSHTTPURLResponse *response = nil;
     NSError *error;
-    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/states?country=%@",SERVER_URL,[self.json_DATA valueForKey:_TXT_country.text]];
-
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/states?country=%@",SERVER_URL,[countryS valueForKey:_TXT_country.text]];
     NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:urlProducts];
@@ -658,17 +664,21 @@
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPShouldHandleCookies:NO];
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    if (aData)
-    {
-        NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-        NSLog(@"The response %@",json_DATA);
-        self.statepicker=[json_DATA allKeys];
+    if (aData) {
+        states = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"The response %@",states);
+        self.statepicker=[states allKeys];
     }
     else
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
     }
+    
+    
+    
+    
+    
 }
 
 #pragma mark - UIPickerViewDelegate
@@ -727,5 +737,60 @@
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     return true;
+}
+
+
+-(void) affiliate_SignUP
+{
+    NSString *fname = _TXT_F_name.text;
+    NSString *lname = _TXT_L_name.text;
+    NSString *addressone = _TXT_addr1.text;
+    NSString *addresstwo = _TXT_addr2.text;
+    NSString *city = _TXT_city.text;
+    NSString *phone_num = _TXT_phone_num.text;
+    NSString *state = _TXT_state.text;
+    NSString *country = _TXT_country.text;
+    NSString *email = _TXT_email.text;
+    
+    NSError *error;
+    NSError *err;
+    NSHTTPURLResponse *response = nil;
+    NSDictionary *parameters = @{ @"user": @{ @"first_name":fname, @"last_name": lname, @"address1": addressone, @"address2": addresstwo, @"city": city, @"phone":phone_num, @"state": state, @"country": country, @"email": email },@"user_type": @"affiliate" };
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&err];
+    NSLog(@"the posted data is:%@",parameters);
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@users",SERVER_URL];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:postData];
+    [request setHTTPShouldHandleCookies:NO];
+    
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+       if (aData)
+          {
+
+            NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+            NSLog(@"The response %@",json_DATA);
+            NSString *status=[json_DATA valueForKey:@"message"];
+        
+              if([status isEqualToString:@"User already exists"])
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:status delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                    [alert show];
+                }
+              else
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:status delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                    [alert show];
+                    [self performSegueWithIdentifier:@"affiliatetologin" sender:self];
+                }
+          }
+       else
+       {
+           UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please Check your Connection." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+           [alert show];
+       }
 }
 @end

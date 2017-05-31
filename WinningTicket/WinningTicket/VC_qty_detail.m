@@ -12,8 +12,9 @@
 @interface VC_qty_detail ()
 {
     int t;
-    CGRect main_Frame;
     NSMutableArray *userDetails;
+    
+    float VW_height,scrol_height,origin_Y;
 }
 
 @end
@@ -177,7 +178,6 @@
                     }
             }
     }
-//
     
     if (i == userDetails.count) {
         [self qty_detailPage];
@@ -233,17 +233,120 @@
 #pragma mark - Uiview customisation
 -(void) setup_View
 {
+    VW_height = _VW_main.frame.size.height;
+    origin_Y = _VW_main.frame.origin.y;
+    scrol_height = _scroll_TBL.frame.size.height;
+    
+    _scroll_TBL.delegate = self;
+    
+    NSError *error;
+    NSMutableDictionary *dict1 = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
+    NSMutableDictionary *temp_dictin=[dict1 valueForKey:@"event"];
+    _lbl_amount_des.text = [NSString stringWithFormat:@"%@",[dict1 valueForKey:@"price"]];
+    _lbl_sub_amount.text = [NSString stringWithFormat:@"$ %d.00",[[dict1 valueForKey:@"price"] intValue] * [[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"]] intValue]];
+    _lbl_total_amount.text = _lbl_sub_amount.text;
+    
+    
+    self.lbl_name_ticket.text=@"Winning Ticket";
+    int qtynum = [[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"]]intValue];
+    self.lbl_qty.text=[NSString stringWithFormat:@"Qty:%d",qtynum];
+    
+    NSString *show = @"Winning Ticket";
+    NSString *place = [NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"location"]];//@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
+    if(!place)
+    {
+        place=@"Notmentioned";
+    }
+    else
+    {
+        place=@"Notmentioned";
+        
+    }
+    //    place = [place stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
+    NSString *ticketnumber = [temp_dictin valueForKey:@"code"];
+    NSString *club_name = [temp_dictin valueForKey:@"name"];
+    
+    NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@ - %@",show,place,ticketnumber,club_name];
+    
+    text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
+    
+    
+    if ([self.lbl_des_cription respondsToSelector:@selector(setAttributedText:)])
+    {
+        NSDictionary *attribs = @{
+                                  NSForegroundColorAttributeName: self.lbl_des_cription.textColor,
+                                  NSFontAttributeName: self.lbl_des_cription.font
+                                  };
+        NSMutableAttributedString *attributedText =
+        [[NSMutableAttributedString alloc] initWithString:text
+                                               attributes:attribs];
+        
+        
+        NSRange plce = [text rangeOfString:place];
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0]}range:plce];
+        self.lbl_des_cription.attributedText = attributedText;
+    }
+    else
+    {
+        self.lbl_des_cription.text = text;
+    }
+    
+    _lbl_des_cription.numberOfLines = 0;
+    [_lbl_des_cription sizeToFit];
+    
+    CGRect frame_NEW;
+    frame_NEW=_lbl_amount_des.frame;
+    frame_NEW.origin.y=_lbl_des_cription.frame.origin.y+20;
+    _lbl_amount_des.frame=frame_NEW;
+    
+    frame_NEW = _VW_line1.frame;
+    frame_NEW.origin.y = _lbl_des_cription.frame.origin.y + _lbl_des_cription.frame.size.height + 10;
+    _VW_line1.frame = frame_NEW;
+    
+    frame_NEW = _lbl_sub_total.frame;
+    frame_NEW.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
+    _lbl_sub_total.frame = frame_NEW;
+    
+    frame_NEW = _lbl_sub_amount.frame;
+    frame_NEW.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
+    _lbl_sub_amount.frame = frame_NEW;
+    
+    frame_NEW = _VW_line2.frame;
+    frame_NEW.origin.y = _lbl_sub_total.frame.origin.y + _lbl_sub_total.frame.size.height + 10;
+    _VW_line2.frame = frame_NEW;
+    
+    frame_NEW = _lbl_total.frame;
+    frame_NEW.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
+    _lbl_total.frame = frame_NEW;
+    
+    frame_NEW = _lbl_total_amount.frame;
+    frame_NEW.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
+    _lbl_total_amount.frame = frame_NEW;
+    
+    frame_NEW = _VW_main.frame;
+    frame_NEW.size.height = _lbl_total.frame.origin.y + _lbl_total.frame.size.height + 15;
+    _VW_main.frame = frame_NEW;
+    
+    [_scroll_TBL addSubview:_VW_main];
+    
+    frame_NEW = _tbl_content.frame;
+    frame_NEW.origin.y = _VW_main.frame.origin.y + _VW_main.frame.size.height + 10;
+//    frame_NEW.size.height = [_tbl_content contentSize].height;
+    _tbl_content.frame = frame_NEW;
+    
+//    CGRect frame_NN = _tbl_content.frame;
+//    frame_NN.size.height = [_tbl_content contentSize].height;
+//    _tbl_content.frame = frame_NN;
+    
     [_scroll_TBL addSubview:_tbl_content];
 
-    NSError *error;
+//    NSError *error;
     NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"QUANTITY"] options:NSASCIIStringEncoding error:&error];
     
     NSLog(@"The value stored is %@",dict);
     t = [[dict valueForKey:@"quantity"] intValue];
     
-    [[NSUserDefaults standardUserDefaults] setValue:[dict valueForKey:@"quantity"] forKey:@"QTY"];
-    [[NSUserDefaults standardUserDefaults] setValue:[dict valueForKey:@"price"] forKey:@"PriceSTR"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    
     
     userDetails = [[NSMutableArray alloc] init];
     if (t-1 != 0)
@@ -256,7 +359,6 @@
     }
     
     [_tbl_content reloadData];
-    main_Frame = _scroll_TBL.frame;
     _tbl_content.scrollEnabled = NO;
     [_BTN_checkout addTarget:self action:@selector(button_TAPPed) forControlEvents:UIControlEventTouchUpInside];
 }
@@ -348,28 +450,37 @@
     
     NSIndexPath *index_NN = [_tbl_content indexPathForCell:pu_cell];
     NSInteger row = index_NN.row;
-    if (row == t - 2 && row != 0)
+    if (row == t - 2 || row == 0)
     {
         [UIView beginAnimations:nil context:NULL];
         
         if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
         {
-            float new_Y = _tbl_content.frame.origin.y;
-            if (new_Y < 0)
-            {
-                _scroll_TBL.frame = CGRectMake(_scroll_TBL.frame.origin.x, _scroll_TBL.frame.origin.y + 310,_scroll_TBL.frame.size.width,self.view.frame.size.height);
-            }
+//            float new_Y = _tbl_content.frame.origin.y;
+//            if (new_Y < 0)
+//            {
+//                _scroll_TBL.frame = CGRectMake(_scroll_TBL.frame.origin.x, _scroll_TBL.frame.origin.y + 310,_scroll_TBL.frame.size.width,self.view.frame.size.height);
+//            }
+//            
+//            _scroll_TBL.frame = CGRectMake(_scroll_TBL.frame.origin.x, _scroll_TBL.frame.origin.y - 310,_scroll_TBL.frame.size.width,self.view.frame.size.height);
             
-            _scroll_TBL.frame = CGRectMake(_scroll_TBL.frame.origin.x, _scroll_TBL.frame.origin.y - 310,_scroll_TBL.frame.size.width,self.view.frame.size.height);
+            [UIView beginAnimations:nil context:NULL];
+            // [UIView setAnimationDuration:0.25];
+            self.view.frame = CGRectMake(0,-310,self.view.frame.size.width,self.view.frame.size.height);
+//            [UIView commitAnimations];
         }
         else
         {
-            float new_Y = _scroll_TBL.frame.origin.y;
-            if (new_Y < 0)
-            {
-                _scroll_TBL.frame = CGRectMake(_scroll_TBL.frame.origin.x, _scroll_TBL.frame.origin.y + 310,_scroll_TBL.frame.size.width,self.view.frame.size.height);
-            }
-            _scroll_TBL.frame = CGRectMake(_scroll_TBL.frame.origin.x, _scroll_TBL.frame.origin.y - 250,_tbl_content.frame.size.width,self.view.frame.size.height);
+//            float new_Y = _scroll_TBL.frame.origin.y;
+//            if (new_Y < 0)
+//            {
+//                _scroll_TBL.frame = CGRectMake(_scroll_TBL.frame.origin.x, _scroll_TBL.frame.origin.y + 310,_scroll_TBL.frame.size.width,self.view.frame.size.height);
+//            }
+//            _scroll_TBL.frame = CGRectMake(_scroll_TBL.frame.origin.x, _scroll_TBL.frame.origin.y - 250,_tbl_content.frame.size.width,self.view.frame.size.height);
+            [UIView beginAnimations:nil context:NULL];
+            // [UIView setAnimationDuration:0.25];
+            self.view.frame = CGRectMake(0,-250,self.view.frame.size.width,self.view.frame.size.height);
+//            [UIView commitAnimations];
         }
         [UIView commitAnimations];
     }
@@ -383,7 +494,7 @@
 
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
-    purchase_Cell *pu_cell;
+   /* purchase_Cell *pu_cell;
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
         // Load resources for iOS 6.1 or earlier
         pu_cell = (purchase_Cell *) textField.superview.superview;
@@ -400,7 +511,14 @@
     {
         _scroll_TBL.frame = main_Frame;
         [UIView commitAnimations];
-    }
+    }*/
+//    _scroll_TBL.frame = main_Frame;
+//    [UIView commitAnimations];
+    
+    [UIView beginAnimations:nil context:NULL];
+    // [UIView setAnimationDuration:0.25];
+    self.view.frame = CGRectMake(0,00,self.view.frame.size.width,self.view.frame.size.height);
+    [UIView commitAnimations];
 }
 
 -(void) TXT_Fname : (UITextField *) sender
@@ -456,10 +574,47 @@
 {
     [super viewDidLayoutSubviews];
     [_scroll_TBL layoutIfNeeded];
+    
+    [_tbl_content layoutIfNeeded];
+    
     CGRect frame_NN = _tbl_content.frame;
     frame_NN.size.height = [_tbl_content contentSize].height;
     _tbl_content.frame = frame_NN;
-    _scroll_TBL.contentSize = CGSizeMake(_scroll_TBL.frame.size.width, [_tbl_content contentSize].height);
+    
+//    main_Frame = _scroll_TBL.frame;
+    
+    _scroll_TBL.contentSize = CGSizeMake(_scroll_TBL.frame.size.width, _VW_main.frame.size.height + 10 + [_tbl_content contentSize].height);
+    
+//    [self.scroll_TBL setContentInset:UIEdgeInsetsMake(0.f, 0.f, 0.f, 0.f)];
+//    [self.scroll_TBL scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+//    
+//    float headerImageYOffset = origin_Y;
+//    CGRect headerImageFrame = _VW_main.frame;
+//    headerImageFrame.origin.y = headerImageYOffset;
+    
+//    [self.scroll_TBL setContentInset:UIEdgeInsetsMake(self.VW_main.bounds.size.height, 0.f, 0.f, 0.f)];
+//    [self.scroll_TBL scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+    
+//    float headerImageYOffset = self.VW_main.bounds.size.height - self.scroll_TBL.bounds.size.height;
+//    CGRect headerImageFrame = _VW_main.frame;
+//    headerImageFrame.origin.y = headerImageYOffset;
+    
+}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+//    CGFloat scrollOffset = -scrollView.contentOffset.y;
+//    CGFloat yPos = scrollOffset -_VW_main.bounds.size.height;
+//    _VW_main.frame = CGRectMake(0, yPos, _VW_main.frame.size.width, _VW_main.frame.size.height);
+//    float alpha=1.0-(-yPos/ _VW_main.frame.size.height);
+//    _lbl_total.alpha=alpha;
+//    _lbl_total_amount.alpha=alpha;
+//    float fontSize=24-(-yPos/20);
+//    _lbl_total.font=[UIFont systemFontOfSize:fontSize];
+//    _lbl_total_amount.font=[UIFont systemFontOfSize:fontSize];
+    
+    CGRect frame = _VW_main.frame;
+    frame.size.height = 0;
+    _VW_main.frame = frame;
 }
 
 -(void)myprofileapicalling

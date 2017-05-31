@@ -22,5 +22,6 @@
 
 @property (weak, nonatomic) IBOutlet UIView *VW_contents;
 @property (weak, nonatomic) IBOutlet UIScrollView *scroll_contents;
+@property(nonatomic,weak)IBOutlet UIButton *BTn_send;
 
 @end

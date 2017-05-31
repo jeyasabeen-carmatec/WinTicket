@@ -46,6 +46,33 @@
 
 -(void) setup_VIEW
 {
+    NSData *aData=[[NSUserDefaults standardUserDefaults]valueForKey:@"Account_data"] ;
+    NSError *error;
+    if(aData)
+    {
+     NSMutableDictionary *account_data=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"Account_data"] options:NSASCIIStringEncoding error:&error];
+        NSLog(@"the user data is:%@",account_data);
+
+        NSDictionary *temp_dict=[account_data valueForKey:@"user"];
+        self.first_name.text=[temp_dict valueForKey:@"first_name"];
+        [self.first_name sizeToFit];
+        self.last_name.text=[temp_dict valueForKey:@"last_name"];
+        [self.last_name sizeToFit];
+        self.amount.text=[NSString stringWithFormat:@"$ %@",[account_data valueForKey:@"wallet"]];
+        
+
+        
+        
+    }
+    else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+
+       }
+
+
+    
+
     [_segment_bottom setSelectedSegmentIndex:2];
     [_tab_HOME setSelectedItem:[_tab_HOME.items objectAtIndex:2]];
     for (int i=0; i<[self.segment_bottom.subviews count]; i++)
@@ -190,7 +217,9 @@
 }
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section
 {
-    view.tintColor = [UIColor clearColor];
+    
+            view.tintColor = [UIColor clearColor];
+    
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -307,13 +336,13 @@
                 
             case 6:
             {
-                [self myprofileapicalling];
-//                dispatch_async(dispatch_get_main_queue(), ^{
-//                    [self performSegueWithIdentifier:@"accountstoeditprofileidentifier" sender:self];
-//                    
-//                    
-//                    
-//                });
+               
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self performSegueWithIdentifier:@"accountstoeditprofileidentifier" sender:self];
+                    
+                    
+                    
+                });
             }
                 break;
                 
@@ -339,42 +368,6 @@
                 break;
         }
     }
-}
--(void)myprofileapicalling
-{
-    NSError *error;
-    NSHTTPURLResponse *response = nil;
-    
-    NSString *urlGetuser =[NSString stringWithFormat:@"%@view_profile",SERVER_USR];
-    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
-    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:urlProducts];
-    [request setHTTPMethod:@"GET"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
-    [request setHTTPShouldHandleCookies:NO];
-    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    if (aData)
-    {
-        
-        [activityIndicatorView stopAnimating];
-        VW_overlay.hidden = YES;
-        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-//        NSLog(@" THe user data is :%@",[[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"]);
-       [self performSegueWithIdentifier:@"accountstoeditprofileidentifier" sender:self];
-        
-    }
-    else
-    {
-        [activityIndicatorView stopAnimating];
-        VW_overlay.hidden = YES;
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Interrupted" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-        [alert show];
-    }
-
 }
 -(void)transaction_history
 {

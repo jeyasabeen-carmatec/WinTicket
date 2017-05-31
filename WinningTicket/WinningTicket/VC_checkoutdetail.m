@@ -13,6 +13,10 @@
 @end
 
 @implementation VC_checkoutdetail
+{
+    NSMutableDictionary *states,*countryS;
+    NSString *cntry_name,*conty_code;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -92,15 +96,40 @@
 
 -(void) setup_VIEW
 {
+    NSError *error;
+    NSMutableDictionary *temp_resp = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults] valueForKey:@"CHKOUTDETAIL"] options:NSASCIIStringEncoding error:&error];
+    NSDictionary *address_dictin = [temp_resp valueForKey:@"billing_address"];
     
-//    [_BTN_order1 addTarget:self action:@selector(BTN_order1action) forControlEvents:UIControlEventTouchUpInside];
+    
+    NSLog(@"The response from checkout detail VC \n%@",temp_resp);
+    
+    _lbl_datasubtotal.text = [NSString stringWithFormat:@"%@",[[temp_resp valueForKey:@"price"] stringValue]];
+    _lbl_datatotal.text = _lbl_datasubtotal.text;
+    
     [_BTN_order2 addTarget:self action:@selector(BTN_order2action) forControlEvents:UIControlEventTouchUpInside];
     
     CGRect rect_content,frame_rect;
     rect_content = _VW_contents.frame;
     rect_content.size.width = self.navigationController.navigationBar.frame.size.width;
     
-    _lbl_address.text = @"John Doe\n6803 Melaluca Rd\nGreenacres, FL 33463-5938\nUnited States\nPhone +1 (561) 251-9792";
+    _lbl_email.text = [temp_resp valueForKey:@"email"];
+    
+    [self Country_api];
+    conty_code  = [address_dictin valueForKey:@"country"];
+    NSArray *temp = [countryS allKeysForObject:conty_code];
+    cntry_name = [temp lastObject];
+    
+    [self State_api];
+    NSString *state_code = [address_dictin valueForKey:@"state"];
+    NSArray *temp_arr = [states allKeysForObject:state_code];
+    NSString *state_name = [temp_arr lastObject];
+    
+    NSString *zip_code = [address_dictin valueForKey:@"zip_code"];
+    
+    
+    NSString *address_str = [NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone:%@",[address_dictin valueForKey:@"first_name"],[address_dictin valueForKey:@"last_name"],[address_dictin valueForKey:@"address_line1"],[address_dictin valueForKey:@"address_line2"],[address_dictin valueForKey:@"city"],state_name,cntry_name,zip_code,[address_dictin valueForKey:@"phone"]];
+    
+    _lbl_address.text = [NSString stringWithFormat:@"%@",address_str];
     _lbl_address.numberOfLines = 0;
     [_lbl_address sizeToFit];
     
@@ -108,18 +137,18 @@
     frame_rect.size.height = _lbl_address.frame.size.height;
     _lbl_address.frame = frame_rect;
     
-    frame_rect = _lbl_titlepaymentInfo.frame;
-    frame_rect.origin.y = _lbl_address.frame.origin.y + _lbl_address.frame.size.height + 10;
-    _lbl_titlepaymentInfo.frame = frame_rect;
-    
-    _lbl_paymentInfo.text = @"Credit/ Debit Card";
-    
-    frame_rect = _lbl_paymentInfo.frame;
-    frame_rect.origin.y = _lbl_titlepaymentInfo.frame.origin.y + _lbl_titlepaymentInfo.frame.size.height + 10;
-    _lbl_paymentInfo.frame = frame_rect;
+//    frame_rect = _lbl_titlepaymentInfo.frame;
+//    frame_rect.origin.y = _lbl_address.frame.origin.y + _lbl_address.frame.size.height + 10;
+//    _lbl_titlepaymentInfo.frame = frame_rect;
+//    
+//    _lbl_paymentInfo.text = @"Credit/ Debit Card";
+//    
+//    frame_rect = _lbl_paymentInfo.frame;
+//    frame_rect.origin.y = _lbl_titlepaymentInfo.frame.origin.y + _lbl_titlepaymentInfo.frame.size.height + 10;
+//    _lbl_paymentInfo.frame = frame_rect;
     
     frame_rect = _VW_line1.frame;
-    frame_rect.origin.y = _lbl_paymentInfo.frame.origin.y + _lbl_paymentInfo.frame.size.height + 10;
+    frame_rect.origin.y = _lbl_address.frame.origin.y + _lbl_address.frame.size.height + 10;
     _VW_line1.frame = frame_rect;
     
     frame_rect = _img_icon.frame;
@@ -138,9 +167,9 @@
     
     NSString *show = @"Winning Ticket";
     NSString *place = @"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
-    NSString *ticketnumber = @"56A8WQ";
-    NSString *club_name = @"Grand Cypress Country Club";
-    NSString *qty = @"Qty: 3";
+    NSString *ticketnumber = [temp_resp valueForKey:@"code"];
+    NSString *club_name = [temp_resp valueForKey:@"event_name"];
+    NSString *qty = [NSString stringWithFormat:@"Qty: %@",[temp_resp valueForKey:@"quantity"]];
     
     NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@ - %@\n%@",show,place,ticketnumber,club_name,qty];
     
@@ -213,6 +242,8 @@
     frame_rect.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
     _lbl_titleSubtotal.frame = frame_rect;
     
+    
+    
     frame_rect = _lbl_datasubtotal.frame;
     frame_rect.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
     _lbl_datasubtotal.frame = frame_rect;
@@ -258,7 +289,74 @@
 -(void) BTN_order2action
 {
     NSLog(@"BTN_order2action tapped");
-    [self performSegueWithIdentifier:@"purchaseidentifier" sender:self];
+    [self pay_AMOUNT];
+}
+
+#pragma mark - States and Country
+-(void)Country_api
+{
+    NSHTTPURLResponse *response = nil;
+    NSError *error;
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/countries",SERVER_URL];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData) {
+        countryS = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"The response %@",countryS);
+    }
+    
+    
+}
+-(void)State_api
+{
+    NSHTTPURLResponse *response = nil;
+    NSError *error;
+    
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/states?country=%@",SERVER_URL,conty_code];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData) {
+        states = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"The response %@",states);
+    }
+}
+
+-(void) pay_AMOUNT
+{
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    NSString *total = _lbl_datatotal.text;
+    
+    NSDictionary *parameters = @{ @"nonce":[[NSUserDefaults standardUserDefaults] valueForKey:@"NAUNCETOK"] , @"transaction_type":@"purchase", @"price":total };
+    
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&error];
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@payments/create",SERVER_URL];
+    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
+    [request setHTTPBody:postData];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"PurchaseRESPONSE"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self performSegueWithIdentifier:@"purchaseidentifier" sender:self];
+    }
 }
 
 @end

@@ -93,7 +93,7 @@
 - (void)dragTableContentSizeWillChangeTo:(CGSize)contentSize observer:(DragTableGestureObserver_ot *)observer
 {
     CGFloat dragFooterMinY = MAX(contentSize.height, self.frame.size.height);
-    self.dragFooterView.frame = CGRectMake(0, dragFooterMinY, self.frame.size.width, self.bounds.size.height);
+    self.dragFooterView.frame = CGRectMake(-8.0f, dragFooterMinY, self.frame.size.width, self.bounds.size.height);
 }
 
 - (void)dragTableFrameWillChangeTo:(CGRect)contentOffset observer:(DragTableGestureObserver_ot *)observer
@@ -104,9 +104,9 @@
         contentInsetHeightAdder = MAX(0, contentInsetHeightAdder);
         self.contentInset = UIEdgeInsetsMake(0.0f, 0.0f, LOADMORE_TRIGGER_HEIGHT + contentInsetHeightAdder, 0.0f);
     }
-    self.dragHeaderView.frame = CGRectMake(0.0f, 0.0f - self.bounds.size.height, self.frame.size.width, self.bounds.size.height);
+    self.dragHeaderView.frame = CGRectMake(-8.0f, 0.0f - self.bounds.size.height, self.frame.size.width, self.bounds.size.height);
     CGFloat dragFooterMinY = MAX(self.contentSize.height, self.frame.size.height);
-    self.dragFooterView.frame = CGRectMake(0, dragFooterMinY, self.frame.size.width, self.bounds.size.height);
+    self.dragFooterView.frame = CGRectMake(-8.0f, dragFooterMinY, self.frame.size.width, self.bounds.size.height);
 }
 
 @end
@@ -178,14 +178,14 @@
 {
     if (!self.dragHeaderView)
     {
-        CGRect frame = CGRectMake(0.0f, 0.0f - self.bounds.size.height, self.frame.size.width, self.bounds.size.height);
+        CGRect frame = CGRectMake(-8.0f, 0.0f - self.bounds.size.height, self.frame.size.width, self.bounds.size.height);
         self.dragHeaderView = [[DragTableHeaderView_ot alloc] initWithFrame:frame datePermanentStoreKey:refreshDatePermanentKey];
         self.dragHeaderView.delegate = self;
         [self addSubview:self.dragHeaderView];
     }
     if (!self.dragFooterView)
     {
-        CGRect frame = CGRectMake(0.0f, 0.0f - self.bounds.size.height, self.frame.size.width, self.bounds.size.height);
+        CGRect frame = CGRectMake(-8.0f, 0.0f - self.bounds.size.height, self.frame.size.width, self.bounds.size.height);
         self.dragFooterView = [[DragTableFooterView_ot alloc] initWithFrame:frame];
         self.dragFooterView.delegate = self;
         [self addSubview:self.dragFooterView];

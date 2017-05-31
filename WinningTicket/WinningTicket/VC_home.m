@@ -779,7 +779,23 @@
     
     NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
     
-    NSString *urlGetuser =[NSString stringWithFormat:@"%@events/all_events",SERVER_URL];
+    NSString *urlGetuser;
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    {
+        if ([UIScreen mainScreen].bounds.size.height > 667)
+        {
+            urlGetuser = [NSString stringWithFormat:@"%@events/all_events?per_page=13",SERVER_URL];
+        }
+        else
+        {
+            urlGetuser = [NSString stringWithFormat:@"%@events/all_events?per_page=10",SERVER_URL];
+        }
+    }
+    else
+    {
+        urlGetuser = [NSString stringWithFormat:@"%@events/all_events?per_page=20",SERVER_URL];
+    }
+    
     NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:urlProducts];
@@ -794,6 +810,7 @@
         VW_overlay.hidden = YES;
         
         [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"ALLEvents"];
+        [[NSUserDefaults standardUserDefaults] setObject:urlGetuser forKey:@"URL_SAVED"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
         [self performSegueWithIdentifier:@"alleventsidentifier" sender:self];
@@ -836,10 +853,10 @@
         
         NSError *error;
         NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-        NSLog(@"thedata is Upcoming:%@",dict);
+        NSLog(@"VC home enter event code :%@",dict);
         
         
-        if ([dict valueForKey:@"message"]) {
+        if (![[dict valueForKey:@"status"] isEqualToString:@"Success"]) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[dict valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
             [alert show];
         }

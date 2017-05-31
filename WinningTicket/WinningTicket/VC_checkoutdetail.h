@@ -15,8 +15,8 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *lbl_email;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_address;
-@property (weak, nonatomic) IBOutlet UILabel *lbl_titlepaymentInfo;
-@property (weak, nonatomic) IBOutlet UILabel *lbl_paymentInfo;
+//@property (weak, nonatomic) IBOutlet UILabel *lbl_titlepaymentInfo;
+//@property (weak, nonatomic) IBOutlet UILabel *lbl_paymentInfo;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_ticketDetail;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_titleSubtotal;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_datasubtotal;

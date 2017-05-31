@@ -14,5 +14,10 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segment_bottom;
 
 @property (weak, nonatomic) IBOutlet UITableView *TBL_contents;
+@property(nonatomic,weak)IBOutlet UILabel *first_name;
+@property(nonatomic,weak)IBOutlet UILabel *last_name;
+@property(nonatomic,weak)IBOutlet UILabel *amount;
+
+
 
 @end

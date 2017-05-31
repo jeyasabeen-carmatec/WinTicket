@@ -175,9 +175,11 @@ if (aData)
     if([status isEqualToString:@"Password has been changed successfully."])
     {
     _Stat_label.hidden=NO;
+        [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];
     _Stat_label.text=[json_DATA valueForKey:@"message"];
     }else{
         _Stat_label.hidden=NO;
+        [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];
         _Stat_label.text=[json_DATA valueForKey:@"message"];
         _Stat_label.backgroundColor=[UIColor redColor];
     }
@@ -187,5 +189,7 @@ if (aData)
  }
 
 }
-
+- (void)hiddenLabel{
+    _Stat_label.hidden = YES;
+}
 @end

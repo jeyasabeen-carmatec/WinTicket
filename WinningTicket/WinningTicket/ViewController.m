@@ -88,6 +88,8 @@
     }
     
     _VW_holdCNT.center = self.view.center;
+    _VW_content.layer.borderWidth = 2.0f;
+    _VW_content.layer.borderColor = [UIColor whiteColor].CGColor;
     _VW_content.layer.cornerRadius = 5.0f;
     _VW_content.layer.masksToBounds = YES;
     
@@ -353,8 +355,6 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
     {
-        [activityIndicatorView stopAnimating];
-        VW_overlay.hidden = YES;
         if (_SWITCH_rememberme.on) {
             [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"loginEmail"];
             [[NSUserDefaults standardUserDefaults] synchronize];
@@ -385,8 +385,7 @@
             status = [json_DATA valueForKey:@"authentication_token"];
             [[NSUserDefaults standardUserDefaults] setValue:status forKey:@"auth_token"];
             [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            [self parse_listEvents_api];
+            [self myaccount_API_calling];
 
             [self performSegueWithIdentifier:@"logintohomeidentifier" sender:self];
             
@@ -491,11 +490,88 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+
         [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"JsonEventlist"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Interrupted" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
 }
 
-
+-(void)myaccount_API_calling
+{
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@my_account",SERVER_USR];
+    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"Account_data"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        //        NSLog(@" THe user data is :%@",[[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"]);
+        //        [self performSegueWithIdentifier:@"accountstoeditprofileidentifier" sender:self];
+        [self myprofileapicalling];
+    }
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Interrupted" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+    
+}
+-(void)myprofileapicalling
+{
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@view_profile",SERVER_USR];
+    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        //        NSLog(@" THe user data is :%@",[[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"]);
+        //        [self performSegueWithIdentifier:@"accountstoeditprofileidentifier" sender:self];
+        [self parse_listEvents_api];
+    }
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Interrupted" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+    
+}
 
 @end

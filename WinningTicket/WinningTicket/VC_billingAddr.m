@@ -14,9 +14,9 @@
     float BTN_originY;
     
     CGRect lbl_origin_FRAME;
+    NSMutableDictionary *states,*countryS;
 }
 @property (nonatomic, strong) NSArray *countrypicker,*statepicker;
-@property(nonatomic,strong)NSMutableDictionary *json_DATA;/*for getting the JSON data  */
 @end
 
 @implementation VC_billingAddr
@@ -28,8 +28,32 @@
 //    NSMutableDictionary *json_DAT = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"state_response"] options:NSASCIIStringEncoding error:&error];
 //    NSLog(@"The response %@",json_DAT);
 //    self.ARR_states=[json_DAT allKeys];
+    
+   /* NSURL *clientTokenURL = [NSURL URLWithString:@"https://braintree-sample-merchant.herokuapp.com/client_token"];
+    NSMutableURLRequest *clientTokenRequest = [NSMutableURLRequest requestWithURL:clientTokenURL];
+    [clientTokenRequest setValue:@"text/plain" forHTTPHeaderField:@"Accept"];
+    
+    [[[NSURLSession sharedSession] dataTaskWithRequest:clientTokenRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        // TODO: Handle errors
+        NSString *clientToken = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        tok = clientToken;
+        
+        NSLog(@"Client Tok = %@",tok);
+        
+        // Initialize `Braintree` once per checkout session
+        self.braintree = [Braintree braintreeWithClientToken:clientToken];
+        
+        NSLog(@"dddd = %@",self.braintree);
+        
+        
+        // As an example, you may wish to present our Drop-in UI at this point.
+        // Continue to the next section to learn more...
+    }] resume];*/
+    
+    [self get_client_TOKEN];
   [self setup_VIEW];
     
+        
 }
 
 - (void)didReceiveMemoryWarning {
@@ -45,8 +69,7 @@
                                                   forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    
-    
+
 }
 
 -(void)viewDidLayoutSubviews
@@ -206,7 +229,8 @@
     {
         place=@"Notmentioned";
     }
-    else{
+    else
+    {
         place=@"Notmentioned";
         
     }
@@ -295,6 +319,16 @@
     
     NSString *address_str=[NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone:%@",[user_data valueForKey:@"first_name"],[user_data valueForKey:@"last_name"],[user_data valueForKey:@"address1"],[user_data valueForKey:@"address2"],[user_data valueForKey:@"city"],[user_data valueForKey:@"state"],[user_data valueForKey:@"country"],[user_data valueForKey:@"zipcode"],[user_data valueForKey:@"phone"]];
     
+    _TXT_firstname.text = [user_data valueForKey:@"first_name"];
+    _TXT_lastname.text = [user_data valueForKey:@"last_name"];
+    _TXT_address1.text = [user_data valueForKey:@"address1"];
+    _TXT_address2.text = [user_data valueForKey:@"address2"];
+    _TXT_city.text = [user_data valueForKey:@"city"];
+    _TXT_country.text = [user_data valueForKey:@"country"];
+    _TXT_zip.text = [user_data valueForKey:@"zipcode"];
+    _TXT_state.text = [user_data valueForKey:@"state"];
+    _TXT_phonenumber.text = [user_data valueForKey:@"phone"];
+    
     _lbl_address.text = address_str;
     [_lbl_address sizeToFit];
     
@@ -306,13 +340,12 @@
     [_BTN_checkout addTarget:self action:@selector(chckout_ACtin:) forControlEvents:UIControlEventTouchUpInside];
     
     
-    frame_NEW=_proceed_TOPAY.frame;
-    frame_NEW.origin.y=_lbl_address.frame.origin.y+_lbl_address.frame.size.height+30;
-    _proceed_TOPAY.frame=frame_NEW;
+//    frame_NEW=_proceed_TOPAY.frame;
+//    frame_NEW.origin.y=_lbl_address.frame.origin.y+_lbl_address.frame.size.height+30;
+//    _proceed_TOPAY.frame=frame_NEW;
     
     frame_NEW = _BTN_checkout.frame;
-    
-    frame_NEW.origin.y = _proceed_TOPAY.frame.origin.y + _proceed_TOPAY.frame.size.height + 10;
+    frame_NEW.origin.y = _lbl_address.frame.origin.y + _lbl_address.frame.size.height + 10;
     _BTN_checkout.frame = frame_NEW;
     
     
@@ -429,10 +462,10 @@
             /*Frame Change*/
             _lbl_address.hidden=YES;
             
-            _proceed_TOPAY.frame=CGRectMake(_proceed_TOPAY.frame.origin.x
-                                            ,  _VW_address.frame.origin.y+_VW_address.frame.size.height+10, _proceed_TOPAY.frame.size.width, _proceed_TOPAY.frame.size.height);
+//            _proceed_TOPAY.frame=CGRectMake(_proceed_TOPAY.frame.origin.x
+//                                            ,  _VW_address.frame.origin.y+_VW_address.frame.size.height+10, _proceed_TOPAY.frame.size.width, _proceed_TOPAY.frame.size.height);
             
-            _BTN_checkout.frame = CGRectMake(_BTN_checkout.frame.origin.x, _proceed_TOPAY.frame.origin.y + _proceed_TOPAY.frame.size.height + 10, _BTN_checkout.frame.size.width, _BTN_checkout.frame.size.height);
+            _BTN_checkout.frame = CGRectMake(_BTN_checkout.frame.origin.x, _VW_address.frame.origin.y+_VW_address.frame.size.height+10, _BTN_checkout.frame.size.width, _BTN_checkout.frame.size.height);
             
             _lbl_agree.frame = CGRectMake(_lbl_agree.frame.origin.x, _BTN_checkout.frame.origin.y + _BTN_checkout.frame.size.height+10 , lbl_origin_FRAME.size.width, _lbl_agree.frame.size.height+10);
             
@@ -479,9 +512,55 @@
 -(void) chckout_ACtin : (id) sender
 {
     NSLog(@"Chekout Tapped");
-    
-    [self performSegueWithIdentifier:@"billaddretocheckoutdetail" sender:self];
+    [self braintree_Dropin_UI];
 }
+
+-(void) get_client_TOKEN
+{
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    
+    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    
+    NSString *urlGetuser = [NSString stringWithFormat:@"%@contributors/client_token",SERVER_URL];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        
+        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        
+        NSLog(@"Client Token = %@",[dict valueForKey:@"client_token"]);
+        
+        self.braintree = [Braintree braintreeWithClientToken:[dict valueForKey:@"client_token"]];
+        NSLog(@"dddd = %@",self.braintree);
+    }
+}
+
+-(void) braintree_Dropin_UI
+{
+    BTDropInViewController *dropInViewController = [self.braintree dropInViewControllerWithDelegate:self];
+    // This is where you might want to customize your Drop in. (See below.)
+    
+    // The way you present your BTDropInViewController instance is up to you.
+    // In this example, we wrap it in a new, modally presented navigation controller:
+    dropInViewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                                                          target:self
+                                                                                                          action:@selector(userDidCancelPayment)];
+    dropInViewController.view.tintColor = _BTN_checkout.backgroundColor;
+    
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:dropInViewController];
+    UINavigationBar *bar = [navigationController navigationBar];
+    [bar setBackgroundColor:[UIColor blackColor]];
+    [self presentViewController:navigationController animated:YES completion:nil];
+}
+
 #pragma mark textfieldDelegates
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
@@ -559,15 +638,26 @@
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPShouldHandleCookies:NO];
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    self.json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-    NSLog(@"The response %@",self.json_DATA);
-    self.countrypicker=[self.json_DATA allKeys];
+    if (aData) {
+        countryS = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"The response %@",countryS);
+        self.countrypicker=[countryS allKeys];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+    
+
+
+    
 }
 -(void)State_api
 {
     NSHTTPURLResponse *response = nil;
     NSError *error;
-    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/states?country=%@",SERVER_URL,[self.json_DATA valueForKey:_TXT_country.text]];
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/states?country=%@",SERVER_URL,[countryS valueForKey:_TXT_country.text]];
     NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:urlProducts];
@@ -575,12 +665,17 @@
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPShouldHandleCookies:NO];
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-    NSLog(@"The response %@",json_DATA);
-    //    NSString *status=[json_DATA objectForKey:@"United States"];
-    self.statepicker=[json_DATA allKeys];
-    
-    
+    if (aData) {
+        states = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"The response %@",states);
+        self.statepicker=[states allKeys];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+
 }
 
 #pragma mark - UIPickerViewDelegate
@@ -640,4 +735,87 @@
 {
     return true;
 }
+
+
+#pragma mark - Braintree Integration
+- (void)dropInViewController:(__unused BTDropInViewController *)viewController didSucceedWithPaymentMethod:(BTPaymentMethod *)paymentMethod {
+    [self postNonceToServer:paymentMethod.nonce]; // Send payment method nonce to your server
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)dropInViewControllerDidCancel:(__unused BTDropInViewController *)viewController {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+- (void)userDidCancelPayment {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void) postNonceToServer :(NSString *)str
+{
+    NSLog(@"Post %@",str);
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Nonce" message:str delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+    [alert show];
+    
+    if (str)
+    {
+        [[NSUserDefaults standardUserDefaults] setValue:str forKey:@"NAUNCETOK"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self billing_Address];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Payment Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+}
+
+-(void) billing_Address
+{
+    NSError *error;
+    NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"QUANTITY"] options:NSASCIIStringEncoding error:&error];
+    
+    NSString *order_ID = [dict valueForKey:@"order_id"];
+    NSString *first_name = _TXT_firstname.text;
+    NSString *last_name = _TXT_lastname.text;
+    NSString *address_line1 = _TXT_address1.text;
+    NSString *address_line2 = _TXT_address2.text;
+    NSString *city = _TXT_city.text;
+    NSString *country = _TXT_country.text;
+    NSString *zip_code = _TXT_zip.text;
+    NSString *state = _TXT_state.text;
+    NSString *phone = _TXT_phonenumber.text;
+    
+    NSString *state_code = [states valueForKey:state];
+    NSString *country_code = [countryS valueForKey:country];
+    
+    NSHTTPURLResponse *response = nil;
+
+    
+    NSDictionary *parameters = @{@"billing_address":@{ @"first_name": first_name,@"last_name": last_name,@"address_line1": address_line1,@"address_line2": address_line2,@"city": city,@"country": country_code,@"zip_code": zip_code,@"state": state_code,@"order_id": order_ID,@"phone": phone }};
+    
+    NSLog(@"Post contents VC Billing Address %@",parameters);
+    
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&error];
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@events/billing_address",SERVER_URL];
+    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
+    [request setHTTPBody:postData];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"CHKOUTDETAIL"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [self performSegueWithIdentifier:@"billaddretocheckoutdetail" sender:self];
+    }
+    
+}
+
+
 @end

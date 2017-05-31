@@ -9,12 +9,18 @@
 #import "VC_addFUNDS.h"
 
 @interface VC_addFUNDS ()
+{
+    NSMutableDictionary *states,*countryS;
+}
 @property (nonatomic, strong) NSArray *countrypicker,*statepicker;
-@property(nonatomic,strong)NSMutableDictionary *json_DATA;/*for getting the JSON data  */
 
 @end
 
 @implementation VC_addFUNDS
+{
+    float content_height;
+    float original_height;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -36,7 +42,7 @@
     [_scroll_Contents layoutIfNeeded];
 //    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
 //    {
-        _scroll_Contents.contentSize = CGSizeMake(_scroll_Contents.frame.size.width, _VW_contents.frame.size.height+100);
+        _scroll_Contents.contentSize = CGSizeMake(_scroll_Contents.frame.size.width, original_height);
 //    }
 //    else
 //    {
@@ -56,6 +62,59 @@
 
 -(void) setup_VIEW
 {
+    
+    _VW_contents.frame=CGRectMake(0,0, self.scroll_Contents.frame.size.width, self.VW_contents.frame.size.height);
+    [self.scroll_Contents addSubview:_VW_contents];
+    
+    float org_height = _VW_contents.frame.origin.y + _VW_contents.frame.size.height;
+    NSLog(@"the original height:%f",org_height);
+    
+    //    _TXTVW_organisationname.text = @"dshgfdsf dshgfsdf udsgfgsdf sdiufgsd as\nuyatsuyd asuyduyagsd
+    float framehight = _VW_contents.frame.origin.y + _VW_contents.frame.size.height;
+    NSLog(@"the original height:%f",framehight);
+    
+    
+    _VW_titladdress.frame = CGRectMake(0, framehight+10, self.scroll_Contents.frame.size.width, self.VW_titladdress.frame.size.height);
+    
+    [self.scroll_Contents addSubview:_VW_titladdress];
+    CGRect frame_old;
+    frame_old = _lbl_address.frame;
+    frame_old.origin.y= _VW_titladdress.frame.size.height+_VW_titladdress.frame.origin.y+10;
+    _lbl_address.frame=frame_old;
+    
+    _VW_address.frame=CGRectMake(0, self.self.VW_titladdress.frame.origin.y+self.VW_titladdress.frame.size.height+10, self.scroll_Contents.frame.size.width, self.VW_address.frame.size.height);
+    [self.scroll_Contents addSubview:_VW_address];
+    _VW_address.hidden=YES;
+
+    
+    [_BTN_edit addTarget:self action:@selector(edit_BTN_action:) forControlEvents:UIControlEventTouchUpInside];
+    NSData *aData=[[NSUserDefaults standardUserDefaults]valueForKey:@"User_data"] ;
+    NSError *error;
+    if(aData)
+    {
+    NSMutableDictionary *user_data=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"User_data"] options:NSASCIIStringEncoding error:&error];
+    NSLog(@"the user data is:%@",user_data);
+    NSString *address_str=[NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone:%@",[user_data valueForKey:@"first_name"],[user_data valueForKey:@"last_name"],[user_data valueForKey:@"address1"],[user_data valueForKey:@"address2"],[user_data valueForKey:@"city"],[user_data valueForKey:@"state"],[user_data valueForKey:@"country"],[user_data valueForKey:@"zipcode"],[user_data valueForKey:@"phone"]];
+        _lbl_address.text = address_str;
+        _lbl_address.numberOfLines=0;
+        [_lbl_address sizeToFit];
+
+    }
+    
+    else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+        
+    }
+
+    
+    
+    
+    frame_old=_ADD_funds.frame;
+    frame_old.origin.y=_lbl_address.frame.origin.y+_lbl_address.frame.size.height+10;
+    _ADD_funds.frame=frame_old;
+    /*setting the frames for address label and button in old*/
+
     [self Country_api];
     [self State_api];
     _BTN_10.layer.cornerRadius = 5.0f;
@@ -100,56 +159,74 @@
     _TXT_firstname.layer.borderWidth = 2.0f;
     _TXT_firstname.layer.borderColor = [UIColor grayColor].CGColor;
     _TXT_firstname.backgroundColor = [UIColor whiteColor];
+    _TXT_firstname.tag=1;
+    _TXT_firstname.delegate=self;
+    
     
     _TXT_lastname.layer.cornerRadius = 5.0f;
     _TXT_lastname.layer.masksToBounds = YES;
     _TXT_lastname.layer.borderWidth = 2.0f;
     _TXT_lastname.layer.borderColor = [UIColor grayColor].CGColor;
     _TXT_lastname.backgroundColor = [UIColor whiteColor];
+    _TXT_lastname.tag=2;
+    _TXT_lastname.delegate=self;
     
     _TXT_address1.layer.cornerRadius = 5.0f;
     _TXT_address1.layer.masksToBounds = YES;
     _TXT_address1.layer.borderWidth = 2.0f;
     _TXT_address1.layer.borderColor = [UIColor grayColor].CGColor;
     _TXT_address1.backgroundColor = [UIColor whiteColor];
+    _TXT_address1.tag=3;
+    _TXT_address1.delegate=self;
     
     _TXT_address2.layer.cornerRadius = 5.0f;
     _TXT_address2.layer.masksToBounds = YES;
     _TXT_address2.layer.borderWidth = 2.0f;
     _TXT_address2.layer.borderColor = [UIColor grayColor].CGColor;
     _TXT_address2.backgroundColor = [UIColor whiteColor];
+    _TXT_address2.tag=4;
+    _TXT_address2.delegate=self;
     
     _TXT_city.layer.cornerRadius = 5.0f;
     _TXT_city.layer.masksToBounds = YES;
     _TXT_city.layer.borderWidth = 2.0f;
     _TXT_city.layer.borderColor = [UIColor grayColor].CGColor;
     _TXT_city.backgroundColor = [UIColor whiteColor];
+    _TXT_city.tag=5;
+    _TXT_city.delegate=self;
     
     _TXT_country.layer.cornerRadius = 5.0f;
     _TXT_country.layer.masksToBounds = YES;
     _TXT_country.layer.borderWidth = 2.0f;
     _TXT_country.layer.borderColor = [UIColor grayColor].CGColor;
     _TXT_country.backgroundColor = [UIColor whiteColor];
-//    _TXT_country.tag=5;
+    _TXT_country.tag=6;
     _TXT_country.delegate=self;
+    
     
     _TXT_state.layer.cornerRadius = 5.0f;
     _TXT_state.layer.masksToBounds = YES;
     _TXT_state.layer.borderWidth = 2.0f;
     _TXT_state.layer.borderColor = [UIColor grayColor].CGColor;
     _TXT_state.backgroundColor = [UIColor whiteColor];
+    _TXT_state.tag=7;
+    _TXT_state.delegate=self;
     
     _TXT_zip.layer.cornerRadius = 5.0f;
     _TXT_zip.layer.masksToBounds = YES;
     _TXT_zip.layer.borderWidth = 2.0f;
     _TXT_zip.layer.borderColor = [UIColor grayColor].CGColor;
     _TXT_zip.backgroundColor = [UIColor whiteColor];
+    _TXT_zip.tag=8;
+    _TXT_zip.delegate=self;
     
     _TXT_phonenumber.layer.cornerRadius = 5.0f;
     _TXT_phonenumber.layer.masksToBounds = YES;
     _TXT_phonenumber.layer.borderWidth = 2.0f;
     _TXT_phonenumber.layer.borderColor = [UIColor grayColor].CGColor;
     _TXT_phonenumber.backgroundColor = [UIColor whiteColor];
+    _TXT_phonenumber.tag=9;
+    _TXT_phonenumber.delegate=self;
     
     CGRect frame_rct = _VW_contents.frame;
     frame_rct.size.width = _scroll_Contents.frame.size.width;
@@ -200,6 +277,50 @@
     [_TXT_state resignFirstResponder];
     [_TXT_country resignFirstResponder];
 }
+
+#pragma mark - Edit button Clicked
+
+-(void) edit_BTN_action : (id) sender
+{
+    if(_VW_address.hidden==YES)
+    {
+        original_height =  self.ADD_funds.frame.origin.y + _ADD_funds.frame.size.height + 20;
+        
+        
+        
+        [UIView beginAnimations:@"LeftFlip" context:nil];
+        [UIView setAnimationDuration:0.5];
+        _VW_address.frame=CGRectMake(_VW_titladdress.frame.origin.x,_VW_titladdress.frame.origin.y+40,self.scroll_Contents.frame.size.width,_VW_address.frame.size.height);
+        [self.scroll_Contents addSubview:_VW_address];
+        _VW_address.hidden=NO;
+        [UIView setAnimationCurve:UIViewAnimationCurveLinear];
+        [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:_VW_address cache:YES];
+        [UIView commitAnimations];
+        [UIView animateWithDuration:0.5 animations:^{
+            
+            /*Frame Change*/
+            _lbl_address.hidden=YES;
+            
+            //            _proceed_TOPAY.frame=CGRectMake(_proceed_TOPAY.frame.origin.x
+            //                                            ,  _VW_address.frame.origin.y+_VW_address.frame.size.height+10, _proceed_TOPAY.frame.size.width, _proceed_TOPAY.frame.size.height);
+            
+            _ADD_funds.frame = CGRectMake(_ADD_funds.frame.origin.x, _VW_address.frame.origin.y + _VW_address.frame.size.height + 15, _ADD_funds.frame.size.width, _ADD_funds.frame.size.height);
+            
+        }];
+        [UIView commitAnimations];
+        original_height =  self.ADD_funds.frame.origin.y + _ADD_funds.frame.size.height + 20;
+        [self viewDidLayoutSubviews];
+        
+    }
+    else{
+        //        [self hideview];
+        original_height = original_height - 100;
+        _lbl_address.hidden=NO;
+        [self viewDidLayoutSubviews];
+    }
+    
+}
+
 #pragma mark - UIButton Actions
 -(void) BTN_10Method
 {
@@ -283,7 +404,6 @@
     return 0;
 }
 #pragma mark - UIPickerViewDataSource
-
 -(void)Country_api
 {
     NSHTTPURLResponse *response = nil;
@@ -296,18 +416,26 @@
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPShouldHandleCookies:NO];
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-   _json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-    NSLog(@"The response %@",_json_DATA);
-    self.countrypicker=[_json_DATA allKeys];
-      
+    if (aData) {
+        countryS = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"The response %@",countryS);
+        self.countrypicker=[countryS allKeys];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+    
+    
+    
     
 }
 -(void)State_api
 {
     NSHTTPURLResponse *response = nil;
     NSError *error;
-    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/states?country=%@",SERVER_URL,[self.json_DATA valueForKey:_TXT_country.text]];
-
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@city_states/states?country=%@",SERVER_URL,[countryS valueForKey:_TXT_country.text]];
     NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:urlProducts];
@@ -315,13 +443,22 @@
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPShouldHandleCookies:NO];
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-    NSLog(@"The response %@",json_DATA);
-    //    NSString *status=[json_DATA objectForKey:@"United States"];
-    self.statepicker=[json_DATA allKeys];
+    if (aData) {
+        states = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"The response %@",states);
+        self.statepicker=[states allKeys];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+    
+    
     
     
 }
+
 
 #pragma mark - UIPickerViewDelegate
 
@@ -371,6 +508,12 @@
 }
 
 #pragma mark - UITextFieldDeligate/UITextFieldDatasource
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    return YES;
+}
+
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
     [_BTN_10 setBackgroundColor:[UIColor whiteColor]];
@@ -381,9 +524,35 @@
     
     [_BTN_50 setBackgroundColor:[UIColor whiteColor]];
     [_BTN_50 setTitleColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0] forState:UIControlStateNormal];
+    
+    if(textField.tag == 3 || textField.tag == 8 || textField.tag == 9)
+    {
+        [textField setTintColor:[UIColor whiteColor]];
+        //if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        // {
+        //Keyboard becomes visible
+        [UIView beginAnimations:nil context:NULL];
+        // [UIView setAnimationDuration:0.25];
+        self.view.frame = CGRectMake(0,-120,self.view.frame.size.width,self.view.frame.size.height);
+        [UIView commitAnimations];
+        //}
+    }
+    
+
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
+    [UIView beginAnimations:nil context:NULL];
+    
+    self.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
+    [UIView commitAnimations];
+    [UIView beginAnimations:nil context:NULL];
+    
+    self.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
+    [UIView commitAnimations];
+    // }
+
+    
     if (textField == _TXT_amount) {
         NSString *new_STR= _TXT_amount.text;
         NSArray *ARR_str = [new_STR componentsSeparatedByString:@"."];
@@ -408,6 +577,8 @@
                 _TXT_amount.text = new_STR;
             }
         }
+        
+       
     }
     if([_TXT_amount.text isEqualToString:@"10.00"])
         

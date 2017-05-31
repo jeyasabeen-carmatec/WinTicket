@@ -138,7 +138,7 @@
 		
 
         _activityView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallPulse tintColor:[UIColor darkGrayColor]];
-		_activityView.frame = CGRectMake(25.0f, frame.size.height - 38.0f, 20.0f, 20.0f);
+		_activityView.frame = CGRectMake(33.0f, frame.size.height - 38.0f, 20.0f, 20.0f);
 		[self addSubview:_activityView];
         
         _backgroundView = [[UIView alloc] initWithFrame:self.bounds];

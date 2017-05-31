@@ -34,5 +34,13 @@
 
 //@property (weak, nonatomic) IBOutlet UIPickerView *PICK_state;
 //@property (weak, nonatomic) IBOutlet UIToolbar *TOOL_state;
+@property(nonatomic,weak)IBOutlet UILabel *lbl_address;
+@property(nonatomic,weak)IBOutlet UIView *VW_titladdress;
+@property(nonatomic,weak)IBOutlet UIView *VW_address;
+@property (weak, nonatomic) IBOutlet UIButton *BTN_edit;
+@property (weak, nonatomic) IBOutlet UIButton *ADD_funds;
+
+
+
 
 @end

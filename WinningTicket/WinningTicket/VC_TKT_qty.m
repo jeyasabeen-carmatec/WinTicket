@@ -216,6 +216,8 @@
     frame_ST.origin.y = _lbl_dataTotal.frame.origin.y + qty_frame_Y;
     _lbl_dataTotal.frame = frame_ST;
     
+    [_BTN_checkout addTarget:self action:@selector(decide_VC) forControlEvents:UIControlEventTouchUpInside];
+    
     frame_ST = _BTN_checkout.frame;
     frame_ST.origin.y = _BTN_checkout.frame.origin.y + qty_frame_Y;
     _BTN_checkout.frame = frame_ST;
@@ -236,6 +238,81 @@
     [self.view addGestureRecognizer:tap];
     
     [self.TXT_qty addTarget:self action:@selector(get_caluculated_text) forControlEvents:UIControlEventEditingChanged];
+}
+
+-(void) decide_VC
+{
+    NSString *STR_chk = _TXT_qty.text;
+    NSCharacterSet *myCharSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+    
+    int count = 0;
+    
+    if (STR_chk.length !=0 )
+    {
+        for (int i = 0; i < [STR_chk length]; i++)
+        {
+            unichar c = [STR_chk characterAtIndex:i];
+            if ([myCharSet characterIsMember:c])
+            {
+                count ++;
+            }
+        }
+    }
+    
+    if ((count = [STR_chk intValue]))
+    {
+        BOOL stat = [self update_QTY_api];
+        if (stat)
+        {
+            if (count >= 2)
+            {
+                [self performSegueWithIdentifier:@"checkouttocontinuecheckout" sender:self];
+            }
+            else
+            {
+                NSError *error;
+                NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"QUANTITY"] options:NSASCIIStringEncoding error:&error];
+                
+                
+                NSError *err;
+                NSHTTPURLResponse *response = nil;
+                NSMutableArray *userDetails = [[NSMutableArray alloc] init];
+                NSDictionary *parameters = @{ @"recipients": userDetails, @"order_item" : @{ @"id":[dict valueForKey:@"order_item_id"]}};
+                NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+                
+                NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&err];
+                NSString *urlGetuser = [NSString stringWithFormat:@"%@events/create_update_recipients",SERVER_URL];
+                NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+                NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+                [request setURL:urlProducts];
+                [request setHTTPMethod:@"POST"];
+                [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+                [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+                [request setHTTPBody:postData];
+                [request setHTTPShouldHandleCookies:NO];
+                NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+                if (aData)
+                {
+                    dict = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+                    NSLog(@"Updated Status %@",dict);
+                    
+                    if ([[dict valueForKey:@"message"] isEqualToString:@"Recipient(s) created/updated successfully."]) {
+                        [self performSegueWithIdentifier:@"checkouttobillingaddr" sender:self];
+                    }
+                    else
+                    {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                        [alert show];
+                    }
+                }
+                else
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                    [alert show];
+                }
+            }
+        }
+    }
 }
 
 -(void) Tap_DTECt :(UITapGestureRecognizer *)sender
@@ -348,41 +425,6 @@
     _lbl_arrowpromocode.text = @"";
 }
 
-#pragma mark - Pass value to CHKout detail
-- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
-{
-    NSString *STR_chk = _TXT_qty.text;
-    NSCharacterSet *myCharSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
-    
-    int count = 0;
-    
-    if (STR_chk.length !=0 )
-    {
-        for (int i = 0; i < [STR_chk length]; i++)
-        {
-            unichar c = [STR_chk characterAtIndex:i];
-            if ([myCharSet characterIsMember:c])
-            {
-                count ++;
-            }
-        }
-    }
-    else
-    {
-        return NO;
-    }
-    
-    BOOL stat = [self update_QTY_api];
-    
-    if (count == STR_chk.length)
-    {
-        return stat;
-    }
-    else
-    {
-        return NO;
-    }
-}
 
 #pragma mark - Quantity Update
 -(void)get_caluculated_text
@@ -420,7 +462,13 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
     {
+        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"QUANTITY"] options:NSASCIIStringEncoding error:&error];
+        
+        NSLog(@"The value stored is %@",dict);
+        
         [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"QUANTITY"];
+        [[NSUserDefaults standardUserDefaults] setValue:STR_chk forKey:@"QTY"];
+        [[NSUserDefaults standardUserDefaults] setValue:[dict valueForKey:@"price"] forKey:@"PriceSTR"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
         return YES;
