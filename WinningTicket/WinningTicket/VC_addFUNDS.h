@@ -10,10 +10,6 @@
 
 @interface VC_addFUNDS : UIViewController <UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIGestureRecognizerDelegate>
 
-@property (weak, nonatomic) IBOutlet UIButton *BTN_10;
-@property (weak, nonatomic) IBOutlet UIButton *BTN_25;
-@property (weak, nonatomic) IBOutlet UIButton *BTN_50;
-
 @property (weak, nonatomic) IBOutlet UITextField *TXT_amount;
 @property (weak, nonatomic) IBOutlet UIView *VW_contents;
 @property (weak, nonatomic) IBOutlet UIScrollView *scroll_Contents;

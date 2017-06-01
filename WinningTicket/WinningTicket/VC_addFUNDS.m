@@ -117,27 +117,8 @@
 
     [self Country_api];
     [self State_api];
-    _BTN_10.layer.cornerRadius = 5.0f;
-    _BTN_10.layer.masksToBounds = YES;
-    _BTN_10.layer.borderWidth = 2.0f;
-    _BTN_10.layer.borderColor = [UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0].CGColor;
-    _BTN_10.titleLabel.textColor = [UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0];
-    [_BTN_10 setTitleColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0] forState:UIControlStateNormal];
     
-    _BTN_25.layer.cornerRadius = 5.0f;
-    _BTN_25.layer.masksToBounds = YES;
-    _BTN_25.layer.borderWidth = 2.0f;
-    _BTN_25.layer.borderColor = [UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0].CGColor;
-    _BTN_25.titleLabel.textColor = [UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0];
-    [_BTN_25 setTitleColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0] forState:UIControlStateNormal];
-    
-    _BTN_50.layer.cornerRadius = 5.0f;
-    _BTN_50.layer.masksToBounds = YES;
-    _BTN_50.layer.borderWidth = 2.0f;
-    _BTN_50.layer.borderColor = [UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0].CGColor;
-    [_BTN_50 setTitleColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0] forState:UIControlStateNormal];
-    
-//    [_BTN_state addTarget:self action:@selector(ACTION_state) forControlEvents:UIControlEventTouchUpInside];
+
     
     _TXT_amount.layer.cornerRadius = 5.0f;
     _TXT_amount.layer.masksToBounds = YES;
@@ -147,12 +128,7 @@
     [_TXT_amount addTarget:self action:@selector(check_TXT_stat:) forControlEvents:UIControlEventEditingChanged];
     _TXT_amount.delegate=self;
     
-    [_BTN_10 addTarget:self action:@selector(BTN_10Method) forControlEvents:UIControlEventTouchUpInside];
-    [_BTN_25 addTarget:self action:@selector(BTN_25Method) forControlEvents:UIControlEventTouchUpInside];
-    [_BTN_50 addTarget:self action:@selector(BTN_50Method) forControlEvents:UIControlEventTouchUpInside];
-    
-//    _PICK_state.hidden = YES;
-//    _TOOL_state.hidden = YES;
+  
     
     _TXT_firstname.layer.cornerRadius = 5.0f;
     _TXT_firstname.layer.masksToBounds = YES;
@@ -321,60 +297,7 @@
     
 }
 
-#pragma mark - UIButton Actions
--(void) BTN_10Method
-{
-    
-    NSLog(@"Button 10 tapped");
-    NSString *temptext=_BTN_10.titleLabel.text;
-    NSArray *arr=[temptext componentsSeparatedByString:@"$"];
-    self.TXT_amount.text=[NSString stringWithFormat:@"%@.00",[arr objectAtIndex:1]];
-    [_BTN_10 setBackgroundColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0]];
-    [_BTN_10 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    
-    [_BTN_25 setBackgroundColor:[UIColor whiteColor]];
-    [_BTN_25 setTitleColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0] forState:UIControlStateNormal];
-    
-    [_BTN_50 setBackgroundColor:[UIColor whiteColor]];
-    [_BTN_50 setTitleColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0] forState:UIControlStateNormal];
-    
-    
-}
--(void) BTN_25Method
-{
-    NSLog(@"Button 25 tapped");
-   NSString *temptext=_BTN_25.titleLabel.text;
-    NSArray *arr=[temptext componentsSeparatedByString:@"$"];
-    self.TXT_amount.text=[NSString stringWithFormat:@"%@.00",[arr objectAtIndex:1]];
-    [_BTN_10 setBackgroundColor:[UIColor whiteColor]];
-    [_BTN_10 setTitleColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0] forState:UIControlStateNormal];
-    
-    [_BTN_25 setBackgroundColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0]];
-    [_BTN_25 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    
-    [_BTN_50 setBackgroundColor:[UIColor whiteColor]];
-    [_BTN_50 setTitleColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0] forState:UIControlStateNormal];
-}
--(void) BTN_50Method
-{
-    NSLog(@"Button 50 tapped");
-    NSString *temptext=_BTN_50.titleLabel.text;
-    NSArray *arr=[temptext componentsSeparatedByString:@"$"];
-    self.TXT_amount.text=[NSString stringWithFormat:@"%@.00",[arr objectAtIndex:1]];
-    [_BTN_10 setBackgroundColor:[UIColor whiteColor]];
-    [_BTN_10 setTitleColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0] forState:UIControlStateNormal];
-    
-    [_BTN_25 setBackgroundColor:[UIColor whiteColor]];
-    [_BTN_25 setTitleColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0] forState:UIControlStateNormal];
-    
-    [_BTN_50 setBackgroundColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0]];
-    [_BTN_50 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-}
-//-(void) ACTION_state
-//{
-//    _PICK_state.hidden = NO;
-//    _TOOL_state.hidden = NO;
-//}
+
 
 #pragma mark PickerView DataSource
 
@@ -516,15 +439,6 @@
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    [_BTN_10 setBackgroundColor:[UIColor whiteColor]];
-    [_BTN_10 setTitleColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0] forState:UIControlStateNormal];
-    
-    [_BTN_25 setBackgroundColor:[UIColor whiteColor]];
-    [_BTN_25 setTitleColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0] forState:UIControlStateNormal];
-    
-    [_BTN_50 setBackgroundColor:[UIColor whiteColor]];
-    [_BTN_50 setTitleColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0] forState:UIControlStateNormal];
-    
     if(textField.tag == 3 || textField.tag == 8 || textField.tag == 9)
     {
         [textField setTintColor:[UIColor whiteColor]];
@@ -580,45 +494,6 @@
         
        
     }
-    if([_TXT_amount.text isEqualToString:@"10.00"])
-        
-    {
-        [_BTN_10 setBackgroundColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0]];
-        [_BTN_10 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        _BTN_25.backgroundColor=[UIColor clearColor];
-        _BTN_50.backgroundColor=[UIColor clearColor];
-        
-       
-        
-    }
-    else if([_TXT_amount.text isEqualToString:@"25.00"])
-        
-    {
-        [_BTN_25 setBackgroundColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0]];
-        [_BTN_25 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        _BTN_10.backgroundColor=[UIColor clearColor];
-        _BTN_50.backgroundColor=[UIColor clearColor];
-        
-       
-        
-        
-    }else if([_TXT_amount.text isEqualToString:@"50.00"])
-        
-    {
-        [_BTN_50 setBackgroundColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0]];
-        [_BTN_50 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        _BTN_10.backgroundColor=[UIColor clearColor];
-        _BTN_25.backgroundColor=[UIColor clearColor];
-
-        
-        
-        
-    }
-    else{
-        _TXT_amount.text=@"";
-    }
-    
-
 }
 
 -(void) check_TXT_stat :(id)sender
@@ -653,6 +528,7 @@
 {
     return true;
 }
+
 
 
 @end

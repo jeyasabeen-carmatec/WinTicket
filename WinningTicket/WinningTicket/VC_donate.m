@@ -67,45 +67,37 @@
 #pragma mark - UIView Customisation
 -(void) setup_view
 {
-//   CGRect contentframe = _VW_organisationdetail.frame;
-//    contentframe.size.width = _scroll_Contents.frame.size.width;
-//    _VW_contents.frame = contentframe;
+    CGRect final_frame = _TXTVW_organisationname.frame;
+    final_frame.size.height = _TXTVW_organisationname.contentSize.height;
+    _TXTVW_organisationname.frame = final_frame;
     
-    _VW_organisationdetail.frame=CGRectMake(0,0, self.scroll_Contents.frame.size.width, self.VW_organisationdetail.frame.size.height);
+    final_frame = _lbl_titledonationAMT.frame;
+    final_frame.origin.y = _TXTVW_organisationname.frame.origin.y + _TXTVW_organisationname.frame.size.height + 10;
+    _lbl_titledonationAMT.frame = final_frame;
+    
+    final_frame = _lbl_currencyTYP.frame;
+    final_frame.origin.y = _lbl_titledonationAMT.frame.origin.y + _lbl_titledonationAMT.frame.size.height + 10;
+    _lbl_currencyTYP.frame = final_frame;
+    
+    final_frame = _TXT_getamount.frame;
+    final_frame.origin.y = _lbl_currencyTYP.frame.origin.y;
+    _TXT_getamount.frame = final_frame;
+    
+    CGRect VW_frame = _VW_organisationdetail.frame;
+    VW_frame.size.height = _lbl_currencyTYP.frame.origin.y + _lbl_currencyTYP.frame.size.height + 10;
+    VW_frame.size.width = _scroll_Contents.frame.size.width;
+    _VW_organisationdetail.frame = VW_frame;
+    
     [self.scroll_Contents addSubview:_VW_organisationdetail];
 
-    float org_height = _VW_organisationdetail.frame.origin.y + _VW_organisationdetail.frame.size.height;
-    NSLog(@"the original height:%f",org_height);
+    VW_frame = _VW_titladdress.frame;
+    VW_frame.origin.y = _VW_organisationdetail.frame.origin.y + _VW_organisationdetail.frame.size.height;
+    VW_frame.size.width = _scroll_Contents.frame.size.width;
+    _VW_titladdress.frame = VW_frame;
     
-//    _TXTVW_organisationname.text = @"dshgfdsf dshgfsdf udsgfgsdf sdiufgsd as\nuyatsuyd asuyduyagsd auystduasd\nhgafsd";
-    
-    
-//    CGSize countentSize = _TXTVW_organisationname.contentSize;
-//    int numberOfLinesNeeded = countentSize.height / _TXTVW_organisationname.font.lineHeight;
-//    int numberOfLinesInTextView = _TXTVW_organisationname.frame.size.height / _TXTVW_organisationname.font.lineHeight;
-//    CGRect textViewFrame= _TXTVW_organisationname.frame;
-//    textViewFrame.size.height = numberOfLinesNeeded * _TXTVW_organisationname.font.lineHeight;
-//    [_TXTVW_organisationname setFrame:textViewFrame];
-//    _TXTVW_organisationname.delegate=self;
-    
-    
-//    [_TXTVW_organisationname sizeToFit];
-    
-    CGRect _f = self.VW_Denom.frame;
-    _f.origin.y = self.TXTVW_organisationname.frame.size.height;
-    self.VW_Denom.frame = _f;
-    
-    
-    float framehight = _TXTVW_organisationname.frame.origin.y + _TXTVW_organisationname.frame.size.height+_VW_Denom.frame.size.height;
-     NSLog(@"the original height:%f",framehight);
-    
-    
-    _VW_titladdress.frame = CGRectMake(0, framehight+10, self.scroll_Contents.frame.size.width, self.VW_titladdress.frame.size.height);
     [self.scroll_Contents addSubview:_VW_titladdress];
       [_BTN_edit addTarget:self action:@selector(edit_BTN_action:) forControlEvents:UIControlEventTouchUpInside];
-    float title_height = _VW_titladdress.frame.origin.y + _VW_titladdress.frame.size.height;
     
-    content_height = org_height + title_height;
     _TXTVW_organisationname.layer.cornerRadius=3.0f;
     _TXTVW_organisationname.layer.borderWidth=2.0f;
     _TXTVW_organisationname.layer.borderColor=[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0].CGColor;
@@ -115,8 +107,6 @@
     _TXT_getamount.layer.masksToBounds = YES;
     _TXT_getamount.layer.borderWidth = 2.0f;
     _TXT_getamount.layer.borderColor = [UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0].CGColor;
-    
-    
     
     /*apr code*/
     _organisation_list = [[UIPickerView alloc] init];
@@ -133,8 +123,9 @@
 
     if(aData)
     {
-        NSMutableDictionary *user_data=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"User_data"] options:NSASCIIStringEncoding error:&error];
-        NSLog(@"the user data is:%@",user_data);
+        NSMutableDictionary *user_DICTIN = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"User_data"] options:NSASCIIStringEncoding error:&error];
+        NSDictionary *user_data = [user_DICTIN valueForKey:@"user"];
+        NSLog(@"VC donate display Address:%@",user_data);
         NSString *address_str=[NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone:%@",[user_data valueForKey:@"first_name"],[user_data valueForKey:@"last_name"],[user_data valueForKey:@"address1"],[user_data valueForKey:@"address2"],[user_data valueForKey:@"city"],[user_data valueForKey:@"state"],[user_data valueForKey:@"country"],[user_data valueForKey:@"zipcode"],[user_data valueForKey:@"phone"]];
         _lbl_address.text = address_str;
         _lbl_address.numberOfLines=0;
@@ -148,8 +139,9 @@
         
     }
 
-    frame_old=_BTN_deposit.frame;
-    frame_old.origin.y=_lbl_address.frame.origin.y+_lbl_address.frame.size.height+10;
+    
+    frame_old = _BTN_deposit.frame;
+    frame_old.origin.y =  _lbl_address.frame.origin.y + _lbl_address.frame.size.height + 10;
     _BTN_deposit.frame=frame_old;
     /*setting the frames for address label and button in old*/
     
@@ -318,6 +310,9 @@
             
                     }];
         [UIView commitAnimations];
+        
+        _BTN_edit.enabled=NO;
+        
         original_height =  self.BTN_deposit.frame.origin.y + _BTN_deposit.frame.size.height + 20;
         [self viewDidLayoutSubviews];
         
@@ -476,9 +471,18 @@
     [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
     [request setHTTPShouldHandleCookies:NO];
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    _oraganisationpicker = (NSArray *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-    NSLog(@"The response %@",_oraganisationpicker);
-    
+    if(aData)
+    {
+        NSMutableDictionary *json_DICTIn = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"oraganisations dictionary is:%@",json_DICTIn);
+        _oraganisationpicker = [json_DICTIn valueForKey:@"events"];
+        NSLog(@"Organisation picker values %@",_oraganisationpicker);
+    }
+    else
+    {
+        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:@"Check Connction" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"" , nil];
+        [alert show];
+    }
     
 
     
@@ -516,7 +520,111 @@
         //        self.TXT_email.enabled=YES;
     }
     if (pickerView == _organisation_list) {
-        NSLog(@"the ID is:%@",[self.arr objectAtIndex:0]);
+        if(_VW_address.hidden == NO)
+        {
+            CGRect final_frame = _TXTVW_organisationname.frame;
+            final_frame.size.height = _TXTVW_organisationname.contentSize.height;
+            _TXTVW_organisationname.frame = final_frame;
+            
+            final_frame = _lbl_titledonationAMT.frame;
+            final_frame.origin.y = _TXTVW_organisationname.frame.origin.y + _TXTVW_organisationname.frame.size.height + 10;
+            _lbl_titledonationAMT.frame = final_frame;
+            
+            final_frame = _lbl_currencyTYP.frame;
+            final_frame.origin.y = _lbl_titledonationAMT.frame.origin.y + _lbl_titledonationAMT.frame.size.height + 10;
+            _lbl_currencyTYP.frame = final_frame;
+            
+            final_frame = _TXT_getamount.frame;
+            final_frame.origin.y = _lbl_currencyTYP.frame.origin.y;
+            _TXT_getamount.frame = final_frame;
+            
+            CGRect VW_frame = _VW_organisationdetail.frame;
+            VW_frame.size.height = _lbl_currencyTYP.frame.origin.y + _lbl_currencyTYP.frame.size.height + 10;
+            VW_frame.size.width = _scroll_Contents.frame.size.width;
+            _VW_organisationdetail.frame = VW_frame;
+            
+            VW_frame = _VW_titladdress.frame;
+            VW_frame.origin.y = _VW_organisationdetail.frame.origin.y + _VW_organisationdetail.frame.size.height;
+            VW_frame.size.width = _scroll_Contents.frame.size.width;
+            _VW_titladdress.frame = VW_frame;
+            
+            CGRect frame_old;
+            frame_old = _lbl_address.frame;
+            frame_old.origin.y= _VW_titladdress.frame.size.height+_VW_titladdress.frame.origin.y+10;
+            _lbl_address.frame=frame_old;
+            
+            frame_old = _BTN_deposit.frame;
+            frame_old.origin.y =  _lbl_address.frame.origin.y + _lbl_address.frame.size.height + 10;
+            _BTN_deposit.frame=frame_old;
+            
+            original_height =  self.BTN_deposit.frame.origin.y + _BTN_deposit.frame.size.height + 20;
+            
+            //        [UIView beginAnimations:@"LeftFlip" context:nil];
+            [UIView setAnimationDuration:0.5];
+            _VW_address.frame=CGRectMake(_VW_titladdress.frame.origin.x,_VW_titladdress.frame.origin.y+60,self.scroll_Contents.frame.size.width,_VW_address.frame.size.height);
+            [self.scroll_Contents addSubview:_VW_address];
+            _VW_address.hidden=NO;
+            [UIView setAnimationCurve:UIViewAnimationCurveLinear];
+            [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:_VW_address cache:YES];
+            [UIView commitAnimations];
+            [UIView animateWithDuration:0.5 animations:^{
+                
+                /*Frame Change*/
+                _lbl_address.hidden=YES;
+                
+                //            _proceed_TOPAY.frame=CGRectMake(_proceed_TOPAY.frame.origin.x
+                //                                            ,  _VW_address.frame.origin.y+_VW_address.frame.size.height+10, _proceed_TOPAY.frame.size.width, _proceed_TOPAY.frame.size.height);
+                
+                _BTN_deposit.frame = CGRectMake(_BTN_deposit.frame.origin.x, _VW_address.frame.origin.y + _VW_address.frame.size.height + 15, _BTN_deposit.frame.size.width, _BTN_deposit.frame.size.height);
+                
+            }];
+            [UIView commitAnimations];
+            
+            _BTN_edit.enabled=NO;
+            
+            original_height =  self.BTN_deposit.frame.origin.y + _BTN_deposit.frame.size.height + 20;
+            [self viewDidLayoutSubviews];
+        }
+        else
+        {
+            CGRect final_frame = _TXTVW_organisationname.frame;
+            final_frame.size.height = _TXTVW_organisationname.contentSize.height;
+            _TXTVW_organisationname.frame = final_frame;
+            
+            final_frame = _lbl_titledonationAMT.frame;
+            final_frame.origin.y = _TXTVW_organisationname.frame.origin.y + _TXTVW_organisationname.frame.size.height + 10;
+            _lbl_titledonationAMT.frame = final_frame;
+            
+            final_frame = _lbl_currencyTYP.frame;
+            final_frame.origin.y = _lbl_titledonationAMT.frame.origin.y + _lbl_titledonationAMT.frame.size.height + 10;
+            _lbl_currencyTYP.frame = final_frame;
+            
+            final_frame = _TXT_getamount.frame;
+            final_frame.origin.y = _lbl_currencyTYP.frame.origin.y;
+            _TXT_getamount.frame = final_frame;
+            
+            CGRect VW_frame = _VW_organisationdetail.frame;
+            VW_frame.size.height = _lbl_currencyTYP.frame.origin.y + _lbl_currencyTYP.frame.size.height + 10;
+            VW_frame.size.width = _scroll_Contents.frame.size.width;
+            _VW_organisationdetail.frame = VW_frame;
+            
+            VW_frame = _VW_titladdress.frame;
+            VW_frame.origin.y = _VW_organisationdetail.frame.origin.y + _VW_organisationdetail.frame.size.height;
+            VW_frame.size.width = _scroll_Contents.frame.size.width;
+            _VW_titladdress.frame = VW_frame;
+            
+            CGRect frame_old;
+            frame_old = _lbl_address.frame;
+            frame_old.origin.y= _VW_titladdress.frame.size.height+_VW_titladdress.frame.origin.y+10;
+            _lbl_address.frame=frame_old;
+            
+            frame_old = _BTN_deposit.frame;
+            frame_old.origin.y =  _lbl_address.frame.origin.y + _lbl_address.frame.size.height + 10;
+            _BTN_deposit.frame=frame_old;
+            
+            _VW_address.frame=CGRectMake(0, self.self.VW_titladdress.frame.origin.y+self.VW_titladdress.frame.size.height+10, self.scroll_Contents.frame.size.width, self.VW_address.frame.size.height);
+            _VW_address.hidden=YES;
+        }
         [[NSUserDefaults standardUserDefaults] setValue:[self.arr objectAtIndex:0] forKey:@"event_id_donate"];
         [[NSUserDefaults standardUserDefaults]synchronize];
         self.TXTVW_organisationname.text=[self.arr objectAtIndex:1];
@@ -558,6 +666,117 @@
             [self pickerView:_organisation_list didSelectRow:selectedRow inComponent:0];
         }
     }
+    if(_VW_address.hidden == NO)
+    {
+        
+        CGRect final_frame = _TXTVW_organisationname.frame;
+        final_frame.size.height = _TXTVW_organisationname.contentSize.height;
+        _TXTVW_organisationname.frame = final_frame;
+        
+        final_frame = _lbl_titledonationAMT.frame;
+        final_frame.origin.y = _TXTVW_organisationname.frame.origin.y + _TXTVW_organisationname.frame.size.height + 10;
+        _lbl_titledonationAMT.frame = final_frame;
+        
+        final_frame = _lbl_currencyTYP.frame;
+        final_frame.origin.y = _lbl_titledonationAMT.frame.origin.y + _lbl_titledonationAMT.frame.size.height + 10;
+        _lbl_currencyTYP.frame = final_frame;
+        
+        final_frame = _TXT_getamount.frame;
+        final_frame.origin.y = _lbl_currencyTYP.frame.origin.y;
+        _TXT_getamount.frame = final_frame;
+        
+        CGRect VW_frame = _VW_organisationdetail.frame;
+        VW_frame.size.height = _lbl_currencyTYP.frame.origin.y + _lbl_currencyTYP.frame.size.height + 10;
+        VW_frame.size.width = _scroll_Contents.frame.size.width;
+        _VW_organisationdetail.frame = VW_frame;
+        
+        VW_frame = _VW_titladdress.frame;
+        VW_frame.origin.y = _VW_organisationdetail.frame.origin.y + _VW_organisationdetail.frame.size.height;
+        VW_frame.size.width = _scroll_Contents.frame.size.width;
+        _VW_titladdress.frame = VW_frame;
+        
+        CGRect frame_old;
+        frame_old = _lbl_address.frame;
+        frame_old.origin.y= _VW_titladdress.frame.size.height+_VW_titladdress.frame.origin.y+10;
+        _lbl_address.frame=frame_old;
+        
+        frame_old = _BTN_deposit.frame;
+        frame_old.origin.y =  _lbl_address.frame.origin.y + _lbl_address.frame.size.height + 10;
+        _BTN_deposit.frame=frame_old;
+        
+        original_height =  self.BTN_deposit.frame.origin.y + _BTN_deposit.frame.size.height + 20;
+        
+        
+        
+//        [UIView beginAnimations:@"LeftFlip" context:nil];
+        [UIView setAnimationDuration:0.5];
+        _VW_address.frame=CGRectMake(_VW_titladdress.frame.origin.x,_VW_titladdress.frame.origin.y+60,self.scroll_Contents.frame.size.width,_VW_address.frame.size.height);
+        [self.scroll_Contents addSubview:_VW_address];
+        _VW_address.hidden=NO;
+        [UIView setAnimationCurve:UIViewAnimationCurveLinear];
+        [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:_VW_address cache:YES];
+        [UIView commitAnimations];
+        [UIView animateWithDuration:0.5 animations:^{
+            
+            /*Frame Change*/
+            _lbl_address.hidden=YES;
+            
+            //            _proceed_TOPAY.frame=CGRectMake(_proceed_TOPAY.frame.origin.x
+            //                                            ,  _VW_address.frame.origin.y+_VW_address.frame.size.height+10, _proceed_TOPAY.frame.size.width, _proceed_TOPAY.frame.size.height);
+            
+            _BTN_deposit.frame = CGRectMake(_BTN_deposit.frame.origin.x, _VW_address.frame.origin.y + _VW_address.frame.size.height + 15, _BTN_deposit.frame.size.width, _BTN_deposit.frame.size.height);
+            
+        }];
+        [UIView commitAnimations];
+        
+        _BTN_edit.enabled=NO;
+        
+        original_height =  self.BTN_deposit.frame.origin.y + _BTN_deposit.frame.size.height + 20;
+        [self viewDidLayoutSubviews];
+    }
+    else
+    {
+        CGRect final_frame = _TXTVW_organisationname.frame;
+        final_frame.size.height = _TXTVW_organisationname.contentSize.height;
+        _TXTVW_organisationname.frame = final_frame;
+        
+        final_frame = _lbl_titledonationAMT.frame;
+        final_frame.origin.y = _TXTVW_organisationname.frame.origin.y + _TXTVW_organisationname.frame.size.height + 10;
+        _lbl_titledonationAMT.frame = final_frame;
+        
+        final_frame = _lbl_currencyTYP.frame;
+        final_frame.origin.y = _lbl_titledonationAMT.frame.origin.y + _lbl_titledonationAMT.frame.size.height + 10;
+        _lbl_currencyTYP.frame = final_frame;
+        
+        final_frame = _TXT_getamount.frame;
+        final_frame.origin.y = _lbl_currencyTYP.frame.origin.y;
+        _TXT_getamount.frame = final_frame;
+        
+        CGRect VW_frame = _VW_organisationdetail.frame;
+        VW_frame.size.height = _lbl_currencyTYP.frame.origin.y + _lbl_currencyTYP.frame.size.height + 10;
+        VW_frame.size.width = _scroll_Contents.frame.size.width;
+        _VW_organisationdetail.frame = VW_frame;
+        
+        VW_frame = _VW_titladdress.frame;
+        VW_frame.origin.y = _VW_organisationdetail.frame.origin.y + _VW_organisationdetail.frame.size.height;
+        VW_frame.size.width = _scroll_Contents.frame.size.width;
+        _VW_titladdress.frame = VW_frame;
+        
+        CGRect frame_old;
+        frame_old = _lbl_address.frame;
+        frame_old.origin.y= _VW_titladdress.frame.size.height+_VW_titladdress.frame.origin.y+10;
+        _lbl_address.frame=frame_old;
+        
+        frame_old = _BTN_deposit.frame;
+        frame_old.origin.y =  _lbl_address.frame.origin.y + _lbl_address.frame.size.height + 10;
+        _BTN_deposit.frame=frame_old;
+        
+        _VW_address.frame=CGRectMake(0, self.self.VW_titladdress.frame.origin.y+self.VW_titladdress.frame.size.height+10, self.scroll_Contents.frame.size.width, self.VW_address.frame.size.height);
+        _VW_address.hidden=YES;
+    }
+    [[NSUserDefaults standardUserDefaults] setValue:[self.arr objectAtIndex:0] forKey:@"event_id_donate"];
+    [[NSUserDefaults standardUserDefaults]synchronize];
+    self.TXTVW_organisationname.text=[self.arr objectAtIndex:1];
 }
 #pragma mark - UIGestureRecognizerDelegate
 

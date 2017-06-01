@@ -175,10 +175,10 @@
     _lbl_sub_amount.text = [NSString stringWithFormat:@"$ %d.00",[_lbl_amount_des.text intValue] * [[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"] intValue]];
     _lbl_total_amount.text = _lbl_sub_amount.text;
     
-    NSMutableDictionary *user_data=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"User_data"] options:NSASCIIStringEncoding error:&error];
-    NSLog(@"the user data is:%@",user_data);
+    NSMutableDictionary *user=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"User_data"] options:NSASCIIStringEncoding error:&error];
+    NSLog(@"the user data is:%@",user);
     
-
+    NSDictionary *user_data = [user valueForKey:@"user"];
     
     [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
@@ -316,6 +316,7 @@
     frame_NEW.size.width = _scroll_contents.frame.size.width;
     _VW_titladdress.frame = frame_NEW;
     [self.scroll_contents addSubview:self.VW_titladdress];
+
     
     NSString *address_str=[NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone:%@",[user_data valueForKey:@"first_name"],[user_data valueForKey:@"last_name"],[user_data valueForKey:@"address1"],[user_data valueForKey:@"address2"],[user_data valueForKey:@"city"],[user_data valueForKey:@"state"],[user_data valueForKey:@"country"],[user_data valueForKey:@"zipcode"],[user_data valueForKey:@"phone"]];
     

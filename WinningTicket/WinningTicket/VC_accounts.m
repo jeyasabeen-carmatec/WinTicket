@@ -242,7 +242,7 @@
             case 0:
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self performSegueWithIdentifier:@"accountstofundsidentifier" sender:self];
+                    [self get_Denominations];
                 });
             }
                 break;
@@ -371,7 +371,6 @@
 }
 -(void)transaction_history
 {
-    
         NSError *error;
         NSHTTPURLResponse *response = nil;
         
@@ -406,6 +405,29 @@
             [alert show];
         }
 
+}
+
+-(void) get_Denominations
+{
+    NSHTTPURLResponse *response = nil;
+    NSError *error;
+    
+    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@contributors/denominations",SERVER_URL];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if(aData)
+    {
+        NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"The response get_Denominations VC Accounts %@",json_DATA);
+    }
+    [self performSegueWithIdentifier:@"accountstofundsidentifier" sender:self];
 }
 
 @end

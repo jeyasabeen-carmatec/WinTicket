@@ -462,9 +462,9 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
     {
-        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"QUANTITY"] options:NSASCIIStringEncoding error:&error];
+        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         
-        NSLog(@"The value stored is %@",dict);
+        NSLog(@"The value VC TKT Quantity %@",dict);
         
         [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"QUANTITY"];
         [[NSUserDefaults standardUserDefaults] setValue:STR_chk forKey:@"QTY"];

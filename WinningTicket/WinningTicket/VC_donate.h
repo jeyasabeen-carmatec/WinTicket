@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface VC_donate : UIViewController<UIGestureRecognizerDelegate>
-@property (weak, nonatomic) IBOutlet UITextField *TXTF_organisationname;
 @property (weak, nonatomic) IBOutlet UITextView *TXTVW_organisationname;
 @property (nonatomic, strong) UIPickerView *organisation_list;
 
@@ -46,7 +45,7 @@
 @property(nonatomic,weak)IBOutlet UILabel *lbl_address;
 @property(nonatomic,weak)IBOutlet UIView *VW_titladdress;
 @property(nonatomic,weak)IBOutlet UIView *VW_address;
-@property(nonatomic,weak)IBOutlet UIView *VW_Denom;
+//@property(nonatomic,weak)IBOutlet UIView *VW_Denom;
 
 
 

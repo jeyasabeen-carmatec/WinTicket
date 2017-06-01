@@ -68,9 +68,9 @@
 		BE888A431E937AB100656580 /* VC_aboutus.m in Sources */ = {isa = PBXBuildFile; fileRef = BE888A421E937AB100656580 /* VC_aboutus.m */; };
 		BE9DCF851EDEA25A00E92FD8 /* VC_accounts.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9DCF841EDEA25A00E92FD8 /* VC_accounts.m */; };
 		BE9DCF881EDEA29C00E92FD8 /* VC_addFUNDS.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9DCF871EDEA29C00E92FD8 /* VC_addFUNDS.m */; };
-		BE9DCF8B1EDEA2C200E92FD8 /* VC_donate.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9DCF8A1EDEA2C200E92FD8 /* VC_donate.m */; };
 		BE9DCF8E1EDEB37E00E92FD8 /* VC_contactUS.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9DCF8D1EDEB37E00E92FD8 /* VC_contactUS.m */; };
 		BE9DCF911EDEB39700E92FD8 /* VC_changePWD.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9DCF901EDEB39700E92FD8 /* VC_changePWD.m */; };
+		BE9DCF971EDEEA8F00E92FD8 /* VC_donate.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9DCF961EDEEA8F00E92FD8 /* VC_donate.m */; };
 		BEA875921E89007B00EFBB7F /* UI_01.png in Resources */ = {isa = PBXBuildFile; fileRef = BEA875911E89007B00EFBB7F /* UI_01.png */; };
 		BEA875A21E893C3000EFBB7F /* RPFloatingPlaceholderTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = BEA875A11E893C3000EFBB7F /* RPFloatingPlaceholderTextField.m */; };
 		BEA875B11E8B684700EFBB7F /* VC_orderdetail.m in Sources */ = {isa = PBXBuildFile; fileRef = BEA875B01E8B684700EFBB7F /* VC_orderdetail.m */; };
@@ -265,12 +265,12 @@
 		BE9DCF841EDEA25A00E92FD8 /* VC_accounts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_accounts.m; sourceTree = "<group>"; };
 		BE9DCF861EDEA29C00E92FD8 /* VC_addFUNDS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_addFUNDS.h; sourceTree = "<group>"; };
 		BE9DCF871EDEA29C00E92FD8 /* VC_addFUNDS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_addFUNDS.m; sourceTree = "<group>"; };
-		BE9DCF891EDEA2C200E92FD8 /* VC_donate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_donate.h; sourceTree = "<group>"; };
-		BE9DCF8A1EDEA2C200E92FD8 /* VC_donate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_donate.m; sourceTree = "<group>"; };
 		BE9DCF8C1EDEB37E00E92FD8 /* VC_contactUS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_contactUS.h; sourceTree = "<group>"; };
 		BE9DCF8D1EDEB37E00E92FD8 /* VC_contactUS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_contactUS.m; sourceTree = "<group>"; };
 		BE9DCF8F1EDEB39700E92FD8 /* VC_changePWD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_changePWD.h; sourceTree = "<group>"; };
 		BE9DCF901EDEB39700E92FD8 /* VC_changePWD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_changePWD.m; sourceTree = "<group>"; };
+		BE9DCF951EDEEA8F00E92FD8 /* VC_donate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_donate.h; sourceTree = "<group>"; };
+		BE9DCF961EDEEA8F00E92FD8 /* VC_donate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_donate.m; sourceTree = "<group>"; };
 		BEA875911E89007B00EFBB7F /* UI_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UI_01.png; sourceTree = "<group>"; };
 		BEA8759F1E893C3000EFBB7F /* RPFloatingPlaceholderConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPFloatingPlaceholderConstants.h; sourceTree = "<group>"; };
 		BEA875A01E893C3000EFBB7F /* RPFloatingPlaceholderTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPFloatingPlaceholderTextField.h; sourceTree = "<group>"; };
@@ -759,8 +759,8 @@
 		BEA875F71E8E377400EFBB7F /* Donate */ = {
 			isa = PBXGroup;
 			children = (
-				BE9DCF891EDEA2C200E92FD8 /* VC_donate.h */,
-				BE9DCF8A1EDEA2C200E92FD8 /* VC_donate.m */,
+				BE9DCF951EDEEA8F00E92FD8 /* VC_donate.h */,
+				BE9DCF961EDEEA8F00E92FD8 /* VC_donate.m */,
 			);
 			name = Donate;
 			sourceTree = "<group>";
@@ -1365,7 +1365,7 @@
 				BEB702EE1ECEC660004CB729 /* ComOpenThreadOTScreenshotHelperSwizzleHelpertable.m in Sources */,
 				BEB49DF51E81540C00209E63 /* BTN_Winnig_TKT.m in Sources */,
 				BEA9C31C1EAE28F600930A7F /* VC_biddingHistory.m in Sources */,
-				BE9DCF8B1EDEA2C200E92FD8 /* VC_donate.m in Sources */,
+				BE9DCF971EDEEA8F00E92FD8 /* VC_donate.m in Sources */,
 				BE812A821E9673A600D58DDA /* similar_collectioncell.m in Sources */,
 				BEA9C31F1EAE2A0900930A7F /* bidding_Cell.m in Sources */,
 				BE0055D41EC2DA1100E95941 /* ViewController.m in Sources */,
