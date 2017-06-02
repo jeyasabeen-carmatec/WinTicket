@@ -25,11 +25,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-//    NSError *error;
-//    NSMutableDictionary *json_DAT = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"state_response"] options:NSASCIIStringEncoding error:&error];
-//    NSLog(@"The response %@",json_DAT);
-//    self.ARR_states=[json_DAT allKeys];
+
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(Tap_DTECt:)];
+    [tap setCancelsTouchesInView:NO];
+    tap.delegate = self;
+    [self.view addGestureRecognizer:tap];
     
     [self setup_view];
 }
@@ -117,7 +117,7 @@
     frame_old = _lbl_address.frame;
      frame_old.origin.y= _VW_titladdress.frame.size.height+_VW_titladdress.frame.origin.y+10;
     _lbl_address.frame=frame_old;
-     [self donation_api];
+    [self get_EVENTS];
     NSData *aData=[[NSUserDefaults standardUserDefaults]valueForKey:@"User_data"] ;
     NSError *error;
 
@@ -131,14 +131,23 @@
         _lbl_address.numberOfLines=0;
         [_lbl_address sizeToFit];
         
-    }
-    
-    else{
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-        [alert show];
+        _TXT_firstname.text = [user_data valueForKey:@"first_name"];
+        _TXT_lastname.text = [user_data valueForKey:@"last_name"];
+        _TXT_address1.text = [user_data valueForKey:@"address1"];
+        _TXT_address2.text = [user_data valueForKey:@"address2"];
+        _TXT_city.text = [user_data valueForKey:@"city"];
+        _TXT_country.text = [user_data valueForKey:@"country"];
+        _TXT_zip.text = [user_data valueForKey:@"zipcode"];
+        _TXT_state.text = [user_data valueForKey:@"state"];
+        _TXT_phonenumber.text = [user_data valueForKey:@"phone"];
         
     }
-
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+    
     
     frame_old = _BTN_deposit.frame;
     frame_old.origin.y =  _lbl_address.frame.origin.y + _lbl_address.frame.size.height + 10;
@@ -348,7 +357,31 @@
         //}
     }
     
-    
+    if (textField == _TXT_getamount) {
+        NSString *new_STR= _TXT_getamount.text;
+        NSArray *ARR_str = [new_STR componentsSeparatedByString:@"."];
+        if (ARR_str.count == 1)
+        {
+            //        self.lbl.text = [NSString stringWithFormat:@"%@.00",new_STR];
+            //        _txtfld.text = self.lbl.text;
+            _TXT_getamount.text = [NSString stringWithFormat:@"%@.00",new_STR];
+        }
+        else
+        {
+            NSString *temp_STR = [ARR_str objectAtIndex:1];
+            if (temp_STR.length == 1) {
+                //            self.lbl.text = [NSString stringWithFormat:@"%@0",new_STR];
+                //            _txtfld.text = self.lbl.text;
+                _TXT_getamount.text = [NSString stringWithFormat:@"%@0",new_STR];
+            }
+            else
+            {
+                //            self.lbl.text = new_STR;
+                //            _txtfld.text = self.lbl.text;
+                _TXT_getamount.text = new_STR;
+            }
+        }
+    }
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
@@ -456,37 +489,7 @@
     }
         
 }
--(void)donation_api
-{
-    
-    NSHTTPURLResponse *response = nil;
-    NSError *error;
-    NSString *urlGetuser =[NSString stringWithFormat:@"%@contributors/events",SERVER_URL];
-    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:urlProducts];
-    [request setHTTPMethod:@"GET"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
-    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
-    [request setHTTPShouldHandleCookies:NO];
-    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    if(aData)
-    {
-        NSMutableDictionary *json_DICTIn = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-        NSLog(@"oraganisations dictionary is:%@",json_DICTIn);
-        _oraganisationpicker = [json_DICTIn valueForKey:@"events"];
-        NSLog(@"Organisation picker values %@",_oraganisationpicker);
-    }
-    else
-    {
-        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:@"Check Connction" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"" , nil];
-        [alert show];
-    }
-    
 
-    
-}
 #pragma mark - UIPickerViewDelegate
 
 
@@ -793,7 +796,7 @@
 }
 -(void)Deposit_Pressed
 {
-  if([_TXTVW_organisationname.text isEqualToString:@""])
+  /*if([_TXTVW_organisationname.text isEqualToString:@""])
   {
       [_TXTVW_organisationname becomeFirstResponder];
   }
@@ -801,7 +804,8 @@
     {
         [_TXT_getamount becomeFirstResponder];
     }
-    else{
+    else
+    {
     NSString *amount = _TXT_getamount.text;
        // int  k=[amount intValue];
         
@@ -875,9 +879,8 @@
     
     
     
-    else{
-//        [activityIndicatorView stopAnimating];
-//        VW_overlay.hidden = YES;
+    else
+    {
         
         UIAlertController *alertcontrollertwo=[UIAlertController alertControllerWithTitle: @"Server Not Coneected"message: @"Please Check your Connection."
                                                                            preferredStyle:UIAlertControllerStyleAlert];
@@ -886,10 +889,82 @@
         }]];
         [self presentViewController:alertcontrollertwo animated:YES completion:nil];
     }
+    }*/
     
+    NSString *fname = _TXT_firstname.text;
+    NSString *lastName= _TXT_lastname.text;
+    NSString *address1 = _TXT_address1.text;
+    NSString *address2 = _TXT_address2.text;
+    NSString *city = _TXT_city.text;
+    NSString *country = _TXT_country.text;
+    NSString *zip = _TXT_zip.text;
+    NSString *state = _TXT_state.text;
+    NSString *phonenumber = _TXT_phonenumber.text;
     
+    NSString *state_code = [states valueForKey:state];
+    NSString *country_code = [countryS valueForKey:country];
+    
+    if([_TXTVW_organisationname.text isEqualToString:@""])
+    {
+        [_TXTVW_organisationname becomeFirstResponder];
     }
-
+    else if([_TXT_getamount.text isEqualToString:@""])
+    {
+        [_TXT_getamount becomeFirstResponder];
+    }
+    else
+    {
+        NSString *amount = _TXT_getamount.text;
+        NSString *eventid=[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"event_id_donate"]];
+        
+        NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+        f.numberStyle = NSNumberFormatterDecimalStyle;
+        NSNumber *number_amount = [f numberFromString:amount];
+        NSNumber *number_eventID = [f numberFromString:eventid];
+        
+        NSError *error;
+        NSHTTPURLResponse *response = nil;
+        NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+        NSDictionary *parameters = @{ @"billing_address":@{@"first_name":fname,@"last_name":lastName,@"address_line1":address1,@"address_line2":address2,@"city":city,@"country":country_code,@"zip_code":zip,@"state":state_code,@"phone":phonenumber},@"event_id":number_eventID,@"price":number_amount };
+        NSLog(@"the post data is:%@",parameters);
+        NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&error];
+        NSString *urlGetuser =[NSString stringWithFormat:@"%@contributors/donation_order",SERVER_URL];
+        NSLog(@"The url iS:%@",urlGetuser);
+        
+        NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setURL:urlProducts];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+        [request setHTTPBody:postData];
+        [request setHTTPShouldHandleCookies:NO];
+        NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        if (aData)
+        {
+            NSMutableDictionary *json_DATA_one = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+            NSLog(@"Data from Donate VC:%@",json_DATA_one);
+            NSString *status=[json_DATA_one valueForKey:@"status"];
+            if([status isEqualToString:@"Success"])
+            {
+//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+//                [alert show];
+                [self get_client_TOKEN];
+            }
+            else
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                [alert show];
+            }
+            
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please Check your Connection." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            [alert show];
+        }
+    }
     
 }
 -(IBAction)TAP_done
@@ -905,4 +980,131 @@
     _PICK_state.hidden = NO;
     _TOOL_state.hidden = NO;
 }
+
+-(void) get_EVENTS
+{
+    _oraganisationpicker = [[[NSUserDefaults standardUserDefaults] valueForKey:@"eventsStored"] valueForKey:@"events"];
+}
+
+
+-(void) Tap_DTECt :(UITapGestureRecognizer *)sender
+{
+}
+#pragma mark - Tap Gesture
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    [_TXT_getamount resignFirstResponder];
+    
+    if ([touch.view isDescendantOfView:_BTN_edit]) {
+        return NO;
+    }
+    else if ([touch.view isDescendantOfView:_BTN_deposit]) {
+        return NO;
+    }
+    return YES;
+}
+
+#pragma mark - Generate Client Token
+-(void) get_client_TOKEN
+{
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    
+    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSString *urlGetuser = [NSString stringWithFormat:@"%@contributors/client_token",SERVER_URL];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        
+        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        
+        NSLog(@"Client Token = %@",[dict valueForKey:@"client_token"]);
+        
+        self.braintree = [Braintree braintreeWithClientToken:[dict valueForKey:@"client_token"]];
+        NSLog(@"dddd = %@",self.braintree);
+        
+        BTDropInViewController *dropInViewController = [self.braintree dropInViewControllerWithDelegate:self];
+        // This is where you might want to customize your Drop in. (See below.)
+        
+        // The way you present your BTDropInViewController instance is up to you.
+        // In this example, we wrap it in a new, modally presented navigation controller:
+        dropInViewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                                                              target:self
+                                                                                                              action:@selector(userDidCancelPayment)];
+        dropInViewController.view.tintColor = _BTN_deposit.backgroundColor;
+        
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:dropInViewController];
+        UINavigationBar *bar = [navigationController navigationBar];
+        [bar setBackgroundColor:[UIColor blackColor]];
+        [self presentViewController:navigationController animated:YES completion:nil];
+    }
+}
+
+-(void) create_payment
+{
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSString *naunce_STR = [[NSUserDefaults standardUserDefaults] valueForKey:@"NAUNCETOK"];
+    NSDictionary *parameters = @{ @"nonce":naunce_STR};
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&error];
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@payments/create",SERVER_URL];
+    NSLog(@"The url iS:%@",urlGetuser);
+    
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    [request setHTTPBody:postData];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        NSMutableDictionary *json_DATA_one = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"Data from Donate VC generate client TOK : \n%@",json_DATA_one);
+    }
+}
+
+#pragma mark - Braintree Integration
+- (void)dropInViewController:(__unused BTDropInViewController *)viewController didSucceedWithPaymentMethod:(BTPaymentMethod *)paymentMethod {
+    [self postNonceToServer:paymentMethod.nonce]; // Send payment method nonce to your server
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)dropInViewControllerDidCancel:(__unused BTDropInViewController *)viewController {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+- (void)userDidCancelPayment {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void) postNonceToServer :(NSString *)str
+{
+    NSLog(@"Post %@",str);
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Nonce" message:str delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+    [alert show];
+    
+    if (str)
+    {
+        [[NSUserDefaults standardUserDefaults] setValue:str forKey:@"NAUNCETOK"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self create_payment];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Payment Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+}
+
 @end

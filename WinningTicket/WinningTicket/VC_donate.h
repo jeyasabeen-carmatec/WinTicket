@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Braintree/Braintree.h>
 
-@interface VC_donate : UIViewController<UIGestureRecognizerDelegate>
+@interface VC_donate : UIViewController<UIGestureRecognizerDelegate,BTDropInViewControllerDelegate,BTPaymentMethodCreationDelegate>
+
+@property (nonatomic, strong) Braintree *braintree;
+
 @property (weak, nonatomic) IBOutlet UITextView *TXTVW_organisationname;
 @property (nonatomic, strong) UIPickerView *organisation_list;
 

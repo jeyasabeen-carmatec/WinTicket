@@ -250,7 +250,7 @@
             case 1:
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self performSegueWithIdentifier:@"accountstodateidentifier" sender:self];
+                    [self get_EVENTS];
                 });
             }
                 
@@ -425,9 +425,44 @@
     if(aData)
     {
         NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        [[NSUserDefaults standardUserDefaults] setValue:json_DATA forKey:@"denom_collection"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
         NSLog(@"The response get_Denominations VC Accounts %@",json_DATA);
     }
     [self performSegueWithIdentifier:@"accountstofundsidentifier" sender:self];
+}
+
+-(void)get_EVENTS
+{
+    
+    NSHTTPURLResponse *response = nil;
+    NSError *error;
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@contributors/events",SERVER_URL];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if(aData)
+    {
+        NSMutableDictionary *json_DICTIn = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"oraganisations dictionary is:%@",json_DICTIn);
+        [[NSUserDefaults standardUserDefaults] setValue:json_DICTIn forKey:@"eventsStored"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self performSegueWithIdentifier:@"accountstodateidentifier" sender:self];
+    }
+    else
+    {
+        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:@"Check Connction" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"" , nil];
+        [alert show];
+    }
+    
+    
+    
 }
 
 @end

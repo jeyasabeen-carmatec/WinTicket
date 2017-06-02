@@ -103,7 +103,7 @@
     
     NSLog(@"The response from checkout detail VC \n%@",temp_resp);
     
-    _lbl_datasubtotal.text = [NSString stringWithFormat:@"%@",[[temp_resp valueForKey:@"price"] stringValue]];
+    _lbl_datasubtotal.text = [NSString stringWithFormat:@"$ %d",[[temp_resp valueForKey:@"price"] intValue] * [[temp_resp valueForKey:@"quantity"] intValue]];
     _lbl_datatotal.text = _lbl_datasubtotal.text;
     
     [_BTN_order2 addTarget:self action:@selector(BTN_order2action) forControlEvents:UIControlEventTouchUpInside];
@@ -137,41 +137,18 @@
     frame_rect.size.height = _lbl_address.frame.size.height;
     _lbl_address.frame = frame_rect;
     
-//    frame_rect = _lbl_titlepaymentInfo.frame;
-//    frame_rect.origin.y = _lbl_address.frame.origin.y + _lbl_address.frame.size.height + 10;
-//    _lbl_titlepaymentInfo.frame = frame_rect;
-//    
-//    _lbl_paymentInfo.text = @"Credit/ Debit Card";
-//    
-//    frame_rect = _lbl_paymentInfo.frame;
-//    frame_rect.origin.y = _lbl_titlepaymentInfo.frame.origin.y + _lbl_titlepaymentInfo.frame.size.height + 10;
-//    _lbl_paymentInfo.frame = frame_rect;
     
     frame_rect = _VW_line1.frame;
     frame_rect.origin.y = _lbl_address.frame.origin.y + _lbl_address.frame.size.height + 10;
     _VW_line1.frame = frame_rect;
     
-    frame_rect = _img_icon.frame;
-    
-    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-    {
-        frame_rect.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
-    }
-    else
-    {
-        frame_rect.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 25;
-    }
-    
-    
-    _img_icon.frame = frame_rect;
-    
     NSString *show = @"Winning Ticket";
-    NSString *place = @"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
+//    NSString *place = @"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
     NSString *ticketnumber = [temp_resp valueForKey:@"code"];
     NSString *club_name = [temp_resp valueForKey:@"event_name"];
     NSString *qty = [NSString stringWithFormat:@"Qty: %@",[temp_resp valueForKey:@"quantity"]];
     
-    NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@ - %@\n%@",show,place,ticketnumber,club_name,qty];
+    NSString *text = [NSString stringWithFormat:@"%@\n%@ - %@\n%@",show,ticketnumber,club_name,qty];
     
     text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
     text = [text stringByReplacingOccurrencesOfString:@"(null)" withString:@"Not Mentioned"];
@@ -194,9 +171,6 @@
         [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0]}
                                 range:cmp];
         
-        NSRange plce = [text rangeOfString:place];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0]}
-                                range:plce];
         
         NSRange qt = [text rangeOfString:qty];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
         [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0]}
@@ -221,6 +195,10 @@
         frame_rect.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 5;
     }
     _lbl_ticketDetail.frame = frame_rect;
+    
+    frame_rect = _img_icon.frame;
+    frame_rect.origin.y = _lbl_ticketDetail.frame.origin.y + 10;
+    _img_icon.frame = frame_rect;
     
     float chk_ht = _lbl_ticketDetail.frame.size.height;
     frame_rect = _VW_line2.frame;
@@ -330,6 +308,7 @@
         NSLog(@"The response %@",states);
     }
 }
+
 
 -(void) pay_AMOUNT
 {

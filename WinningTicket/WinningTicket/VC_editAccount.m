@@ -61,9 +61,11 @@
 #pragma mark - UIView Customize
 -(void) setup_VIEW
 {
-    NSError *error;
-   NSMutableDictionary *user_data=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"User_data"] options:NSASCIIStringEncoding error:&error];
-    NSLog(@"the user data is:%@",user_data);
+   NSError *error;
+   
+   NSMutableDictionary *temp_dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"User_data"] options:NSASCIIStringEncoding error:&error];
+   NSDictionary *user_data=[temp_dict valueForKey:@"user"];
+   NSLog(@"the user data is:%@",user_data);
     
     CGRect content_frame = _VW_contents.frame;
     content_frame.size.width = _scroll_contents.frame.size.width;

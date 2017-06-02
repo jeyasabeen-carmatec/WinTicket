@@ -67,10 +67,11 @@
 		BE888A3F1E93775500656580 /* VC_howitworks.m in Sources */ = {isa = PBXBuildFile; fileRef = BE888A3E1E93775500656580 /* VC_howitworks.m */; };
 		BE888A431E937AB100656580 /* VC_aboutus.m in Sources */ = {isa = PBXBuildFile; fileRef = BE888A421E937AB100656580 /* VC_aboutus.m */; };
 		BE9DCF851EDEA25A00E92FD8 /* VC_accounts.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9DCF841EDEA25A00E92FD8 /* VC_accounts.m */; };
-		BE9DCF881EDEA29C00E92FD8 /* VC_addFUNDS.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9DCF871EDEA29C00E92FD8 /* VC_addFUNDS.m */; };
 		BE9DCF8E1EDEB37E00E92FD8 /* VC_contactUS.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9DCF8D1EDEB37E00E92FD8 /* VC_contactUS.m */; };
 		BE9DCF911EDEB39700E92FD8 /* VC_changePWD.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9DCF901EDEB39700E92FD8 /* VC_changePWD.m */; };
 		BE9DCF971EDEEA8F00E92FD8 /* VC_donate.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9DCF961EDEEA8F00E92FD8 /* VC_donate.m */; };
+		BE9DCF9C1EE019BD00E92FD8 /* ADD_Funds_CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9DCF991EE019BD00E92FD8 /* ADD_Funds_CollectionViewCell.m */; };
+		BE9DCFA01EE12BC700E92FD8 /* VC_addFUNDS.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9DCF9F1EE12BC700E92FD8 /* VC_addFUNDS.m */; };
 		BEA875921E89007B00EFBB7F /* UI_01.png in Resources */ = {isa = PBXBuildFile; fileRef = BEA875911E89007B00EFBB7F /* UI_01.png */; };
 		BEA875A21E893C3000EFBB7F /* RPFloatingPlaceholderTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = BEA875A11E893C3000EFBB7F /* RPFloatingPlaceholderTextField.m */; };
 		BEA875B11E8B684700EFBB7F /* VC_orderdetail.m in Sources */ = {isa = PBXBuildFile; fileRef = BEA875B01E8B684700EFBB7F /* VC_orderdetail.m */; };
@@ -263,14 +264,16 @@
 		BE888A421E937AB100656580 /* VC_aboutus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_aboutus.m; sourceTree = "<group>"; };
 		BE9DCF831EDEA25A00E92FD8 /* VC_accounts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_accounts.h; sourceTree = "<group>"; };
 		BE9DCF841EDEA25A00E92FD8 /* VC_accounts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_accounts.m; sourceTree = "<group>"; };
-		BE9DCF861EDEA29C00E92FD8 /* VC_addFUNDS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_addFUNDS.h; sourceTree = "<group>"; };
-		BE9DCF871EDEA29C00E92FD8 /* VC_addFUNDS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_addFUNDS.m; sourceTree = "<group>"; };
 		BE9DCF8C1EDEB37E00E92FD8 /* VC_contactUS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_contactUS.h; sourceTree = "<group>"; };
 		BE9DCF8D1EDEB37E00E92FD8 /* VC_contactUS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_contactUS.m; sourceTree = "<group>"; };
 		BE9DCF8F1EDEB39700E92FD8 /* VC_changePWD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_changePWD.h; sourceTree = "<group>"; };
 		BE9DCF901EDEB39700E92FD8 /* VC_changePWD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_changePWD.m; sourceTree = "<group>"; };
 		BE9DCF951EDEEA8F00E92FD8 /* VC_donate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_donate.h; sourceTree = "<group>"; };
 		BE9DCF961EDEEA8F00E92FD8 /* VC_donate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_donate.m; sourceTree = "<group>"; };
+		BE9DCF981EE019BD00E92FD8 /* ADD_Funds_CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADD_Funds_CollectionViewCell.h; sourceTree = "<group>"; };
+		BE9DCF991EE019BD00E92FD8 /* ADD_Funds_CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADD_Funds_CollectionViewCell.m; sourceTree = "<group>"; };
+		BE9DCF9E1EE12BC700E92FD8 /* VC_addFUNDS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_addFUNDS.h; sourceTree = "<group>"; };
+		BE9DCF9F1EE12BC700E92FD8 /* VC_addFUNDS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_addFUNDS.m; sourceTree = "<group>"; };
 		BEA875911E89007B00EFBB7F /* UI_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UI_01.png; sourceTree = "<group>"; };
 		BEA8759F1E893C3000EFBB7F /* RPFloatingPlaceholderConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPFloatingPlaceholderConstants.h; sourceTree = "<group>"; };
 		BEA875A01E893C3000EFBB7F /* RPFloatingPlaceholderTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPFloatingPlaceholderTextField.h; sourceTree = "<group>"; };
@@ -750,8 +753,10 @@
 		BEA875EB1E8D07EE00EFBB7F /* AddFunds */ = {
 			isa = PBXGroup;
 			children = (
-				BE9DCF861EDEA29C00E92FD8 /* VC_addFUNDS.h */,
-				BE9DCF871EDEA29C00E92FD8 /* VC_addFUNDS.m */,
+				BE9DCF9E1EE12BC700E92FD8 /* VC_addFUNDS.h */,
+				BE9DCF9F1EE12BC700E92FD8 /* VC_addFUNDS.m */,
+				BE9DCF981EE019BD00E92FD8 /* ADD_Funds_CollectionViewCell.h */,
+				BE9DCF991EE019BD00E92FD8 /* ADD_Funds_CollectionViewCell.m */,
 			);
 			name = AddFunds;
 			sourceTree = "<group>";
@@ -1349,7 +1354,6 @@
 				BEC5486B1EA72C8500FF2114 /* VC_qty_detail.m in Sources */,
 				BE9DCF8E1EDEB37E00E92FD8 /* VC_contactUS.m in Sources */,
 				BE0055D31EC2DA1100E95941 /* VC_initial_VC.m in Sources */,
-				BE9DCF881EDEA29C00E92FD8 /* VC_addFUNDS.m in Sources */,
 				BEB702CC1ECDC2BB004CB729 /* VC_eventDetail.m in Sources */,
 				BEC3BDB41EA9D9F500AD97E4 /* VC_editRefferel.m in Sources */,
 				BEB702EA1ECEC660004CB729 /* DragTableHeaderView_ot.m in Sources */,
@@ -1393,6 +1397,7 @@
 				BE888A431E937AB100656580 /* VC_aboutus.m in Sources */,
 				BE811F741EBC4FD9003D7C0B /* GET_states.m in Sources */,
 				BEB702EC1ECEC660004CB729 /* DragTableGestureObserver_ot.m in Sources */,
+				BE9DCFA01EE12BC700E92FD8 /* VC_addFUNDS.m in Sources */,
 				BE888A351E93639D00656580 /* Cell_notifications.m in Sources */,
 				BE811F671EBB632B003D7C0B /* DGActivityIndicatorAnimation.m in Sources */,
 				BE60C1B71EB8927F00C4B522 /* FloatingTXT_white.m in Sources */,
@@ -1400,6 +1405,7 @@
 				BEC3BDB81EA9DB3400AD97E4 /* edit_referal_Cell.m in Sources */,
 				BEA875FE1E921BE100EFBB7F /* VC_withdrawal.m in Sources */,
 				BE60C19E1EB0AF6F00C4B522 /* add_referal_detail_cell.m in Sources */,
+				BE9DCF9C1EE019BD00E92FD8 /* ADD_Funds_CollectionViewCell.m in Sources */,
 				BEC3BDBC1EA9E86600AD97E4 /* VC_addRefferel.m in Sources */,
 				BE4EEED31ED2AE59003C1C24 /* VC_transactionhistory.m in Sources */,
 				BEB702ED1ECEC660004CB729 /* UIScrollView+DragTableSafeAnimation.m in Sources */,
