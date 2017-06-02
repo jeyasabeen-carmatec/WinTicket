@@ -693,6 +693,11 @@
                         <segue destination="O3Y-Qw-gkH" kind="modal" identifier="alleventtoaccountidentifier" animates="NO" id="nOz-Ar-hxz"/>
                         <segue destination="pqJ-YB-Eu0" kind="modal" identifier="alleventtocourseidentifier" animates="NO" id="JKe-Nx-Mhp"/>
                         <segue destination="buR-HU-xdL" kind="modal" identifier="eventDetailidentifier" animates="NO" id="al3-eI-ip9"/>
+                        <segue destination="mVq-I5-aAO" kind="push" id="NTP-gs-6UX">
+                            <string key="identifier" base64-UTF8="YES">
+ZXZlbnRzEF9hbGxfc2VndWU
+</string>
+                        </segue>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OY7-eP-ZfC" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2026,7 +2031,7 @@
                     <color key="backgroundColor" red="0.92156862745098034" green="0.92156862745098034" blue="0.92156862745098034" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
             </objects>
-            <point key="canvasLocation" x="10913" y="1385"/>
+            <point key="canvasLocation" x="10873" y="1463"/>
         </scene>
         <!--live Auctions-->
         <scene sceneID="h8S-SN-lVb">
@@ -2483,7 +2488,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hca-kU-V1t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3939" y="3200"/>
+            <point key="canvasLocation" x="3939" y="3532"/>
         </scene>
         <!--addFUNDS-->
         <scene sceneID="mnN-Lz-o8b">
@@ -2730,7 +2735,7 @@
                             </collectionViewFlowLayout>
                             <cells>
                                 <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="cell" id="Ofa-rN-5lv" customClass="ADD_Funds_CollectionViewCell">
-                                    <rect key="frame" x="0.0" y="0.5" width="207" height="60"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="207" height="60"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                         <rect key="frame" x="0.0" y="0.0" width="207" height="60"/>
@@ -2740,7 +2745,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="207" height="60"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="17"/>
-                                                <color key="textColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
@@ -5349,11 +5354,12 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="j4i-FP-gqq"/>
-        <segue reference="RzG-Pg-A7n"/>
-        <segue reference="Ihv-Af-Gmp"/>
+        <segue reference="fXg-87-OQ6"/>
+        <segue reference="NTP-gs-6UX"/>
+        <segue reference="cbC-uE-OEU"/>
         <segue reference="al3-eI-ip9"/>
         <segue reference="FNW-jD-ovm"/>
+        <segue reference="gGF-By-PxM"/>
         <segue reference="4wU-Kb-rBo"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.3921568627" green="0.71764705880000002" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

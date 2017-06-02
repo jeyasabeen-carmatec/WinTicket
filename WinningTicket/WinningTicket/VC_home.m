@@ -451,6 +451,7 @@
 }
 -(void) BTN_ALL_EVENT : (UIButton *) sender
 {
+    
     NSIndexPath *buttonIndexPath = [NSIndexPath indexPathForRow:sender.tag inSection:0];
     NSLog(@"From Delete Skill %ld",(long)buttonIndexPath.row);
     
@@ -461,7 +462,8 @@
     NSDictionary *dictdat =[ARR_allevent objectAtIndex:[index_str intValue]];
     [[NSUserDefaults standardUserDefaults] setValue:[dictdat valueForKey:@"id"] forKey:@"event_id"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
+//    [self performSegueWithIdentifier:@"event_segue" sender:self];
+
 //    [self performSegueWithIdentifier:@"hometoeventdetail" sender:self];
     VW_overlay.hidden = NO;
     [activityIndicatorView startAnimating];
@@ -752,8 +754,16 @@
         VW_overlay.hidden = YES;
             [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"upcoming_events"];
             [[NSUserDefaults standardUserDefaults] synchronize];
+        NSUInteger sectionNumber = [[_tbl_all_event indexPathForCell:[[_tbl_all_event visibleCells] objectAtIndex:0]] section];
+//        if(sectionNumber ==0 || sectionNumber == 1)
+//        {
+            [self performSegueWithIdentifier:@"event_segue" sender:self];
             
-            [self performSegueWithIdentifier:@"hometoeventdetail" sender:self];
+            
+//        }
+        
+
+//            [self performSegueWithIdentifier:@"hometoeventdetail" sender:self];
     }
     else
     {

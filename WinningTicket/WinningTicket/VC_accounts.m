@@ -43,16 +43,15 @@
     // Pass the selected object to the new view controller.
 }
 */
-
--(void) setup_VIEW
+-(void)viewWillAppear:(BOOL)animated
 {
     NSData *aData=[[NSUserDefaults standardUserDefaults]valueForKey:@"Account_data"] ;
     NSError *error;
     if(aData)
     {
-     NSMutableDictionary *account_data=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"Account_data"] options:NSASCIIStringEncoding error:&error];
+        NSMutableDictionary *account_data=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"Account_data"] options:NSASCIIStringEncoding error:&error];
         NSLog(@"the user data is:%@",account_data);
-
+        
         NSDictionary *temp_dict=[account_data valueForKey:@"user"];
         self.first_name.text=[temp_dict valueForKey:@"first_name"];
         [self.first_name sizeToFit];
@@ -60,17 +59,22 @@
         [self.last_name sizeToFit];
         self.amount.text=[NSString stringWithFormat:@"$ %@",[account_data valueForKey:@"wallet"]];
         
-
+        
         
         
     }
     else{
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
+        
+    }
+    
+    
 
-       }
+}
 
-
+-(void) setup_VIEW
+{
     
 
     [_segment_bottom setSelectedSegmentIndex:2];

@@ -8,10 +8,11 @@
 
 #import "VC_addFUNDS.h"
 #import "ADD_Funds_CollectionViewCell.h"
-@interface VC_addFUNDS ()<UICollectionViewDelegate,UICollectionViewDataSource>
+@interface VC_addFUNDS ()<UICollectionViewDelegate,UICollectionViewDataSource,UIAlertViewDelegate>
 {
     NSMutableDictionary *states,*countryS;
     NSArray* asc_denomarr;
+    NSString *amount_str;
 }
 @property (nonatomic, strong) NSArray *countrypicker,*statepicker,*denom_arr;
 
@@ -303,7 +304,7 @@
     cell.LBL_amount.backgroundColor = [UIColor lightGrayColor];
     cell.LBL_amount.textColor = [UIColor whiteColor];
     [_TXT_amount resignFirstResponder];
-      NSString *amount_str = [NSString stringWithFormat:@"%i.00",[[asc_denomarr objectAtIndex:indexPath.row]intValue]];
+       amount_str = [NSString stringWithFormat:@"%i.00",[[asc_denomarr objectAtIndex:indexPath.row]intValue]];
     
 }
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -312,6 +313,7 @@
     
      cell.LBL_amount.backgroundColor = [UIColor whiteColor];
      cell.LBL_amount.textColor = [UIColor lightGrayColor];
+    amount_str=@"";
 }
 
 //#pragma mark - Edit button Clicked
@@ -441,17 +443,6 @@
 //    
 //    
 //}
--(void)add_funds_tapped
-{
-    NSString *temp_str = _TXT_amount.text;
-    int i=[temp_str intValue];
-    if(i < [[asc_denomarr valueForKeyPath:@"@max.intValue"] intValue])
-    {
-        _TXT_amount.placeholder=@"0.00";
-        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:@"Amount Should be Grater than 100." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-        [alert show];
-    }
-}
 
 //#pragma mark - UIPickerViewDelegate
 //
@@ -524,6 +515,7 @@
                 NSLog(@"indexPath of cell: Section: %d , Row: %d", (int)path.section, (int)path.row);
                 cell.LBL_amount.backgroundColor = [UIColor whiteColor];
                 cell.LBL_amount.textColor =[UIColor grayColor];
+                amount_str=@"";
 //                _amount_collection.userInteractionEnabled=NO;
                 
             }
@@ -590,9 +582,8 @@
 
 -(void) check_TXT_stat :(id)sender
 {
-    self.amount_collection.userInteractionEnabled=YES;
-    
-}
+   }
+
 //- (IBAction)tappedToSelectRow:(UITapGestureRecognizer *)tapRecognizer
 //{
 //    if (tapRecognizer.state == UIGestureRecognizerStateEnded) {
@@ -617,9 +608,224 @@
 //        }
 //    }
 //}
--(void) Tap_DTECt :(UITapGestureRecognizer *)sender
-{
+
+#pragma mark - Braintree Integration
+- (void)dropInViewController:(__unused BTDropInViewController *)viewController didSucceedWithPaymentMethod:(BTPaymentMethod *)paymentMethod {
+    [self postNonceToServer:paymentMethod.nonce]; // Send payment method nonce to your server
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+- (void)dropInViewControllerDidCancel:(__unused BTDropInViewController *)viewController {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+- (void)userDidCancelPayment {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void) postNonceToServer :(NSString *)str
+{
+    NSLog(@"Post %@",str);
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Nonce" message:str delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+    [alert show];
+    UIAlertController  *alertControllerAction = [UIAlertController alertControllerWithTitle:@"Nonce" message:str preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okaction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        [self myaccount_API_calling];
+        [self dismissViewControllerAnimated:YES completion:nil];
+       
+        
+    }];
+    [alertControllerAction addAction:okaction];
+        
+    [self presentViewController:alertControllerAction animated:YES completion:nil];
+    
+    if (str)
+    {
+        [[NSUserDefaults standardUserDefaults] setValue:str forKey:@"NAUNCETOK"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self create_payment];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Payment Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+}
+
+#pragma mark - Generate Client Token
+-(void) get_client_TOKEN
+{
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    
+    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSString *urlGetuser = [NSString stringWithFormat:@"%@contributors/client_token",SERVER_URL];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        
+        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        
+        NSLog(@"Client Token = %@",[dict valueForKey:@"client_token"]);
+        
+        self.braintree = [Braintree braintreeWithClientToken:[dict valueForKey:@"client_token"]];
+        NSLog(@"dddd = %@",self.braintree);
+        
+        BTDropInViewController *dropInViewController = [self.braintree dropInViewControllerWithDelegate:self];
+        // This is where you might want to customize your Drop in. (See below.)
+        
+        // The way you present your BTDropInViewController instance is up to you.
+        // In this example, we wrap it in a new, modally presented navigation controller:
+        dropInViewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                                                              target:self
+                                                                                                              action:@selector(userDidCancelPayment)];
+        dropInViewController.view.tintColor = _ADD_funds.backgroundColor;
+        
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:dropInViewController];
+        UINavigationBar *bar = [navigationController navigationBar];
+        [bar setBackgroundColor:[UIColor blackColor]];
+        [self presentViewController:navigationController animated:YES completion:nil];
+    }
+}
+
+-(void) create_payment
+{
+    NSString  *temp_str;
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSString *naunce_STR = [[NSUserDefaults standardUserDefaults] valueForKey:@"NAUNCETOK"];
+    if([amount_str isEqualToString:@""])
+    {
+        temp_str = _TXT_amount.text ;
+                 }
+    else if(amount_str.length > 0)
+    {
+        _TXT_amount.text=@"";
+        temp_str=amount_str;
+    }
+    NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+    f.numberStyle = NSNumberFormatterDecimalStyle;
+    NSNumber *number_amount = [f numberFromString:temp_str];
+    NSDictionary *parameters = @{ @"nonce":naunce_STR ,
+                                  @"transaction_type": @"add_funds",
+                                  @"price":number_amount  };
+
+    
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&error];
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@payments/create",SERVER_URL];
+    NSLog(@"The url iS:%@",urlGetuser);
+    
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    [request setHTTPBody:postData];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        NSMutableDictionary *json_DATA_one = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"Data from Donate VC generate client TOK : \n%@",json_DATA_one);
+        
+      
+        
+    }
+}
+#pragma Add_funds Tapped
+
+-(void)add_funds_tapped
+{
+    NSString *temp_str;
+    if([amount_str isEqualToString:@""] && _TXT_amount.text.length > 0)
+    {
+    temp_str = _TXT_amount.text;
+    int i=[temp_str intValue];
+    if(i < [[asc_denomarr valueForKeyPath:@"@max.intValue"] intValue])
+    {
+        _TXT_amount.placeholder=@"0.00";
+        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:@"Amount Should be Grater than 100." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+    else{
+        [self get_client_TOKEN];
+    }
+    }
+    
+    else if(amount_str.length > 0 && [_TXT_amount.text isEqualToString:@""])
+    {
+    
+        temp_str=amount_str;
+        int i=[temp_str intValue];
+        if(i < [[asc_denomarr valueForKeyPath:@"@max.intValue"] intValue])
+        {
+            _TXT_amount.placeholder=@"0.00";
+            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:@"Amount Should be Grater than 100." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            [alert show];
+        }
+        else{
+            [self get_client_TOKEN];
+        }
+    }
+  
+    
+}
+-(void)myaccount_API_calling
+{
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@my_account",SERVER_USR];
+    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"Account_data"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        //        NSLog(@" THe user data is :%@",[[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"]);
+        //        [self performSegueWithIdentifier:@"accountstoeditprofileidentifier" sender:self];
+//        [self myprofileapicalling];
+    }
+    else
+    {
+//        [activityIndicatorView stopAnimating];
+//        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Interrupted" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+    
+}
+
+//- (void)alertView:(UIAlertView *)alertView
+//clickedButtonAtIndex:(NSInteger)buttonIndex{
+//    if (buttonIndex == [alertView firstOtherButtonIndex]){
+//        
+//        [self myaccount_API_calling];
+//        
+//        [self dismissViewControllerAnimated:YES completion:nil];
+//        
+//    }
+//}
+
 #pragma mark - Tap Gesture
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
@@ -632,6 +838,9 @@
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     return true;
+}
+-(void) Tap_DTECt :(UITapGestureRecognizer *)sender
+{
 }
 //-(void)denom_API
 //{

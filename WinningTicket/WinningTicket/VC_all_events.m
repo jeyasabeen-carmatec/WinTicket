@@ -939,7 +939,9 @@
         [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"upcoming_events"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-        [self performSegueWithIdentifier:@"eventDetailidentifier" sender:self];
+//        [self performSegueWithIdentifier:@"eventDetailidentifier" sender:self];
+        [self performSegueWithIdentifier:@"events_all_segue" sender:self];
+
     }
     else
     {

@@ -71,7 +71,7 @@
 		BE9DCF911EDEB39700E92FD8 /* VC_changePWD.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9DCF901EDEB39700E92FD8 /* VC_changePWD.m */; };
 		BE9DCF971EDEEA8F00E92FD8 /* VC_donate.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9DCF961EDEEA8F00E92FD8 /* VC_donate.m */; };
 		BE9DCF9C1EE019BD00E92FD8 /* ADD_Funds_CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9DCF991EE019BD00E92FD8 /* ADD_Funds_CollectionViewCell.m */; };
-		BE9DCFA01EE12BC700E92FD8 /* VC_addFUNDS.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9DCF9F1EE12BC700E92FD8 /* VC_addFUNDS.m */; };
+		BE9DCFA31EE16A9D00E92FD8 /* VC_addFUNDS.m in Sources */ = {isa = PBXBuildFile; fileRef = BE9DCFA21EE16A9D00E92FD8 /* VC_addFUNDS.m */; };
 		BEA875921E89007B00EFBB7F /* UI_01.png in Resources */ = {isa = PBXBuildFile; fileRef = BEA875911E89007B00EFBB7F /* UI_01.png */; };
 		BEA875A21E893C3000EFBB7F /* RPFloatingPlaceholderTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = BEA875A11E893C3000EFBB7F /* RPFloatingPlaceholderTextField.m */; };
 		BEA875B11E8B684700EFBB7F /* VC_orderdetail.m in Sources */ = {isa = PBXBuildFile; fileRef = BEA875B01E8B684700EFBB7F /* VC_orderdetail.m */; };
@@ -272,8 +272,8 @@
 		BE9DCF961EDEEA8F00E92FD8 /* VC_donate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_donate.m; sourceTree = "<group>"; };
 		BE9DCF981EE019BD00E92FD8 /* ADD_Funds_CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADD_Funds_CollectionViewCell.h; sourceTree = "<group>"; };
 		BE9DCF991EE019BD00E92FD8 /* ADD_Funds_CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADD_Funds_CollectionViewCell.m; sourceTree = "<group>"; };
-		BE9DCF9E1EE12BC700E92FD8 /* VC_addFUNDS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_addFUNDS.h; sourceTree = "<group>"; };
-		BE9DCF9F1EE12BC700E92FD8 /* VC_addFUNDS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_addFUNDS.m; sourceTree = "<group>"; };
+		BE9DCFA11EE16A9D00E92FD8 /* VC_addFUNDS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_addFUNDS.h; sourceTree = "<group>"; };
+		BE9DCFA21EE16A9D00E92FD8 /* VC_addFUNDS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_addFUNDS.m; sourceTree = "<group>"; };
 		BEA875911E89007B00EFBB7F /* UI_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UI_01.png; sourceTree = "<group>"; };
 		BEA8759F1E893C3000EFBB7F /* RPFloatingPlaceholderConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPFloatingPlaceholderConstants.h; sourceTree = "<group>"; };
 		BEA875A01E893C3000EFBB7F /* RPFloatingPlaceholderTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPFloatingPlaceholderTextField.h; sourceTree = "<group>"; };
@@ -753,8 +753,8 @@
 		BEA875EB1E8D07EE00EFBB7F /* AddFunds */ = {
 			isa = PBXGroup;
 			children = (
-				BE9DCF9E1EE12BC700E92FD8 /* VC_addFUNDS.h */,
-				BE9DCF9F1EE12BC700E92FD8 /* VC_addFUNDS.m */,
+				BE9DCFA11EE16A9D00E92FD8 /* VC_addFUNDS.h */,
+				BE9DCFA21EE16A9D00E92FD8 /* VC_addFUNDS.m */,
 				BE9DCF981EE019BD00E92FD8 /* ADD_Funds_CollectionViewCell.h */,
 				BE9DCF991EE019BD00E92FD8 /* ADD_Funds_CollectionViewCell.m */,
 			);
@@ -1397,7 +1397,7 @@
 				BE888A431E937AB100656580 /* VC_aboutus.m in Sources */,
 				BE811F741EBC4FD9003D7C0B /* GET_states.m in Sources */,
 				BEB702EC1ECEC660004CB729 /* DragTableGestureObserver_ot.m in Sources */,
-				BE9DCFA01EE12BC700E92FD8 /* VC_addFUNDS.m in Sources */,
+				BE9DCFA31EE16A9D00E92FD8 /* VC_addFUNDS.m in Sources */,
 				BE888A351E93639D00656580 /* Cell_notifications.m in Sources */,
 				BE811F671EBB632B003D7C0B /* DGActivityIndicatorAnimation.m in Sources */,
 				BE60C1B71EB8927F00C4B522 /* FloatingTXT_white.m in Sources */,
