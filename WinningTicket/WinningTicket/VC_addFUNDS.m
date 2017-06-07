@@ -8,11 +8,17 @@
 
 #import "VC_addFUNDS.h"
 #import "ADD_Funds_CollectionViewCell.h"
+#import "DGActivityIndicatorView.h"
+#import "DejalActivityView.h"
+
+
 @interface VC_addFUNDS ()<UICollectionViewDelegate,UICollectionViewDataSource,UIAlertViewDelegate>
 {
     NSMutableDictionary *states,*countryS;
     NSArray* asc_denomarr;
     NSString *amount_str;
+    UIView *VW_overlay;
+    DGActivityIndicatorView *activityIndicatorView;
 }
 @property (nonatomic, strong) NSArray *countrypicker,*statepicker,*denom_arr;
 
@@ -264,6 +270,30 @@
 //    _TXT_country.tintColor=[UIColor clearColor];
 //    _TXT_state.tintColor=[UIColor clearColor];
     [_ADD_funds addTarget:self action:@selector(add_funds_tapped) forControlEvents:UIControlEventTouchUpInside];
+    VW_overlay = [[UIView alloc]init];
+    VW_overlay.frame = [UIScreen mainScreen].bounds;
+    //    VW_overlay.center = self.view.center;
+    
+    [self.view addSubview:VW_overlay];
+    VW_overlay.backgroundColor = [UIColor blackColor];
+    VW_overlay.alpha = 0.2;
+    
+    activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallSpinFadeLoader tintColor:[UIColor whiteColor]];
+    
+    CGRect frame_M = activityIndicatorView.frame;
+    frame_M.origin.x = 0;
+    frame_M.origin.y = 0;
+    frame_M.size.width = VW_overlay.frame.size.width;
+    frame_M.size.height = VW_overlay.frame.size.height;
+    activityIndicatorView.frame = frame_M;
+    
+    [VW_overlay addSubview:activityIndicatorView];
+    //        activityIndicatorView.center=myview.center;
+    
+    VW_overlay.hidden = YES;
+    
+    
+
     
 
 }
@@ -625,19 +655,8 @@
 -(void) postNonceToServer :(NSString *)str
 {
     NSLog(@"Post %@",str);
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Nonce" message:str delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:str delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
     [alert show];
-    UIAlertController  *alertControllerAction = [UIAlertController alertControllerWithTitle:@"Nonce" message:str preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okaction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-        [self myaccount_API_calling];
-        [self dismissViewControllerAnimated:YES completion:nil];
-       
-        
-    }];
-    [alertControllerAction addAction:okaction];
-        
-    [self presentViewController:alertControllerAction animated:YES completion:nil];
     
     if (str)
     {
@@ -675,6 +694,10 @@
         
         NSLog(@"Client Token = %@",[dict valueForKey:@"client_token"]);
         
+        VW_overlay.hidden = YES;
+        [activityIndicatorView stopAnimating];
+        
+        
         self.braintree = [Braintree braintreeWithClientToken:[dict valueForKey:@"client_token"]];
         NSLog(@"dddd = %@",self.braintree);
         
@@ -689,8 +712,24 @@
         dropInViewController.view.tintColor = _ADD_funds.backgroundColor;
         
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:dropInViewController];
-        UINavigationBar *bar = [navigationController navigationBar];
-        [bar setBackgroundColor:[UIColor blackColor]];
+        UIImage *new_image = [UIImage imageNamed:@"UI_01"];
+        UIImageView *temp_IMG = [[UIImageView alloc]initWithFrame:navigationController.navigationBar.frame];
+        temp_IMG.image = new_image;
+        
+        UIImage *newImage = [temp_IMG.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        UIGraphicsBeginImageContextWithOptions(temp_IMG.image.size, NO, newImage.scale);
+        [[UIColor blackColor] set];
+        [newImage drawInRect:CGRectMake(0, 0, temp_IMG.image.size.width, newImage.size.height)];
+        newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        temp_IMG.image = newImage;
+        
+        [navigationController.navigationBar setBackgroundImage:temp_IMG.image
+                                                 forBarMetrics:UIBarMetricsDefault];
+        navigationController.navigationBar.shadowImage = [UIImage new];
+        navigationController.navigationBar.tintColor = [UIColor whiteColor];
+        
         [self presentViewController:navigationController animated:YES completion:nil];
     }
 }
@@ -754,13 +793,24 @@
     if(i < [[asc_denomarr valueForKeyPath:@"@max.intValue"] intValue])
     {
         _TXT_amount.placeholder=@"0.00";
-        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:@"Amount Should be Grater than 100." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-        [alert show];
+        UIAlertController  *alertControllerAction = [UIAlertController alertControllerWithTitle:@"" message:@"Amount Should be Grater than 100." preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okaction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+            
+        }];
+        [alertControllerAction addAction:okaction];
+        
+        [self presentViewController:alertControllerAction animated:YES completion:nil];
+        
     }
-    else{
-        [self get_client_TOKEN];
+    else
+    {
+        VW_overlay.hidden=NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(get_client_TOKEN) withObject:activityIndicatorView afterDelay:0.01];
+
     }
-    }
+}
     
     else if(amount_str.length > 0 && [_TXT_amount.text isEqualToString:@""])
     {
@@ -770,11 +820,23 @@
         if(i < [[asc_denomarr valueForKeyPath:@"@max.intValue"] intValue])
         {
             _TXT_amount.placeholder=@"0.00";
-            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:@"Amount Should be Grater than 100." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-            [alert show];
+            UIAlertController  *alertControllerAction = [UIAlertController alertControllerWithTitle:@"" message:@"Amount Should be Grater than 100." preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *okaction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                
+                //            [self dismissViewControllerAnimated:YES completion:nil];
+                
+            }];
+            [alertControllerAction addAction:okaction];
+            
+            [self presentViewController:alertControllerAction animated:YES completion:nil];
         }
-        else{
-            [self get_client_TOKEN];
+        else
+        {
+            
+            VW_overlay.hidden=NO;
+            [activityIndicatorView startAnimating];
+            [self performSelector:@selector(get_client_TOKEN) withObject:activityIndicatorView afterDelay:0.01];
+
         }
     }
   
@@ -815,16 +877,16 @@
     
 }
 
-//- (void)alertView:(UIAlertView *)alertView
-//clickedButtonAtIndex:(NSInteger)buttonIndex{
-//    if (buttonIndex == [alertView firstOtherButtonIndex]){
-//        
-//        [self myaccount_API_calling];
-//        
-//        [self dismissViewControllerAnimated:YES completion:nil];
-//        
-//    }
-//}
+- (void)alertView:(UIAlertView *)alertView
+clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == [alertView firstOtherButtonIndex]){
+        
+        [self myaccount_API_calling];
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
+        
+    }
+}
 
 #pragma mark - Tap Gesture
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch

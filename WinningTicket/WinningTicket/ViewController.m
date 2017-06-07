@@ -302,25 +302,6 @@
 }
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string;
 {
-//    if(textField.tag==2)
-//    {
-//        if(_TXT_password.text.length>0)
-//        {
-//            self.BTN_login.enabled = YES;
-//            NSLog(@"password entered");
-//            
-//        }
-//        else{
-//            self.BTN_login.enabled = NO;
-            
-//        }
-//    }
-//    
-//    else
-//    {
-//        self.BTN_login.enabled = NO;
-//    }
-    
     
     return YES;
 }
@@ -355,6 +336,8 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
         if (_SWITCH_rememberme.on) {
             [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"loginEmail"];
             [[NSUserDefaults standardUserDefaults] synchronize];
@@ -382,13 +365,27 @@
         }
         else
         {
-            status = [json_DATA valueForKey:@"authentication_token"];
-            [[NSUserDefaults standardUserDefaults] setValue:status forKey:@"auth_token"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            [self myaccount_API_calling];
-
-            [self performSegueWithIdentifier:@"logintohomeidentifier" sender:self];
             
+            if ([[json_DATA valueForKey:@"role"]isEqualToString:@"affiliate"])
+            {
+                status = [json_DATA valueForKey:@"authentication_token"];
+                [[NSUserDefaults standardUserDefaults] setValue:status forKey:@"auth_token"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                
+                [self performSegueWithIdentifier:@"logintoaffiliateidentifier" sender:self];
+            }
+            else
+            {
+                status = [json_DATA valueForKey:@"authentication_token"];
+                [[NSUserDefaults standardUserDefaults] setValue:status forKey:@"auth_token"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+//                [self myaccount_API_calling];
+                
+                VW_overlay.hidden = NO;
+                [activityIndicatorView startAnimating];
+                [self performSelector:@selector(myaccount_API_calling) withObject:activityIndicatorView afterDelay:0.01];
+                
+            }
         }
     }
     else
@@ -403,6 +400,8 @@
         }]];
         [self presentViewController:alertcontrollertwo animated:YES completion:nil];
     }
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden = YES;
 }
 
 -(void)forgot_PWD
@@ -495,6 +494,8 @@
 
         [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"JsonEventlist"];
         [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [self performSegueWithIdentifier:@"logintohomeidentifier" sender:self];
     }
     else
     {
@@ -523,11 +524,16 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
         [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"Account_data"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         //        NSLog(@" THe user data is :%@",[[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"]);
         //        [self performSegueWithIdentifier:@"accountstoeditprofileidentifier" sender:self];
-        [self myprofileapicalling];
+        VW_overlay.hidden = NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(myprofileapicalling) withObject:activityIndicatorView afterDelay:0.01];
+//        [self myprofileapicalling];
     }
     else
     {
@@ -556,7 +562,8 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
     {
-        
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
         [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         //        NSLog(@" THe user data is :%@",[[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"]);

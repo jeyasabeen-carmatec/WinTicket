@@ -7,18 +7,51 @@
 //
 
 #import "VC_affiliate_HOME.h"
+#import "DejalActivityView.h"
+#import "DGActivityIndicatorView.h"
 
 @interface VC_affiliate_HOME ()
-@property(nonatomic,strong)NSMutableArray *ARR_sec_one;
+@property(nonatomic,strong)NSArray *ARR_sec_one;
 @property(nonatomic,strong)NSArray *ARR_search;
 @end
 
 @implementation VC_affiliate_HOME
+{
+    UIView *VW_overlay;
+    DGActivityIndicatorView *activityIndicatorView;
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    VW_overlay = [[UIView alloc]init];
+    VW_overlay.frame = [UIScreen mainScreen].bounds;
+    //    VW_overlay.center = self.view.center;
+    
+    [self.view addSubview:VW_overlay];
+    VW_overlay.backgroundColor = [UIColor blackColor];
+    VW_overlay.alpha = 0.2;
+    
+    activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallSpinFadeLoader tintColor:[UIColor whiteColor]];
+    
+    CGRect frame_M = activityIndicatorView.frame;
+    frame_M.origin.x = 0;
+    frame_M.origin.y = 0;
+    frame_M.size.width = VW_overlay.frame.size.width;
+    frame_M.size.height = VW_overlay.frame.size.height;
+    activityIndicatorView.frame = frame_M;
+    
+    [VW_overlay addSubview:activityIndicatorView];
+    //        activityIndicatorView.center=myview.center;
+    
+    VW_overlay.hidden = NO;
+    [activityIndicatorView startAnimating];
+    [self performSelector:@selector(API_AffiliateHome) withObject:activityIndicatorView afterDelay:0.01];
+
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self setup_VIEW];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -45,21 +78,7 @@
     [dateFormatter setDateFormat:@"yyyy-MM-dd,HH:MM:SS"];
     NSString *dateString = [dateFormatter stringFromDate:date];
     NSLog(@"Current date is %@",dateString);
-    _ARR_sec_one=[[NSMutableArray alloc]init];
     
-    NSDictionary *temp_dictin;
-    temp_dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"Jordanspeith Auographed Golf ball with cerficate of authenticity   Jordanspeith Auographed Golf ball with cerficate of authenticity Jordanspeith Auographed Golf ball with cerficate of authenticity",@"key1",dateString,@"key2", nil];
-    [_ARR_sec_one addObject:temp_dictin];
-    
-    temp_dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"Jordanspeith Auographed Tiltlelist",@"key1",dateString,@"key2", nil];
-    [_ARR_sec_one addObject:temp_dictin];
-    temp_dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"Jordanspeith Auographed Towel From the masters Jordanspeith Auographed Golf ball with cerficate of authenticity   Jordanspeith Auographed Golf ball with cerficate of authenticity Jordanspeith Auographed Golf ball with cerficate of ",@"key1",dateString,@"key2", nil];
-    [_ARR_sec_one addObject:temp_dictin];
-    temp_dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"Jordanspeith Auographed Under Armor GolfShoes",@"key1",dateString,@"key2", nil];
-    [_ARR_sec_one addObject:temp_dictin];temp_dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"TigerWoods Auographed Towel From the masters",@"key1",dateString,@"key2",nil];
-    [_ARR_sec_one addObject:temp_dictin];
-    temp_dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"TigerWoods Auographed Under Armor GolfShoes",@"key1",dateString,@"key2", nil];
-    [_ARR_sec_one addObject:temp_dictin];
     UIToolbar* numberToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
     numberToolbar.barStyle = UIBarStyleBlackTranslucent;
     [numberToolbar sizeToFit];
@@ -111,13 +130,12 @@
     if(indexPath.section==0)
     {
         NSDictionary *dictdata=[_ARR_search objectAtIndex:indexPath.row];
+        NSDictionary *role = [dictdata valueForKey:@"role"];
         
-        cell.description_lbl.text = [dictdata objectForKey:@"key1"];
+        cell.description_lbl.text = [dictdata objectForKey:@"first_name"];
         [cell.description_lbl sizeToFit];
-        NSString *list =[dictdata objectForKey:@"key2"];
-        NSArray *listItems = [list componentsSeparatedByString:@","];
-        NSLog(@"%@",listItems);
-        cell.date_time_lbl.text=[NSString stringWithFormat:@"%@\n%@",[listItems objectAtIndex:0],[listItems objectAtIndex:1]];
+        
+        cell.date_time_lbl.text=[NSString stringWithFormat:@"%@",[role valueForKey:@"name"]];
         
         [cell.BTN_referalDETAIL setTag:indexPath.row];
         [cell.BTN_referalDETAIL addTarget:self action:@selector(BTN_referalDETAIL:) forControlEvents:UIControlEventTouchUpInside];
@@ -128,14 +146,12 @@
     if(indexPath.section==1)
     {
         NSDictionary *dictdata=[_ARR_sec_one objectAtIndex:indexPath.row];
+        NSDictionary *role = [dictdata valueForKey:@"role"];
         
-        cell.description_lbl.text = [dictdata objectForKey:@"key1"];
+        cell.description_lbl.text = [dictdata objectForKey:@"first_name"];
         [cell.description_lbl sizeToFit];
         
-        NSString *list =[dictdata objectForKey:@"key2"];
-        NSArray *listItems = [list componentsSeparatedByString:@","];
-        NSLog(@"%@",listItems);
-        cell.date_time_lbl.text=[NSString stringWithFormat:@"%@\n%@",[listItems objectAtIndex:0],[listItems objectAtIndex:1]];
+        cell.date_time_lbl.text=[NSString stringWithFormat:@"%@",[role valueForKey:@"name"]];
         
         [cell.BTN_referalDETAIL setTag:indexPath.row];
         [cell.BTN_referalDETAIL addTarget:self action:@selector(BTN_referalDETAIL:) forControlEvents:UIControlEventTouchUpInside];
@@ -235,4 +251,51 @@
     [self performSegueWithIdentifier:@"affliatehmetorefdetailidentifier" sender:self];
 }
 
+#pragma mark - API Calling
+-(void) get_DATA
+{
+    NSError *error;
+    NSData *aData = [[NSUserDefaults standardUserDefaults] valueForKey:@"AffiliateReferrel"];
+    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+    NSLog(@"The response VC affiliate Home %@",json_DATA);
+    
+    _ARR_sec_one = [json_DATA valueForKey:@"referrals"];
+    [_tbl_referal reloadData];
+}
+
+#pragma mark - Affiliate Home API
+-(void) API_AffiliateHome
+{
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@referrals",SERVER_URL];
+    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"AffiliateReferrel"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [self get_DATA];
+        [self setup_VIEW];
+    }
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Interrupted" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+}
 @end

@@ -34,5 +34,6 @@
 @property (weak, nonatomic) IBOutlet UIView *sec_vw;
 @property (weak, nonatomic) IBOutlet UIView *third_vw;
 @property (strong, nonatomic) IBOutlet UIView *first_VW;
+@property (nonatomic,weak) IBOutlet UIButton *_BTN_Ok;
 
 @end

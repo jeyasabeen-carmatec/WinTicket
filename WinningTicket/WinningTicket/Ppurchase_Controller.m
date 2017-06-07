@@ -110,25 +110,52 @@
     new_Frame=self.amount.frame;
     new_Frame.origin.y=self.des_cription.frame.origin.y;
     self.amount.frame=new_Frame;
+    _amount.text = [NSString stringWithFormat:@"$ %@",[dict valueForKey:@"price"]];
+
+    
     
     
     new_Frame=self.pur_view.frame;
     new_Frame.origin.y=self.des_cription.frame.origin.y+self.des_cription.frame.size.height+10;
     self.pur_view.frame=new_Frame;
     
-    new_Frame=self.subtotal_vw.frame;
+    new_Frame=_sub_total.frame;
     new_Frame.origin.y=self.pur_view.frame.origin.y+self.pur_view.frame.size.height+30;
-    self.subtotal_vw.frame=new_Frame;
+    self.sub_total.frame=new_Frame;
+    
+    new_Frame=_sub_amount.frame;
+    new_Frame.origin.y=self.sub_total.frame.origin.y+10;
+    _sub_amount.frame=new_Frame;
+    
+    _sub_amount.text = [NSString stringWithFormat:@"$ %@",[dict valueForKey:@"price"]];
+
+    
     
     new_Frame=self.sec_vw.frame;
-    new_Frame.origin.y=self.subtotal_vw.frame.origin.y+self.subtotal_vw.frame.size.height+10;
+    new_Frame.origin.y=self.sub_total.frame.origin.y+self.sub_total.frame.size.height+10;
     self.sec_vw.frame=new_Frame;
     
-    new_Frame=self.total_vw.frame;
+    new_Frame=self.total.frame;
     new_Frame.origin.y=self.sec_vw.frame.origin.y+self.sec_vw.frame.size.height+10;
-    self.total_vw.frame=new_Frame;
+    self.total.frame=new_Frame;
+    
+    new_Frame=self.total_amount.frame;
+    new_Frame.origin.y=self.total.frame.origin.y+10;
+    self.total_amount.frame=new_Frame;
+    _total_amount.text = [NSString stringWithFormat:@"$ %@",[dict valueForKey:@"price"]];
+    
+    new_Frame=self._BTN_Ok.frame;
+    new_Frame.origin.y=self.total.frame.origin.y+self.total.frame.size.height+10;
+    self._BTN_Ok.frame = new_Frame;
     
     
+    
+    [__BTN_Ok addTarget:self action:@selector(Ok_Clicked) forControlEvents:UIControlEventTouchUpInside];
+  //  [_start_View addSubview:__BTN_Ok];
+    
+    CGRect final_frame = _start_View.frame;
+    final_frame.size.height = __BTN_Ok.frame.origin.y + __BTN_Ok.frame.size.height + 20;
+    _start_View.frame = final_frame;
     
     
     //    CGRect titleLabelBounds = self.des_cription.bounds;
@@ -161,7 +188,7 @@
        } forState:UIControlStateNormal];
     
     //    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"cross"] style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
-    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain
+ /*   UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain
                                                                      target:self action:@selector(backAction)];
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     
@@ -188,17 +215,24 @@
         negativeSpacer.width = -12;
     }
     
-    [self.navigationItem setLeftBarButtonItems:@[negativeSpacer, anotherButton ] animated:NO];
+    [self.navigationItem setLeftBarButtonItems:@[negativeSpacer, anotherButton ] animated:NO];*/
     
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:22.0f]}];
     self.navigationItem.title = @"Purchase Tickets";
+    
+    self.navigationItem.hidesBackButton = YES;
 }
 -(void) backAction
 {
 //    [self.navigationController popViewControllerAnimated:NO];
      [self performSegueWithIdentifier:@"orderdetailidentifier" sender:self];
+}
+-(void)Ok_Clicked
+{
+    [self performSegueWithIdentifier:@"homesegueidentifier" sender:self];
+
 }
 
 - (void)didReceiveMemoryWarning {

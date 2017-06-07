@@ -7,8 +7,14 @@
 //
 
 #import "VC_changePWD.h"
+#import "DGActivityIndicatorView.h"
+
 
 @interface VC_changePWD ()<UITextFieldDelegate>
+{
+    UIView *VW_overlay;
+    DGActivityIndicatorView *activityIndicatorView;
+}
 
 @end
 
@@ -69,6 +75,29 @@
     _Stat_label.hidden=YES;
     _done_Btn.enabled=NO;
 [_done_Btn addTarget:self action:@selector(done_btnclicked) forControlEvents:UIControlEventTouchUpInside];
+    
+    VW_overlay = [[UIView alloc]init];
+    VW_overlay.frame = [UIScreen mainScreen].bounds;
+    //    VW_overlay.center = self.view.center;
+    
+    [self.view addSubview:VW_overlay];
+    VW_overlay.backgroundColor = [UIColor blackColor];
+    VW_overlay.alpha = 0.2;
+    
+    activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallSpinFadeLoader tintColor:[UIColor whiteColor]];
+    
+    CGRect frame_M = activityIndicatorView.frame;
+    frame_M.origin.x = 0;
+    frame_M.origin.y = 0;
+    frame_M.size.width = VW_overlay.frame.size.width;
+    frame_M.size.height = VW_overlay.frame.size.height;
+    activityIndicatorView.frame = frame_M;
+    
+    [VW_overlay addSubview:activityIndicatorView];
+    //        activityIndicatorView.center=myview.center;
+    
+    VW_overlay.hidden = YES;
+
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
@@ -132,8 +161,12 @@
     {
         [_TXT_confirmnewPWD becomeFirstResponder];
     }
-    else{
-        [self forgotapi];
+    else
+    {
+        [activityIndicatorView startAnimating];
+        VW_overlay.hidden=NO;
+        [self performSelector:@selector(forgotapi) withObject:activityIndicatorView afterDelay:0.01];
+
     }
     
 
@@ -145,47 +178,60 @@
     NSString *confirm_pwd=_TXT_confirmnewPWD.text;
     
     NSError *error;
-NSHTTPURLResponse *response = nil;
-NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
-   NSDictionary   *parameters = @{ @"user": @{ @"current_password": current_pwd, @"password": new_pwd, @"password_confirmation": confirm_pwd } };
+    NSHTTPURLResponse *response = nil;
+    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSDictionary   *parameters = @{ @"user": @{ @"current_password": current_pwd, @"password": new_pwd, @"password_confirmation": confirm_pwd } };
     self.actview.hidden=NO;
     [self.actviewone startAnimating];
     [self.view addSubview:_actview];
     NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&error];
 
     
-NSString *urlGetuser =[NSString stringWithFormat:@"%@users/change_password",SERVER_URL];
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@users/change_password",SERVER_URL];
     
-NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
-NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:urlProducts];
-[request setHTTPMethod:@"POST"];
+    [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
     [request setHTTPBody:postData];
 
     [request setHTTPShouldHandleCookies:NO];
-NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-if (aData)
-{
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+   if (aData)
+   {
     self.actview.hidden=YES;
     NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
     NSLog(@"The response %@",json_DATA);
     NSString *status=[json_DATA valueForKey:@"message"];
+    
+
     if([status isEqualToString:@"Password has been changed successfully."])
     {
+        
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden = YES;
+        
     _Stat_label.hidden=NO;
-        [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];
+    [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];
     _Stat_label.text=[json_DATA valueForKey:@"message"];
-    }else{
-        _Stat_label.hidden=NO;
-        [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];
-        _Stat_label.text=[json_DATA valueForKey:@"message"];
-        _Stat_label.backgroundColor=[UIColor redColor];
+        
     }
+    else
+    {
+        
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden = YES;
+    _Stat_label.hidden=NO;
+    [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];
+    _Stat_label.text=[json_DATA valueForKey:@"message"];
+    _Stat_label.backgroundColor=[UIColor redColor];
+     
+     }
 
-[[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"JsonEventlist"];
-[[NSUserDefaults standardUserDefaults] synchronize];
+   [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"JsonEventlist"];
+   [[NSUserDefaults standardUserDefaults] synchronize];
  }
 
 }

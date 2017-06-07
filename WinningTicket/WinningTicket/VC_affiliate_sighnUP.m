@@ -7,10 +7,15 @@
 //
 
 #import "VC_affiliate_sighnUP.h"
+#import "DejalActivityView.h"
+#import "DGActivityIndicatorView.h"
 
 @interface VC_affiliate_sighnUP ()<UITextFieldDelegate,UIPickerViewDelegate, UIPickerViewDataSource>
 {
     NSMutableDictionary *states,*countryS;
+    
+    UIView *VW_overlay;
+    DGActivityIndicatorView *activityIndicatorView;
 }
 @property (nonatomic, strong) NSArray *countrypicker,*statepicker;
 
@@ -99,6 +104,25 @@
 #pragma mark - Customise View
 -(void) setup_VIEW
 {
+    VW_overlay = [[UIView alloc]init];
+    VW_overlay.frame = [UIScreen mainScreen].bounds;
+    
+    [self.view addSubview:VW_overlay];
+    VW_overlay.backgroundColor = [UIColor blackColor];
+    VW_overlay.alpha = 0.2;
+    
+    activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallSpinFadeLoader tintColor:[UIColor whiteColor]];
+    
+    CGRect frame_M = activityIndicatorView.frame;
+    frame_M.origin.x = 0;
+    frame_M.origin.y = 0;
+    frame_M.size.width = VW_overlay.frame.size.width;
+    frame_M.size.height = VW_overlay.frame.size.height;
+    activityIndicatorView.frame = frame_M;
+    
+    [VW_overlay addSubview:activityIndicatorView];
+    VW_overlay.hidden = YES;
+    
     CGRect frame = _VW_contents.frame;
     frame.size.width = self.navigationController.navigationBar.frame.size.width - 20;
     _VW_contents.frame = frame;
@@ -593,7 +617,10 @@
     else
     {
         NSLog(@"Validation are aperfect:");
-        [self affiliate_SignUP];
+//        [self affiliate_SignUP];
+        VW_overlay.hidden = NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(affiliate_SignUP) withObject:activityIndicatorView afterDelay:0.01];
     }
 }
 #pragma mark - UIPickerViewDataSource
@@ -770,6 +797,9 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
        if (aData)
           {
+              
+              [activityIndicatorView stopAnimating];
+              VW_overlay.hidden = YES;
 
             NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
             NSLog(@"The response %@",json_DATA);
@@ -789,6 +819,8 @@
           }
        else
        {
+           [activityIndicatorView stopAnimating];
+           VW_overlay.hidden = YES;
            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please Check your Connection." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
            [alert show];
        }

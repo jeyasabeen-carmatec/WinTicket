@@ -112,10 +112,10 @@
 }
 -(void) fromdateTextField:(id)sender
 {
-//    [_fromdate_picker setMaximumDate:[NSDate date]];
+    //    [_fromdate_picker setMaximumDate:[NSDate date]];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     NSDate *eventDate = _picker_fromdate.date;
-    [dateFormat setDateFormat:@"MM/dd/YY"];
+    [dateFormat setDateFormat:@"dd-MM-YYYY"];
     
     NSString *dateString = [dateFormat stringFromDate:eventDate];
     _TXT_fromdate.text = [NSString stringWithFormat:@"%@",dateString];
@@ -128,7 +128,7 @@
     {
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         NSDate *eventDate = _picker_todate.date;
-        [dateFormat setDateFormat:@"MM/dd/YY"];
+        [dateFormat setDateFormat:@"dd-MM-YYYY"];
         
         NSString *dateString = [dateFormat stringFromDate:eventDate];
         _TXT_fromdate.text = [NSString stringWithFormat:@"%@",dateString];
@@ -137,7 +137,7 @@
     else
     {
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"MM/dd/yy"];
+        [formatter setDateFormat:@"dd-MM-yyyy"];
         
         NSString *STR_tmp = [NSString stringWithFormat:@"%@",_TXT_fromdate.text];
         
@@ -148,7 +148,7 @@
         
         NSDate *eventDate = _picker_todate.date;
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-        [dateFormat setDateFormat:@"MM/dd/YY"];
+        [dateFormat setDateFormat:@"dd-MM-YYYY "];
         _TXT_todate.text = [dateFormat stringFromDate:eventDate];
     }
 }
@@ -284,6 +284,7 @@
     _TXT_todate.inputAccessoryView = date_close;
     _TXT_fromdate.inputAccessoryView = date_close;
     
+    [_apply addTarget:self action:@selector(apply_Clicked) forControlEvents:UIControlEventTouchUpInside];
 }
 -(void)closebuttonClick
 {
@@ -764,6 +765,57 @@
 }
 
 #pragma mark - Button Action
+-(void)apply_Clicked
+{
+    [activityIndicatorView startAnimating];
+    NSHTTPURLResponse *response = nil;
+    NSError *error;
+    NSDateFormatter *formatter=[[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"dd-mm-yyyy"];
+    NSDate *fromdate=[formatter dateFromString:_TXT_fromdate.text];
+    NSDate *todate=[formatter dateFromString:_TXT_todate.text];
+    NSString *str1=[formatter stringFromDate:fromdate];
+    NSString *str2=[formatter stringFromDate:todate];
+    
+    
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@events/all_events?start_date=%@&end_date=%@",SERVER_URL,str1,str2];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
+    
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if(aData)
+    {
+        NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:kNilOptions error:&error];
+        //    NSLog(@"The response %@",json_DATA);
+        NSLog(@"the filterdata is:%@",json_DATA);
+        
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"ALLEvents"];
+        [[NSUserDefaults standardUserDefaults] setObject:urlGetuser forKey:@"URL_SAVED"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [ARR_allevent removeAllObjects];
+        NSMutableArray *temp_ARR=[json_DATA valueForKey:@"events"];
+        [ARR_allevent addObjectsFromArray:temp_ARR];
+        
+        [_tbl_eventlst reloadData];
+        [activityIndicatorView stopAnimating];
+        
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+    
+    
+}
+
 -(void) BTN_ALL_EVENT : (UIButton *) sender
 {
     NSIndexPath *buttonIndexPath = [NSIndexPath indexPathForRow:sender.tag inSection:0];
@@ -939,9 +991,9 @@
         [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"upcoming_events"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-//        [self performSegueWithIdentifier:@"eventDetailidentifier" sender:self];
-        [self performSegueWithIdentifier:@"events_all_segue" sender:self];
-
+     //   [self performSegueWithIdentifier:@"eventDetailidentifier" sender:self];
+        [self performSegueWithIdentifier:@"allevent_to_eventDetail" sender:self];
+                
     }
     else
     {

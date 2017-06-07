@@ -7,10 +7,14 @@
 //
 
 #import "VC_TKT_qty.h"
+#import "DejalActivityView.h"
+#import "DGActivityIndicatorView.h"
 
 @interface VC_TKT_qty ()
 {
     float original_height;
+    UIView *VW_overlay;
+    DGActivityIndicatorView *activityIndicatorView;
 }
 
 @end
@@ -97,6 +101,31 @@
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:22.0f]}];
     self.navigationItem.title = @"Purchase Tickets";
+    
+    VW_overlay = [[UIView alloc]init];
+    VW_overlay.frame = [UIScreen mainScreen].bounds;
+    //    VW_overlay.center = self.view.center;
+    
+    [self.view addSubview:VW_overlay];
+    VW_overlay.backgroundColor = [UIColor blackColor];
+    VW_overlay.alpha = 0.2;
+    
+    
+    
+    
+    activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallSpinFadeLoader tintColor:[UIColor whiteColor]];
+    
+    CGRect frame_M = activityIndicatorView.frame;
+    frame_M.origin.x = 0;
+    frame_M.origin.y = 0;
+    frame_M.size.width = VW_overlay.frame.size.width;
+    frame_M.size.height = VW_overlay.frame.size.height;
+    activityIndicatorView.frame = frame_M;
+    
+    [VW_overlay addSubview:activityIndicatorView];
+    //        activityIndicatorView.center=myview.center;
+    
+    VW_overlay.hidden = YES;
 }
 
 -(void) backAction
@@ -261,57 +290,62 @@
     
     if ((count = [STR_chk intValue]))
     {
-        BOOL stat = [self update_QTY_api];
-        if (stat)
-        {
-            if (count >= 2)
-            {
-                [self performSegueWithIdentifier:@"checkouttocontinuecheckout" sender:self];
-            }
-            else
-            {
-                NSError *error;
-                NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"QUANTITY"] options:NSASCIIStringEncoding error:&error];
-                
-                
-                NSError *err;
-                NSHTTPURLResponse *response = nil;
-                NSMutableArray *userDetails = [[NSMutableArray alloc] init];
-                NSDictionary *parameters = @{ @"recipients": userDetails, @"order_item" : @{ @"id":[dict valueForKey:@"order_item_id"]}};
-                NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
-                
-                NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&err];
-                NSString *urlGetuser = [NSString stringWithFormat:@"%@events/create_update_recipients",SERVER_URL];
-                NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
-                NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-                [request setURL:urlProducts];
-                [request setHTTPMethod:@"POST"];
-                [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-                [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
-                [request setHTTPBody:postData];
-                [request setHTTPShouldHandleCookies:NO];
-                NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-                if (aData)
-                {
-                    dict = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-                    NSLog(@"Updated Status %@",dict);
-                    
-                    if ([[dict valueForKey:@"message"] isEqualToString:@"Recipient(s) created/updated successfully."]) {
-                        [self performSegueWithIdentifier:@"checkouttobillingaddr" sender:self];
-                    }
-                    else
-                    {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-                        [alert show];
-                    }
-                }
-                else
-                {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-                    [alert show];
-                }
-            }
+        VW_overlay.hidden = NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(update_QTY_api) withObject:activityIndicatorView afterDelay:0.01];
+//        BOOL stat = 
+//        if (stat)
+//        {
+
+    }
+}
+
+-(void) api_update_Recipts
+{
+    NSError *error;
+    NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"QUANTITY"] options:NSASCIIStringEncoding error:&error];
+    
+    
+    NSError *err;
+    NSHTTPURLResponse *response = nil;
+    NSMutableArray *userDetails = [[NSMutableArray alloc] init];
+    NSDictionary *parameters = @{ @"recipients": userDetails, @"order_item" : @{ @"id":[dict valueForKey:@"order_item_id"]}};
+    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&err];
+    NSString *urlGetuser = [NSString stringWithFormat:@"%@events/create_update_recipients",SERVER_URL];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    [request setHTTPBody:postData];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        dict = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"Updated Status %@",dict);
+        
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        if ([[dict valueForKey:@"message"] isEqualToString:@"Recipient(s) created/updated successfully."]) {
+            [self performSegueWithIdentifier:@"checkouttobillingaddr" sender:self];
         }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            [alert show];
+        }
+    }
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
     }
 }
 
@@ -435,7 +469,7 @@
 }
 
 #pragma mark - API Integration
--(BOOL) update_QTY_api
+-(void) update_QTY_api
 {
     NSString *STR_chk = _TXT_qty.text;
     
@@ -462,6 +496,9 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
         NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         
         NSLog(@"The value VC TKT Quantity %@",dict);
@@ -470,12 +507,27 @@
         [[NSUserDefaults standardUserDefaults] setValue:STR_chk forKey:@"QTY"];
         [[NSUserDefaults standardUserDefaults] setValue:[dict valueForKey:@"price"] forKey:@"PriceSTR"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        return YES;
+
     }
     else
     {
-        return NO;
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+    
+    int count = [[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"] intValue];
+    if (count >= 2)
+    {
+        [self performSegueWithIdentifier:@"checkouttocontinuecheckout" sender:self];
+    }
+    else
+    {
+        VW_overlay.hidden = NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(api_update_Recipts) withObject:activityIndicatorView afterDelay:0.01];
     }
 }
 

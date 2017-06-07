@@ -8,13 +8,17 @@
 
 #import "VC_qty_detail.h"
 #import "purchase_Cell.h"
+#import "DejalActivityView.h"
+#import "DGActivityIndicatorView.h"
 
 @interface VC_qty_detail ()
 {
     int t;
     NSMutableArray *userDetails;
-    
     float VW_height,scrol_height,origin_Y;
+    
+    UIView *VW_overlay;
+    DGActivityIndicatorView *activityIndicatorView;
 }
 
 @end
@@ -180,10 +184,16 @@
     }
     
     if (i == userDetails.count) {
-        [self qty_detailPage];
+//        [self qty_detailPage];
+        VW_overlay.hidden = NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(qty_detailPage) withObject:activityIndicatorView afterDelay:0.01];
     }
     
-    [self myprofileapicalling];
+//    [self myprofileapicalling];
+    VW_overlay.hidden = NO;
+    [activityIndicatorView startAnimating];
+    [self performSelector:@selector(myprofileapicalling) withObject:activityIndicatorView afterDelay:0.01];
 }
 
 -(void) qty_detailPage
@@ -210,6 +220,8 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
         dict = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"Updated Status %@",dict);
         
@@ -224,6 +236,8 @@
     }
     else
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
     }
@@ -233,6 +247,31 @@
 #pragma mark - Uiview customisation
 -(void) setup_View
 {
+    VW_overlay = [[UIView alloc]init];
+    VW_overlay.frame = [UIScreen mainScreen].bounds;
+    //    VW_overlay.center = self.view.center;
+    
+    [self.view addSubview:VW_overlay];
+    VW_overlay.backgroundColor = [UIColor blackColor];
+    VW_overlay.alpha = 0.2;
+    
+    
+    
+    
+    activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallSpinFadeLoader tintColor:[UIColor whiteColor]];
+    
+    CGRect frame_M = activityIndicatorView.frame;
+    frame_M.origin.x = 0;
+    frame_M.origin.y = 0;
+    frame_M.size.width = VW_overlay.frame.size.width;
+    frame_M.size.height = VW_overlay.frame.size.height;
+    activityIndicatorView.frame = frame_M;
+    
+    [VW_overlay addSubview:activityIndicatorView];
+    //        activityIndicatorView.center=myview.center;
+    
+    VW_overlay.hidden = YES;
+    
     VW_height = _VW_main.frame.size.height;
     origin_Y = _VW_main.frame.origin.y;
     scrol_height = _scroll_TBL.frame.size.height;
@@ -634,9 +673,9 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
     {
-        
-//        [activityIndicatorView stopAnimating];
-//        VW_overlay.hidden = YES;
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+
         [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         //        NSLog(@" THe user data is :%@",[[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"]);
@@ -645,8 +684,8 @@
     }
     else
     {
-//        [activityIndicatorView stopAnimating];
-//        VW_overlay.hidden = YES;
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Interrupted" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];

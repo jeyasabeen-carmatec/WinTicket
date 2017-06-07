@@ -7,10 +7,15 @@
 //
 
 #import "VC_withdrawal.h"
+#import "DejalActivityView.h"
+#import "DGActivityIndicatorView.h"
 
-@interface VC_withdrawal ()
+@interface VC_withdrawal ()<UIAlertViewDelegate>
 {
     float scroll_View_HT;
+    UIView *VW_overlay;
+    DGActivityIndicatorView *activityIndicatorView;
+    
 }
 
 @end
@@ -34,6 +39,56 @@
     [self.scroll_contents layoutIfNeeded];
     _scroll_contents.contentSize = CGSizeMake(self.scroll_contents.frame.size.width, scroll_View_HT);
 }
+-(void)viewWillAppear:(BOOL)animated
+{
+    NSData *aData=[[NSUserDefaults standardUserDefaults]valueForKey:@"Account_data"] ;
+    NSError *error;
+    if(aData)
+    {
+        NSMutableDictionary *account_data=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"Account_data"] options:NSASCIIStringEncoding error:&error];
+        NSLog(@"the user data is:%@",account_data);
+        
+//        NSDictionary *temp_dict=[account_data valueForKey:@"user"];
+        NSString *pricee_STR = [NSString stringWithFormat:@"$ %@",[account_data valueForKey:@"wallet"]];
+;
+        NSString *text = [NSString stringWithFormat:@"Available balance: %@",pricee_STR];
+        
+        if ([self.lbl_availableBAL respondsToSelector:@selector(setAttributedText:)]) {
+            
+            // Define general attributes for the entire text
+            NSDictionary *attribs = @{
+                                      NSForegroundColorAttributeName: self.lbl_availableBAL.textColor,
+                                      NSFontAttributeName: self.lbl_availableBAL.font
+                                      };
+            NSMutableAttributedString *attributedText =
+            [[NSMutableAttributedString alloc] initWithString:text
+                                                   attributes:attribs];
+            
+            // Red text attributes
+            //            UIColor *redColor = [UIColor redColor];
+            NSRange cmp = [text rangeOfString:pricee_STR];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Gotham-Book" size:17.0]}
+                                    range:cmp];
+            
+            
+            self.lbl_availableBAL.attributedText = attributedText;
+        }
+        else
+        {
+            self.lbl_availableBAL.text = text;
+        }
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        
+    }
+    
+    
+    
+}
+
 
 /*
 #pragma mark - Navigation
@@ -78,35 +133,7 @@
     _TXT_email.layer.borderWidth = 2.0f;
     _TXT_email.layer.borderColor = [UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0].CGColor;
     
-    NSString *pricee_STR = @"$10.00";
-    NSString *text = [NSString stringWithFormat:@"Available balance: %@",pricee_STR];
-    
-    if ([self.lbl_availableBAL respondsToSelector:@selector(setAttributedText:)]) {
-        
-        // Define general attributes for the entire text
-        NSDictionary *attribs = @{
-                                  NSForegroundColorAttributeName: self.lbl_availableBAL.textColor,
-                                  NSFontAttributeName: self.lbl_availableBAL.font
-                                  };
-        NSMutableAttributedString *attributedText =
-        [[NSMutableAttributedString alloc] initWithString:text
-                                               attributes:attribs];
-        
-        // Red text attributes
-        //            UIColor *redColor = [UIColor redColor];
-        NSRange cmp = [text rangeOfString:pricee_STR];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Gotham-Book" size:17.0]}
-                                range:cmp];
-        
-        
-        self.lbl_availableBAL.attributedText = attributedText;
-    }
-    else
-    {
-        self.lbl_availableBAL.text = text;
-    }
-    
-    NSString *cur = @"$";
+       NSString *cur = @"$";
     NSString *print_TXT = [NSString stringWithFormat:@"Amount  %@",cur];
     
     if ([self.lbl_titleAMT respondsToSelector:@selector(setAttributedText:)]) {
@@ -185,6 +212,34 @@
     _VW_Contents.frame = frameRECt;
     
     [_scroll_contents addSubview:_VW_Contents];
+    [_BTN_submit_paypal addTarget:self action:@selector(submitClicked_paypal) forControlEvents:UIControlEventTouchUpInside];
+    [_BTN_submit_account addTarget:self action:@selector(submitClicked_account) forControlEvents:UIControlEventTouchUpInside];
+    VW_overlay = [[UIView alloc]init];
+    VW_overlay.frame = [UIScreen mainScreen].bounds;
+    //    VW_overlay.center = self.view.center;
+    
+    [self.view addSubview:VW_overlay];
+    VW_overlay.backgroundColor = [UIColor blackColor];
+    VW_overlay.alpha = 0.2;
+    
+    activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallSpinFadeLoader tintColor:[UIColor whiteColor]];
+    
+    CGRect frame_M = activityIndicatorView.frame;
+    frame_M.origin.x = 0;
+    frame_M.origin.y = 0;
+    frame_M.size.width = VW_overlay.frame.size.width;
+    frame_M.size.height = VW_overlay.frame.size.height;
+    activityIndicatorView.frame = frame_M;
+    
+    [VW_overlay addSubview:activityIndicatorView];
+
+    
+    VW_overlay.hidden = YES;
+  
+    
+
+    
+    
 }
 
 
@@ -197,20 +252,169 @@
 #pragma mark - UIButton Actions
 -(void) action_Banktransfer
 {
-    _VW_banktransfer.hidden = YES;
-//    if (_VW_paypal.hidden == YES)
-//    {
-        _VW_paypal.hidden = NO;
-//    }
+    //    if (_VW_banktransfer.hidden == YES)
+    //    {
+    _VW_banktransfer.hidden = NO;
+    //    }
+    _VW_paypal.hidden = YES;
+    
+
+  
 }
 
 -(void) action_Paypal
 {
-//    if (_VW_banktransfer.hidden == YES)
-//    {
-        _VW_banktransfer.hidden = NO;
-//    }
-    _VW_paypal.hidden = YES;
+    _VW_banktransfer.hidden = YES;
+    //    if (_VW_paypal.hidden == YES)
+    //    {
+    _VW_paypal.hidden = NO;
+    //    }
+    
+    
 }
+-(void)submitClicked_paypal
+{
+    NSString *text_to_compare = _TXT_email.text;
+    
+    NSString *emailRegEx = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,10}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegEx];
+    
+    if ([emailTest evaluateWithObject:text_to_compare] == NO)
+    {
+        _TXT_email.text = @"";
+        [_TXT_email becomeFirstResponder];
+        
+    }
+    else
+    {
+        if ([_TXT_amtpaypal.text isEqualToString:@""])
+        {
+            [_TXT_amtpaypal becomeFirstResponder];
+        }
+        else
+        {
+            VW_overlay.hidden = NO;
+            [activityIndicatorView startAnimating];
+            [self performSelector:@selector(api_amount_paypal) withObject:activityIndicatorView afterDelay:0.01];
+
+        }
+    }
+}
+
+-(void)api_amount_paypal
+{
+
+    
+    NSString *amount_paypal = _TXT_amtpaypal.text;
+    NSString *email = _TXT_email.text;
+    
+    
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSDictionary *parameters = @{ @"email": email,
+                                  @"amount": amount_paypal};
+    //    self->activityIndicatorView.hidden=NO;
+    //    [self->activityIndicatorView startAnimating];
+    //    [self.view addSubview:activityIndicatorView];
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&error];
+    
+    
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@withdrawal/paypal_funds",SERVER_URL];
+    
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    [request setHTTPBody:postData];
+    
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        //        self->activityIndicatorView.hidden=YES;
+        NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"The response %@",json_DATA);
+        NSString *status=[json_DATA valueForKey:@"status"];
+        NSString *message=[json_DATA valueForKey:@"message"];
+        
+        
+        
+        if([status isEqualToString:@"Success"])
+        {
+            [activityIndicatorView stopAnimating];
+            VW_overlay.hidden=YES;
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            [alert show];
+                        
+        }
+        else
+        {
+            [activityIndicatorView stopAnimating];
+            VW_overlay.hidden=YES;
+
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+        }
+        
+     }
+    
+    
+    
+    else{
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden=YES;
+
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection error" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+
+       }
+    
+
+}
+#pragma Alertview Methods
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == [alertView firstOtherButtonIndex]) {
+        [self myaccount_API_calling];
+    }
+}
+-(void)myaccount_API_calling
+{
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@my_account",SERVER_USR];
+    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"Account_data"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self dismissViewControllerAnimated:YES completion:nil];
+        
+        //        NSLog(@" THe user data is :%@",[[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"]);
+        //        [self performSegueWithIdentifier:@"accountstoeditprofileidentifier" sender:self];
+        //        [self myprofileapicalling];
+    }
+    else
+    {
+        //        [activityIndicatorView stopAnimating];
+        //        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Interrupted" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+    
+}
+
 
 @end

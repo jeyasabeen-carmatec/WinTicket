@@ -15,7 +15,7 @@
     UIView *VW_overlay;
     DGActivityIndicatorView *activityIndicatorView;
     
-        NSMutableDictionary *states,*countryS;
+    NSMutableDictionary *states,*countryS;
     
 }
 

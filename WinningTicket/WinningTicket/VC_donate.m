@@ -7,9 +7,14 @@
 //
 
 #import "VC_donate.h"
+#import "DGActivityIndicatorView.h"
+#import "DejalActivityView.h"
+
 
 @interface VC_donate ()<UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,UITextViewDelegate>
 {
+    UIView *VW_overlay;
+    DGActivityIndicatorView *activityIndicatorView;
     NSMutableDictionary *states,*countryS;
 }
 @property (nonatomic, strong) NSArray *countrypicker,*statepicker,*oraganisationpicker,*arr;
@@ -278,8 +283,30 @@
     _TXT_phonenumber.delegate=self;
 
     [_BTN_deposit addTarget:self action:@selector(Deposit_Pressed) forControlEvents:UIControlEventTouchUpInside];
-   
     
+    VW_overlay = [[UIView alloc]init];
+    VW_overlay.frame = [UIScreen mainScreen].bounds;
+    //    VW_overlay.center = self.view.center;
+    
+    [self.view addSubview:VW_overlay];
+    VW_overlay.backgroundColor = [UIColor blackColor];
+    VW_overlay.alpha = 0.2;
+    
+    activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallSpinFadeLoader tintColor:[UIColor whiteColor]];
+    
+    CGRect frame_M = activityIndicatorView.frame;
+    frame_M.origin.x = 0;
+    frame_M.origin.y = 0;
+    frame_M.size.width = VW_overlay.frame.size.width;
+    frame_M.size.height = VW_overlay.frame.size.height;
+    activityIndicatorView.frame = frame_M;
+    
+    [VW_overlay addSubview:activityIndicatorView];
+    //        activityIndicatorView.center=myview.center;
+    
+    VW_overlay.hidden = YES;
+    
+      
     
 }
 -(void)closebuttonClick
@@ -796,6 +823,7 @@
 }
 -(void)Deposit_Pressed
 {
+    _VW_address.hidden=NO;
   /*if([_TXTVW_organisationname.text isEqualToString:@""])
   {
       [_TXTVW_organisationname becomeFirstResponder];
@@ -891,6 +919,78 @@
     }
     }*/
     
+    NSLog(@"Sighn UP");
+    NSString *text_to_compare=_TXT_phonenumber.text;
+    NSString *phoneRegex = @"[0-9]{10,14}$";
+    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
+    
+    
+    if([_TXTVW_organisationname.text isEqualToString:@""])
+    {
+        [_TXTVW_organisationname becomeFirstResponder];
+    }
+    else if([_TXT_getamount.text isEqualToString:@""])
+    {
+        [_TXT_getamount becomeFirstResponder];
+    }
+     else  if([_TXT_firstname.text isEqualToString:@""])
+    {
+        [_TXT_firstname becomeFirstResponder];
+    }
+    
+    else  if([_TXT_lastname.text isEqualToString:@""])
+    {
+        [_TXT_lastname becomeFirstResponder];
+        
+    }
+    else if([_TXT_address1.text isEqualToString:@""])
+    {
+        [_TXT_address1 becomeFirstResponder];
+        
+    }
+    else  if([_TXT_address2.text isEqualToString:@""])
+    {
+        [_TXT_address2 becomeFirstResponder];
+        
+    }
+    else if([_TXT_city.text isEqualToString:@""])
+    {
+        [_TXT_city becomeFirstResponder];
+        
+    }
+    
+    
+    else if ([phoneTest evaluateWithObject:text_to_compare] == NO)
+    {
+        [_TXT_phonenumber becomeFirstResponder];
+    }
+    
+    else if([_TXT_phonenumber.text isEqualToString:@""])
+    {
+        [_TXT_phonenumber becomeFirstResponder];
+        
+    }
+    
+    else if([_TXT_state.text isEqualToString:@""])
+    {
+        [_TXT_state becomeFirstResponder];
+        
+    }
+    else if([_TXT_country.text isEqualToString:@""])
+    {
+        [_TXT_country becomeFirstResponder];
+        
+    }
+
+    else
+    {
+        VW_overlay.hidden=NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(donatio_API) withObject:activityIndicatorView afterDelay:0.01];
+    }
+}
+-(void)donatio_API
+{
     NSString *fname = _TXT_firstname.text;
     NSString *lastName= _TXT_lastname.text;
     NSString *address1 = _TXT_address1.text;
@@ -904,69 +1004,63 @@
     NSString *state_code = [states valueForKey:state];
     NSString *country_code = [countryS valueForKey:country];
     
-    if([_TXTVW_organisationname.text isEqualToString:@""])
+    NSString *amount = _TXT_getamount.text;
+    NSString *eventid=[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"event_id_donate"]];
+    
+    NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+    f.numberStyle = NSNumberFormatterDecimalStyle;
+    NSNumber *number_amount = [f numberFromString:amount];
+    NSNumber *number_eventID = [f numberFromString:eventid];
+    
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSDictionary *parameters = @{ @"billing_address":@{@"first_name":fname,@"last_name":lastName,@"address_line1":address1,@"address_line2":address2,@"city":city,@"country":country_code,@"zip_code":zip,@"state":state_code,@"phone":phonenumber},@"event_id":number_eventID,@"price":number_amount };
+    NSLog(@"the post data is:%@",parameters);
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&error];
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@contributors/donation_order",SERVER_URL];
+    NSLog(@"The url iS:%@",urlGetuser);
+    
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    [request setHTTPBody:postData];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
     {
-        [_TXTVW_organisationname becomeFirstResponder];
-    }
-    else if([_TXT_getamount.text isEqualToString:@""])
-    {
-        [_TXT_getamount becomeFirstResponder];
-    }
-    else
-    {
-        NSString *amount = _TXT_getamount.text;
-        NSString *eventid=[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"event_id_donate"]];
-        
-        NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
-        f.numberStyle = NSNumberFormatterDecimalStyle;
-        NSNumber *number_amount = [f numberFromString:amount];
-        NSNumber *number_eventID = [f numberFromString:eventid];
-        
-        NSError *error;
-        NSHTTPURLResponse *response = nil;
-        NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
-        NSDictionary *parameters = @{ @"billing_address":@{@"first_name":fname,@"last_name":lastName,@"address_line1":address1,@"address_line2":address2,@"city":city,@"country":country_code,@"zip_code":zip,@"state":state_code,@"phone":phonenumber},@"event_id":number_eventID,@"price":number_amount };
-        NSLog(@"the post data is:%@",parameters);
-        NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&error];
-        NSString *urlGetuser =[NSString stringWithFormat:@"%@contributors/donation_order",SERVER_URL];
-        NSLog(@"The url iS:%@",urlGetuser);
-        
-        NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-        [request setURL:urlProducts];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
-        [request setHTTPBody:postData];
-        [request setHTTPShouldHandleCookies:NO];
-        NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-        if (aData)
+        NSMutableDictionary *json_DATA_one = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"Data from Donate VC:%@",json_DATA_one);
+        NSString *status=[json_DATA_one valueForKey:@"status"];
+        if([status isEqualToString:@"Success"])
         {
-            NSMutableDictionary *json_DATA_one = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-            NSLog(@"Data from Donate VC:%@",json_DATA_one);
-            NSString *status=[json_DATA_one valueForKey:@"status"];
-            if([status isEqualToString:@"Success"])
-            {
-//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-//                [alert show];
-                [self get_client_TOKEN];
-            }
-            else
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-                [alert show];
-            }
-            
+            //                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            //                [alert show];
+            [self get_client_TOKEN];
         }
         else
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please Check your Connection." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
             [alert show];
         }
+        
     }
-    
+    else
+    {
+        VW_overlay.hidden = YES;
+        [activityIndicatorView stopAnimating];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please Check your Connection." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
 }
+
+
+
 -(IBAction)TAP_done
 {
     _PICK_state.hidden = YES;
@@ -1026,6 +1120,8 @@
         NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         
         NSLog(@"Client Token = %@",[dict valueForKey:@"client_token"]);
+        VW_overlay.hidden = YES;
+        [activityIndicatorView stopAnimating];
         
         self.braintree = [Braintree braintreeWithClientToken:[dict valueForKey:@"client_token"]];
         NSLog(@"dddd = %@",self.braintree);
@@ -1041,8 +1137,24 @@
         dropInViewController.view.tintColor = _BTN_deposit.backgroundColor;
         
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:dropInViewController];
-        UINavigationBar *bar = [navigationController navigationBar];
-        [bar setBackgroundColor:[UIColor blackColor]];
+        UIImage *new_image = [UIImage imageNamed:@"UI_01"];
+        UIImageView *temp_IMG = [[UIImageView alloc]initWithFrame:navigationController.navigationBar.frame];
+        temp_IMG.image = new_image;
+        
+        UIImage *newImage = [temp_IMG.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        UIGraphicsBeginImageContextWithOptions(temp_IMG.image.size, NO, newImage.scale);
+        [[UIColor blackColor] set];
+        [newImage drawInRect:CGRectMake(0, 0, temp_IMG.image.size.width, newImage.size.height)];
+        newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        temp_IMG.image = newImage;
+        
+        [navigationController.navigationBar setBackgroundImage:temp_IMG.image
+                                                 forBarMetrics:UIBarMetricsDefault];
+        navigationController.navigationBar.shadowImage = [UIImage new];
+        navigationController.navigationBar.tintColor = [UIColor whiteColor];
+        
         [self presentViewController:navigationController animated:YES completion:nil];
     }
 }

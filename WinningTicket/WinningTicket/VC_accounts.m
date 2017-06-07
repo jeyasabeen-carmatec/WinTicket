@@ -378,7 +378,26 @@
         NSError *error;
         NSHTTPURLResponse *response = nil;
         
-        NSString *urlGetuser =[NSString stringWithFormat:@"%@payments/transaction_history",SERVER_URL];
+        NSString *urlGetuser ;
+    
+//    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+//    {
+//        if ([UIScreen mainScreen].bounds.size.height > 667)
+//        {
+//            urlGetuser = [NSString stringWithFormat:@"%@payments/transaction_history",SERVER_URL];
+//        }
+//        else
+//        {
+//            urlGetuser =[NSString stringWithFormat:@"%@payments/transaction_history?page=10",SERVER_URL];
+//        }
+//        }
+//       else
+//       {
+        urlGetuser =[NSString stringWithFormat:@"%@payments/transaction_history",SERVER_URL];
+           
+//        }
+    
+
         NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
         NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -395,6 +414,10 @@
             VW_overlay.hidden = YES;
             [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"transaction_data"];
             [[NSUserDefaults standardUserDefaults] synchronize];
+            [[NSUserDefaults standardUserDefaults] setObject:urlGetuser forKey:@"URL_SAVED_tran"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+
+            
             //        NSLog(@" THe user data is :%@",[[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"]);
             [self performSegueWithIdentifier:@"acounttotransactionidentifier" sender:self];
             

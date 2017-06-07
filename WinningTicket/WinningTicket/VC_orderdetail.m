@@ -45,7 +45,7 @@
 {
     [super viewDidLayoutSubviews];
     [_scroll_contents layoutIfNeeded];
-    [_scroll_contents setContentSize:CGSizeMake(self.navigationController.navigationBar.frame.size.width, _BTN_liveAUCTN.frame.origin.y + _BTN_liveAUCTN.frame.size.height + 30)];
+    [_scroll_contents setContentSize:CGSizeMake(_scroll_contents.frame.size.width, _BTN_liveAUCTN.frame.origin.y + _BTN_liveAUCTN.frame.size.height + 30)];
 }
 
 /*
@@ -108,7 +108,7 @@
 
 -(void) backAction
 {
-    [self.navigationController popViewControllerAnimated:NO];
+    [self.navigationController dismissViewControllerAnimated:NO completion:nil];
 }
 
 
@@ -119,7 +119,7 @@
     
     CGRect content_frame;
     content_frame = _VW_contents.frame;
-    content_frame.size.width = self.navigationController.navigationBar.frame.size.width;
+    content_frame.size.width = _scroll_contents.frame.size.width;
     _VW_contents.frame = content_frame;
     
     [_scroll_contents addSubview:_VW_contents];

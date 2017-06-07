@@ -13,8 +13,7 @@
 {
     UIView *VW_overlay;
     DGActivityIndicatorView *activityIndicatorView;
-    
-        NSMutableDictionary *states,*countryS;
+    NSMutableDictionary *states,*countryS;
     
 
 }
@@ -193,6 +192,29 @@
     [self Country_api];
     [self State_api];
     [_BTN_save addTarget:self action:@selector(save_api_call) forControlEvents:UIControlEventTouchUpInside];
+    
+    VW_overlay = [[UIView alloc]init];
+    VW_overlay.frame = [UIScreen mainScreen].bounds;
+    //    VW_overlay.center = self.view.center;
+    
+    [self.view addSubview:VW_overlay];
+    VW_overlay.backgroundColor = [UIColor blackColor];
+    VW_overlay.alpha = 0.2;
+    
+    activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallSpinFadeLoader tintColor:[UIColor whiteColor]];
+    
+    CGRect frame_M = activityIndicatorView.frame;
+    frame_M.origin.x = 0;
+    frame_M.origin.y = 0;
+    frame_M.size.width = VW_overlay.frame.size.width;
+    frame_M.size.height = VW_overlay.frame.size.height;
+    activityIndicatorView.frame = frame_M;
+    
+    [VW_overlay addSubview:activityIndicatorView];
+    //        activityIndicatorView.center=myview.center;
+    
+    VW_overlay.hidden = YES;
+
 }
 -(void)closebuttonClick
 {
@@ -373,22 +395,81 @@
 
 #pragma mark - BTN Actions
 -(void)save_api_call
+
 {
+    NSLog(@"Sighn UP");
+    NSString *text_to_compare=_TXT_phone.text;
+    NSString *phoneRegex = @"[0-9]{10,14}$";
+    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
+    if([_TXT_fname.text isEqualToString:@""])
+    {
+        [_TXT_fname becomeFirstResponder];
+    }
     
+    else  if([_TXT_lname.text isEqualToString:@""])
+    {
+        [_TXT_lname becomeFirstResponder];
+        
+    }
+    else if([_TXT_addr1.text isEqualToString:@""])
+    {
+        [_TXT_addr1 becomeFirstResponder];
+        
+    }
+    else  if([_TXT_addr2.text isEqualToString:@""])
+    {
+        [_TXT_addr2 becomeFirstResponder];
+        
+    }
+    else if([_TXT_city.text isEqualToString:@""])
+    {
+        [_TXT_city becomeFirstResponder];
+        
+    }
+    
+    
+    else if ([phoneTest evaluateWithObject:text_to_compare] == NO)
+    {
+        [_TXT_phone becomeFirstResponder];
+    }
+    
+    else if([_TXT_phone.text isEqualToString:@""])
+    {
+        [_TXT_phone becomeFirstResponder];
+        
+    }
+    
+    else if([_TXT_state.text isEqualToString:@""])
+    {
+        [_TXT_state becomeFirstResponder];
+        
+    }
+    else if([_TXT_country.text isEqualToString:@""])
+    {
+        [_TXT_country becomeFirstResponder];
+        
+    }
+    else{
+        VW_overlay.hidden = NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(save_api) withObject:activityIndicatorView afterDelay:0.01];
+    }
+}
+
+    -(void)save_api
+    {
         NSString *fname = _TXT_fname.text;
         NSString *lname = _TXT_lname.text;
-//      NSString *email = _TXT_email.text;
-//
-//      NSString *username=_TXT_username.text;
+       
         NSString *addressone = _TXT_addr1.text;
         NSString *addresstwo = _TXT_addr2.text;
         NSString *city = _TXT_city.text;
         NSString *country=_TXT_country.text;
         NSString *state = _TXT_state.text;
-
+        
         NSString *phone_num = _TXT_phone.text;
-    NSString *Zip_code=_TXT_zip.text;
-   
+        NSString *Zip_code=_TXT_zip.text;
+        
         
     NSError *error;
     NSHTTPURLResponse *response = nil;
@@ -396,9 +477,7 @@
     NSDictionary *parameters = @{ @"user": @{ @"first_name":fname , @"last_name":lname , @"phone":phone_num, @"address1":addressone , @"address2":addresstwo ,@"country":country ,@"state":state, @"city":city , @"zipcode": Zip_code } };
     
 
-    self->activityIndicatorView.hidden=NO;
-    [self->activityIndicatorView startAnimating];
-    [self.view addSubview:activityIndicatorView];
+   
     NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&error];
     
     
@@ -422,16 +501,22 @@
         NSString *status=[json_DATA valueForKey:@"status"];
         if([status isEqualToString:@"Success"])
         {
+            VW_overlay.hidden = YES;
+            [activityIndicatorView stopAnimating];
+            
             UIAlertController *alertcontrollerone=[UIAlertController alertControllerWithTitle: @"Details"message: @"Details Successfully Updated" preferredStyle:UIAlertControllerStyleAlert];
-            [alertcontrollerone addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            [alertcontrollerone addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action)
+            {
                 
             }]];
             [self presentViewController:alertcontrollerone animated:YES completion:nil];
             
             
-                  }
+        }
         else
         {
+            VW_overlay.hidden = YES;
+            [activityIndicatorView stopAnimating];
             
             UIAlertController *alertcontrollertwo = [UIAlertController alertControllerWithTitle:@"Check Details" message: @"Please Check The Details" preferredStyle:UIAlertControllerStyleAlert];
             [alertcontrollertwo addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
@@ -448,7 +533,8 @@
 
         
         
-        else{
+        else
+        {
             [activityIndicatorView stopAnimating];
             VW_overlay.hidden = YES;
             
@@ -458,11 +544,11 @@
                 
             }]];
             [self presentViewController:alertcontrollertwo animated:YES completion:nil];
-        }
+          }
   
                       
                       
-                    }
+}
         
     
 

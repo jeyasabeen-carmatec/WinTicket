@@ -8,22 +8,82 @@
 
 #import "VC_transactionhistory.h"
 #import "CELL_trans_hstry.h"
+#import "DejalActivityView.h"
+#import "DGActivityIndicatorView.h"
+//#import "WinningTicket_Universal-Swift.h"
+#import "UITableView+NewCategory.h"
 
-@interface VC_transactionhistory ()
+@class FrameObservingViewTransactions;
+
+@protocol FrameObservingViewDelegate1 <NSObject>
+- (void)frameObservingViewFrameChanged:(FrameObservingViewTransactions *)view;
+@end
+
+@interface FrameObservingViewTransactions : UIView
+@property (nonatomic,assign) id<FrameObservingViewDelegate1>delegate;
+@end
+
+@implementation FrameObservingViewTransactions
+- (void)setFrame:(CGRect)frame
+{
+    [super setFrame:frame];
+    [self.delegate frameObservingViewFrameChanged:self];
+}
+@end
+
+@interface VC_transactionhistory ()<FrameObservingViewDelegate1, UITableViewDragLoadDelegate>
+
 {
     NSMutableArray *transaction_history;
     NSMutableArray *ARR_contents;
+    UIView *VW_overlay;
+    DGActivityIndicatorView *activityIndicatorView;
+    NSMutableDictionary *temp_dict;
+    int k;
 }
 
 @end
 
+
 @implementation VC_transactionhistory
+
+- (void)frameObservingViewFrameChanged:(FrameObservingViewTransactions *)view
+{
+    _tbl_contents.frame = self.view.bounds;
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
     [self setup_VIEW];
+    k=0;
+    VW_overlay = [[UIView alloc]init];
+    VW_overlay.frame = [UIScreen mainScreen].bounds;
+    //    VW_overlay.center = self.view.center;
+    
+    [self.view addSubview:VW_overlay];
+    VW_overlay.backgroundColor = [UIColor blackColor];
+    VW_overlay.alpha = 0.2;
+    
+    
+    
+    
+    activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallSpinFadeLoader tintColor:[UIColor whiteColor]];
+    
+    CGRect frame_M = activityIndicatorView.frame;
+    frame_M.origin.x = 0;
+    frame_M.origin.y = 0;
+    frame_M.size.width = VW_overlay.frame.size.width;
+    frame_M.size.height = VW_overlay.frame.size.height;
+    activityIndicatorView.frame = frame_M;
+    
+    [VW_overlay addSubview:activityIndicatorView];
+    //        activityIndicatorView.center=myview.center;
+    
+    VW_overlay.hidden = YES;
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -45,24 +105,29 @@
 -(void) setup_VIEW
 {
     NSError *error;
-    NSMutableDictionary *temp_arr =(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"transaction_data"] options:NSASCIIStringEncoding error:&error];
+    temp_dict =(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"transaction_data"] options:NSASCIIStringEncoding error:&error];
+    NSLog(@"the trasactiontotal data is:%@",temp_dict);
     
-   transaction_history=[temp_arr valueForKey:@"transactions"];
+   transaction_history=[temp_dict valueForKey:@"transactions"];
     NSLog(@"the user Transaction data is:%@",transaction_history);
-    ARR_contents = [[NSMutableArray alloc] init];
-    NSDictionary *temp_Dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"#0003125",@"ticket_number",@"Nov 29, 2016 5:12pm EST",@"date",@"Donation",@"purpose",@"-200.00",@"amount", nil];
-    [ARR_contents addObject:temp_Dictin];
-    temp_Dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"#0002919",@"ticket_number",@"Nov 29, 2016 11:46am EST",@"date",@"Ticket purchase",@"purpose",@"-60.00",@"amount", nil];
-    [ARR_contents addObject:temp_Dictin];
-    temp_Dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"#0001561",@"ticket_number",@"Oct 31, 2016 2:27pm EST",@"date",@"Add Funds",@"purpose",@"60.00",@"amount", nil];
-    [ARR_contents addObject:temp_Dictin];
-    if(temp_Dictin[@"value"] ==(id)[NSNull null])
-    {
-        NSLog(@"dict is having null");
-    }
-    else{
-        NSLog(@"Not NUll");
-    }
+//    ARR_contents = [[NSMutableArray alloc] init];
+//    NSDictionary *temp_Dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"#0003125",@"ticket_number",@"Nov 29, 2016 5:12pm EST",@"date",@"Donation",@"purpose",@"-200.00",@"amount", nil];
+//    [ARR_contents addObject:temp_Dictin];
+//    temp_Dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"#0002919",@"ticket_number",@"Nov 29, 2016 11:46am EST",@"date",@"Ticket purchase",@"purpose",@"-60.00",@"amount", nil];
+//    [ARR_contents addObject:temp_Dictin];
+//    temp_Dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"#0001561",@"ticket_number",@"Oct 31, 2016 2:27pm EST",@"date",@"Add Funds",@"purpose",@"60.00",@"amount", nil];
+//    [ARR_contents addObject:temp_Dictin];
+//    if(temp_Dictin[@"value"] ==(id)[NSNull null])
+//    {
+//        NSLog(@"dict is having null");
+//    }
+//    else{
+//        NSLog(@"Not NUll");
+//    }
+//
+    [_tbl_contents setDragDelegate:self refreshDatePermanentKey:@"FriendList"];
+    _tbl_contents.showLoadMoreView = YES;
+   
 
     [_tbl_contents reloadData];
 }
@@ -194,6 +259,192 @@
     [newFormat setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"EST"]];
     return [NSString stringWithFormat:@"%@ EST",[newFormat stringFromDate:currentDate]];
 }
+#pragma mark - Control datasource
+
+- (void)finishRefresh
+{
+    [_tbl_contents finishRefresh];
+}
+
+- (void)finishLoadMore
+{
+    [_tbl_contents finishLoadMore];
+}
+
+#pragma mark - Drag delegate methods
+
+- (void)dragTableDidTriggerRefresh:(UITableView *)tableView
+{
+    //Pull up go to First Page
+    NSDictionary *metadict=[temp_dict valueForKey:@"meta"];
+    NSString *prev_PAGE = [NSString stringWithFormat:@"%@",[metadict valueForKey:@"prev_page"]];
+    if ([prev_PAGE isEqualToString:@"0"])
+    {
+//        [activityIndicatorView stopAnimating];
+//        VW_overlay.hidden = YES;
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Already in First Page" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+//        [alert show];
+        [self performSelector:@selector(finishRefresh) withObject:nil afterDelay:0.01];
+    }
+    else{
+
+    NSString *url_STR = [NSString stringWithFormat:@"%@?page=%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"URL_SAVED_tran"],[metadict valueForKey:@"prev_page"]];
+    [[NSUserDefaults standardUserDefaults] setValue:url_STR forKey:@"URL_SAVED_tranprev"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [self performSelector:@selector(firstpage_API) withObject:nil afterDelay:0.01];
+    }
+}
+
+- (void)dragTableRefreshCanceled:(UITableView *)tableView
+{
+    //cancel refresh request(generally network request) here
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(finishRefresh) object:nil];
+}
+
+- (void)dragTableDidTriggerLoadMore:(UITableView *)tableView
+{
+    //Pull up go to NextPage
+        //    NSLog(@"The response ALLEvents Pagination Method %@",json_DATA);
+    NSString *url_STR;
+    
+    NSDictionary *temp_dictinry = [temp_dict valueForKey:@"meta"];
+   int i=[[temp_dictinry valueForKey:@"next_page"] intValue];
+    NSString *nextPAGE = [NSString stringWithFormat:@"%i",i];
+    if ([nextPAGE isEqualToString:@"0"])
+    {
+//        [activityIndicatorView stopAnimating];
+//        VW_overlay.hidden = YES;
+
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Already in Last Page" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+        [self performSelector:@selector(finishLoadMore) withObject:nil afterDelay:2];
+    }
+    else
+    {
+        url_STR = [NSString stringWithFormat:@"%@?page=%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"URL_SAVED_tran"],nextPAGE];
+        [[NSUserDefaults standardUserDefaults] setValue:url_STR forKey:@"URL_SAVED_trannext"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self performSelector:@selector(nextpage_API) withObject:nil afterDelay:0.01];
+    }
+}
+
+- (void)dragTableLoadMoreCanceled:(UITableView *)tableView
+{
+    //cancel load more request(generally network request) here
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(finishLoadMore) object:nil];
+}
+
+-(void) nextpage_API
+{
+    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    
+    NSURL *urlProducts=[NSURL URLWithString:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"URL_SAVED_trannext"]]];
+    
+    NSLog(@"Url posted transaction History next page %@",urlProducts);
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSMutableDictionary *dict;
+    if (aData)
+    {
+        
+        NSLog(@"Response Transaction History %@",response);
+        
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+         dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:kNilOptions error:&error];
+        NSLog(@"From Transaction_History Next Pagination testing :%@",dict);
+        NSDictionary *temp=[dict valueForKey:@"meta"];
+        int i=[[temp valueForKey:@"total_pages"] intValue];
+        int j=[[temp valueForKey:@"current_page"]intValue];
+       
+        
+        if(i >= j)
+        {
+            
+            k++;
+            if(k >= i)
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Already in Last Page" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                [alert show];
+                [self performSelector:@selector(finishLoadMore) withObject:nil afterDelay:2];
+                
+                
+            }
+            else{
+
+            NSArray *ARR_tmp = [dict valueForKey:@"transactions"];
+            [transaction_history addObjectsFromArray:ARR_tmp];
+            
+            [_tbl_contents reloadData];
+            }
+            
+            }
+        
+        
+            }
+    
+    
+    
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+    [self performSelector:@selector(finishLoadMore) withObject:nil afterDelay:0.01];
+}
+
+-(void) firstpage_API
+{
+    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    
+    NSURL *urlProducts=[NSURL URLWithString:[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"URL_SAVED_tranprev"]]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        NSMutableDictionary *json_DATA=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:kNilOptions error:&error];
+        NSLog(@"From VC_all_events  prev Pagination testing :%@",json_DATA);
+          [transaction_history removeAllObjects];
+           NSArray *ARR_tmp = [json_DATA valueForKey:@"transactions"];
+            [transaction_history addObjectsFromArray:ARR_tmp];
+            
+            [_tbl_contents reloadData];
+            
+                   }
+
+    
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+    [self performSelector:@selector(finishRefresh) withObject:nil afterDelay:0.01];
+}
+
 
 
 @end

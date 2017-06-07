@@ -7,6 +7,8 @@
 //
 
 #import "VC_checkoutdetail.h"
+#import "DejalActivityView.h"
+#import "DGActivityIndicatorView.h"
 
 @interface VC_checkoutdetail ()
 
@@ -16,6 +18,9 @@
 {
     NSMutableDictionary *states,*countryS;
     NSString *cntry_name,*conty_code;
+    
+    UIView *VW_overlay;
+    DGActivityIndicatorView *activityIndicatorView;
 }
 
 - (void)viewDidLoad {
@@ -96,6 +101,31 @@
 
 -(void) setup_VIEW
 {
+    VW_overlay = [[UIView alloc]init];
+    VW_overlay.frame = [UIScreen mainScreen].bounds;
+    //    VW_overlay.center = self.view.center;
+    
+    [self.view addSubview:VW_overlay];
+    VW_overlay.backgroundColor = [UIColor blackColor];
+    VW_overlay.alpha = 0.2;
+    
+    
+    
+    
+    activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallSpinFadeLoader tintColor:[UIColor whiteColor]];
+    
+    CGRect frame_M = activityIndicatorView.frame;
+    frame_M.origin.x = 0;
+    frame_M.origin.y = 0;
+    frame_M.size.width = VW_overlay.frame.size.width;
+    frame_M.size.height = VW_overlay.frame.size.height;
+    activityIndicatorView.frame = frame_M;
+    
+    [VW_overlay addSubview:activityIndicatorView];
+    //        activityIndicatorView.center=myview.center;
+    
+    VW_overlay.hidden = YES;
+    
     NSError *error;
     NSMutableDictionary *temp_resp = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults] valueForKey:@"CHKOUTDETAIL"] options:NSASCIIStringEncoding error:&error];
     NSDictionary *address_dictin = [temp_resp valueForKey:@"billing_address"];
@@ -267,7 +297,10 @@
 -(void) BTN_order2action
 {
     NSLog(@"BTN_order2action tapped");
-    [self pay_AMOUNT];
+//    [self pay_AMOUNT];
+    VW_overlay.hidden = NO;
+    [activityIndicatorView startAnimating];
+    [self performSelector:@selector(pay_AMOUNT) withObject:activityIndicatorView afterDelay:0.01];
 }
 
 #pragma mark - States and Country
@@ -332,9 +365,20 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
         [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"PurchaseRESPONSE"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         [self performSegueWithIdentifier:@"purchaseidentifier" sender:self];
+    }
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
     }
 }
 

@@ -7,6 +7,8 @@
 //
 
 #import "VC_billingAddr.h"
+#import "DejalActivityView.h"
+#import "DGActivityIndicatorView.h"
 
 @interface VC_billingAddr ()
 {
@@ -15,6 +17,8 @@
     
     CGRect lbl_origin_FRAME;
     NSMutableDictionary *states,*countryS;
+    UIView *VW_overlay;
+    DGActivityIndicatorView *activityIndicatorView;
 }
 @property (nonatomic, strong) NSArray *countrypicker,*statepicker;
 @end
@@ -92,6 +96,31 @@
 #pragma mark - Uiview Customisation
 -(void) setup_VIEW
 {
+    VW_overlay = [[UIView alloc]init];
+    VW_overlay.frame = [UIScreen mainScreen].bounds;
+    //    VW_overlay.center = self.view.center;
+    
+    [self.view addSubview:VW_overlay];
+    VW_overlay.backgroundColor = [UIColor blackColor];
+    VW_overlay.alpha = 0.2;
+    
+    
+    
+    
+    activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallSpinFadeLoader tintColor:[UIColor whiteColor]];
+    
+    CGRect frame_M = activityIndicatorView.frame;
+    frame_M.origin.x = 0;
+    frame_M.origin.y = 0;
+    frame_M.size.width = VW_overlay.frame.size.width;
+    frame_M.size.height = VW_overlay.frame.size.height;
+    activityIndicatorView.frame = frame_M;
+    
+    [VW_overlay addSubview:activityIndicatorView];
+    //        activityIndicatorView.center=myview.center;
+    
+    VW_overlay.hidden = YES;
+    
     lbl_origin_FRAME = _lbl_agree.frame;
     
     _TXT_firstname.layer.cornerRadius = 5.0f;
@@ -512,8 +541,68 @@
 
 -(void) chckout_ACtin : (id) sender
 {
+     _VW_address.hidden=NO;
     NSLog(@"Chekout Tapped");
-    [self braintree_Dropin_UI];
+//    [self braintree_Dropin_UI];
+    
+    NSLog(@"Sighn UP");
+    NSString *text_to_compare=_TXT_phonenumber.text;
+    NSString *phoneRegex = @"[0-9]{10,14}$";
+    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
+    if([_TXT_firstname.text isEqualToString:@""])
+    {
+        [_TXT_firstname becomeFirstResponder];
+    }
+    
+    else  if([_TXT_lastname.text isEqualToString:@""])
+    {
+        [_TXT_lastname becomeFirstResponder];
+        
+    }
+    else if([_TXT_address1.text isEqualToString:@""])
+    {
+        [_TXT_address1 becomeFirstResponder];
+        
+    }
+    else  if([_TXT_address2.text isEqualToString:@""])
+    {
+        [_TXT_address2 becomeFirstResponder];
+        
+    }
+    else if([_TXT_city.text isEqualToString:@""])
+    {
+        [_TXT_city becomeFirstResponder];
+        
+    }
+    
+    
+    else if ([phoneTest evaluateWithObject:text_to_compare] == NO)
+    {
+        [_TXT_phonenumber becomeFirstResponder];
+    }
+    
+    else if([_TXT_phonenumber.text isEqualToString:@""])
+    {
+        [_TXT_phonenumber becomeFirstResponder];
+        
+    }
+    
+    else if([_TXT_state.text isEqualToString:@""])
+    {
+        [_TXT_state becomeFirstResponder];
+        
+    }
+    else if([_TXT_country.text isEqualToString:@""])
+    {
+        [_TXT_country becomeFirstResponder];
+        
+    }
+    else
+    {
+    VW_overlay.hidden = NO;
+    [activityIndicatorView startAnimating];
+    [self performSelector:@selector(braintree_Dropin_UI) withObject:activityIndicatorView afterDelay:0.01];
+    }
 }
 
 -(void) get_client_TOKEN
@@ -557,8 +646,27 @@
     dropInViewController.view.tintColor = _BTN_checkout.backgroundColor;
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:dropInViewController];
-    UINavigationBar *bar = [navigationController navigationBar];
-    [bar setBackgroundColor:[UIColor blackColor]];
+    UIImage *new_image = [UIImage imageNamed:@"UI_01"];
+    UIImageView *temp_IMG = [[UIImageView alloc]initWithFrame:navigationController.navigationBar.frame];
+    temp_IMG.image = new_image;
+    
+    UIImage *newImage = [temp_IMG.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIGraphicsBeginImageContextWithOptions(temp_IMG.image.size, NO, newImage.scale);
+    [[UIColor blackColor] set];
+    [newImage drawInRect:CGRectMake(0, 0, temp_IMG.image.size.width, newImage.size.height)];
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    temp_IMG.image = newImage;
+    
+    [navigationController.navigationBar setBackgroundImage:temp_IMG.image
+                                             forBarMetrics:UIBarMetricsDefault];
+    navigationController.navigationBar.shadowImage = [UIImage new];
+    navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden = YES;
+    
     [self presentViewController:navigationController animated:YES completion:nil];
 }
 
@@ -761,7 +869,10 @@
     {
         [[NSUserDefaults standardUserDefaults] setValue:str forKey:@"NAUNCETOK"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        [self billing_Address];
+//        [self billing_Address];
+        VW_overlay.hidden = NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(billing_Address) withObject:activityIndicatorView afterDelay:0.01];
     }
     else
     {
@@ -810,10 +921,20 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
         [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"CHKOUTDETAIL"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
         [self performSegueWithIdentifier:@"billaddretocheckoutdetail" sender:self];
+    }
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
     }
     
 }

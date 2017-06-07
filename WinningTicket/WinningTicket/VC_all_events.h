@@ -33,6 +33,7 @@
 @property (nonatomic, strong) UIPickerView *state_pickerView;
 
 @property (weak, nonatomic) IBOutlet UITableView *tbl_search;
+@property (weak, nonatomic) IBOutlet UIButton *apply;
 
 
 @end

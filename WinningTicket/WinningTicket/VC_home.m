@@ -451,7 +451,6 @@
 }
 -(void) BTN_ALL_EVENT : (UIButton *) sender
 {
-    
     NSIndexPath *buttonIndexPath = [NSIndexPath indexPathForRow:sender.tag inSection:0];
     NSLog(@"From Delete Skill %ld",(long)buttonIndexPath.row);
     
@@ -462,8 +461,7 @@
     NSDictionary *dictdat =[ARR_allevent objectAtIndex:[index_str intValue]];
     [[NSUserDefaults standardUserDefaults] setValue:[dictdat valueForKey:@"id"] forKey:@"event_id"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-//    [self performSegueWithIdentifier:@"event_segue" sender:self];
-
+    
 //    [self performSegueWithIdentifier:@"hometoeventdetail" sender:self];
     VW_overlay.hidden = NO;
     [activityIndicatorView startAnimating];
@@ -707,7 +705,7 @@
     NSError *error;
     NSData *aData = [[NSUserDefaults standardUserDefaults] valueForKey:@"JsonEventlist"];
     NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-    NSLog(@"The response dsfdf %@",json_DATA);
+    NSLog(@"The response VC Home dsfdf %@",json_DATA);
     
     ARR_allevent = [json_DATA valueForKey:@"all_events"];
     ARR_upcommingevent = [json_DATA valueForKey:@"upcoming_events"];
@@ -754,16 +752,9 @@
         VW_overlay.hidden = YES;
             [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"upcoming_events"];
             [[NSUserDefaults standardUserDefaults] synchronize];
-        NSUInteger sectionNumber = [[_tbl_all_event indexPathForCell:[[_tbl_all_event visibleCells] objectAtIndex:0]] section];
-//        if(sectionNumber ==0 || sectionNumber == 1)
-//        {
-            [self performSegueWithIdentifier:@"event_segue" sender:self];
             
-            
-//        }
-        
-
 //            [self performSegueWithIdentifier:@"hometoeventdetail" sender:self];
+        [self performSegueWithIdentifier:@"hometoEvent_detail" sender:self];
     }
     else
     {
@@ -877,6 +868,7 @@
             [[NSUserDefaults standardUserDefaults] synchronize];
             
             [self performSegueWithIdentifier:@"hometoeventdetail" sender:self];
+//            [self performSegueWithIdentifier:@"hometoEvent_detail" sender:self];
         }
     }
     else

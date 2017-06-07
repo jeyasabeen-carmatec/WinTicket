@@ -18,6 +18,10 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *BTN_banktransfer;
 @property (weak, nonatomic) IBOutlet UIButton *BTN_paypal;
+@property (weak, nonatomic) IBOutlet UIButton *BTN_submit_paypal;
+@property (weak, nonatomic) IBOutlet UIButton *BTN_submit_account;
+
+
 
 @property (weak, nonatomic) IBOutlet UIView *VW_paypal;
 @property (weak, nonatomic) IBOutlet UIView *VW_banktransfer;

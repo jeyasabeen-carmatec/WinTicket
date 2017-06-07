@@ -7,8 +7,14 @@
 //
 
 #import "VC_contactUS.h"
+#import "DGActivityIndicatorView.h"
 
-@interface VC_contactUS ()<UITextFieldDelegate,UITextViewDelegate>
+
+@interface VC_contactUS ()<UITextFieldDelegate,UITextViewDelegate,UIAlertViewDelegate>
+{
+    UIView *VW_overlay;
+    DGActivityIndicatorView *activityIndicatorView;
+}
 
 @end
 
@@ -99,6 +105,29 @@
     _TXT_VW_message.backgroundColor = [UIColor whiteColor];
     _TXT_VW_message.delegate=self;
     [_BTn_send addTarget:self action:@selector(send_Clicked) forControlEvents:UIControlEventTouchUpInside];
+    
+    VW_overlay = [[UIView alloc]init];
+    VW_overlay.frame = [UIScreen mainScreen].bounds;
+    //    VW_overlay.center = self.view.center;
+    
+    [self.view addSubview:VW_overlay];
+    VW_overlay.backgroundColor = [UIColor blackColor];
+    VW_overlay.alpha = 0.2;
+    
+    activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallSpinFadeLoader tintColor:[UIColor whiteColor]];
+    
+    CGRect frame_M = activityIndicatorView.frame;
+    frame_M.origin.x = 0;
+    frame_M.origin.y = 0;
+    frame_M.size.width = VW_overlay.frame.size.width;
+    frame_M.size.height = VW_overlay.frame.size.height;
+    activityIndicatorView.frame = frame_M;
+    
+    [VW_overlay addSubview:activityIndicatorView];
+    //        activityIndicatorView.center=myview.center;
+    
+    VW_overlay.hidden = YES;
+    
 }
 #pragma TextField_delegates
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -219,15 +248,23 @@
         [_TXT_VW_message becomeFirstResponder];
         
     }
-
-    
-    else if ([phoneTest evaluateWithObject:text_to_compare] == NO)
+    else if ([_TXT_phone.text isEqualToString:@""] && [phoneTest evaluateWithObject:text_to_compare] == NO)
     {
         [_TXT_phone becomeFirstResponder];
     }
     
-    else{
     
+    else
+    {
+    VW_overlay.hidden = NO;
+    [activityIndicatorView startAnimating];
+    [self performSelector:@selector(save_api) withObject:activityIndicatorView afterDelay:0.01];
+    }
+}
+
+-(void)save_api
+{
+
     NSString *fname = _TXT_fname.text;
     NSString *lname = _TXT_lname.text;
     //      NSString *email = _TXT_email.text;
@@ -271,53 +308,57 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
     {
-//        self->activityIndicatorView.hidden=YES;
         NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"The response %@",json_DATA);
         NSString *status=[json_DATA valueForKey:@"status"];
         if([status isEqualToString:@"Success"])
         {
-            UIAlertController *alertcontrollerone=[UIAlertController alertControllerWithTitle: @"Details"message: @"Suuccessfully Send" preferredStyle:UIAlertControllerStyleAlert];
-            [alertcontrollerone addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-                
-            }]];
-            [self presentViewController:alertcontrollerone animated:YES completion:nil];
+            [activityIndicatorView stopAnimating];
+            VW_overlay.hidden = YES;
             
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Details SUccesfully Send" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            [alert show];
+            if(!json_DATA)
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                [alert show];
+
+            }
             
         }
         else
         {
             
-            UIAlertController *alertcontrollertwo = [UIAlertController alertControllerWithTitle:@"Check Details" message: @"Please Check The Details" preferredStyle:UIAlertControllerStyleAlert];
-            [alertcontrollertwo addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-                
-                //                [self performSegueWithIdentifier:@"success_segue" sender:self];
-                
-                
-            }]];
-            [self presentViewController:alertcontrollertwo animated:YES completion:nil];
-//            [self dismissViewControllerAnimated:YES completion:nil];
-        }
-        
-    }
-    
-    
-    
-    else{
-//        [activityIndicatorView stopAnimating];
-//        VW_overlay.hidden = YES;
-        
-        UIAlertController *alertcontrollertwo=[UIAlertController alertControllerWithTitle: @"Server Not Coneected"message: @"Please Check your Connection."
-                                                                           preferredStyle:UIAlertControllerStyleAlert];
-        [alertcontrollertwo addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            [activityIndicatorView stopAnimating];
+            VW_overlay.hidden = YES;
             
-        }]];
-        [self presentViewController:alertcontrollertwo animated:YES completion:nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please Check the Details" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+            [alert show];
+        
+        
+         }
+      }
+    
+    
+    
+    else
+    {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    
     }
-    
-    
-    }
-    
     
 }
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == [alertView firstOtherButtonIndex])
+    {
+        [self dismissViewControllerAnimated:YES completion:nil];
+        
+    }
+}
+
+
+
 @end
