@@ -35,10 +35,10 @@
     
     [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
-       NSFontAttributeName:[UIFont fontWithName:@"FontAwesome" size:24.0f]
+       NSFontAttributeName:[UIFont fontWithName:@"FontAwesome" size:32.0f]
        } forState:UIControlStateNormal];
     
-    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain
+    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain
                                                                      target:self action:@selector(backAction)];
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     
@@ -88,8 +88,8 @@
     }
     
     _VW_holdCNT.center = self.view.center;
-    _VW_content.layer.borderWidth = 2.0f;
-    _VW_content.layer.borderColor = [UIColor whiteColor].CGColor;
+//    _VW_content.layer.borderWidth = 2.0f;
+//    _VW_content.layer.borderColor = [UIColor whiteColor].CGColor;
     _VW_content.layer.cornerRadius = 5.0f;
     _VW_content.layer.masksToBounds = YES;
     
@@ -101,13 +101,13 @@
     
     _TXT_username.layer.cornerRadius = 5.0f;
     _TXT_username.layer.masksToBounds = YES;
-    _TXT_username.layer.borderWidth = 2.0f;
+    _TXT_username.layer.borderWidth = 1.0f;
     _TXT_username.layer.borderColor = [UIColor whiteColor].CGColor;
     _TXT_username.tag = 1;
     
     _TXT_password.layer.cornerRadius = 5.0f;
     _TXT_password.layer.masksToBounds = YES;
-    _TXT_password.layer.borderWidth = 2.0f;
+    _TXT_password.layer.borderWidth = 1.0f;
     _TXT_password.layer.borderColor = [UIColor whiteColor].CGColor;
 //    _TXT_password.enabled=NO;
     _TXT_password.tag=2;
@@ -242,7 +242,7 @@
 }
 -(void) action_SIGHN_UP
 {
-    
+//    [self performSegueWithIdentifier:@"sighnupviewcontroller" sender:self];
 }
 -(void) action_FORGET_PWD
 {
@@ -265,7 +265,10 @@
                                              style:UIAlertActionStyleDefault
                                                 handler:^(UIAlertAction *action) {
                 alert_TXT_email= alertController.textFields[0].text;
-                                                    [self forgot_PWD];
+//                                                    [self forgot_PWD];
+                                                    VW_overlay.hidden = NO;
+                                                    [activityIndicatorView startAnimating];
+                                                    [self performSelector:@selector(forgot_PWD) withObject:activityIndicatorView afterDelay:0.01];
 
                                                 }];
 
@@ -336,55 +339,68 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
     {
-        [activityIndicatorView stopAnimating];
-        VW_overlay.hidden = YES;
-        if (_SWITCH_rememberme.on) {
-            [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"loginEmail"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
+        if (!aData)
+        {
+            [activityIndicatorView stopAnimating];
+            VW_overlay.hidden = YES;
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            [alert show];
         }
         else
         {
-            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"loginEmail"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-        }
-        
-        NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-        NSLog(@"The response %@",json_DATA);
-        NSString *status = [json_DATA valueForKey:@"message"];
-        
-        
-        if([status isEqualToString:@"Invalid Email or password."])
-        {
-            NSLog(@"please enter the correct email");
-            UIAlertController *alertcontrollerone=[UIAlertController alertControllerWithTitle: @"Enter Email Address"message: @"Please enter your Correct email address."
-                                                                               preferredStyle:UIAlertControllerStyleAlert];
-            [alertcontrollerone addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-            
-            }]];
-            [self presentViewController:alertcontrollerone animated:YES completion:nil];
-        }
-        else
-        {
-            
-            if ([[json_DATA valueForKey:@"role"]isEqualToString:@"affiliate"])
-            {
-                status = [json_DATA valueForKey:@"authentication_token"];
-                [[NSUserDefaults standardUserDefaults] setValue:status forKey:@"auth_token"];
+            [activityIndicatorView stopAnimating];
+            VW_overlay.hidden = YES;
+            if (_SWITCH_rememberme.on) {
+                [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"loginEmail"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
-                
-                [self performSegueWithIdentifier:@"logintoaffiliateidentifier" sender:self];
             }
             else
             {
-                status = [json_DATA valueForKey:@"authentication_token"];
-                [[NSUserDefaults standardUserDefaults] setValue:status forKey:@"auth_token"];
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"loginEmail"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
-//                [self myaccount_API_calling];
+            }
+            
+            NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+            NSLog(@"The response %@",json_DATA);
+            NSString *status = [json_DATA valueForKey:@"message"];
+            
+            
+            if([status isEqualToString:@"Invalid Email or password."])
+            {
+                NSLog(@"please enter the correct email");
+//                UIAlertController *alertcontrollerone=[UIAlertController alertControllerWithTitle: @"Enter Email Address"message: @"Please enter your Correct email address."
+//                                                                                   preferredStyle:UIAlertControllerStyleAlert];
+//                [alertcontrollerone addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+//                    
+//                }]];
+//                [self presentViewController:alertcontrollerone animated:YES completion:nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:status delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                [alert show];
+            }
+            else
+            {
                 
-                VW_overlay.hidden = NO;
-                [activityIndicatorView startAnimating];
-                [self performSelector:@selector(myaccount_API_calling) withObject:activityIndicatorView afterDelay:0.01];
-                
+                if ([[json_DATA valueForKey:@"role"]isEqualToString:@"affiliate"])
+                {
+                    status = [json_DATA valueForKey:@"authentication_token"];
+                    [[NSUserDefaults standardUserDefaults] setValue:status forKey:@"auth_token"];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                    
+                    [self performSegueWithIdentifier:@"logintoaffiliateidentifier" sender:self];
+                }
+                else
+                {
+                    status = [json_DATA valueForKey:@"authentication_token"];
+                    [[NSUserDefaults standardUserDefaults] setValue:status forKey:@"auth_token"];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                    //                [self myaccount_API_calling];
+                    
+                    VW_overlay.hidden = NO;
+                    [activityIndicatorView startAnimating];
+                    [self performSelector:@selector(myaccount_API_calling) withObject:activityIndicatorView afterDelay:0.01];
+                    
+                }
             }
         }
     }
@@ -393,12 +409,15 @@
         [activityIndicatorView stopAnimating];
         VW_overlay.hidden = YES;
         NSLog(@"Error %@",err);
-        UIAlertController *alertcontrollertwo=[UIAlertController alertControllerWithTitle: @"Server Not Coneected"message: @"Please Check your Connection."
-                                                                           preferredStyle:UIAlertControllerStyleAlert];
-        [alertcontrollertwo addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-            
-        }]];
-        [self presentViewController:alertcontrollertwo animated:YES completion:nil];
+//        UIAlertController *alertcontrollertwo=[UIAlertController alertControllerWithTitle: @"Server Not Coneected"message: @"Please Check your Connection."
+//                                                                           preferredStyle:UIAlertControllerStyleAlert];
+//        [alertcontrollertwo addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+//            
+//        }]];
+//        [self presentViewController:alertcontrollertwo animated:YES completion:nil];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
     }
     [activityIndicatorView stopAnimating];
     VW_overlay.hidden = YES;
@@ -425,6 +444,9 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
         NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"The response %@",json_DATA);
         NSString *status=[json_DATA objectForKey:@"message"];
@@ -432,13 +454,8 @@
         
         if([status isEqualToString:@"User not found."])
         {
-            NSLog(@"tplease enter the correct email");
-            UIAlertController *alertcontrollerone=[UIAlertController alertControllerWithTitle:nil message:status
-                                                                               preferredStyle:UIAlertControllerStyleAlert];
-            [alertcontrollerone addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-                
-            }]];
-            [self presentViewController:alertcontrollerone animated:YES completion:nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:status delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            [alert show];
             
         }
         
@@ -446,28 +463,19 @@
         {
             status = [json_DATA valueForKey:@"password"];
             
-            UIAlertController *alertcontrollerone=[UIAlertController alertControllerWithTitle:nil message:status
-                                                                               preferredStyle:UIAlertControllerStyleAlert];
-            [alertcontrollerone addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-                
-            }]];
-            [self presentViewController:alertcontrollerone animated:YES completion:nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:status delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            [alert show];
             
         }
-        
-        
-        
     }
-    NSLog(@"Error %@",err);
-    UIAlertController *alertcontrollertwo=[UIAlertController alertControllerWithTitle: @"Server Not Coneected"message: @"Please Check your Connection."
-                                                                       preferredStyle:UIAlertControllerStyleAlert];
-    [alertcontrollertwo addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
         
-    }]];
-    [self presentViewController:alertcontrollertwo animated:YES completion:nil];
-
-
-    
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Server Not Coneected" message:@"Please Check your Connection." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
 }
 
 

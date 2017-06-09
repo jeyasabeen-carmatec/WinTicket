@@ -123,7 +123,7 @@
     _BTN_cancel.hidden = YES;
     _BTN_enter_event_code.hidden = YES;
     _BTN_enter_event_code.enabled = NO;
-    _BTN_enter_event_code.alpha = 0.5;
+//    _BTN_enter_event_code.alpha = 0.5;
     [_BTN_view_all_event addTarget:self action:@selector(BTN_enter_event_code:) forControlEvents:UIControlEventTouchUpInside];
     [_BTN_cancel addTarget:self action:@selector(BTN_cancel:) forControlEvents:UIControlEventTouchUpInside];
     [_BTN_enter_event_code addTarget:self action:@selector(BTN_enter_code:) forControlEvents:UIControlEventTouchUpInside];
@@ -649,7 +649,7 @@
     else
     {
         _BTN_enter_event_code.enabled = NO;
-        _BTN_enter_event_code.alpha = 0.5;
+//        _BTN_enter_event_code.alpha = 0.5;
         NSInteger prevTag = textField.tag - 1;
         UIResponder* prev = [textField.superview viewWithTag:prevTag];
         if (! prev)

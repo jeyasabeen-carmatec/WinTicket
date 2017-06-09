@@ -10,9 +10,10 @@
 
 @implementation FloatingTXT_white
 
+
 #pragma mark :- Drawing Methods
 -(void)drawRect:(CGRect)rect {
-    [self updateTextField:CGRectMake(CGRectGetMinX(self.frame), CGRectGetMinY(self.frame), CGRectGetWidth(rect), CGRectGetHeight(rect))];
+    [self updateTextField:CGRectMake(self.frame.origin.x, self.frame.origin.y, CGRectGetWidth(rect), CGRectGetHeight(rect))];
 }
 
 #pragma mark :- Loading From NIB
@@ -43,7 +44,8 @@
     if (showingError) {
         return CGRectMake(10, 0, bounds.size.width, bounds.size.height);
     }else{
-        return CGRectMake(10, 4, bounds.size.width, bounds.size.height);
+//        original_FRAME = CGRectMake(10, bounds.origin.y, bounds.size.width, bounds.size.height);
+        return CGRectMake(10, 33, self.frame.size.width-5, self.frame.size.height-10);
     }
 }
 
@@ -51,7 +53,10 @@
     if (showingError) {
         return CGRectMake(10, 0, bounds.size.width, bounds.size.height);
     }else{
-        return CGRectMake(10, 4, bounds.size.width, bounds.size.height);
+//        original_FRAME = CGRectMake(10, bounds.origin.y, bounds.size.width, bounds.size.height);
+        
+        NSLog(@"Editing bounds = %@",NSStringFromCGRect(bounds));
+        return CGRectMake(10, 33, bounds.size.width, 30);
     }
 }
 
@@ -151,6 +156,7 @@
     _labelPlaceholder.textColor = _placeHolderColor;
     _labelPlaceholder.font = self.font;;
     _labelPlaceholder.tag = 21;
+    _labelPlaceholder.backgroundColor = [UIColor clearColor];
     [self addSubview:_labelPlaceholder];
     
 }
@@ -167,6 +173,7 @@
     _labelErrorPlaceholder.textAlignment = self.textAlignment;
     _labelErrorPlaceholder.textColor = _errorTextColor;
     _labelErrorPlaceholder.tag = 21;
+    _labelErrorPlaceholder.backgroundColor = [UIColor clearColor];
     _labelErrorPlaceholder.font = [UIFont fontWithName:self.font.fontName size:12];
     
     CGRect frameError = _labelErrorPlaceholder.frame;
@@ -262,14 +269,10 @@
 #pragma mark  Float UITextfield Placeholder Label.
 -(void)floatPlaceHolder:(BOOL)selected {
     
-    if (selected) {
-        
+    if (selected)
+    {
         _disableFloatingErrorLabel = YES;
-        
-        //        bottomLineView.backgroundColor = _selectedLineColor;
-        
         if (self.disableFloatingLabel){
-            
             _labelPlaceholder.hidden = YES;
             
             //            CGRect bottmLineFrame = bottomLineView.frame;
@@ -316,6 +319,7 @@
             
         }
         
+        
         CGRect frame = _labelPlaceholder.frame;
         frame.size.height = 12;
         frame.origin.y = 5;
@@ -352,7 +356,7 @@
     }
     
     
-    CGRect frame = CGRectMake(10, 5, self.frame.size.width-5, self.frame.size.height);
+    CGRect frame = CGRectMake(10, 5, self.frame.size.width-5, self.frame.size.height-10);
     //    CGRect bottmLineFrame = bottomLineView.frame;
     //    bottmLineFrame.origin.y = CGRectGetHeight(self.frame)-1;
     [UIView animateWithDuration:0.2 animations:^{

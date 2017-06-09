@@ -167,6 +167,15 @@
     _tbl_search.rowHeight = UITableViewAutomaticDimension;
     _tbl_search.tableFooterView.hidden = YES;
     
+    if (_search_BAR.hidden == NO)
+    {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    }
+    else
+    {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    }
+    
     for (int i=0; i<[self.segment_bottom.subviews count]; i++)
     {
         [[self.segment_bottom.subviews objectAtIndex:i] setTintColor:nil];
@@ -200,10 +209,10 @@
     
     [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
-       NSFontAttributeName:[UIFont fontWithName:@"FontAwesome" size:24.0f]
+       NSFontAttributeName:[UIFont fontWithName:@"FontAwesome" size:32.0f]
        } forState:UIControlStateNormal];
     
-    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain
+    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain
                                                                      target:self action:@selector(backAction)];
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     
@@ -238,7 +247,7 @@
        NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:22.0f]}];
     self.navigationItem.title = @"All Events";
     
-    CGRect frameimg = CGRectMake(15,5, 80,25);
+    CGRect frameimg = CGRectMake(15,5, 80,30);
     
     UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
     [someButton setTitle:@"FILTER" forState:UIControlStateNormal];
@@ -428,16 +437,29 @@
     _VW_nav_TOP.backgroundColor = [UIColor colorWithRed:0.92 green:0.92 blue:0.92 alpha:1.0];
     _search_BAR.hidden = YES;
     
-    CGRect frameimg = CGRectMake(15,5, 80,44);
+    CGRect frameimg = CGRectMake(15,5, 25,25);
     UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
-    [someButton setTitle:@"" forState:UIControlStateNormal];
+//    [someButton setTitle:@"" forState:UIControlStateNormal];
 //    [someButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     //    [someButton setBackgroundColor:[UIColor colorWithRed:0.07 green:0.33 blue:0.42 alpha:1.0]];
-    [someButton.titleLabel setFont:[UIFont fontWithName:@"FontAwesome" size:24.0f]];
-    [someButton.titleLabel setTextColor:_segment_bottom.tintColor];
-    //    [someButton setBackgroundImage:image3 forState:UIControlStateNormal];
+//    [someButton.titleLabel setFont:[UIFont fontWithName:@"FontAwesome" size:24.0f]];
     [someButton setBackgroundColor:[UIColor clearColor]];
-    [someButton setTitleColor:_segment_bottom.tintColor forState:UIControlStateNormal];
+//    [someButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    
+    UIImage *new_image = [UIImage imageNamed:@"cross"];
+    UIImageView *temp_IMG = [[UIImageView alloc]initWithFrame:someButton.frame];
+    temp_IMG.image = new_image;
+    
+    UIImage *newImage = [temp_IMG.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIGraphicsBeginImageContextWithOptions(temp_IMG.image.size, NO, newImage.scale);
+    [[UIColor blackColor] set];
+    [newImage drawInRect:CGRectMake(0, 0, temp_IMG.image.size.width, newImage.size.height)];
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    temp_IMG.image = newImage;
+    
+    [someButton setBackgroundImage:temp_IMG.image forState:UIControlStateNormal];
     
     [someButton addTarget:self action:@selector(whenSearchClicked)
          forControlEvents:UIControlEventTouchUpInside];
@@ -497,10 +519,10 @@
     
     [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
-       NSFontAttributeName:[UIFont fontWithName:@"FontAwesome" size:24.0f]
+       NSFontAttributeName:[UIFont fontWithName:@"FontAwesome" size:32.0f]
        } forState:UIControlStateNormal];
     
-    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain
+    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain
                                                                      target:self action:@selector(backAction)];
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     
@@ -533,7 +555,7 @@
        NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:22.0f]}];
     self.navigationItem.title = @"All Events";
     
-    CGRect frameimg = CGRectMake(15,5, 80,25);
+    CGRect frameimg = CGRectMake(15,5, 80,30);
     
     UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
     [someButton setTitle:@"FILTER" forState:UIControlStateNormal];
@@ -567,7 +589,7 @@
     _search_BAR.hidden = YES;
     
     
-    searchBar1 = [[UISearchBar alloc]initWithFrame:CGRectMake(0,0, self.navigationController.navigationBar.frame.size.width - 140,44)];
+    searchBar1 = [[UISearchBar alloc]initWithFrame:CGRectMake(0,0, self.navigationController.navigationBar.frame.size.width - 75,44)];
     [searchBar1 setSearchBarStyle:UISearchBarStyleMinimal];
     [searchBar1 setBarStyle:UIBarStyleBlack];
     [[UITextField appearanceWhenContainedIn:[UISearchBar class], nil] setDefaultTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
@@ -579,15 +601,34 @@
     searchBarItem.tag = 123;
     self.navigationItem.leftBarButtonItem = searchBarItem;
     
-    CGRect frameimg = CGRectMake(15,5, 80,44);
+    CGRect frameimg = CGRectMake(15,5, 25,25);
     
     UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
-    [someButton setTitle:@"" forState:UIControlStateNormal];
-    [someButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [someButton.titleLabel setFont:[UIFont fontWithName:@"FontAwesome" size:24.0f]];
+//    [someButton setTitle:@"" forState:UIControlStateNormal];
+//    [someButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    [someButton.titleLabel setFont:[UIFont fontWithName:@"FontAwesome" size:24.0f]];
     
     [someButton setBackgroundColor:[UIColor clearColor]];
-    [someButton setTitleColor:_segment_bottom.tintColor forState:UIControlStateNormal];
+//    [someButton setTitleColor:_segment_bottom.tintColor forState:UIControlStateNormal];
+    
+    UIImage *new_image = [UIImage imageNamed:@"cross"];
+    UIImageView *temp_IMG = [[UIImageView alloc]initWithFrame:someButton.frame];
+    temp_IMG.image = new_image;
+    
+    UIImage *newImage = [temp_IMG.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIGraphicsBeginImageContextWithOptions(temp_IMG.image.size, NO, newImage.scale);
+    [[UIColor blackColor] set];
+    [newImage drawInRect:CGRectMake(0, 0, temp_IMG.image.size.width, newImage.size.height)];
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    temp_IMG.image = newImage;
+    
+    [someButton setBackgroundImage:temp_IMG.image forState:UIControlStateNormal];
+    
+    [someButton addTarget:self action:@selector(whenSearchClicked)
+         forControlEvents:UIControlEventTouchUpInside];
+    [someButton setShowsTouchWhenHighlighted:YES];
     
     [someButton addTarget:self action:@selector(whenSearchClicked)
          forControlEvents:UIControlEventTouchUpInside];
@@ -679,7 +720,6 @@
     if (tableView == _tbl_search)
     {
         static NSString *CellIdentifier = @"Cell";
-        
         Cell_search *cell = (Cell_search *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil)
         {
@@ -992,6 +1032,7 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
         
      //   [self performSegueWithIdentifier:@"eventDetailidentifier" sender:self];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         [self performSegueWithIdentifier:@"allevent_to_eventDetail" sender:self];
                 
     }
@@ -1028,6 +1069,9 @@
     NSMutableDictionary *json_DATA;
     if (aData)
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
         json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
 //        NSLog(@"The response %@",json_DATA);
         
@@ -1053,8 +1097,7 @@
         }
         
         
-        [activityIndicatorView stopAnimating];
-        VW_overlay.hidden = YES;
+       
     }
     else
     {

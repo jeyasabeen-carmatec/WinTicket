@@ -20,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *lbl_code;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_location;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_eventdetail;
+@property(nonatomic,weak) IBOutlet UILabel *lbl_date;
+@property(nonatomic,weak) IBOutlet UILabel *lbl_time;
 
 @property (weak, nonatomic) IBOutlet UIView *VW_eventcontent;
 

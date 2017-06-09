@@ -28,6 +28,9 @@
 		<string>Gotham Bold Regular.ttf</string>
 		<string>Gotham Condensed Book Regular.otf</string>
 		<string>GothamBook Regular.otf</string>
+		<string>gotham-bold-italic.otf</string>
+		<string>gotham-medium-italic.otf</string>
+		<string>gotham-pro-narrow-medium.otf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

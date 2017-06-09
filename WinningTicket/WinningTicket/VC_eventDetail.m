@@ -8,6 +8,9 @@
 
 #import "VC_eventDetail.h"
 
+#pragma mark - Image Cache
+#import "SDWebImage/UIImageView+WebCache.h"
+
 @interface VC_eventDetail ()
 
 @end
@@ -76,10 +79,10 @@
     
     [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
-       NSFontAttributeName:[UIFont fontWithName:@"FontAwesome" size:24.0f]
+       NSFontAttributeName:[UIFont fontWithName:@"FontAwesome" size:32.0f]
        } forState:UIControlStateNormal];
     
-    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain
+    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain
                                                                      target:self action:@selector(backAction)];
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     
@@ -128,19 +131,27 @@
 {
     NSError *error;
     NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
-    NSLog(@"thedata is Upcoming:%@",dict);
+    NSLog(@"thedata VC Event Detail Upcoming:%@",dict);
     
-    NSDictionary *temp_dict=[dict valueForKey:@"event"];
+    NSDictionary *temp_dict = [dict valueForKey:@"event"];
+    
+    CGRect old_frame = _lbl_eventname.frame;
     
     _lbl_eventname.text = [temp_dict valueForKey:@"name"];
     _lbl_eventname.numberOfLines = 0;
     [_lbl_eventname sizeToFit];
     
+    NSLog(@"Image Url is %@",[NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_dict valueForKey:@"avatar_url"]]);
+    
+    [_img_event sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_dict valueForKey:@"avatar_url"]]]
+                      placeholderImage:[UIImage imageNamed:@"Logo_WT.png"]];
+    _img_event.contentMode = UIViewContentModeScaleAspectFit;
+    
     float image_height = _img_event.frame.size.height;
     float lbl_event_name_ht = _lbl_eventname.frame.size.height;
     
     _lbl_code.text=[temp_dict valueForKey:@"code"];
-    NSString *location = [NSString stringWithFormat:@"%@",[temp_dict valueForKey:@"location"]];
+    NSString *location = @"Grand Cypress Country Club";//[NSString stringWithFormat:@"%@",[temp_dict valueForKey:@"location"]];
     NSString *address = @"1 N Jacaranda ST, Orlando, FL 32836";
     NSString *date = [self getLocalDateFromUTC:[temp_dict valueForKey:@"start_date"]];
     NSString *time = [self getLocalTimeFromUTC:[temp_dict valueForKey:@"start_date"]];
@@ -151,13 +162,13 @@
     _lbl_date.text=date;
     _lbl_time.text=time;
 
-    if ([location isEqualToString:@"<null>"])
+   /* if ([location isEqualToString:@"<null>"])
     {
        location = @"Not Mentioned";
     }else
     {
         location=@"US";
-    }
+    }*/
     
 
     NSString *text = [NSString stringWithFormat:@"%@\n%@",location,address];
@@ -227,6 +238,14 @@
         frame_NN = _lbl_eventdetail.frame;
         frame_NN.origin.y = _lbl_eventdetail.frame.origin.y + difference;
         _lbl_eventdetail.frame = frame_NN;
+        
+        CGRect frame_IMGE = _img_event.frame;
+        frame_IMGE.size.height = _lbl_eventname.frame.size.height;
+        _img_event.frame = frame_IMGE;
+    }
+    else
+    {
+        _lbl_eventname.frame = old_frame;
     }
     
     CGRect frame_HT = _VW_eventcontent.frame;
@@ -239,6 +258,7 @@
     
     frame_HT = _lbl_ticketdescription.frame;
     frame_HT.origin.y = _VW_eventcontent.frame.origin.y + _VW_eventcontent.frame.size.height + 10;
+    frame_HT.size.width = _scroll_contents.frame.size.width - _lbl_ticketdescription.frame.origin.x * 2;
     _lbl_ticketdescription.frame = frame_HT;
     
     frame_HT = _BTN_purchasetkt.frame;
