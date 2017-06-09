@@ -10,10 +10,9 @@
 
 @implementation FloatingTXT_white
 
-
 #pragma mark :- Drawing Methods
 -(void)drawRect:(CGRect)rect {
-    [self updateTextField:CGRectMake(self.frame.origin.x, self.frame.origin.y, CGRectGetWidth(rect), CGRectGetHeight(rect))];
+    [self updateTextField:CGRectMake(CGRectGetMinX(self.frame), CGRectGetMinY(self.frame), CGRectGetWidth(rect), CGRectGetHeight(rect))];
 }
 
 #pragma mark :- Loading From NIB
@@ -42,21 +41,19 @@
 #pragma mark :- Drawing Text Rect
 - (CGRect)textRectForBounds:(CGRect)bounds {
     if (showingError) {
-        return CGRectMake(10, 0, bounds.size.width, bounds.size.height);
+//        return CGRectMake(10, 0, bounds.size.width, bounds.size.height);
+        return CGRectMake(10, 4, bounds.size.width, bounds.size.height);
     }else{
-//        original_FRAME = CGRectMake(10, bounds.origin.y, bounds.size.width, bounds.size.height);
-        return CGRectMake(10, 33, self.frame.size.width-5, self.frame.size.height-10);
+        return CGRectMake(10, 4, bounds.size.width, bounds.size.height);
     }
 }
 
 - (CGRect)editingRectForBounds:(CGRect)bounds {
     if (showingError) {
-        return CGRectMake(10, 0, bounds.size.width, bounds.size.height);
+//        return CGRectMake(10, 0, bounds.size.width, bounds.size.height);
+        return CGRectMake(10, 4, bounds.size.width, bounds.size.height);
     }else{
-//        original_FRAME = CGRectMake(10, bounds.origin.y, bounds.size.width, bounds.size.height);
-        
-        NSLog(@"Editing bounds = %@",NSStringFromCGRect(bounds));
-        return CGRectMake(10, 33, bounds.size.width, 30);
+        return CGRectMake(10, 4, bounds.size.width, bounds.size.height);
     }
 }
 
@@ -71,7 +68,7 @@
 
 -(void)initialization{
     
-    self.clipsToBounds = true;
+    self.clipsToBounds = false;
     //HIDE DEFAULT PLACEHOLDER LABEL OF UITEXTFIELD
     
     [self checkForDefaulLabel];
@@ -235,10 +232,12 @@
     if ([self.text isEqualToString:@""]) {
         
         for (UIView *view in self.subviews) {
+            //            NSLog(@"Frame for view %@ frame :%@",view,NSStringFromCGRect(view.frame));
             
             if ([view isKindOfClass:[UILabel class]]) {
                 
                 UILabel *newLabel = (UILabel *)view;
+                
                 if (newLabel.tag!=21) {
                     newLabel.hidden = YES;
                 }
@@ -247,6 +246,8 @@
     }else{
         
         for (UIView *view in self.subviews) {
+            //            NSLog(@"Frame for view %@ frame :%@",view,NSStringFromCGRect(view.frame));
+            
             
             if ([view isKindOfClass:[UILabel class]]) {
                 
@@ -275,6 +276,7 @@
         if (self.disableFloatingLabel){
             _labelPlaceholder.hidden = YES;
             
+            
             //            CGRect bottmLineFrame = bottomLineView.frame;
             //            bottmLineFrame.origin.y = CGRectGetHeight(self.frame)-2;
             //            [UIView animateWithDuration:0.2 animations:^{
@@ -286,13 +288,14 @@
         }
         
         CGRect frame = _labelPlaceholder.frame;
-        frame.size.height = 12;
+        frame.size.height = 13;
         frame.origin.y = 5;
+        
         //        CGRect bottmLineFrame = bottomLineView.frame;
         //        bottmLineFrame.origin.y = CGRectGetHeight(self.frame)-2;
         [UIView animateWithDuration:0.2 animations:^{
             _labelPlaceholder.frame = frame;
-            _labelPlaceholder.font = [UIFont fontWithName:self.font.fontName size:12];
+            _labelPlaceholder.font = [UIFont fontWithName:self.font.fontName size:10];
             _labelPlaceholder.textColor = _selectedPlaceHolderColor;
             //            bottomLineView.frame  =  bottmLineFrame;
             
@@ -321,13 +324,13 @@
         
         
         CGRect frame = _labelPlaceholder.frame;
-        frame.size.height = 12;
+        frame.size.height = 13;
         frame.origin.y = 5;
         //        CGRect bottmLineFrame = bottomLineView.frame;
         //        bottmLineFrame.origin.y = CGRectGetHeight(self.frame)-1;
         [UIView animateWithDuration:0.2 animations:^{
             _labelPlaceholder.frame = frame;
-            _labelPlaceholder.font = [UIFont fontWithName:self.font.fontName size:12];
+            _labelPlaceholder.font = [UIFont fontWithName:self.font.fontName size:10];
             _labelPlaceholder.textColor = _placeHolderColor;
             //            bottomLineView.frame  =  bottmLineFrame;
             

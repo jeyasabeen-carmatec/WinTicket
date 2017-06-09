@@ -7,19 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import "Get_custom_TXTT.h"
+#import "FloatingTXT_white.h"
 
 @interface Normal_sighnUP : UIViewController <UITextFieldDelegate,UIGestureRecognizerDelegate>
 
-@property (nonatomic, weak) IBOutlet UITextField *TXT_F_name;
-@property (nonatomic, weak) IBOutlet UITextField *TXT_L_name;
-@property (nonatomic, weak) IBOutlet UITextField *TXT_email;
-@property (nonatomic, weak) IBOutlet UITextField *TXT_phone_number;
-@property (nonatomic, weak) IBOutlet UITextField *TXT_country;
-@property (nonatomic, weak) IBOutlet UITextField *TXT_state;
-@property (nonatomic, weak) IBOutlet UITextField *TXT_addressLine_one;
-@property (nonatomic, weak) IBOutlet UITextField *TXT_addressLine_two;
-@property (nonatomic, weak) IBOutlet UITextField *TXT_city;
+@property (nonatomic, weak) IBOutlet FloatingTXT_white *TXT_F_name;
+@property (nonatomic, weak) IBOutlet FloatingTXT_white *TXT_L_name;
+@property (nonatomic, weak) IBOutlet FloatingTXT_white *TXT_email;
+@property (nonatomic, weak) IBOutlet FloatingTXT_white *TXT_phone_number;
+@property (nonatomic, weak) IBOutlet FloatingTXT_white *TXT_country;
+@property (nonatomic, weak) IBOutlet FloatingTXT_white *TXT_state;
+@property (nonatomic, weak) IBOutlet FloatingTXT_white *TXT_addressLine_one;
+@property (nonatomic, weak) IBOutlet FloatingTXT_white *TXT_addressLine_two;
+@property (nonatomic, weak) IBOutlet FloatingTXT_white *TXT_city;
 @property (nonatomic, strong) UIPickerView *contry_pickerView;
 @property (nonatomic, strong) UIPickerView *state_pickerView;
 

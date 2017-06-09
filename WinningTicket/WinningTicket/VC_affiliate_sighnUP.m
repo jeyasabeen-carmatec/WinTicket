@@ -47,10 +47,10 @@
     
     [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
-       NSFontAttributeName:[UIFont fontWithName:@"FontAwesome" size:24.0f]
+       NSFontAttributeName:[UIFont fontWithName:@"FontAwesome" size:32.0f]
        } forState:UIControlStateNormal];
     
-    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain
+    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain
                                                                      target:self action:@selector(backAction)];
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     
@@ -151,24 +151,24 @@
     
 //    _TXT_phone_num.layer.cornerRadius = 5.0f;
 //    _TXT_phone_num.layer.masksToBounds = YES;
-//    _TXT_phone_num.layer.borderWidth = 2.0f;
+//    _TXT_phone_num.layer.borderWidth = 1.0f;
 //    _TXT_phone_num.layer.borderColor = [UIColor whiteColor].CGColor;
 //
     
-    _VW_back.layer.borderWidth=2;
-    _VW_back.layer.cornerRadius=5;
-    _VW_back.layer.borderColor=[UIColor whiteColor].CGColor;
+    _VW_back.layer.borderWidth = 1.0f;
+    _VW_back.layer.cornerRadius = 5;
+    _VW_back.layer.borderColor = [UIColor whiteColor].CGColor;
     
     _TXT_golfcoursename.layer.cornerRadius = 5.0f;
     _TXT_golfcoursename.layer.masksToBounds = YES;
-    _TXT_golfcoursename.layer.borderWidth = 2.0f;
+    _TXT_golfcoursename.layer.borderWidth = 1.0f;
     _TXT_golfcoursename.layer.borderColor = [UIColor whiteColor].CGColor;
     _TXT_golfcoursename.tag=1;
     _TXT_golfcoursename.delegate=self;
     
     _TXT_F_name.layer.cornerRadius = 5.0f;
     _TXT_F_name.layer.masksToBounds = YES;
-    _TXT_F_name.layer.borderWidth = 2.0f;
+    _TXT_F_name.layer.borderWidth = 1.0f;
     _TXT_F_name.layer.borderColor = [UIColor whiteColor].CGColor;
     _TXT_F_name.tag=2;
     _TXT_F_name.delegate=self;
@@ -177,7 +177,7 @@
 
     _TXT_L_name.layer.cornerRadius = 5.0f;
     _TXT_L_name.layer.masksToBounds = YES;
-    _TXT_L_name.layer.borderWidth = 2.0f;
+    _TXT_L_name.layer.borderWidth = 1.0f;
     _TXT_L_name.layer.borderColor = [UIColor whiteColor].CGColor;
     _TXT_L_name.tag=3;
     _TXT_L_name.delegate=self;
@@ -186,7 +186,7 @@
 
     _TXT_titl.layer.cornerRadius = 5.0f;
     _TXT_titl.layer.masksToBounds = YES;
-    _TXT_titl.layer.borderWidth = 2.0f;
+    _TXT_titl.layer.borderWidth = 1.0f;
     _TXT_titl.layer.borderColor = [UIColor whiteColor].CGColor;
     _TXT_titl.tag=4;
     _TXT_titl.delegate=self;
@@ -195,7 +195,7 @@
 
     _TXT_addr1.layer.cornerRadius = 5.0f;
     _TXT_addr1.layer.masksToBounds = YES;
-    _TXT_addr1.layer.borderWidth = 2.0f;
+    _TXT_addr1.layer.borderWidth = 1.0f;
     _TXT_addr1.layer.borderColor = [UIColor whiteColor].CGColor;
     _TXT_addr1.tag=5;
     _TXT_addr1.delegate=self;
@@ -204,7 +204,7 @@
     
     _TXT_addr2.layer.cornerRadius = 5.0f;
     _TXT_addr2.layer.masksToBounds = YES;
-    _TXT_addr2.layer.borderWidth = 2.0f;
+    _TXT_addr2.layer.borderWidth = 1.0f;
     _TXT_addr2.layer.borderColor = [UIColor whiteColor].CGColor;
     _TXT_addr2.tag=6;
     _TXT_addr2.delegate=self;
@@ -213,7 +213,7 @@
     
     _TXT_city.layer.cornerRadius = 5.0f;
     _TXT_city.layer.masksToBounds = YES;
-    _TXT_city.layer.borderWidth = 2.0f;
+    _TXT_city.layer.borderWidth = 1.0f;
     _TXT_city.layer.borderColor = [UIColor whiteColor].CGColor;
     _TXT_city.tag=7;
     _TXT_city.delegate=self;
@@ -223,7 +223,7 @@
     
     _TXT_phone_num.layer.cornerRadius = 5.0f;
     _TXT_phone_num.layer.masksToBounds = YES;
-    _TXT_phone_num.layer.borderWidth = 2.0f;
+    _TXT_phone_num.layer.borderWidth = 1.0f;
     _TXT_phone_num.layer.borderColor = [UIColor whiteColor].CGColor;
     _TXT_phone_num.tag=8;
     _TXT_phone_num.delegate=self;
@@ -232,7 +232,7 @@
 
     _TXT_country.layer.cornerRadius = 5.0f;
     _TXT_country.layer.masksToBounds = YES;
-    _TXT_country.layer.borderWidth = 2.0f;
+    _TXT_country.layer.borderWidth = 1.0f;
     _TXT_country.layer.borderColor = [UIColor whiteColor].CGColor;
     _TXT_country.tag=9;
     _TXT_country.delegate=self;
@@ -242,7 +242,7 @@
     
     _TXT_state.layer.cornerRadius = 5.0f;
     _TXT_state.layer.masksToBounds = YES;
-    _TXT_state.layer.borderWidth = 2.0f;
+    _TXT_state.layer.borderWidth = 1.0f;
     _TXT_state.layer.borderColor = [UIColor whiteColor].CGColor;
     _TXT_state.tag=10;
     _TXT_state.delegate=self;
@@ -251,7 +251,7 @@
 
     _TXT_zip.layer.cornerRadius = 5.0f;
     _TXT_zip.layer.masksToBounds = YES;
-    _TXT_zip.layer.borderWidth = 2.0f;
+    _TXT_zip.layer.borderWidth = 1.0f;
     _TXT_zip.layer.borderColor = [UIColor whiteColor].CGColor;
     _TXT_zip.tag=11;
     _TXT_zip.delegate=self;
@@ -260,7 +260,7 @@
 
     _TXT_email.layer.cornerRadius = 5.0f;
     _TXT_email.layer.masksToBounds = YES;
-    _TXT_email.layer.borderWidth = 2.0f;
+    _TXT_email.layer.borderWidth = 1.0f;
     _TXT_email.layer.borderColor = [UIColor whiteColor].CGColor;
     _TXT_email.tag=12;
     _TXT_email.delegate=self;
@@ -384,19 +384,19 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-        if(textField.tag==1)
+    if(textField.tag==1)
     {
-        if(textField.text.length==0)
+        NSInteger inte = textField.text.length;
+        if (inte <= 2)
         {
+            return YES;
             
         }
-        NSInteger inte = textField.text.length;
-        if (inte <2 && inte > 30)
+        else if(inte >= 255)
         {
             return NO;
         }
-        else
-            _TXT_F_name.enabled=YES;
+        
         return YES;
         
         
@@ -404,13 +404,18 @@
     if(textField.tag==2)
     {
         NSInteger inte = textField.text.length;
-        if (inte <2 && inte > 30)
+        
+        if (inte <= 2)
         {
-            return NO;
+            return YES;
             
         }
-        else
-            _TXT_L_name.enabled=YES;
+        else if(inte >= 30)
+        {
+            return NO;
+        }
+        
+        
         return YES;
     }
     
@@ -418,111 +423,143 @@
     if(textField.tag==3)
     {
         NSInteger inte = textField.text.length;
-        if (inte <2 && inte > 255)
+        if (inte <= 2)
         {
-            return NO;
+            return YES;
             
         }
-        else
-            _TXT_titl.enabled=YES;
+        else if(inte >= 30)
+        {
+            return NO;
+        }
+        
+        
         return YES;
         
     }
     if(textField.tag==4)
     {
         NSInteger inte = textField.text.length;
-        if (inte <2 && inte > 255)
+        if (inte <= 2)
         {
-            return NO;
+            return YES;
             
         }
-        else
-            _TXT_addr1.enabled=YES;
+        else if(inte >= 255)
+        {
+            return NO;
+        }
+        
         return YES;
     }
     if(textField.tag==5)
     {
         NSInteger inte = textField.text.length;
-        if (inte <1 && inte > 255)
+        if (inte <= 2)
         {
-            return NO;
+            return YES;
             
         }
-        else
-            _TXT_addr2.enabled=YES;
+        else if(inte >= 255)
+        {
+            return NO;
+        }
+        
         return YES;
     }
     if(textField.tag==6)
     {
         NSInteger inte = textField.text.length;
-        if (inte <5 && inte > 30)
+        if (inte <= 2)
         {
-            return NO;
+            return YES;
             
         }
-        else
-            _TXT_city.enabled=YES;
+        else if(inte >= 255)
+        {
+            return NO;
+        }
+        
         return YES;
     }
     
     if(textField.tag==7)
     {
         NSInteger inte = textField.text.length;
-        if (inte <2 && inte > 30)
+        if (inte <= 2)
         {
-            return NO;
+            return YES;
             
         }
-        else
-            _TXT_phone_num.enabled=YES;
+        else if(inte >= 255)
+        {
+            return NO;
+        }
+        
+        
         return YES;
     }
     if(textField.tag==8)
     {
         NSInteger inte = textField.text.length;
-        if (inte <2 && inte > 15)
+        if (inte <= 2)
         {
-            return NO;
+            return YES;
             
         }
-        else
-            _TXT_country.enabled=YES;
+        else if(inte >= 12)
+        {
+            return NO;
+        }
+        
         return YES;
     }
     if(textField.tag==9)
     {
         NSInteger inte = textField.text.length;
-        if (inte <2 && inte > 30)
+        if (inte <= 2)
         {
-            return NO;
+            return YES;
             
         }
-        else
-            _TXT_state.enabled=YES;
+        else if(inte >= 30)
+        {
+            return NO;
+        }
+        
+        
         return YES;
     }
     if(textField.tag==10)
     {
         NSInteger inte = textField.text.length;
-        if (inte <2 && inte > 30)
+        if (inte <= 2)
         {
-            return NO;
+            return YES;
             
         }
-        else
-            _TXT_zip.enabled=YES;
+        else if(inte >= 30)
+        {
+            return NO;
+        }
+        
         return YES;
     }
     if(textField.tag==11)
     {
         NSInteger inte = textField.text.length;
-        if (inte <2 && inte > 30)
+        
+        if (inte <= 2)
         {
-            return NO;
+            return YES;
             
         }
-        else
-            _TXT_email.enabled=YES;
+        else if(inte >= 30)
+        {
+            return NO;
+        }
+        
+        
         return YES;
     }
     return YES;
@@ -554,70 +591,105 @@
 #pragma mark - Button Actions
 -(void) btn_sign_up
 {
+    NSString *text_to_compare_email = _TXT_email.text;
+    NSString *emailRegEx = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,10}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegEx];
     NSLog(@"Sighn UP");
+    
     NSString *text_to_compare=_TXT_phone_num.text;
-    NSString *phoneRegex = @"[0-9]{10,14}$";
+    NSString *phoneRegex = @"[0-9]{10,12}$";
     NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
-    if([_TXT_golfcoursename.text isEqualToString:@""])
+    
+    if([_TXT_golfcoursename.text isEqualToString:@""] || _TXT_golfcoursename.text.length <= 2 || _TXT_golfcoursename.text.length > 30)
     {
         [_TXT_golfcoursename becomeFirstResponder];
-    }
-    else if([_TXT_F_name.text isEqualToString:@""])
-    {
-        [_TXT_F_name becomeFirstResponder];
-    }
-    else  if([_TXT_L_name.text isEqualToString:@""])
-    {
-        [_TXT_L_name becomeFirstResponder];
-    }
-    else if([_TXT_titl.text isEqualToString:@""])
-    {
-        [_TXT_titl becomeFirstResponder];
-    }
-    else if([_TXT_addr1.text isEqualToString:@""])
-    {
-        [_TXT_addr1 becomeFirstResponder];
-    }
-    else  if([_TXT_addr2.text isEqualToString:@""])
-    {
-        [_TXT_addr2 becomeFirstResponder];
-    }
-    else if([_TXT_city.text isEqualToString:@""])
-    {
-        [_TXT_city becomeFirstResponder];
-    }
-    else if ([phoneTest evaluateWithObject:text_to_compare] == NO)
-    {
-        [_TXT_phone_num becomeFirstResponder];
-    }
-    
-    else if([_TXT_phone_num.text isEqualToString:@""])
-    {
-        [_TXT_phone_num becomeFirstResponder];
+        [_TXT_golfcoursename showError];
+        [_TXT_golfcoursename showErrorWithText:@" Please enter minimum  2 Chracters"];
         
     }
+    
+    
+    else if([_TXT_F_name.text isEqualToString:@""] || _TXT_F_name.text.length <= 2 || _TXT_F_name.text.length > 30)
+    {
+        [_TXT_F_name becomeFirstResponder];
+        [_TXT_F_name showError];
+        [_TXT_F_name showErrorWithText:@" Please enter minimum  2 Chracters"];
+        
+    }
+    
+    else  if([_TXT_L_name.text isEqualToString:@""] || _TXT_L_name.text.length <= 2 || _TXT_L_name.text.length > 30)
+    {
+        [_TXT_L_name becomeFirstResponder];
+        [_TXT_L_name showError];
+        [_TXT_L_name showErrorWithText:@" Please enter minimum  2 Chracters"];
+        
+    }
+    else  if([_TXT_L_name.text isEqualToString:@""] || _TXT_L_name.text.length <= 2 || _TXT_L_name.text.length > 30)
+    {
+        [_TXT_L_name becomeFirstResponder];
+        [_TXT_L_name showError];
+        [_TXT_L_name showErrorWithText:@" Please enter minimum  2 Chracters"];
+        
+    }
+    
+    else if([_TXT_titl.text isEqualToString:@""] || _TXT_titl.text.length <= 2 || _TXT_titl.text.length > 30)
+    {
+        [_TXT_titl becomeFirstResponder];
+        [_TXT_titl showError];
+        [_TXT_titl showErrorWithText:@" Please enter minimum  2 Chracters"];
+        
+    }
+    
+    else  if([_TXT_addr2.text isEqualToString:@""] || _TXT_addr2.text.length <= 2 || _TXT_addr2.text.length > 30)
+    {
+        [_TXT_addr2 becomeFirstResponder];
+        [_TXT_addr2 showError];
+        [_TXT_addr2 showErrorWithText:@" Please enter minimum  2 Chracters"];
+        
+    }
+    else if([_TXT_city.text isEqualToString:@""] || _TXT_city.text.length <= 2 || _TXT_city.text.length > 30)
+    {
+        [_TXT_city becomeFirstResponder];
+        [_TXT_city showError];
+        [_TXT_city showErrorWithText:@" Please enter City"];
+        
+    }
+    
+    
+    else if ([_TXT_phone_num.text isEqualToString:@""] || [phoneTest evaluateWithObject:text_to_compare] == NO)
+    {
+        [_TXT_phone_num becomeFirstResponder];
+        [_TXT_phone_num showError];
+        [_TXT_phone_num showErrorWithText:@" Please enter minimum 5 Numbers"];
+    }
+    
+    
     else if([_TXT_country.text isEqualToString:@""])
     {
         [_TXT_country becomeFirstResponder];
+        [_TXT_country showError];
+        [_TXT_country showErrorWithText:@" Please Select Country"];
+        
     }
     
     else if([_TXT_state.text isEqualToString:@""])
     {
         [_TXT_state becomeFirstResponder];
+        [_TXT_state showError];
+        [_TXT_state showErrorWithText:@" Please Select State"];
         
     }
-    else if([_TXT_zip.text isEqualToString:@""])
-    {
-        [_TXT_zip becomeFirstResponder];
-    }
-    else if([_TXT_email.text isEqualToString:@""])
+    else if([_TXT_email.text isEqualToString:@""] || [emailTest evaluateWithObject:text_to_compare_email] == NO)
     {
         [_TXT_email becomeFirstResponder];
+        [_TXT_email showError];
+        [_TXT_email showErrorWithText:@" Please Enter Correct Email"];
     }
+    
     else
     {
         NSLog(@"Validation are aperfect:");
-//        [self affiliate_SignUP];
+        //        [self affiliate_SignUP];
         VW_overlay.hidden = NO;
         [activityIndicatorView startAnimating];
         [self performSelector:@selector(affiliate_SignUP) withObject:activityIndicatorView afterDelay:0.01];

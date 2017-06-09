@@ -10,8 +10,11 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="GothamMedium Regular.otf">
-            <string>GothamMedium</string>
+        <array key="Gotham Bold Regular.ttf">
+            <string>GothamBold</string>
+        </array>
+        <array key="gotham-pro-medium.otf">
+            <string>GothamPro-Medium</string>
         </array>
     </customFonts>
     <objects>
@@ -21,31 +24,43 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="58.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Test testTest testTest testTest testTest test" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Jy-mm-amf">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Test testTest testTest testTest testTest test" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Jy-mm-amf" customClass="CSTM_cell_LBL">
                         <rect key="frame" x="8" y="8" width="138" height="43"/>
-                        <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="12"/>
+                        <fontDescription key="fontDescription" name="GothamPro-Medium" family="Gotham Pro" pointSize="16"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
+                        <size key="shadowOffset" width="0.0" height="0.0"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="myLineSpacing">
+                                <integer key="value" value="5"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mar 31,2017 11:00AM EST" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uVB-Mv-Xkd">
-                        <rect key="frame" x="154" y="7" width="104" height="43"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mar 31,2017 11:00AM EST" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uVB-Mv-Xkd" customClass="CSTM_cell_LBL">
+                        <rect key="frame" x="154" y="7" width="113" height="28.5"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="104" id="xyL-eF-v5i"/>
+                            <constraint firstAttribute="width" constant="113" id="xyL-eF-v5i"/>
                         </constraints>
-                        <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="12"/>
+                        <fontDescription key="fontDescription" name="GothamPro-Medium" family="Gotham Pro" pointSize="16"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
+                        <size key="shadowOffset" width="0.0" height="0.0"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="myLineSpacing">
+                                <integer key="value" value="5"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fE0-zS-O2b" customClass="BTN_Winnig_TKT">
-                        <rect key="frame" x="266" y="8" width="46" height="27"/>
+                        <rect key="frame" x="268" y="8" width="48" height="25"/>
                         <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="46" id="erz-mC-ZYV"/>
+                            <constraint firstAttribute="width" constant="48" id="erz-mC-ZYV"/>
                         </constraints>
-                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
+                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="14"/>
                         <state key="normal" title="VIEW">
                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
@@ -53,12 +68,12 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="0Jy-mm-amf" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="0Cs-nu-Xfz"/>
-                    <constraint firstItem="uVB-Mv-Xkd" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="D9u-hp-KCw"/>
                     <constraint firstItem="0Jy-mm-amf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="QzV-9i-STk"/>
-                    <constraint firstItem="fE0-zS-O2b" firstAttribute="leading" secondItem="uVB-Mv-Xkd" secondAttribute="trailing" constant="8" symbolic="YES" id="aAG-fR-mZh"/>
-                    <constraint firstItem="uVB-Mv-Xkd" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-1" id="bQt-ES-4Qi"/>
+                    <constraint firstItem="fE0-zS-O2b" firstAttribute="leading" secondItem="uVB-Mv-Xkd" secondAttribute="trailing" constant="1" id="aAG-fR-mZh"/>
                     <constraint firstItem="0Jy-mm-amf" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="bXw-JI-7Cj"/>
-                    <constraint firstItem="fE0-zS-O2b" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="jsr-Rr-4fJ"/>
+                    <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="uVB-Mv-Xkd" secondAttribute="bottom" constant="14.5" id="gap-eK-nTT"/>
+                    <constraint firstItem="fE0-zS-O2b" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" constant="4" id="jsr-Rr-4fJ"/>
+                    <constraint firstItem="uVB-Mv-Xkd" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-1" id="nD0-Pc-rd7"/>
                     <constraint firstItem="0Jy-mm-amf" firstAttribute="top" secondItem="fE0-zS-O2b" secondAttribute="top" id="twK-t4-dk6"/>
                     <constraint firstItem="uVB-Mv-Xkd" firstAttribute="leading" secondItem="0Jy-mm-amf" secondAttribute="trailing" constant="8" symbolic="YES" id="xh2-Ne-jSQ"/>
                 </constraints>

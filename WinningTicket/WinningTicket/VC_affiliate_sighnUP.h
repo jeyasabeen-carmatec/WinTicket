@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import "Get_custom_TXTT.h"
+#import "FloatingTXT_white.h"
 
 @interface VC_affiliate_sighnUP : UIViewController <UITextFieldDelegate,UIGestureRecognizerDelegate>
 
@@ -20,18 +20,19 @@
 @property (nonatomic, weak) IBOutlet UIImageView *IMG_logo_WT;
 @property(nonatomic,weak)IBOutlet UIView *VW_back;
 
-@property (nonatomic, weak) IBOutlet UITextField *TXT_F_name;
-@property (nonatomic, weak) IBOutlet UITextField *TXT_L_name;
-@property (nonatomic, weak) IBOutlet UITextField *TXT_titl;
-@property (nonatomic, weak) IBOutlet UITextField *TXT_email;
-@property (nonatomic, weak) IBOutlet UITextField *TXT_phone_num;
-@property (nonatomic, weak) IBOutlet UITextField *TXT_golfcoursename;
-@property (nonatomic, weak) IBOutlet UITextField *TXT_addr1;
-@property (nonatomic, weak) IBOutlet UITextField *TXT_addr2;
-@property (nonatomic, weak) IBOutlet UITextField *TXT_city;
-@property (nonatomic, weak) IBOutlet UITextField *TXT_state;
-@property (nonatomic, weak) IBOutlet UITextField *TXT_zip;
-@property (nonatomic, weak) IBOutlet UITextField *TXT_country;
+@property (nonatomic, weak) IBOutlet FloatingTXT_white *TXT_F_name;
+@property (nonatomic, weak) IBOutlet FloatingTXT_white *TXT_L_name;
+@property (nonatomic, weak) IBOutlet FloatingTXT_white *TXT_titl;
+@property (nonatomic, weak) IBOutlet FloatingTXT_white *TXT_email;
+@property (nonatomic, weak) IBOutlet FloatingTXT_white *TXT_phone_num;
+@property (nonatomic, weak) IBOutlet FloatingTXT_white *TXT_golfcoursename;
+@property (nonatomic, weak) IBOutlet FloatingTXT_white *TXT_addr1;
+@property (nonatomic, weak) IBOutlet FloatingTXT_white *TXT_addr2;
+@property (nonatomic, weak) IBOutlet FloatingTXT_white *TXT_city;
+@property (nonatomic, weak) IBOutlet FloatingTXT_white *TXT_state;
+@property (nonatomic, weak) IBOutlet FloatingTXT_white *TXT_zip;
+@property (nonatomic, weak) IBOutlet FloatingTXT_white *TXT_country;
+
 @property(nonatomic,weak)IBOutlet UIButton *BTN_sighnUP;
 @property (nonatomic, strong) UIPickerView *contry_pickerView;
 @property (nonatomic, strong) UIPickerView *state_pickerView;

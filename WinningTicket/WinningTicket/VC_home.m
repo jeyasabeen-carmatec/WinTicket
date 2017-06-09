@@ -11,6 +11,8 @@
 #import "DejalActivityView.h"
 #import "DGActivityIndicatorView.h"
 
+#import "WinningTicket_Universal-Swift.h"
+
 @interface VC_home ()
 {
     NSArray *ARR_allevent,*ARR_upcommingevent;
@@ -53,9 +55,11 @@
     
     _tbl_all_event.estimatedRowHeight = 10.0;
     _tbl_all_event.rowHeight = UITableViewAutomaticDimension;
+    _tbl_all_event.allowsSelection = NO;
     
     _tbl_upcomming_event.estimatedRowHeight = 10.0;
     _tbl_upcomming_event.rowHeight = UITableViewAutomaticDimension;
+    _tbl_upcomming_event.allowsSelection = NO;
     
     [self get_Data];
     [self setup_VIEW];
@@ -115,8 +119,7 @@
 {
     [_tab_HOME setSelectedItem:[_tab_HOME.items objectAtIndex:0]];
     [_segment_bottom setSelectedSegmentIndex:0];
-    
-    
+
     
     _lbl_titl_event_code.hidden = YES;
     _VW_hold_code.hidden = YES;
@@ -136,29 +139,6 @@
     _TXT_3.tag = 3;
     _TXT_4.tag = 4;
     _TXT_5.tag = 5;
-    
-//    ARR_allevent = [[NSMutableArray alloc]init];
-    
-//    NSDictionary *temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
-//    [ARR_allevent addObject:temp_Dictn];
-//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Murray Bros. Caddyshack Charity Golf Tournament",@"Event_Name",@"Mar 22, 2017 03:00PM EST",@"Event_Time", nil];
-//    [ARR_allevent addObject:temp_Dictn];
-//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Susan G Komen 2017 Golf Classic",@"Event_Name",@"Mar 31,2017 11:00AM EST",@"Event_Time", nil];
-//    [ARR_allevent addObject:temp_Dictn];
-//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
-//    [ARR_allevent addObject:temp_Dictn];
-//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Murray Bros. Caddyshack Charity Golf Tournament",@"Event_Name",@"Mar 22, 2017 03:00PM EST",@"Event_Time", nil];
-//    [ARR_allevent addObject:temp_Dictn];
-//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Susan G Komen 2017 Golf Classic",@"Event_Name",@"Mar 31,2017 11:00AM EST",@"Event_Time", nil];
-//    [ARR_allevent addObject:temp_Dictn];
-//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
-//    [ARR_allevent addObject:temp_Dictn];
-//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Murray Bros. Caddyshack Charity Golf Tournament",@"Event_Name",@"Mar 22, 2017 03:00PM EST",@"Event_Time", nil];
-//    [ARR_allevent addObject:temp_Dictn];
-//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Susan G Komen 2017 Golf Classic",@"Event_Name",@"Mar 31,2017 11:00AM EST",@"Event_Time", nil];
-//    [ARR_allevent addObject:temp_Dictn];
-//    temp_Dictn = [NSDictionary dictionaryWithObjectsAndKeys:@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event",@"Event_Name",@"Feb 25, 2017 11:30AM EST",@"Event_Time", nil];
-//    [ARR_allevent addObject:temp_Dictn];
     
 
     if (_BTN_view_all_event.hidden == YES) {
@@ -344,12 +324,23 @@
 {
     if (tableView == _tbl_all_event)
     {
-        return [ARR_allevent count];
+        if ([ARR_allevent count] == 0) {
+            return 1;
+        }
+        else
+        {
+            return [ARR_allevent count];
+        }
     }
     if (tableView == _tbl_upcomming_event)
     {
-//        return [ARR_upcommingevent count];
-        return [ARR_upcommingevent count];
+        if ([ARR_upcommingevent count] == 0) {
+            return 1;
+        }
+        else
+        {
+            return [ARR_upcommingevent count];
+        }
     }
     return 0;
 }
@@ -357,65 +348,116 @@
 {
     static NSString *simpleTableIdentifier = @"SimpleTableItem";
     
-    TBL_VW_Cell_EVENTS *cell = (TBL_VW_Cell_EVENTS *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    if (cell == nil)
+    if (tableView == _tbl_upcomming_event)
     {
-        NSArray *nib;
-        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-        {
-           nib = [[NSBundle mainBundle] loadNibNamed:@"TBL_VW_Cell_EVENTS~iPad" owner:self options:nil];
+        if ([ARR_upcommingevent count] == 0) {
+            cell_EMPTY_val *cell = (cell_EMPTY_val *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+            if (cell == nil)
+            {
+                NSArray *nib;
+                if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+                {
+                    nib = [[NSBundle mainBundle] loadNibNamed:@"cell_EMPTY_val~iPad" owner:self options:nil];
+                }
+                else
+                {
+                    nib = [[NSBundle mainBundle] loadNibNamed:@"cell_EMPTY_val" owner:self options:nil];
+                }
+                cell = [nib objectAtIndex:0];
+            }
+            
+            cell.lbl_emptycell.text = @"No Events Found !";
+            cell.lbl_emptycell.numberOfLines = 0;
+            [cell.lbl_emptycell sizeToFit];
+            
+            return cell;
         }
         else
         {
-           nib = [[NSBundle mainBundle] loadNibNamed:@"TBL_VW_Cell_EVENTS" owner:self options:nil];
+            TBL_VW_Cell_EVENTS *cell = (TBL_VW_Cell_EVENTS *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+            if (cell == nil)
+            {
+                NSArray *nib;
+                if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+                {
+                    nib = [[NSBundle mainBundle] loadNibNamed:@"TBL_VW_Cell_EVENTS~iPad" owner:self options:nil];
+                }
+                else
+                {
+                    nib = [[NSBundle mainBundle] loadNibNamed:@"TBL_VW_Cell_EVENTS" owner:self options:nil];
+                }
+                cell = [nib objectAtIndex:0];
+            }
+            
+            NSDictionary *temp_DICN = [ARR_upcommingevent objectAtIndex:indexPath.row];
+            cell.lbl_event_name.text = [temp_DICN valueForKey:@"name"];
+            cell.lbl_event_name.numberOfLines = 0;
+            [cell.lbl_event_name sizeToFit];
+            
+            
+            cell.lbl_event_time.text = [self getLocalDateTimeFromUTC:[temp_DICN valueForKey:@"start_date"]];
+            
+            [cell.BTN_View_detail setTag:indexPath.row];
+            [cell.BTN_View_detail addTarget:self action:@selector(BTN_UP_COMNG_EVENT:) forControlEvents:UIControlEventTouchUpInside];
+            
+            return cell;
         }
-        cell = [nib objectAtIndex:0];
-    }
-    if (tableView == _tbl_upcomming_event)
-    {
-//        NSDictionary *temp_DICN = [ARR_allevent objectAtIndex:indexPath.row];
-//        cell.lbl_event_name.text = [temp_DICN valueForKey:@"Event_Name"];
-//        cell.lbl_event_time.text = [temp_DICN valueForKey:@"Event_Time"];
-        NSDictionary *temp_DICN = [ARR_upcommingevent objectAtIndex:indexPath.row];
-        cell.lbl_event_name.text = [temp_DICN valueForKey:@"name"];
-        cell.lbl_event_name.numberOfLines = 0;
-        [cell.lbl_event_name sizeToFit];
-        
-//        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//        dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSS";
-//        
-//        NSTimeZone *gmt = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
-//        [dateFormatter setTimeZone:gmt];
-//        NSString *timeStamp = [dateFormatter stringFromDate:[NSDate date]];
-        
-        cell.lbl_event_time.text = [self getLocalDateTimeFromUTC:[temp_DICN valueForKey:@"start_date"]];
-        
-        [cell.BTN_View_detail setTag:indexPath.row];
-        [cell.BTN_View_detail addTarget:self action:@selector(BTN_UP_COMNG_EVENT:) forControlEvents:UIControlEventTouchUpInside];
-        
     }
     else
     {
-        //        cell.lbl_event_name.text = [temp_DICN valueForKey:@"Event_Name"];
-        //        cell.lbl_event_time.text = [temp_DICN valueForKey:@"Event_Time"];
-        NSDictionary *temp_DICN = [ARR_allevent objectAtIndex:indexPath.row];
-        cell.lbl_event_name.text = [temp_DICN valueForKey:@"name"];
-        cell.lbl_event_name.numberOfLines = 0;
-        [cell.lbl_event_name sizeToFit];
-        
-        //        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        //        dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSS";
-        //
-        //        NSTimeZone *gmt = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
-        //        [dateFormatter setTimeZone:gmt];
-        //        NSString *timeStamp = [dateFormatter stringFromDate:[NSDate date]];
-        
-        cell.lbl_event_time.text = [self getLocalDateTimeFromUTC:[temp_DICN valueForKey:@"start_date"]];
-        
-        [cell.BTN_View_detail setTag:indexPath.row];
-        [cell.BTN_View_detail addTarget:self action:@selector(BTN_ALL_EVENT:) forControlEvents:UIControlEventTouchUpInside];
+        if ([ARR_allevent count] == 0)
+        {
+            cell_EMPTY_val *cell = (cell_EMPTY_val *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+            if (cell == nil)
+            {
+                NSArray *nib;
+                if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+                {
+                    nib = [[NSBundle mainBundle] loadNibNamed:@"cell_EMPTY_val~iPad" owner:self options:nil];
+                }
+                else
+                {
+                    nib = [[NSBundle mainBundle] loadNibNamed:@"cell_EMPTY_val" owner:self options:nil];
+                }
+                cell = [nib objectAtIndex:0];
+            }
+            
+            cell.lbl_emptycell.text = @"No Events Found !";
+            cell.lbl_emptycell.numberOfLines = 0;
+            [cell.lbl_emptycell sizeToFit];
+            
+            return cell;
+        }
+        else
+        {
+            TBL_VW_Cell_EVENTS *cell = (TBL_VW_Cell_EVENTS *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+            if (cell == nil)
+            {
+                NSArray *nib;
+                if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+                {
+                    nib = [[NSBundle mainBundle] loadNibNamed:@"TBL_VW_Cell_EVENTS~iPad" owner:self options:nil];
+                }
+                else
+                {
+                    nib = [[NSBundle mainBundle] loadNibNamed:@"TBL_VW_Cell_EVENTS" owner:self options:nil];
+                }
+                cell = [nib objectAtIndex:0];
+            }
+            
+            NSDictionary *temp_DICN = [ARR_allevent objectAtIndex:indexPath.row];
+            cell.lbl_event_name.text = [temp_DICN valueForKey:@"name"];
+            cell.lbl_event_name.numberOfLines = 0;
+            [cell.lbl_event_name sizeToFit];
+            
+            cell.lbl_event_time.text = [self getLocalDateTimeFromUTC:[temp_DICN valueForKey:@"start_date"]];
+            
+            [cell.BTN_View_detail setTag:indexPath.row];
+            [cell.BTN_View_detail addTarget:self action:@selector(BTN_ALL_EVENT:) forControlEvents:UIControlEventTouchUpInside];
+            
+            return cell;
+        }
     }
-    return cell;
 }
 //- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 //{

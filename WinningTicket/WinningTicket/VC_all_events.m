@@ -167,6 +167,12 @@
     _tbl_search.rowHeight = UITableViewAutomaticDimension;
     _tbl_search.tableFooterView.hidden = YES;
     
+    _TXT_fromdate.adjustsFontSizeToFitWidth = YES;
+    _TXT_fromdate.minimumFontSize = 5.0;
+    
+    _TXT_todate.adjustsFontSizeToFitWidth = YES;
+    _TXT_todate.minimumFontSize = 5.0;
+    
     if (_search_BAR.hidden == NO)
     {
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
