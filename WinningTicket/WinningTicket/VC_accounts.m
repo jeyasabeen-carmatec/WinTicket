@@ -55,28 +55,21 @@
         NSDictionary *temp_dict=[account_data valueForKey:@"user"];
         self.first_name.text=[temp_dict valueForKey:@"first_name"];
         [self.first_name sizeToFit];
-        self.last_name.text=[temp_dict valueForKey:@"last_name"];
+        self.last_name.text=[temp_dict valueForKey:@"email"];
         [self.last_name sizeToFit];
         self.amount.text=[NSString stringWithFormat:@"$ %@",[account_data valueForKey:@"wallet"]];
         
-        
-        
-        
     }
-    else{
+    else
+    {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
         
     }
-    
-    
-
 }
 
 -(void) setup_VIEW
 {
-    
-
     [_segment_bottom setSelectedSegmentIndex:2];
     [_tab_HOME setSelectedItem:[_tab_HOME.items objectAtIndex:2]];
     for (int i=0; i<[self.segment_bottom.subviews count]; i++)
@@ -362,7 +355,10 @@
             case 8:
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self performSegueWithIdentifier:@"accounttowelcomescreen" sender:self];
+//                    [self performSegueWithIdentifier:@"accounttowelcomescreen" sender:self];
+                    VW_overlay.hidden = NO;
+                    [activityIndicatorView startAnimating];
+                    [self performSelector:@selector(log_OUTAPI) withObject:activityIndicatorView afterDelay:0.01];
                     
                 });
             }
@@ -461,7 +457,6 @@
 
 -(void)get_EVENTS
 {
-    
     NSHTTPURLResponse *response = nil;
     NSError *error;
     NSString *urlGetuser =[NSString stringWithFormat:@"%@contributors/events",SERVER_URL];
@@ -487,9 +482,31 @@
         UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:@"Check Connction" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"" , nil];
         [alert show];
     }
+}
+
+-(void) log_OUTAPI
+{
+    NSHTTPURLResponse *response = nil;
+    NSError *error;
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@users/sign_out",SERVER_URL];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if(aData)
+    {
+        NSMutableDictionary *json_DICTIn = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"The log out response %@",json_DICTIn);
+    }
     
-    
-    
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden = YES;
+    [self performSegueWithIdentifier:@"accounttowelcomescreen" sender:self];
 }
 
 @end

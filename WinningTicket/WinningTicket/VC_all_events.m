@@ -169,9 +169,16 @@
     
     _TXT_fromdate.adjustsFontSizeToFitWidth = YES;
     _TXT_fromdate.minimumFontSize = 5.0;
+    _TXT_fromdate.layer.borderWidth = 1.0f;
+    _TXT_fromdate.layer.borderColor = [UIColor grayColor].CGColor;
     
     _TXT_todate.adjustsFontSizeToFitWidth = YES;
     _TXT_todate.minimumFontSize = 5.0;
+    _TXT_todate.layer.borderWidth = 1.0f;
+    _TXT_todate.layer.borderColor = [UIColor grayColor].CGColor;
+    
+    _TXT_state.layer.borderWidth = 1.0f;
+    _TXT_state.layer.borderColor = [UIColor grayColor].CGColor;
     
     if (_search_BAR.hidden == NO)
     {
@@ -267,33 +274,75 @@
     self.navigationItem.rightBarButtonItem =mailbutton;
     
     UIToolbar* state_close = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
-    state_close.barStyle = UIBarStyleBlackTranslucent;
+    state_close.translucent =NO; //.barStyle = UIBarStyleDefault;
+    state_close.barTintColor = [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1.0];
     [state_close sizeToFit];
-    UILabel *statelbl=[[UILabel alloc]initWithFrame:CGRectMake(state_close.frame.size.width-250, 0, 100, state_close.frame.size.height)];
-    [state_close addSubview:statelbl];
-    statelbl.text=@"Select State";
-    statelbl.textColor=[UIColor redColor];
-    statelbl.backgroundColor=[UIColor clearColor];
+    UILabel *statelbl=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, 120, state_close.frame.size.height)];
+//    statelbl.center = state_close.center;
+//    [state_close addSubview:statelbl];
+    statelbl.text = @"Select a State";
+    statelbl.textColor = [UIColor blackColor];
     
-    UIButton *close=[[UIButton alloc]init];
-    close.frame=CGRectMake(state_close.frame.size.width - 100, 0, 100, state_close.frame.size.height);
-    [close setTitle:@"close" forState:UIControlStateNormal];
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+    {
+        statelbl.font = [UIFont fontWithName:@"GothamMedium" size:18];
+    }
+    else
+    {
+        statelbl.font = [UIFont fontWithName:@"GothamMedium" size:16];
+    }
+    statelbl.backgroundColor = [UIColor clearColor];
+    
+    /* UIButton *close=[[UIButton alloc]init];
+    close.frame=CGRectMake(0, 0, 100, state_close.frame.size.height);
+    [close setTitle:@"Done" forState:UIControlStateNormal];
     [close addTarget:self action:@selector(closebuttonClick) forControlEvents:UIControlEventTouchUpInside];
-    [state_close addSubview:close];
+    [state_close addSubview:close]; */
+    
+    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(closebuttonClick)];
+    
+    UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    
+    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(closebuttonClick)];
+    
+    UIBarButtonItem *title_lbl = [[UIBarButtonItem alloc] initWithCustomView:statelbl];
+    
+    [state_close setItems:[NSArray arrayWithObjects: leftButton, flex, title_lbl, flex, rightButton, nil]];
     
     UIToolbar* date_close = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
-    date_close.barStyle = UIBarStyleBlackTranslucent;
+    date_close.translucent =NO; //.barStyle = UIBarStyleDefault;
+    date_close.barTintColor = [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1.0];
     [date_close sizeToFit];
-    UILabel *datelbl=[[UILabel alloc]initWithFrame:CGRectMake(date_close.frame.size.width-250, 0, 100, date_close.frame.size.height)];
-    [date_close addSubview:datelbl];
-    datelbl.text=@"Select Date";
-    datelbl.textColor=[UIColor redColor];
+    UILabel *datelbl=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, 120, date_close.frame.size.height)];
+//    [date_close addSubview:datelbl];
+    datelbl.text = @"Select Date";
+    datelbl.textColor = [UIColor blackColor];
+    
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+    {
+        datelbl.font = [UIFont fontWithName:@"GothamMedium" size:18];
+    }
+    else
+    {
+        datelbl.font = [UIFont fontWithName:@"GothamMedium" size:16];
+    }
+    datelbl.backgroundColor = [UIColor clearColor];
 
-    UIButton *closeDate =[[UIButton alloc]init];
-    closeDate.frame=CGRectMake(date_close.frame.size.width - 90, 0, 100, date_close.frame.size.height);
-    [closeDate setTitle:@"Close" forState:UIControlStateNormal];
-    [closeDate addTarget:self action:@selector(closebuttonClick) forControlEvents:UIControlEventTouchUpInside];
-    [date_close addSubview:closeDate];
+//    UIButton *closeDate =[[UIButton alloc]init];
+//    closeDate.frame=CGRectMake(date_close.frame.size.width - 90, 0, 100, date_close.frame.size.height);
+//    [closeDate setTitle:@"Close" forState:UIControlStateNormal];
+//    [closeDate addTarget:self action:@selector(closebuttonClick) forControlEvents:UIControlEventTouchUpInside];
+//    [date_close addSubview:closeDate];
+    
+    UIBarButtonItem *leftButton1 = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(closebuttonClick)];
+    
+    UIBarButtonItem *flex1 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    
+    UIBarButtonItem *rightButton1 = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(closebuttonClick)];
+    
+    UIBarButtonItem *title_lbl1 = [[UIBarButtonItem alloc] initWithCustomView:datelbl];
+    
+    [date_close setItems:[NSArray arrayWithObjects: leftButton1, flex1, title_lbl1, flex1, rightButton1, nil]];
     
     _TXT_state.inputAccessoryView = state_close;
     _TXT_todate.inputAccessoryView = date_close;
