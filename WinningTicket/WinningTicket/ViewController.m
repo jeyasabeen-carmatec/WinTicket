@@ -82,9 +82,14 @@
 {
     
     NSString *user_name = [[NSUserDefaults standardUserDefaults] valueForKey:@"loginEmail"];
+    NSString *password = [[NSUserDefaults standardUserDefaults] valueForKey:@"loginPWD"];
     if (user_name)
     {
         _TXT_username.text = user_name;
+    }
+    
+    if (password) {
+        _TXT_password.text = password;
     }
     
     _VW_holdCNT.center = self.view.center;
@@ -353,11 +358,13 @@
             VW_overlay.hidden = YES;
             if (_SWITCH_rememberme.on) {
                 [[NSUserDefaults standardUserDefaults] setValue:username forKey:@"loginEmail"];
+                [[NSUserDefaults standardUserDefaults] setValue:password forKey:@"loginPWD"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
             }
             else
             {
                 [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"loginEmail"];
+                [[NSUserDefaults standardUserDefaults] setValue:password forKey:@"loginPWD"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
             }
             
@@ -369,18 +376,16 @@
             if([status isEqualToString:@"Invalid Email or password."])
             {
                 NSLog(@"please enter the correct email");
-//                UIAlertController *alertcontrollerone=[UIAlertController alertControllerWithTitle: @"Enter Email Address"message: @"Please enter your Correct email address."
-//                                                                                   preferredStyle:UIAlertControllerStyleAlert];
-//                [alertcontrollerone addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-//                    
-//                }]];
-//                [self presentViewController:alertcontrollerone animated:YES completion:nil];
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:status delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
                 [alert show];
             }
-            else
+            if([[json_DATA valueForKey:@"status"] isEqualToString:@"Failure"])
             {
-                
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                [alert show];
+            }
+            else
+             {
                 if ([[json_DATA valueForKey:@"role"]isEqualToString:@"affiliate"])
                 {
                     status = [json_DATA valueForKey:@"authentication_token"];
@@ -394,11 +399,12 @@
                     status = [json_DATA valueForKey:@"authentication_token"];
                     [[NSUserDefaults standardUserDefaults] setValue:status forKey:@"auth_token"];
                     [[NSUserDefaults standardUserDefaults] synchronize];
-                    //                [self myaccount_API_calling];
+                    
+                    [self performSegueWithIdentifier:@"logintohomeidentifier" sender:self];
                     
                     VW_overlay.hidden = NO;
                     [activityIndicatorView startAnimating];
-                    [self performSelector:@selector(myaccount_API_calling) withObject:activityIndicatorView afterDelay:0.01];
+                    [self performSelector:@selector(myprofileapicalling) withObject:activityIndicatorView afterDelay:0.01];
                     
                 }
             }
@@ -479,7 +485,7 @@
 }
 
 
--(void) parse_listEvents_api
+/*-(void) parse_listEvents_api
 {
     NSError *error;
     NSHTTPURLResponse *response = nil;
@@ -513,9 +519,9 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Interrupted" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
     }
-}
+}*/
 
--(void)myaccount_API_calling
+/*-(void)myaccount_API_calling
 {
     NSError *error;
     NSHTTPURLResponse *response = nil;
@@ -552,7 +558,7 @@
         [alert show];
     }
     
-}
+}*/
 -(void)myprofileapicalling
 {
     NSError *error;
@@ -576,7 +582,7 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
         //        NSLog(@" THe user data is :%@",[[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"]);
         //        [self performSegueWithIdentifier:@"accountstoeditprofileidentifier" sender:self];
-        [self parse_listEvents_api];
+//        [self parse_listEvents_api];
     }
     else
     {

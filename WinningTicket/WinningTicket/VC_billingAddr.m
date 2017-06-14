@@ -354,9 +354,9 @@
     _TXT_address1.text = [user_data valueForKey:@"address1"];
     _TXT_address2.text = [user_data valueForKey:@"address2"];
     _TXT_city.text = [user_data valueForKey:@"city"];
-    _TXT_country.text = [user_data valueForKey:@"country"];
+    _TXT_country.text = [user valueForKey:@"country"];
     _TXT_zip.text = [user_data valueForKey:@"zipcode"];
-    _TXT_state.text = [user_data valueForKey:@"state"];
+    _TXT_state.text = [user valueForKey:@"state"];
     _TXT_phonenumber.text = [user_data valueForKey:@"phone"];
     
     _lbl_address.text = address_str;
@@ -476,7 +476,21 @@
 {
     if(_VW_address.hidden==YES)
     {
-        BTN_originY = _BTN_checkout.frame.origin.y;
+
+    [self showViewAddress];
+    }
+    else{
+        //        [self hideview];
+        original_height = original_height - 100;
+        _lbl_address.hidden=NO;
+        [self viewDidLayoutSubviews];
+    }
+
+}
+
+-(void)showViewAddress
+{
+           BTN_originY = _BTN_checkout.frame.origin.y;
         
         
         [UIView beginAnimations:@"LeftFlip" context:nil];
@@ -492,8 +506,8 @@
             /*Frame Change*/
             _lbl_address.hidden=YES;
             
-//            _proceed_TOPAY.frame=CGRectMake(_proceed_TOPAY.frame.origin.x
-//                                            ,  _VW_address.frame.origin.y+_VW_address.frame.size.height+10, _proceed_TOPAY.frame.size.width, _proceed_TOPAY.frame.size.height);
+            //            _proceed_TOPAY.frame=CGRectMake(_proceed_TOPAY.frame.origin.x
+            //                                            ,  _VW_address.frame.origin.y+_VW_address.frame.size.height+10, _proceed_TOPAY.frame.size.width, _proceed_TOPAY.frame.size.height);
             
             _BTN_checkout.frame = CGRectMake(_BTN_checkout.frame.origin.x, _VW_address.frame.origin.y+_VW_address.frame.size.height+10, _BTN_checkout.frame.size.width, _BTN_checkout.frame.size.height);
             
@@ -503,48 +517,41 @@
         [UIView commitAnimations];
         original_height =  self.BTN_checkout.frame.origin.y + _BTN_checkout.frame.size.height + 20;
         [self viewDidLayoutSubviews];
-
-    }
-    else{
-//        [self hideview];
-        original_height = original_height - 100;
-        _lbl_address.hidden=NO;
-        [self viewDidLayoutSubviews];
-    }
-
-}
-
--(void)hideview
-{
-    lbl_origin_FRAME.origin.y = _VW_address.frame.origin.y;
-    [UIView beginAnimations:@"LeftFlip" context:nil];
-    [UIView setAnimationDuration:0.5];
-    _VW_address.hidden=YES;
-    [UIView transitionWithView:_VW_address
-                      duration:0.4
-                       options:UIViewAnimationOptionTransitionCurlDown
-                    animations:NULL
-                    completion:NULL];
-  
-//    [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:_VW_address cache:YES];
-    [UIView commitAnimations];
-    [UIView animateWithDuration:0.5 animations:^{
         
-        
-        _lbl_agree.frame = lbl_origin_FRAME;
-        _BTN_checkout.frame = CGRectMake(_BTN_checkout.frame.origin.x, BTN_originY, _BTN_checkout.frame.size.width, _BTN_checkout.frame.size.height);
-    }];
-    [UIView commitAnimations];
+    
+    
 }
-
+//-(void)hideview
+//{
+//    lbl_origin_FRAME.origin.y = _VW_address.frame.origin.y;
+//    [UIView beginAnimations:@"LeftFlip" context:nil];
+//    [UIView setAnimationDuration:0.5];
+//    _VW_address.hidden=YES;
+//    [UIView transitionWithView:_VW_address
+//                      duration:0.4
+//                       options:UIViewAnimationOptionTransitionCurlDown
+//                    animations:NULL
+//                    completion:NULL];
+//  
+////    [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:_VW_address cache:YES];
+//    [UIView commitAnimations];
+//    [UIView animateWithDuration:0.5 animations:^{
+//        
+//        
+//        _lbl_agree.frame = lbl_origin_FRAME;
+//        _BTN_checkout.frame = CGRectMake(_BTN_checkout.frame.origin.x, BTN_originY, _BTN_checkout.frame.size.width, _BTN_checkout.frame.size.height);
+//    }];
+//    [UIView commitAnimations];
+//}
+//
 
 
 -(void) chckout_ACtin : (id) sender
 {
-     _VW_address.hidden=NO;
-    NSLog(@"Chekout Tapped");
-//    [self braintree_Dropin_UI];
-    
+    if(_VW_address.hidden == YES)
+    {
+    [self showViewAddress];
+    }
     NSLog(@"Sighn UP");
     NSString *text_to_compare=_TXT_phonenumber.text;
     NSString *phoneRegex = @"[0-9]{10,14}$";
@@ -576,16 +583,6 @@
     }
     
     
-    else if ([phoneTest evaluateWithObject:text_to_compare] == NO)
-    {
-        [_TXT_phonenumber becomeFirstResponder];
-    }
-    
-    else if([_TXT_phonenumber.text isEqualToString:@""])
-    {
-        [_TXT_phonenumber becomeFirstResponder];
-        
-    }
     
     else if([_TXT_state.text isEqualToString:@""])
     {
@@ -597,6 +594,23 @@
         [_TXT_country becomeFirstResponder];
         
     }
+    else if([_TXT_zip.text isEqualToString:@""])
+    {
+        [_TXT_zip becomeFirstResponder];
+        _TXT_zip.tintColor = _TXT_address2.tintColor;
+        
+    }
+    else if ([phoneTest evaluateWithObject:text_to_compare] == NO)
+    {
+        [_TXT_phonenumber becomeFirstResponder];
+    }
+    
+    else if([_TXT_phonenumber.text isEqualToString:@""])
+    {
+        [_TXT_phonenumber becomeFirstResponder];
+        
+    }
+
     else
     {
     VW_overlay.hidden = NO;
@@ -708,6 +722,159 @@
         [UIView commitAnimations];
 //    }
 }
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if(textField.tag==1)
+    {
+        NSInteger inte = textField.text.length;
+        if (inte <= 2)
+        {
+            return YES;
+            
+        }
+        else if(inte >= 30)
+        {
+            return NO;
+        }
+        
+        return YES;
+        
+        
+    }
+    if(textField.tag==2)
+    {
+        NSInteger inte = textField.text.length;
+        
+        if (inte <= 2)
+        {
+            return YES;
+            
+        }
+        else if(inte >= 30)
+        {
+            return NO;
+        }
+        
+        
+        return YES;
+    }
+    
+    
+    if(textField.tag==3)
+    {
+        NSInteger inte = textField.text.length;
+        if (inte <= 2)
+        {
+            return YES;
+            
+        }
+        else if(inte >= 255)
+        {
+            return NO;
+        }
+        
+        
+        return YES;
+        
+    }
+    if(textField.tag==4)
+    {
+        NSInteger inte = textField.text.length;
+        if (inte <= 2)
+        {
+            return YES;
+            
+        }
+        else if(inte >= 255)
+        {
+            return NO;
+        }
+        
+        return YES;
+    }
+    if(textField.tag==5)
+    {
+        NSInteger inte = textField.text.length;
+        if (inte <= 2)
+        {
+            return YES;
+            
+        }
+        else if(inte >= 60)
+        {
+            return NO;
+        }
+        
+        return YES;
+    }
+    
+    if(textField.tag==6)
+    {
+        NSInteger inte = textField.text.length;
+        if (inte <= 2)
+        {
+            return YES;
+            
+        }
+        else if(inte >= 12)
+        {
+            return NO;
+        }
+        
+        return YES;
+    }
+    if(textField.tag==7)
+    {
+        NSInteger inte = textField.text.length;
+        if (inte <= 2)
+        {
+            return YES;
+            
+        }
+        else if(inte >= 60)
+        {
+            return NO;
+        }
+        
+        
+        return YES;
+    }
+    if(textField.tag==8)
+    {
+        NSInteger inte = textField.text.length;
+        if (inte <= 2)
+        {
+            return YES;
+            
+        }
+        else if(inte >= 15)
+        {
+            return NO;
+        }
+        
+        return YES;
+    }
+        if(textField.tag==9)
+        {
+            NSInteger inte = textField.text.length;
+    
+            if (inte <= 2)
+            {
+                return YES;
+    
+            }
+            else if(inte >= 12)
+            {
+                return NO;
+            }
+    
+    
+            return YES;
+        }
+    return YES;
+    
+}
+
 #pragma mark - UIPickerViewDataSource
 
 // #3

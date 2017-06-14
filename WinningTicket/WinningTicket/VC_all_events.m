@@ -71,9 +71,6 @@
     VW_overlay.backgroundColor = [UIColor blackColor];
     VW_overlay.alpha = 0.2;
     
-    
-    
-    
     activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallSpinFadeLoader tintColor:[UIColor whiteColor]];
     
     CGRect frame_M = activityIndicatorView.frame;
@@ -180,6 +177,11 @@
     _TXT_state.layer.borderWidth = 1.0f;
     _TXT_state.layer.borderColor = [UIColor grayColor].CGColor;
     
+    UITapGestureRecognizer *tapToSelect = [[UITapGestureRecognizer alloc]initWithTarget:self
+                                                                                 action:@selector(tappedToSelectRow:)];
+    tapToSelect.delegate = self;
+    [searchBar1 addGestureRecognizer:tapToSelect];
+    
     if (_search_BAR.hidden == NO)
     {
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
@@ -189,7 +191,7 @@
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     }
     
-    for (int i=0; i<[self.segment_bottom.subviews count]; i++)
+   /* for (int i=0; i<[self.segment_bottom.subviews count]; i++)
     {
         [[self.segment_bottom.subviews objectAtIndex:i] setTintColor:nil];
         if (![[self.segment_bottom.subviews objectAtIndex:i]isSelected])
@@ -202,16 +204,16 @@
             //            UIColor *tintcolor=[UIColor blueColor];
             //            [[self.segment_bottom.subviews objectAtIndex:i] setTintColor:tintcolor];
         }
-    }
+    }*/
     
 }
 -(void) setup_VIEW
 {
-    [_tab_HOME setSelectedItem:[_tab_HOME.items objectAtIndex:0]];
-    [_segment_bottom setSelectedSegmentIndex:0];
+//    [_tab_HOME setSelectedItem:[_tab_HOME.items objectAtIndex:0]];
+//    [_segment_bottom setSelectedSegmentIndex:0];
     
     _VW_line.hidden = YES;
-    _lbl_Serch_char.hidden = YES;
+//    _lbl_Serch_char.hidden = YES;
     _VW_filter.hidden = YES;
     _tbl_search.hidden = YES;
     
@@ -264,7 +266,7 @@
     
     UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
     [someButton setTitle:@"FILTER" forState:UIControlStateNormal];
-    [someButton setBackgroundColor:_segment_bottom.tintColor];
+    [someButton setBackgroundColor:_apply.backgroundColor];
     [someButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:15.0]];
     [someButton addTarget:self action:@selector(BTN_filter)
          forControlEvents:UIControlEventTouchUpInside];
@@ -277,7 +279,15 @@
     state_close.translucent =NO; //.barStyle = UIBarStyleDefault;
     state_close.barTintColor = [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1.0];
     [state_close sizeToFit];
-    UILabel *statelbl=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, 120, state_close.frame.size.height)];
+    UILabel *statelbl;
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+    {
+        statelbl = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 160, state_close.frame.size.height)];
+    }
+    else
+    {
+        statelbl = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 120, state_close.frame.size.height)];
+    }
 //    statelbl.center = state_close.center;
 //    [state_close addSubview:statelbl];
     statelbl.text = @"Select a State";
@@ -366,7 +376,7 @@
 }
 */
 
-#pragma mark - UITabbar deligate
+/*#pragma mark - UITabbar deligate
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
     if ([item.title isEqualToString:@"EVENTS"])
@@ -429,7 +439,7 @@
         [self performSegueWithIdentifier:@"alleventtoaccountidentifier" sender:self];
     }
 }
-
+*/
 #pragma mark - Back Action
 -(void) backAction
 {
@@ -614,7 +624,7 @@
     
     UIButton *someButton = [[UIButton alloc] initWithFrame:frameimg];
     [someButton setTitle:@"FILTER" forState:UIControlStateNormal];
-    [someButton setBackgroundColor:_segment_bottom.tintColor];
+    [someButton setBackgroundColor:_apply.backgroundColor];
     [someButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:15.0]];
     [someButton addTarget:self action:@selector(BTN_filter)
          forControlEvents:UIControlEventTouchUpInside];
@@ -635,6 +645,7 @@
     
     _VW_line.hidden = NO;
     _lbl_Serch_char.hidden = NO;
+    _lbl_Serch_char.text = @"Searching ' '";
     
     old_color = _VW_nav_TOP.backgroundColor;
     
@@ -651,7 +662,11 @@
     [searchBar1 setTintColor:[UIColor blackColor]];
     [searchBar1 becomeFirstResponder];
     
+    UITextField *searchBarTextField = [self findTextFieldFromControl:searchBar1];
+    [searchBarTextField addTarget:self action:@selector(getSearch_TXT) forControlEvents:UIControlEventEditingChanged];
+    
     searchBar1.placeholder = @"Search";
+    
     UIBarButtonItem *searchBarItem = [[UIBarButtonItem alloc]initWithCustomView:searchBar1];
     searchBarItem.tag = 123;
     self.navigationItem.leftBarButtonItem = searchBarItem;
@@ -836,7 +851,6 @@
         [[NSUserDefaults standardUserDefaults] setValue:STR_eventname forKey:@"EVENT_NAME_STORED"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-        _lbl_Serch_char.text = STR_eventname;
         
         VW_overlay.hidden = NO;
         [activityIndicatorView startAnimating];
@@ -1207,6 +1221,8 @@
         
         NSArray *ARR_tmp = [json_DATA valueForKey:@"events"];
         
+        _lbl_Serch_char.text = [NSString stringWithFormat:@"%lu Results for '%@'",(unsigned long)[ARR_tmp count],searchBar1.text];
+        
         ARR_allevent = [[NSMutableArray alloc]init];
         [ARR_allevent addObjectsFromArray:ARR_tmp];
         
@@ -1371,6 +1387,20 @@
         [alert show];
     }
     [self performSelector:@selector(finishRefresh) withObject:nil afterDelay:0.01];
+}
+
+#pragma mark - UITap Gesture Recogniser
+- (IBAction)tappedToSelectRow:(UITapGestureRecognizer *)tapRecognizer
+{
+    if (tapRecognizer.state == UIGestureRecognizerStateEnded)
+    {
+        CGRect selectedRowFrame = searchBar1.frame;
+        BOOL userTappedOnSelectedRow = (CGRectContainsPoint(selectedRowFrame, [tapRecognizer locationInView:searchBar1]));
+        if (userTappedOnSelectedRow) {
+            NSLog(@"Tap Detect on Searchbar 1");
+            searchBar1.delegate = self;
+        }
+    }
 }
 
 @end

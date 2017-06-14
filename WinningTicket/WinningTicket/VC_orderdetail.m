@@ -23,7 +23,7 @@
     
     [self setup_VIEW];
     
-    for (int i=0; i<[self.segment_bottom.subviews count]; i++)
+   /* for (int i=0; i<[self.segment_bottom.subviews count]; i++)
     {
         [[self.segment_bottom.subviews objectAtIndex:i] setTintColor:nil];
         if (![[self.segment_bottom.subviews objectAtIndex:i]isSelected])
@@ -36,7 +36,7 @@
             //            UIColor *tintcolor=[UIColor blueColor];
             //            [[self.segment_bottom.subviews objectAtIndex:i] setTintColor:tintcolor];
         }
-    }
+    }*/
 }
 
 - (void)didReceiveMemoryWarning {
@@ -117,8 +117,8 @@
 
 -(void) setup_VIEW
 {
-    [_tab_HOME setSelectedItem:[_tab_HOME.items objectAtIndex:0]];
-    [_segment_bottom setSelectedSegmentIndex:0];
+//    [_tab_HOME setSelectedItem:[_tab_HOME.items objectAtIndex:0]];
+//    [_segment_bottom setSelectedSegmentIndex:0];
     
     CGRect content_frame;
     content_frame = _VW_contents.frame;
@@ -265,7 +265,7 @@
     _img_cstmlbl.image = newImage;
 }
 
-#pragma mark - Tabbar deligate
+/*#pragma mark - Tabbar deligate
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
     if ([item.title isEqualToString:@"EVENTS"])
@@ -327,7 +327,7 @@
         }
         [self performSegueWithIdentifier:@"orderdetailtoaccountidentifier" sender:self];
     }
-}
+}*/
 
 
 #pragma mark - Date Convert

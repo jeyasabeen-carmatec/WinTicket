@@ -416,23 +416,23 @@
         
         return YES;
     }
-    if(textField.tag==9)
-    {
-        NSInteger inte = textField.text.length;
-        
-        if (inte <= 2)
-        {
-            return YES;
-            
-        }
-        else if(inte >= 10)
-        {
-            return NO;
-        }
-        
-        
-        return YES;
-    }
+//    if(textField.tag==9)
+//    {
+//        NSInteger inte = textField.text.length;
+//        
+//        if (inte <= 2)
+//        {
+//            return YES;
+//            
+//        }
+//        else if(inte >= 10)
+//        {
+//            return NO;
+//        }
+//        
+//        
+//        return YES;
+//    }
     return YES;
     
 }

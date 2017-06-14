@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface VC_all_events : UIViewController <UITabBarDelegate,UISearchBarDelegate,UIPickerViewDelegate,UIPickerViewDataSource>
+@interface VC_all_events : UIViewController <UITabBarDelegate,UISearchBarDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UIGestureRecognizerDelegate>
 
-@property (weak, nonatomic) IBOutlet UITabBar *tab_HOME;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *segment_bottom;
+//@property (weak, nonatomic) IBOutlet UITabBar *tab_HOME;
+//@property (weak, nonatomic) IBOutlet UISegmentedControl *segment_bottom;
 
 @property (weak, nonatomic) IBOutlet UISearchBar *search_BAR;
 @property (weak, nonatomic) IBOutlet UIView *VW_nav_TOP;

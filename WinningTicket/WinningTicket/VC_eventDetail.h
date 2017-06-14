@@ -10,8 +10,8 @@
 
 @interface VC_eventDetail : UIViewController <UITabBarDelegate>
 
-@property (weak, nonatomic) IBOutlet UITabBar *tab_HOME;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *segment_bottom;
+//@property (weak, nonatomic) IBOutlet UITabBar *tab_HOME;
+//@property (weak, nonatomic) IBOutlet UISegmentedControl *segment_bottom;
 
 @property (weak, nonatomic) IBOutlet UIImageView *img_event;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_eventname;

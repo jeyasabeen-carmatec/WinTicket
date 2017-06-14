@@ -156,14 +156,16 @@
     NSString *show = @"Winning Ticket";
     NSString *place = [temp_dict valueForKey:@"name"];
     NSString *ticketnumber = [temp_dict  valueForKey:@"code"];
-    NSString *club_name = @"Grand Cypress Country Club";
-    _lbl_price.text=[NSString stringWithFormat:@"$ %@",[dict valueForKey:@"price"]];
+    
+    NSString *STR_tkt_num_club = [NSString stringWithFormat:@"%@ - Grand Cypress Country Club",ticketnumber];
+    
+    _lbl_price.text=[NSString stringWithFormat:@"$%.02f",[[dict valueForKey:@"price"] floatValue]];
     
     NSArray *arr = [_lbl_price.text componentsSeparatedByString:@"$"];
-    _lbl_dataTotal.text = [NSString stringWithFormat:@"$ %d.00",[_TXT_qty.text intValue] * [[arr objectAtIndex:1] intValue]];
-    _lbl_datasubtotal.text = [NSString stringWithFormat:@"$ %d.00",[_TXT_qty.text intValue] * [[arr objectAtIndex:1] intValue]];
+    _lbl_dataTotal.text = [NSString stringWithFormat:@"$ %.02f",[_TXT_qty.text floatValue] * [[arr objectAtIndex:1] floatValue]];
+    _lbl_datasubtotal.text = [NSString stringWithFormat:@"$ %.02f",[_TXT_qty.text floatValue] * [[arr objectAtIndex:1] floatValue]];
     
-    NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@ - %@",show,place,ticketnumber,club_name];
+    NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@",show,place,STR_tkt_num_club];
     
     text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
     text = [text stringByReplacingOccurrencesOfString:@"(null)" withString:@"Not Mentioned"];
@@ -172,6 +174,10 @@
     if ([self.lbl_ticketdetail respondsToSelector:@selector(setAttributedText:)]) {
         
         // Define general attributes for the entire text
+        
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.alignment = _lbl_ticketdetail.textAlignment;
+        
         NSDictionary *attribs = @{
                                   NSForegroundColorAttributeName: self.lbl_ticketdetail.textColor,
                                   NSFontAttributeName: self.lbl_ticketdetail.font
@@ -180,17 +186,44 @@
         [[NSMutableAttributedString alloc] initWithString:text
                                                attributes:attribs];
         
-        // Red text attributes
-        //            UIColor *redColor = [UIColor redColor];
-        NSRange cmp = [text rangeOfString:show];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0]}
-                                range:cmp];
-        
-        NSRange plce = [text rangeOfString:place];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0]}
-                                range:plce];
-        
-        
+        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+        {
+            paragraphStyle.lineSpacing = 5;
+            // Red text attributes
+            //            UIColor *redColor = [UIColor redColor];
+            NSRange cmp = [text rangeOfString:show];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:22],NSParagraphStyleAttributeName:paragraphStyle}
+                                    range:cmp];
+            
+            NSRange plce = [text rangeOfString:place];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:18.0],NSParagraphStyleAttributeName:paragraphStyle}
+                                    range:plce];
+            
+            NSMutableParagraphStyle *paragraphStyle1 = [[NSMutableParagraphStyle alloc] init];
+            paragraphStyle1.lineSpacing = 2;
+            
+            NSRange tkt_num_range = [text rangeOfString:STR_tkt_num_club];
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:16.0],NSParagraphStyleAttributeName:paragraphStyle1} range:tkt_num_range];
+        }
+        else
+        {
+            paragraphStyle.lineSpacing = 5;
+            // Red text attributes
+            //            UIColor *redColor = [UIColor redColor];
+            NSRange cmp = [text rangeOfString:show];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:20.0],NSParagraphStyleAttributeName:paragraphStyle}
+                                    range:cmp];
+            
+            NSRange plce = [text rangeOfString:place];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:16.0],NSParagraphStyleAttributeName:paragraphStyle}
+                                    range:plce];
+            
+            NSMutableParagraphStyle *paragraphStyle1 = [[NSMutableParagraphStyle alloc] init];
+            paragraphStyle1.lineSpacing = 1;
+            NSRange tkt_num_range = [text rangeOfString:STR_tkt_num_club];
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:14.0],NSParagraphStyleAttributeName:paragraphStyle1} range:tkt_num_range];
+        }
+
         self.lbl_ticketdetail.attributedText = attributedText;
     }
     else
@@ -204,56 +237,61 @@
     float qty_frame_Y = _lbl_ticketdetail.frame.size.height;
     
     CGRect frame_ST = _VW_qtycontent.frame;
-    frame_ST.origin.y = _VW_qtycontent.frame.origin.y + qty_frame_Y;
+    frame_ST.origin.y = _lbl_ticketdetail.frame.origin.y + qty_frame_Y + 10;
     _VW_qtycontent.frame = frame_ST;
     
     frame_ST = _lbl_arrowpromocode.frame;
-    frame_ST.origin.y = _lbl_arrowpromocode.frame.origin.y + qty_frame_Y;
+    frame_ST.origin.y = _VW_qtycontent.frame.origin.y + _VW_qtycontent.frame.size.height + 10;
     _lbl_arrowpromocode.frame = frame_ST;
     
     frame_ST = _BTN_promocode.frame;
-    frame_ST.origin.y = _BTN_promocode.frame.origin.y + qty_frame_Y;
+    frame_ST.origin.y = _VW_qtycontent.frame.origin.y + _VW_qtycontent.frame.size.height + 10;
     _BTN_promocode.frame = frame_ST;
     
     [_BTN_promocode addTarget:self action:@selector(BTN_promocode_TAP) forControlEvents:UIControlEventTouchUpInside];
     
     frame_ST = _VW_promo.frame;
-    frame_ST.origin.y = _VW_promo.frame.origin.y + qty_frame_Y;
+    frame_ST.origin.y = _BTN_promocode.frame.origin.y + _BTN_promocode.frame.size.height + 10;
     _VW_promo.frame = frame_ST;
     
     frame_ST = _VW_line1.frame;
-    frame_ST.origin.y = _VW_line1.frame.origin.y + qty_frame_Y;
+    frame_ST.origin.y = _BTN_promocode.frame.origin.y + _BTN_promocode.frame.size.height + 10;
     _VW_line1.frame = frame_ST;
     
     frame_ST = _lbl_titleSubtotal.frame;
-    frame_ST.origin.y = _lbl_titleSubtotal.frame.origin.y + qty_frame_Y;
+    frame_ST.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
     _lbl_titleSubtotal.frame = frame_ST;
     
     frame_ST = _lbl_datasubtotal.frame;
-    frame_ST.origin.y = _lbl_datasubtotal.frame.origin.y + qty_frame_Y;
+    frame_ST.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
     _lbl_datasubtotal.frame = frame_ST;
     
     frame_ST = _VW_line2.frame;
-    frame_ST.origin.y = _VW_line2.frame.origin.y + qty_frame_Y;
+    frame_ST.origin.y = _lbl_titleSubtotal.frame.origin.y + _lbl_titleSubtotal.frame.size.height + 10;
     _VW_line2.frame = frame_ST;
     
     frame_ST = _lbl_titleTotal.frame;
-    frame_ST.origin.y = _lbl_titleTotal.frame.origin.y + qty_frame_Y;
+    frame_ST.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
     _lbl_titleTotal.frame = frame_ST;
     
     frame_ST = _lbl_dataTotal.frame;
-    frame_ST.origin.y = _lbl_dataTotal.frame.origin.y + qty_frame_Y;
+    frame_ST.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
     _lbl_dataTotal.frame = frame_ST;
     
     [_BTN_checkout addTarget:self action:@selector(decide_VC) forControlEvents:UIControlEventTouchUpInside];
     
     frame_ST = _BTN_checkout.frame;
-    frame_ST.origin.y = _BTN_checkout.frame.origin.y + qty_frame_Y;
+    frame_ST.origin.y = _lbl_titleTotal.frame.origin.y + _lbl_titleTotal.frame.size.height + 10;
     _BTN_checkout.frame = frame_ST;
     
-    _VW_promo.layer.borderWidth = 2.0f;
-    _VW_promo.layer.borderColor = [UIColor colorWithRed:0.56 green:0.56 blue:0.57 alpha:1.0].CGColor;
+//    _VW_promo.layer.borderWidth = 2.0f;
+//    _VW_promo.layer.borderColor = [UIColor colorWithRed:0.56 green:0.56 blue:0.57 alpha:1.0].CGColor;
     _VW_promo.hidden = YES;
+    
+    _TXT_promocode.layer.borderWidth = 1.0f;
+    _TXT_promocode.layer.borderColor = [UIColor colorWithRed:0.56 green:0.56 blue:0.57 alpha:1.0].CGColor;
+    _TXT_promocode.layer.cornerRadius = 5.0f;
+    _TXT_promocode.layer.masksToBounds = YES;
     
     original_height = _BTN_checkout.frame.origin.y + _BTN_checkout.frame.size.height + 40;
     
@@ -356,6 +394,7 @@
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
     [_TXT_qty resignFirstResponder];
+    [_TXT_promocode resignFirstResponder];
     
     if ([touch.view isDescendantOfView:_BTN_promocode]) {
         return NO;
@@ -369,14 +408,25 @@
 #define MAX_LENGTH 2
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    if (textField.text.length >= MAX_LENGTH && range.length == 0)
-    {
-        return NO;
+    if (textField == _TXT_qty) {
+        if (textField.text.length >= MAX_LENGTH && range.length == 0)
+        {
+            return NO;
+        }
+        else
+        {
+            return YES;
+        }
     }
     else
     {
         return YES;
     }
+}
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
 }
 
 #pragma mark - UIButton Actions
@@ -400,7 +450,7 @@
         //    _lbl_arrowpromocode.hidden = YES;
         
         
-        float newHT = _BTN_promocode.frame.size.height + 10;
+        float newHT = _BTN_promocode.frame.size.height + 25;
         
         [UIView animateWithDuration:0.5 animations:^{
             _VW_line1.frame = CGRectMake(_VW_line1.frame.origin.x, _VW_line1.frame.origin.y + newHT, _VW_line1.frame.size.width, _VW_line1.frame.size.height);
@@ -442,7 +492,7 @@
                     completion:NULL];
     [_VW_promo  setHidden:YES];
     
-    float btn_ht = _BTN_promocode.frame.size.height + 10;
+    float btn_ht = _BTN_promocode.frame.size.height + 25;
     
     [UIView animateWithDuration:0.5 animations:^{
         _VW_line1.frame = CGRectMake(_VW_line1.frame.origin.x, _VW_line1.frame.origin.y - btn_ht, _VW_line1.frame.size.width, _VW_line1.frame.size.height);
@@ -464,8 +514,8 @@
 -(void)get_caluculated_text
 {
     NSArray *arr = [_lbl_price.text componentsSeparatedByString:@"$"];
-    _lbl_dataTotal.text = [NSString stringWithFormat:@"$ %d.00",[_TXT_qty.text intValue] * [[arr objectAtIndex:1] intValue]];
-    _lbl_datasubtotal.text = [NSString stringWithFormat:@"$ %d.00",[_TXT_qty.text intValue] * [[arr objectAtIndex:1] intValue]];
+    _lbl_dataTotal.text = [NSString stringWithFormat:@"$ %.02f",[_TXT_qty.text floatValue] * [[arr objectAtIndex:1] floatValue]];
+    _lbl_datasubtotal.text = [NSString stringWithFormat:@"$ %.02f",[_TXT_qty.text floatValue] * [[arr objectAtIndex:1] floatValue]];
 }
 
 #pragma mark - API Integration

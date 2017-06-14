@@ -27,136 +27,140 @@
     NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults] valueForKey:@"PurchaseRESPONSE"] options:NSASCIIStringEncoding error:&error];
     NSLog(@"Response from purchase controller :%@",dict);
     
-    CGRect content_frame = _content_view.frame;
-    content_frame.size.width =_scroll.frame.size.width;
-    _content_view.frame = content_frame;
-    [self.scroll addSubview:_content_view];
-    self.start_View.frame=CGRectMake(0,self.content_view.frame.origin.y-self.navigationController.navigationBar.frame.size.height+20, self.content_view.bounds.size.width,self.navigationController.navigationBar.frame.size.height+20);
-    [self.content_view addSubview:self.start_View];
-    //    self.main_View.frame=CGRectMake(0, self.content_view.frame.origin.y-self.navigationController.navigationBar.frame.size.height+self.start_View.frame.size.height+80, self.content_view.bounds.size.width, self.navigationController.navigationBar.frame.size.height+40-self.start_View.frame.size.height-40);
-    //    [self.content_view addSubview:self.main_View];
-    //
-    //    self.pur_view.frame=CGRectMake(0, self.content_view.frame.origin.y-self.navigationController.navigationBar.frame.size.height+self.start_View.frame.size.height+80+self.main_View.frame.size.height+260, self.content_view.bounds.size.width,self.navigationController.navigationBar.frame.size.height+40-self.start_View.frame.size.height-40-self.main_View.frame.size.height-40);
-    [self.content_view addSubview:self.pur_view];
-    
-    self.status_Label.text = @"Thank You For Purchase";
-    
-    self.confirm_mail.text = [NSString stringWithFormat:@"A Confirmation mail Has been Sent to your Mail %@",[dict valueForKey:@"email"]];
-    [self.confirm_mail sizeToFit];
-    self.order.text = [NSString stringWithFormat:@"Order #%@",[dict valueForKey:@"order_id"]];
-    self.order_summary.text = @"Order Summary";
-    self.qty.text=[NSString stringWithFormat:@"Qty:%@",[dict valueForKey:@"quantity"]];
-    NSString *des = [dict valueForKey:@"name"];
-    NSString *code = [NSString stringWithFormat:@"%@-%@",[dict valueForKey:@"code"],[dict valueForKey:@"name"]];
-    NSString *text = [NSString stringWithFormat:@"%@,\n%@",des,code];
-    // Define general attributes for the entire text
-    NSDictionary *attribs = @{
-                              NSForegroundColorAttributeName:[UIColor darkGrayColor],
-                              NSFontAttributeName: [UIFont fontWithName:@"Gotham-Book" size:17]
-                              };
-    NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:text attributes:attribs];
-    
-    
-    UIFont *boldFont = [UIFont fontWithName:@"Gotham-Book" size:17];
-    NSRange range = [text rangeOfString:des];
-    [attributedText setAttributes:@{NSForegroundColorAttributeName: [UIColor darkGrayColor],
-                                    NSFontAttributeName:boldFont} range:range];
-    
-    UIColor *greenColor = [UIColor lightGrayColor];
-    NSRange greenTextRange = [text rangeOfString:code];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-    [attributedText setAttributes:@{NSForegroundColorAttributeName:greenColor,NSFontAttributeName:boldFont}
-                            range:greenTextRange];
-    
-    
-    self.des_cription.attributedText = attributedText;
-    
-    [self.des_cription sizeToFit];
-    [self.confirm_mail sizeToFit];
-    
-    
-    
-    //after displaying the data new FRAME
-    CGRect new_Frame=self.confirm_mail.frame;
-    new_Frame.origin.y=self.status_Label.frame.origin.y+self.status_Label.frame.size.height+10;
-    self.confirm_mail.frame=new_Frame;
-    [self.confirm_mail sizeToFit];
-    
-    new_Frame=self.order.frame;
-    new_Frame.origin.y=self.confirm_mail.frame.origin.y+self.confirm_mail.frame.size.height+10;
-    self.order.frame=new_Frame;
-    
-    
-    new_Frame=self.order_summary.frame;
-    new_Frame.origin.y=self.order.frame.origin.y+self.order.frame.size.height+10;
-    self.order_summary.frame=new_Frame;
-    
-    new_Frame=self.first_VW.frame;
-    new_Frame.origin.y=self.order_summary.frame.origin.y+self.order_summary.frame.size.height+10;
-    self.first_VW.frame=new_Frame;
-    
-    
-    new_Frame=self.name_ticket.frame;
-    new_Frame.origin.y=self.first_VW.frame.origin.y+self.first_VW.frame.size.height+10;
-    self.name_ticket.frame=new_Frame;
-    
-    new_Frame=self.qty.frame;
-    new_Frame.origin.y=self.name_ticket.frame.origin.y;
-    self.qty.frame=new_Frame;
-    
-    new_Frame=self.des_cription.frame;
-    new_Frame.origin.y=self.name_ticket.frame.origin.y+self.name_ticket.frame.size.height+10;
-    self.des_cription.frame=new_Frame;
-    
-    new_Frame=self.amount.frame;
-    new_Frame.origin.y=self.des_cription.frame.origin.y;
-    self.amount.frame=new_Frame;
-    _amount.text = [NSString stringWithFormat:@"$ %@",[dict valueForKey:@"price"]];
-
-    
-    
-    
-    new_Frame=self.pur_view.frame;
-    new_Frame.origin.y=self.des_cription.frame.origin.y+self.des_cription.frame.size.height+10;
-    self.pur_view.frame=new_Frame;
-    
-    new_Frame=_sub_total.frame;
-    new_Frame.origin.y=self.pur_view.frame.origin.y+self.pur_view.frame.size.height+30;
-    self.sub_total.frame=new_Frame;
-    
-    new_Frame=_sub_amount.frame;
-    new_Frame.origin.y=self.sub_total.frame.origin.y+10;
-    _sub_amount.frame=new_Frame;
-    
-    _sub_amount.text = [NSString stringWithFormat:@"$ %@",[dict valueForKey:@"price"]];
-
-    
-    
-    new_Frame=self.sec_vw.frame;
-    new_Frame.origin.y=self.sub_total.frame.origin.y+self.sub_total.frame.size.height+10;
-    self.sec_vw.frame=new_Frame;
-    
-    new_Frame=self.total.frame;
-    new_Frame.origin.y=self.sec_vw.frame.origin.y+self.sec_vw.frame.size.height+10;
-    self.total.frame=new_Frame;
-    
-    new_Frame=self.total_amount.frame;
-    new_Frame.origin.y=self.total.frame.origin.y+10;
-    self.total_amount.frame=new_Frame;
-    _total_amount.text = [NSString stringWithFormat:@"$ %@",[dict valueForKey:@"price"]];
-    
-    new_Frame=self._BTN_Ok.frame;
-    new_Frame.origin.y=self.total.frame.origin.y+self.total.frame.size.height+10;
-    self._BTN_Ok.frame = new_Frame;
-    
+    if (dict) {
+        CGRect content_frame = _content_view.frame;
+        content_frame.size.width =_scroll.frame.size.width;
+        _content_view.frame = content_frame;
+        [self.scroll addSubview:_content_view];
+        self.start_View.frame=CGRectMake(0,self.content_view.frame.origin.y-self.navigationController.navigationBar.frame.size.height+20, self.content_view.bounds.size.width,self.navigationController.navigationBar.frame.size.height+20);
+        [self.content_view addSubview:self.start_View];
+        //    self.main_View.frame=CGRectMake(0, self.content_view.frame.origin.y-self.navigationController.navigationBar.frame.size.height+self.start_View.frame.size.height+80, self.content_view.bounds.size.width, self.navigationController.navigationBar.frame.size.height+40-self.start_View.frame.size.height-40);
+        //    [self.content_view addSubview:self.main_View];
+        //
+        //    self.pur_view.frame=CGRectMake(0, self.content_view.frame.origin.y-self.navigationController.navigationBar.frame.size.height+self.start_View.frame.size.height+80+self.main_View.frame.size.height+260, self.content_view.bounds.size.width,self.navigationController.navigationBar.frame.size.height+40-self.start_View.frame.size.height-40-self.main_View.frame.size.height-40);
+        [self.content_view addSubview:self.pur_view];
+        
+        self.status_Label.text = @"Thank You For Purchase";
+        
+        self.confirm_mail.text = [NSString stringWithFormat:@"A Confirmation mail Has been Sent to your Mail %@",[dict valueForKey:@"email"]];
+        [self.confirm_mail sizeToFit];
+        self.order.text = [NSString stringWithFormat:@"Order #%@",[dict valueForKey:@"order_id"]];
+        self.order_summary.text = @"Order Summary";
+        self.qty.text=[NSString stringWithFormat:@"Qty:%@",[dict valueForKey:@"quantity"]];
+        NSString *des = [dict valueForKey:@"name"];
+        NSString *code = [NSString stringWithFormat:@"%@-%@",[dict valueForKey:@"code"],[dict valueForKey:@"name"]];
+        NSString *text = [NSString stringWithFormat:@"%@,\n%@",des,code];
+        // Define general attributes for the entire text
+        NSDictionary *attribs = @{
+                                  NSForegroundColorAttributeName:[UIColor darkGrayColor],
+                                  NSFontAttributeName: [UIFont fontWithName:@"Gotham-Book" size:17]
+                                  };
+        NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:text attributes:attribs];
+        
+        
+        UIFont *boldFont = [UIFont fontWithName:@"Gotham-Book" size:17];
+        NSRange range = [text rangeOfString:des];
+        [attributedText setAttributes:@{NSForegroundColorAttributeName: [UIColor darkGrayColor],
+                                        NSFontAttributeName:boldFont} range:range];
+        
+        UIColor *greenColor = [UIColor lightGrayColor];
+        NSRange greenTextRange = [text rangeOfString:code];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+        [attributedText setAttributes:@{NSForegroundColorAttributeName:greenColor,NSFontAttributeName:boldFont}
+                                range:greenTextRange];
+        
+        
+        self.des_cription.attributedText = attributedText;
+        
+        [self.des_cription sizeToFit];
+        [self.confirm_mail sizeToFit];
+        
+        
+        
+        //after displaying the data new FRAME
+        CGRect new_Frame=self.confirm_mail.frame;
+        new_Frame.origin.y=self.status_Label.frame.origin.y+self.status_Label.frame.size.height+10;
+        self.confirm_mail.frame=new_Frame;
+        [self.confirm_mail sizeToFit];
+        
+        new_Frame=self.order.frame;
+        new_Frame.origin.y=self.confirm_mail.frame.origin.y+self.confirm_mail.frame.size.height+10;
+        self.order.frame=new_Frame;
+        
+        
+        new_Frame=self.order_summary.frame;
+        new_Frame.origin.y=self.order.frame.origin.y+self.order.frame.size.height+10;
+        self.order_summary.frame=new_Frame;
+        
+        new_Frame=self.first_VW.frame;
+        new_Frame.origin.y=self.order_summary.frame.origin.y+self.order_summary.frame.size.height+10;
+        self.first_VW.frame=new_Frame;
+        
+        
+        new_Frame=self.name_ticket.frame;
+        new_Frame.origin.y=self.first_VW.frame.origin.y+self.first_VW.frame.size.height+10;
+        self.name_ticket.frame=new_Frame;
+        
+        new_Frame=self.qty.frame;
+        new_Frame.origin.y=self.name_ticket.frame.origin.y;
+        self.qty.frame=new_Frame;
+        
+        new_Frame=self.des_cription.frame;
+        new_Frame.origin.y=self.name_ticket.frame.origin.y+self.name_ticket.frame.size.height+10;
+        self.des_cription.frame=new_Frame;
+        
+        new_Frame=self.amount.frame;
+        new_Frame.origin.y=self.des_cription.frame.origin.y;
+        self.amount.frame=new_Frame;
+        _amount.text = [NSString stringWithFormat:@"$ %@",[dict valueForKey:@"price"]];
+        
+        
+        
+        
+        new_Frame=self.pur_view.frame;
+        new_Frame.origin.y=self.des_cription.frame.origin.y+self.des_cription.frame.size.height+10;
+        self.pur_view.frame=new_Frame;
+        
+        new_Frame=_sub_total.frame;
+        new_Frame.origin.y=self.pur_view.frame.origin.y+self.pur_view.frame.size.height+30;
+        self.sub_total.frame=new_Frame;
+        
+        new_Frame=_sub_amount.frame;
+        new_Frame.origin.y=self.sub_total.frame.origin.y+10;
+        _sub_amount.frame=new_Frame;
+        
+        _sub_amount.text = [NSString stringWithFormat:@"$ %@",[dict valueForKey:@"price"]];
+        
+        
+        
+        new_Frame=self.sec_vw.frame;
+        new_Frame.origin.y=self.sub_total.frame.origin.y+self.sub_total.frame.size.height+10;
+        self.sec_vw.frame=new_Frame;
+        
+        new_Frame=self.total.frame;
+        new_Frame.origin.y=self.sec_vw.frame.origin.y+self.sec_vw.frame.size.height+10;
+        self.total.frame=new_Frame;
+        
+        new_Frame=self.total_amount.frame;
+        new_Frame.origin.y=self.total.frame.origin.y+10;
+        self.total_amount.frame=new_Frame;
+        _total_amount.text = [NSString stringWithFormat:@"$ %@",[dict valueForKey:@"price"]];
+        
+        new_Frame=self._BTN_Ok.frame;
+        new_Frame.origin.y=self.total.frame.origin.y+self.total.frame.size.height+10;
+        self._BTN_Ok.frame = new_Frame;
+        
+        
+        
+        [__BTN_Ok addTarget:self action:@selector(Ok_Clicked) forControlEvents:UIControlEventTouchUpInside];
+        //  [_start_View addSubview:__BTN_Ok];
+        
+        CGRect final_frame = _start_View.frame;
+        final_frame.size.height = __BTN_Ok.frame.origin.y + __BTN_Ok.frame.size.height + 20;
+        _start_View.frame = final_frame;
+    }
     
     
     [__BTN_Ok addTarget:self action:@selector(Ok_Clicked) forControlEvents:UIControlEventTouchUpInside];
-  //  [_start_View addSubview:__BTN_Ok];
-    
-    CGRect final_frame = _start_View.frame;
-    final_frame.size.height = __BTN_Ok.frame.origin.y + __BTN_Ok.frame.size.height + 20;
-    _start_View.frame = final_frame;
-    
     
     //    CGRect titleLabelBounds = self.des_cription.bounds;
     //    titleLabelBounds.size.height = CGFLOAT_MAX;

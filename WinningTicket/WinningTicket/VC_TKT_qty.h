@@ -28,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *lbl_dataTotal;
 
 @property (weak, nonatomic) IBOutlet UITextField *TXT_qty;
+@property (weak, nonatomic) IBOutlet UITextField *TXT_promocode;
 
 @property (weak, nonatomic) IBOutlet UIButton *BTN_checkout;
 

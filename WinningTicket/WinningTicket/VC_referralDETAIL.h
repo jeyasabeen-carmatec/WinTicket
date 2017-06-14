@@ -11,6 +11,8 @@
 @interface VC_referralDETAIL : UIViewController
 
 @property (weak, nonatomic) IBOutlet UILabel *lbl_title;
+@property (weak, nonatomic) IBOutlet UITextField *TXT_detils;
+
 @property (weak, nonatomic) IBOutlet UITextField *TXT_phone;
 @property (weak, nonatomic) IBOutlet UITextField *TXT_email;
 

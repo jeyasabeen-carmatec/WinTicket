@@ -102,45 +102,53 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    if(textField.tag==1)
-    {
-               NSInteger inte = textField.text.length;
-        if (inte <2 && inte > 30)
-        {
-            return NO;
-        }
-        else
-            _TXT_newPWD.enabled=YES;
-        return YES;
-        
-        
-    }
-    if(textField.tag==2)
-    {
-        NSInteger inte = textField.text.length;
-        if (inte <2 && inte > 30)
-        {
-            return NO;
-            
-        }
-        else
-            _TXT_confirmnewPWD.enabled=YES;
-        return YES;
-    }
-    if(textField.tag==3)
-    {
-        NSInteger inte = textField.text.length;
-        if (inte <2 && inte > 30)
-        {
-            return NO;
-            
-        }
-        else
-            _done_Btn.enabled=YES;
-        return YES;
-    }
-
-    return YES;
+//    NSInteger inte = textField.text.length;
+//    if(textField.tag==1)
+//    {NSInteger inte = textField.text.length;
+//        if (inte <= 2)
+//        {
+//            return YES;
+//            
+//        }
+//        else if(inte >= 15)
+//        {
+//            return NO;
+//        }
+//        
+//        return YES;
+//        
+//        
+//    }
+//    if(textField.tag==2)
+//    {
+//        if (inte <= 2)
+//        {
+//            return YES;
+//            
+//        }
+//        else if(inte >= 15)
+//        {
+//            return NO;
+//        }
+//        
+//        return YES;
+//    }
+//    if(textField.tag==3)
+//    {
+//        if (inte <= 2)
+//        {
+//            return YES;
+//            
+//        }
+//        else if(inte >= 15)
+//        {
+//            return NO;
+//        }
+//        
+//        return YES;
+//    }
+//
+   return YES;
 }
 #pragma mark - BTN Actions
 -(IBAction)BTN_close:(id)sender
@@ -153,13 +161,26 @@
     {
         [_TXT_currentPWD becomeFirstResponder];
     }
-    else  if([_TXT_newPWD.text isEqualToString:@""])
+    else  if([_TXT_newPWD.text isEqualToString:@""] || _TXT_newPWD.text.length <= 8)
     {
         [_TXT_newPWD becomeFirstResponder];
+        _Stat_label.hidden=NO;
+        [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];
+        _Stat_label.text=@"Password length should be More than 8 characters";
     }
-    else  if([_TXT_confirmnewPWD.text isEqualToString:@""])
+    else  if([_TXT_confirmnewPWD.text isEqualToString:@""] || _TXT_newPWD.text.length <= 8)
     {
         [_TXT_confirmnewPWD becomeFirstResponder];
+        _Stat_label.hidden=NO;
+        [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];
+        _Stat_label.text=@"Password length should be More than 8 characters";
+    }
+    else if([_TXT_newPWD.text isEqualToString:_TXT_confirmnewPWD.text])
+    {
+        _Stat_label.hidden=NO;
+        [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];
+        _Stat_label.text=@"Passwords are not matched";
+
     }
     else
     {
@@ -212,6 +233,12 @@
         
     [activityIndicatorView stopAnimating];
     VW_overlay.hidden = YES;
+        
+        NSString *password = [[NSUserDefaults standardUserDefaults] valueForKey:@"loginPWD"];
+        if (password) {
+            [[NSUserDefaults standardUserDefaults] setValue:confirm_pwd forKey:@"loginPWD"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
         
     _Stat_label.hidden=NO;
     [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];

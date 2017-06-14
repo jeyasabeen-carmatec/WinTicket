@@ -98,9 +98,9 @@
     _BTN_sponsor.layer.borderWidth=1;
     _BTN_sponsor.backgroundColor = [UIColor clearColor];
     
-    _BTN_affiliate.layer.cornerRadius=5;
-    _BTN_affiliate.layer.borderWidth=1;
-    _BTN_affiliate.backgroundColor = [UIColor clearColor];
+//    _BTN_affiliate.layer.cornerRadius=5;
+//    _BTN_affiliate.layer.borderWidth=1;
+//    _BTN_affiliate.backgroundColor = [UIColor clearColor];
     
     _BTN_organizer.layer.cornerRadius=5;
     _BTN_organizer.layer.borderWidth=1;
@@ -111,7 +111,7 @@
     _BTN_contributer.backgroundColor = [UIColor clearColor];
     
     [_BTN_sponsor addTarget:self action:@selector(changeButtonBackGroundColor:) forControlEvents:UIControlEventTouchUpInside];
-    [_BTN_affiliate addTarget:self action:@selector(changeButtonBackGroundColor:) forControlEvents:UIControlEventTouchUpInside];
+//    [_BTN_affiliate addTarget:self action:@selector(changeButtonBackGroundColor:) forControlEvents:UIControlEventTouchUpInside];
     [_BTN_organizer addTarget:self action:@selector(changeButtonBackGroundColor:) forControlEvents:UIControlEventTouchUpInside];
     [_BTN_contributer addTarget:self action:@selector(changeButtonBackGroundColor:) forControlEvents:UIControlEventTouchUpInside];
     [_BTN_addRefeerel addTarget:self action:@selector(add_referel_TAP) forControlEvents:UIControlEventTouchUpInside];
@@ -125,7 +125,7 @@
         
         [_BTN_contributer setBackgroundColor:[UIColor clearColor]];
         [_BTN_organizer setBackgroundColor:[UIColor clearColor]];
-        [_BTN_affiliate setBackgroundColor:[UIColor clearColor]];
+//        [_BTN_affiliate setBackgroundColor:[UIColor clearColor]];
         
     }
     if(sender.tag == 2)
@@ -134,7 +134,7 @@
         
         [_BTN_sponsor setBackgroundColor:[UIColor clearColor]];
         [_BTN_organizer setBackgroundColor:[UIColor clearColor]];
-        [_BTN_affiliate setBackgroundColor:[UIColor clearColor]];
+//        [_BTN_affiliate setBackgroundColor:[UIColor clearColor]];
         
     }
     if(sender.tag == 3)
@@ -143,16 +143,16 @@
         
         [_BTN_sponsor setBackgroundColor:[UIColor clearColor]];
         [_BTN_contributer setBackgroundColor:[UIColor clearColor]];
-        [_BTN_affiliate setBackgroundColor:[UIColor clearColor]];
+//        [_BTN_affiliate setBackgroundColor:[UIColor clearColor]];
     }
-    if (sender.tag == 4)
+   /* if (sender.tag == 4)
     {
         [_BTN_affiliate setBackgroundColor:[UIColor lightGrayColor]];
         
         [_BTN_sponsor setBackgroundColor:[UIColor clearColor]];
         [_BTN_contributer setBackgroundColor:[UIColor clearColor]];
         [_BTN_organizer setBackgroundColor:[UIColor clearColor]];
-    }
+    }*/
 }
 
 #pragma mark - UItextfield Deligate
@@ -183,11 +183,11 @@
     {
         [_TXT_referal_email becomeFirstResponder];
     }
-    else if (_TXT_referal_phone.text.length < 6)
+    else if (_TXT_referal_phone.text.length < 12)
     {
         [_TXT_referal_phone becomeFirstResponder];
     }
-    else if (_BTN_sponsor.backgroundColor == [UIColor clearColor] && _BTN_contributer.backgroundColor == [UIColor clearColor] && _BTN_organizer.backgroundColor == [UIColor clearColor] && _BTN_affiliate.backgroundColor == [UIColor clearColor])
+    else if (_BTN_sponsor.backgroundColor == [UIColor clearColor] && _BTN_contributer.backgroundColor == [UIColor clearColor] && _BTN_organizer.backgroundColor == [UIColor clearColor])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please Select a Role" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
@@ -215,16 +215,16 @@
     }
     else if (_BTN_contributer.backgroundColor != [UIColor clearColor])
     {
-        role = @"contributor";
+        role = @"organizer";
     }
     else if (_BTN_organizer.backgroundColor != [UIColor clearColor])
     {
-        role = @"organizer";
+        role = @"contributor";
     }
-    else if (_BTN_affiliate.backgroundColor != [UIColor clearColor])
-    {
-        role = @"affiliate";
-    }
+//    else if (_BTN_affiliate.backgroundColor != [UIColor clearColor])
+//    {
+//        role = @"affiliate";
+//    }
     
     NSError *error;
     NSError *err;
@@ -250,6 +250,40 @@
         
         NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"The response add referrel %@",json_DATA);
+        if(json_DATA)
+        {
+            if([[json_DATA valueForKey:@"status"] isEqualToString:@"Failure"])
+               {
+                   UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                   [alert show];
+
+               }
+            else
+            {
+            UIAlertController * alert=[UIAlertController alertControllerWithTitle:@""
+                                                                          message:[json_DATA valueForKey:@"message"]
+                                                                   preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* yesButton = [UIAlertAction actionWithTitle:@"Ok"
+                                                                style:UIAlertActionStyleCancel
+                                                              handler:^(UIAlertAction * action)
+                                        {
+                                            
+                                            [self dismissViewControllerAnimated:YES completion:nil];
+                                        }];
+            
+            [alert addAction:yesButton];
+            
+            [self presentViewController:alert animated:YES completion:nil];
+            }
+
+        }
+        if(!json_DATA)
+           {
+               UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+               [alert show];
+           }
+        
     }
     else
     {

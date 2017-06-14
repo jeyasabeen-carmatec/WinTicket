@@ -133,7 +133,7 @@
     
     NSLog(@"The response from checkout detail VC \n%@",temp_resp);
     
-    _lbl_datasubtotal.text = [NSString stringWithFormat:@"$ %d",[[temp_resp valueForKey:@"price"] intValue] * [[temp_resp valueForKey:@"quantity"] intValue]];
+    _lbl_datasubtotal.text = [NSString stringWithFormat:@"$ %.02f",[[temp_resp valueForKey:@"price"] floatValue] * [[temp_resp valueForKey:@"quantity"] floatValue]];
     _lbl_datatotal.text = _lbl_datasubtotal.text;
     
     [_BTN_order2 addTarget:self action:@selector(BTN_order2action) forControlEvents:UIControlEventTouchUpInside];
@@ -355,9 +355,16 @@
 {
     NSError *error;
     NSHTTPURLResponse *response = nil;
-    NSString *total = _lbl_datatotal.text;
     
-    NSDictionary *parameters = @{ @"nonce":[[NSUserDefaults standardUserDefaults] valueForKey:@"NAUNCETOK"] , @"transaction_type":@"purchase", @"price":total };
+    
+    NSMutableDictionary *temp_resp = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults] valueForKey:@"CHKOUTDETAIL"] options:NSASCIIStringEncoding error:&error];
+    
+    float total = [[temp_resp valueForKey:@"price"] floatValue] * [[temp_resp valueForKey:@"quantity"] floatValue];
+    NSString *a = [NSString stringWithFormat:@"%.2f", total];
+    
+    NSString *nanunce = [[NSUserDefaults standardUserDefaults] valueForKey:@"NAUNCETOK"];
+    
+    NSDictionary *parameters = @{@"nonce":nanunce, @"transaction_type":@"purchase", @"price":[NSNumber numberWithFloat:[a floatValue]]};
     
     NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&error];
     NSString *urlGetuser =[NSString stringWithFormat:@"%@payments/create",SERVER_URL];

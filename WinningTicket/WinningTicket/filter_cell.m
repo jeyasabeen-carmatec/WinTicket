@@ -1,14 +1,14 @@
 //
-//  referal_cell.m
+//  filter_cell.m
 //  winning_ticket_AddReferals
 //
-//  Created by anumolu prakash on 18/04/17.
+//  Created by Test User on 10/06/17.
 //  Copyright © 2017 carmatec. All rights reserved.
 //
 
-#import "referal_cell.h"
+#import "filter_cell.h"
 
-@implementation referal_cell
+@implementation filter_cell
 
 - (void)awakeFromNib {
     [super awakeFromNib];

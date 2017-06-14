@@ -1,14 +1,14 @@
 //
-//  CSTM_cell_LBL.m
+//  lbl_lineSPACE.m
 //  WinningTicket
 //
-//  Created by Test User on 09/06/17.
+//  Created by Test User on 13/06/17.
 //  Copyright © 2017 Test User. All rights reserved.
 //
 
-#import "CSTM_cell_LBL.h"
+#import "lbl_lineSPACE.h"
 
-@implementation CSTM_cell_LBL
+@implementation lbl_lineSPACE
 
 /*
 // Only override drawRect: if you perform custom drawing.
@@ -17,9 +17,10 @@
     // Drawing code
 }
 */
+
 - (void)setMyLineSpacing:(CGFloat)myLineSpacing
 {
-    _myLineSpacing = myLineSpacing;
+    _myLineSpacing = 10;
     self.text = self.text;
 }
 

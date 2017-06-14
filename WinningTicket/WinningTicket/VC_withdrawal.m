@@ -400,16 +400,9 @@
         [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"Account_data"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         [self dismissViewControllerAnimated:YES completion:nil];
-        
-        //        NSLog(@" THe user data is :%@",[[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"]);
-        //        [self performSegueWithIdentifier:@"accountstoeditprofileidentifier" sender:self];
-        //        [self myprofileapicalling];
     }
     else
     {
-        //        [activityIndicatorView stopAnimating];
-        //        VW_overlay.hidden = YES;
-        
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Interrupted" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
     }

@@ -45,27 +45,34 @@
 */
 -(void)viewWillAppear:(BOOL)animated
 {
-    NSData *aData=[[NSUserDefaults standardUserDefaults]valueForKey:@"Account_data"] ;
-    NSError *error;
-    if(aData)
-    {
-        NSMutableDictionary *account_data=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"Account_data"] options:NSASCIIStringEncoding error:&error];
-        NSLog(@"the user data is:%@",account_data);
-        
-        NSDictionary *temp_dict=[account_data valueForKey:@"user"];
-        self.first_name.text=[temp_dict valueForKey:@"first_name"];
-        [self.first_name sizeToFit];
-        self.last_name.text=[temp_dict valueForKey:@"email"];
-        [self.last_name sizeToFit];
-        self.amount.text=[NSString stringWithFormat:@"$ %@",[account_data valueForKey:@"wallet"]];
-        
-    }
-    else
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-        [alert show];
-        
-    }
+    VW_overlay = [[UIView alloc]init];
+    VW_overlay.frame = [UIScreen mainScreen].bounds;
+    //    VW_overlay.center = self.view.center;
+    
+    [self.view addSubview:VW_overlay];
+    VW_overlay.backgroundColor = [UIColor blackColor];
+    VW_overlay.alpha = 0.2;
+    
+    
+    
+    
+    activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallSpinFadeLoader tintColor:[UIColor whiteColor]];
+    
+    CGRect frame_M = activityIndicatorView.frame;
+    frame_M.origin.x = 0;
+    frame_M.origin.y = 0;
+    frame_M.size.width = VW_overlay.frame.size.width;
+    frame_M.size.height = VW_overlay.frame.size.height;
+    activityIndicatorView.frame = frame_M;
+    
+    [VW_overlay addSubview:activityIndicatorView];
+    //        activityIndicatorView.center=myview.center;
+    
+    VW_overlay.hidden = YES;
+    
+    VW_overlay.hidden = NO;
+    [activityIndicatorView startAnimating];
+    [self performSelector:@selector(myaccount_API_calling) withObject:activityIndicatorView afterDelay:0.01];
 }
 
 -(void) setup_VIEW
@@ -507,6 +514,97 @@
     [activityIndicatorView stopAnimating];
     VW_overlay.hidden = YES;
     [self performSegueWithIdentifier:@"accounttowelcomescreen" sender:self];
+}
+
+-(void)myaccount_API_calling
+{
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@my_account",SERVER_USR];
+    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"Account_data"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        //        NSLog(@" THe user data is :%@",[[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"]);
+        //        [self performSegueWithIdentifier:@"accountstoeditprofileidentifier" sender:self];
+        VW_overlay.hidden = NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(myprofileapicalling) withObject:activityIndicatorView afterDelay:0.01];
+        //        [self myprofileapicalling];
+    }
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Interrupted" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+    
+}
+-(void)myprofileapicalling
+{
+    NSData *PFData=[[NSUserDefaults standardUserDefaults]valueForKey:@"Account_data"] ;
+    NSError *error;
+    if(PFData)
+    {
+        NSMutableDictionary *account_data=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:PFData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"the user data is:%@",account_data);
+        
+        NSDictionary *temp_dict=[account_data valueForKey:@"user"];
+        self.first_name.text=[temp_dict valueForKey:@"first_name"];
+        [self.first_name sizeToFit];
+        self.last_name.text=[temp_dict valueForKey:@"email"];
+        [self.last_name sizeToFit];
+        self.amount.text=[NSString stringWithFormat:@"$ %@",[account_data valueForKey:@"wallet"]];
+        
+    }
+    
+    
+
+    NSHTTPURLResponse *response = nil;
+    
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@view_profile",SERVER_USR];
+    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        //        NSLog(@" THe user data is :%@",[[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"]);
+        //        [self performSegueWithIdentifier:@"accountstoeditprofileidentifier" sender:self];
+//        [self parse_listEvents_api];
+    }
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Interrupted" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+    
 }
 
 @end

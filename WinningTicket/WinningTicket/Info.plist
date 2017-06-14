@@ -32,6 +32,7 @@
 		<string>gotham-medium-italic.otf</string>
 		<string>gotham-pro-narrow-medium.otf</string>
 		<string>gotham-pro-medium.otf</string>
+		<string>gotham-light-italic.otf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
