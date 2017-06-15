@@ -52,6 +52,7 @@
     self.navigationController.navigationBar.shadowImage = [UIImage new];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
+    
     _tbl_all_event.estimatedRowHeight = 10.0;
     _tbl_all_event.rowHeight = UITableViewAutomaticDimension;
     _tbl_all_event.allowsSelection = NO;
@@ -60,11 +61,9 @@
     _tbl_upcomming_event.rowHeight = UITableViewAutomaticDimension;
     _tbl_upcomming_event.allowsSelection = NO;
     
-    _lbl_titl_event_code.hidden = YES;
-    _VW_hold_code.hidden = YES;
-    _BTN_cancel.hidden = YES;
-    _BTN_enter_event_code.hidden = YES;
-    _BTN_enter_event_code.enabled = NO;
+    [self get_Data];
+    [self setup_VIEW];
+    [self setup_VIEW];
     
     VW_overlay = [[UIView alloc]init];
     VW_overlay.frame = [UIScreen mainScreen].bounds;
@@ -108,7 +107,6 @@
         }
     }
     
-    [self get_Data];
 }
 
 -(void) backAction
@@ -298,7 +296,7 @@
     [self.scroll_content layoutIfNeeded];
     [_tbl_upcomming_event layoutIfNeeded];
     [_tbl_all_event layoutIfNeeded];
-    _scroll_content.contentSize = CGSizeMake(_scroll_content.frame.size.width, _VW_Scroll_CONTENT.frame.size.height + _BTN_all_event.frame.size.height + 80);
+    _scroll_content.contentSize = CGSizeMake(_scroll_content.frame.size.width, _VW_Scroll_CONTENT.frame.size.height);
 }
 
 #pragma mark - Determine Height
@@ -368,7 +366,7 @@
                 cell = [nib objectAtIndex:0];
             }
             
-            cell.lbl_emptycell.text = @"No Events Upcoming Events";
+            cell.lbl_emptycell.text = @"No Events Found !";
             cell.lbl_emptycell.numberOfLines = 0;
             [cell.lbl_emptycell sizeToFit];
             
@@ -424,7 +422,7 @@
                 cell = [nib objectAtIndex:0];
             }
             
-            cell.lbl_emptycell.text = @"No Events";
+            cell.lbl_emptycell.text = @"No Events Found !";
             cell.lbl_emptycell.numberOfLines = 0;
             [cell.lbl_emptycell sizeToFit];
             
@@ -746,9 +744,15 @@
 
 -(void) get_Data
 {
-    VW_overlay.hidden = NO;
-    [activityIndicatorView startAnimating];
-    [self performSelector:@selector(parse_listEvents_api) withObject:activityIndicatorView afterDelay:0.01];
+    NSError *error;
+    NSData *aData = [[NSUserDefaults standardUserDefaults] valueForKey:@"JsonEventlist"];
+    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+    NSLog(@"The response VC Home dsfdf %@",json_DATA);
+    
+    ARR_allevent = [json_DATA valueForKey:@"all_events"];
+    ARR_upcommingevent = [json_DATA valueForKey:@"upcoming_events"];
+    
+    
 }
 
 #pragma mark - Date Convert
@@ -919,55 +923,5 @@
     }
 }
 
-#pragma mark - Parse Events
--(void) parse_listEvents_api
-{
-    NSError *error;
-    NSHTTPURLResponse *response = nil;
-    
-    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
-    
-    NSString *urlGetuser =[NSString stringWithFormat:@"%@events",SERVER_URL];
-    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:urlProducts];
-    [request setHTTPMethod:@"GET"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
-    //    [request setHTTPShouldHandleCookies:NO];
-    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    if (aData)
-    {
-        [activityIndicatorView stopAnimating];
-        VW_overlay.hidden = YES;
-        
-        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"JsonEventlist"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-//        [self performSegueWithIdentifier:@"logintohomeidentifier" sender:self];
-        
-        NSError *error;
-        NSData *aData = [[NSUserDefaults standardUserDefaults] valueForKey:@"JsonEventlist"];
-        NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-        NSLog(@"The response VC Home dsfdf %@",json_DATA);
-        
-        ARR_allevent = [json_DATA valueForKey:@"all_events"];
-        ARR_upcommingevent = [json_DATA valueForKey:@"upcoming_events"];
-        
-        [_tbl_all_event reloadData];
-        [_tbl_upcomming_event reloadData];
-        
-        [self setup_VIEW];
-        [self setup_VIEW];
-    }
-    else
-    {
-        [activityIndicatorView stopAnimating];
-        VW_overlay.hidden = YES;
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Interrupted" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-        [alert show];
-    }
-}
 
 @end

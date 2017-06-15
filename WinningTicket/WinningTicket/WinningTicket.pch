@@ -18,13 +18,13 @@
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 #define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
 
-#define SERVER_URL @"http://192.168.3.135:3000/api/v1/"
-#define SERVER_USR @"http://192.168.3.135:3000/api/v1/users/"
-#define IMAGE_URL @"http://192.168.3.135:3000"
+//#define SERVER_URL @"http://192.168.3.135:3000/api/v1/"
+//#define SERVER_USR @"http://192.168.3.135:3000/api/v1/users/"
+//#define IMAGE_URL @"http://192.168.3.135:3000"
 
-//#define SERVER_URL @"http://winningticket.carmatec.com/api/v1/"
-//#define SERVER_USR @"http://winningticket.carmatec.com/api/v1/users/"
-//#define IMAGE_URL @"http://winningticket.carmatec.com"
+#define SERVER_URL @"http://winningticket.carmatec.com/api/v1/"
+#define SERVER_USR @"http://winningticket.carmatec.com/api/v1/users/"
+#define IMAGE_URL @"http://winningticket.carmatec.com"
 
 
 #endif /* WinningTicket_pch */
