@@ -184,17 +184,18 @@
 #pragma mark  Method to show Error Label.
 -(void)showErrorPlaceHolder{
     
-    _disableFloatingErrorLabel = NO;
+//    _disableFloatingErrorLabel = NO;
+    _labelPlaceholder.hidden = YES;
     _labelErrorPlaceholder.hidden = NO;
     
 //    CGRect bottmLineFrame = bottomLineView.frame;
 //    bottmLineFrame.origin.y = _labelErrorPlaceholder.frame.origin.y-1;
     
     _labelErrorPlaceholder.alpha = 0;
-    _labelErrorPlaceholder.frame = CGRectMake(_labelErrorPlaceholder.frame.origin.x + 10, _labelErrorPlaceholder.frame.origin.y-5, _labelErrorPlaceholder.frame.size.width, _labelErrorPlaceholder.frame.size.height);
+    _labelErrorPlaceholder.frame = CGRectMake(_labelErrorPlaceholder.frame.origin.x + 8, _labelErrorPlaceholder.frame.origin.y-5, _labelErrorPlaceholder.frame.size.width, _labelErrorPlaceholder.frame.size.height);
     
-    CGRect labelErrorFrame = _labelErrorPlaceholder.frame;
-    labelErrorFrame.origin.y = labelErrorFrame.origin.y + 6;
+//    CGRect labelErrorFrame = _labelErrorPlaceholder.frame;
+//    labelErrorFrame.origin.y = labelErrorFrame.origin.y + 6;
     
     
     
@@ -202,7 +203,7 @@
 //        bottomLineView.frame  =  bottmLineFrame;
 //        bottomLineView.backgroundColor = _errorLineColor;
         _labelErrorPlaceholder.alpha = 1;
-        _labelErrorPlaceholder.frame = labelErrorFrame;
+        _labelErrorPlaceholder.frame = _labelPlaceholder.frame;
         
     }];
     
@@ -210,6 +211,7 @@
 
 #pragma mark  Method to Hide Error Label.
 -(void)hideErrorPlaceHolder{
+     _labelPlaceholder.hidden = NO;
     showingError = NO;
     
     CGRect labelErrorFrame = _labelErrorPlaceholder.frame;

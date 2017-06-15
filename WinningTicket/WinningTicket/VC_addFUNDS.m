@@ -333,8 +333,12 @@
 
     cell.LBL_amount.backgroundColor = [UIColor lightGrayColor];
     cell.LBL_amount.textColor = [UIColor whiteColor];
+    
+    
     [_TXT_amount resignFirstResponder];
        amount_str = [NSString stringWithFormat:@"%i.00",[[asc_denomarr objectAtIndex:indexPath.row]intValue]];
+    
+    _TXT_amount.text = @"";
     
 }
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -793,7 +797,7 @@
     if(i < [[asc_denomarr valueForKeyPath:@"@max.intValue"] intValue])
     {
         _TXT_amount.placeholder=@"0.00";
-        UIAlertController  *alertControllerAction = [UIAlertController alertControllerWithTitle:@"" message:@"Amount Should be Grater than 100." preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController  *alertControllerAction = [UIAlertController alertControllerWithTitle:@"" message:@"Amount Should be Grater than Maximum." preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okaction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             
             
@@ -820,7 +824,7 @@
         if(i < [[asc_denomarr valueForKeyPath:@"@max.intValue"] intValue])
         {
             _TXT_amount.placeholder=@"0.00";
-            UIAlertController  *alertControllerAction = [UIAlertController alertControllerWithTitle:@"" message:@"Amount Should be Grater than 100." preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController  *alertControllerAction = [UIAlertController alertControllerWithTitle:@"" message:@"Amount Should be Grater than Maximum." preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *okaction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                 
                 //            [self dismissViewControllerAnimated:YES completion:nil];

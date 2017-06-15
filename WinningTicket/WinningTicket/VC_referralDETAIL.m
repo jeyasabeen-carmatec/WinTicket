@@ -32,7 +32,7 @@
     UIView *VW_overlay;
     DGActivityIndicatorView *activityIndicatorView;
     NSMutableDictionary *temp_dict;
-    
+    NSDictionary *referal_detail_dict;
     int k;
     
 }
@@ -153,7 +153,7 @@
 
     
     
-    NSDictionary *referal_detail_dict=[[NSUserDefaults standardUserDefaults] valueForKey:@"referral_dict"];
+    referal_detail_dict=[[NSUserDefaults standardUserDefaults] valueForKey:@"referral_dict"];
     
     NSString *des = [referal_detail_dict valueForKey:@"first_name"];
 
@@ -221,19 +221,24 @@
     
     
     NSDictionary *dictdata=[_ARR_sec_one objectAtIndex:indexPath.row];
-    NSDictionary *role = [dictdata valueForKey:@"role"];
+    if(!dictdata)
+    {
+        cell.description_lbl.text = @"NO data Found";
+    }
+    else
+    {
     
-    cell.description_lbl.text = [dictdata objectForKey:@"first_name"];
+    cell.description_lbl.text = [dictdata valueForKey:@"name"];
     cell.description_lbl.numberOfLines=0;
     [cell.description_lbl sizeToFit];
     
-    
-    cell.date_time_lbl.text=[NSString stringWithFormat:@"%@",[role valueForKey:@"name"]];
+    cell.date_time_lbl.text = [self getLocalDateTimeFromUTC:[dictdata valueForKey:@"start_date"]];
     cell.date_time_lbl.numberOfLines=0;
     [cell.date_time_lbl sizeToFit];
     [cell.BTN_referalDETAIL setTag:indexPath.row];
     [cell.BTN_referalDETAIL addTarget:self action:@selector(BTN_referalDETAIL:) forControlEvents:
      UIControlEventTouchUpInside];
+    }
     
 
     
@@ -272,8 +277,15 @@
     NSError *error;
     NSData *aData = [[NSUserDefaults standardUserDefaults] valueForKey:@"AffiliateReferrel"];
     temp_dict = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+    
     NSLog(@"The response VC affiliate Home %@",temp_dict);
-    _ARR_sec_one = [temp_dict valueForKey:@"referrals"];
+    _ARR_sec_one = [temp_dict valueForKey:@"events"];
+    if(!_ARR_sec_one)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"No data Found" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+        [_TBL_referal reloadData];
+    }
     [_TBL_referal reloadData];
 }
 
@@ -287,7 +299,7 @@
     NSError *error;
     NSHTTPURLResponse *response = nil;
     
-    NSString *urlGetuser =[NSString stringWithFormat:@"%@referrals?per_page=10",SERVER_URL];
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@referrals/show/%@",SERVER_URL,[referal_detail_dict valueForKey:@"id"]];
     NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
     NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -320,6 +332,23 @@
         [alert show];
     }
 }
+#pragma mark - Date Convert
+-(NSString *)getLocalDateTimeFromUTC:(NSString *)strDate
+{
+    
+    NSLog(@"Date Input tbl %@",strDate);
+    
+    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ"];
+    NSDate *currentDate = [dateFormatter dateFromString:strDate];
+    NSLog(@"CurrentDate:%@", currentDate);
+    NSDateFormatter *newFormat = [[NSDateFormatter alloc] init];
+    [newFormat setDateFormat:@"MMM dd, yyyy h:mm a"];
+    [newFormat setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"EST"]];
+    return [NSString stringWithFormat:@"%@ EST",[newFormat stringFromDate:currentDate]];
+}
+
 #pragma mark - Control datasource
 
 - (void)finishRefresh
@@ -338,7 +367,7 @@
 {
     //Pull up go to First Page
     NSDictionary *metadict=[temp_dict valueForKey:@"meta"];
-    NSString *prev_PAGE = [NSString stringWithFormat:@"%@",[metadict valueForKey:@"prev_page"]];
+    NSString *prev_PAGE = [NSString stringWithFormat:@"%@?page=",[metadict valueForKey:@"prev_page"]];
     if ([prev_PAGE isEqualToString:@"0"])
     {
         //        [activityIndicatorView stopAnimating];
@@ -349,7 +378,7 @@
     }
     else{
         
-        NSString *url_STR = [NSString stringWithFormat:@"%@&page=%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"URL_SAVED_af_home"],[metadict valueForKey:@"prev_page"]];
+        NSString *url_STR = [NSString stringWithFormat:@"%@?page=%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"URL_SAVED_af_home"],[metadict valueForKey:@"prev_page"]];
         [[NSUserDefaults standardUserDefaults] setObject:url_STR forKey:@"URL_SAVED_tranprev"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
@@ -383,7 +412,7 @@
     }
     else
     {
-        url_STR = [NSString stringWithFormat:@"%@&page=%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"URL_SAVED_af_home"],nextPAGE];
+        url_STR = [NSString stringWithFormat:@"%@?page=%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"URL_SAVED_af_home"],nextPAGE];
         [[NSUserDefaults standardUserDefaults] setObject:url_STR forKey:@"URL_SAVED_trannext"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         [self performSelector:@selector(nextpage_API) withObject:nil afterDelay:0.01];
@@ -442,7 +471,7 @@
             }
             else{
                 
-                NSArray *ARR_tmp = [dict valueForKey:@"referrals"];
+                NSArray *ARR_tmp = [dict valueForKey:@"events"];
                 [_ARR_sec_one addObjectsFromArray:ARR_tmp];
                 
                 [_TBL_referal reloadData];

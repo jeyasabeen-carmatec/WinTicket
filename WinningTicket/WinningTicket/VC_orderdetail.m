@@ -217,10 +217,6 @@
         frame_NN.origin.y = _lbl_code.frame.origin.y + difference;
         _lbl_code.frame = frame_NN;
         
-        frame_NN = _lbl_location.frame;
-        frame_NN.origin.y = _lbl_location.frame.origin.y + difference;
-        _lbl_location.frame = frame_NN;
-        
         frame_NN = _lbl_eventdetail.frame;
         frame_NN.origin.y = _lbl_eventdetail.frame.origin.y + difference;
         _lbl_eventdetail.frame = frame_NN;
@@ -238,6 +234,15 @@
     frame_HT.size.height = _lbl_eventdetail.frame.origin.y + _lbl_eventdetail.frame.size.height + 20;
     frame_HT.size.width = _scroll_contents.frame.size.width;
     _VW_eventcontent.frame = frame_HT;
+    
+    float diff_frame = _lbl_eventdetail.frame.size.height / 2;
+    float locframe_mid = _lbl_location.frame.size.height / 2;
+    
+    float final_Y = diff_frame - locframe_mid;
+    
+    CGRect frame_NN = _lbl_location.frame;
+    frame_NN.origin.y = _lbl_eventdetail.frame.origin.y + final_Y;
+    _lbl_location.frame = frame_NN;
     
     frame_HT = _BTN_viewTKT.frame;
     frame_HT.origin.y = _VW_eventcontent.frame.origin.y + _VW_eventcontent.frame.size.height + 40;

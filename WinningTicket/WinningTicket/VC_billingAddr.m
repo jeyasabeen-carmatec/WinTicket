@@ -168,7 +168,7 @@
     _TXT_country.layer.masksToBounds = YES;
     _TXT_country.layer.borderWidth = 2.0f;
     _TXT_country.layer.borderColor = [UIColor grayColor].CGColor;
-    _TXT_country.backgroundColor = [UIColor whiteColor];
+    //_TXT_country.backgroundColor = [UIColor whiteColor];
     _TXT_country.tag=6;
     _TXT_country.delegate=self;
 
@@ -185,7 +185,8 @@
     _TXT_zip.layer.masksToBounds = YES;
     _TXT_zip.layer.borderWidth = 2.0f;
     _TXT_zip.layer.borderColor = [UIColor grayColor].CGColor;
-    _TXT_zip.backgroundColor = [UIColor whiteColor];
+    //_TXT_zip.backgroundColor = [UIColor whiteColor];
+    _TXT_zip.tintColor = self.TXT_city.tintColor;
     _TXT_zip.tag=8;
     _TXT_zip.delegate=self;
     
@@ -193,9 +194,11 @@
     _TXT_phonenumber.layer.masksToBounds = YES;
     _TXT_phonenumber.layer.borderWidth = 2.0f;
     _TXT_phonenumber.layer.borderColor = [UIColor grayColor].CGColor;
-    _TXT_phonenumber.backgroundColor = [UIColor whiteColor];
+   // _TXT_phonenumber.backgroundColor = [UIColor whiteColor];
     _TXT_phonenumber.tag=9;
+      _TXT_phonenumber.tintColor = self.TXT_city.tintColor;
     _TXT_phonenumber.delegate=self;
+    
 
     NSError *error;
     NSMutableDictionary *dict = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
@@ -479,13 +482,7 @@
 
     [self showViewAddress];
     }
-    else{
-        //        [self hideview];
-        original_height = original_height - 100;
-        _lbl_address.hidden=NO;
-        [self viewDidLayoutSubviews];
-    }
-
+    
 }
 
 -(void)showViewAddress
@@ -521,29 +518,6 @@
     
     
 }
-//-(void)hideview
-//{
-//    lbl_origin_FRAME.origin.y = _VW_address.frame.origin.y;
-//    [UIView beginAnimations:@"LeftFlip" context:nil];
-//    [UIView setAnimationDuration:0.5];
-//    _VW_address.hidden=YES;
-//    [UIView transitionWithView:_VW_address
-//                      duration:0.4
-//                       options:UIViewAnimationOptionTransitionCurlDown
-//                    animations:NULL
-//                    completion:NULL];
-//  
-////    [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:_VW_address cache:YES];
-//    [UIView commitAnimations];
-//    [UIView animateWithDuration:0.5 animations:^{
-//        
-//        
-//        _lbl_agree.frame = lbl_origin_FRAME;
-//        _BTN_checkout.frame = CGRectMake(_BTN_checkout.frame.origin.x, BTN_originY, _BTN_checkout.frame.size.width, _BTN_checkout.frame.size.height);
-//    }];
-//    [UIView commitAnimations];
-//}
-//
 
 
 -(void) chckout_ACtin : (id) sender
@@ -552,65 +526,95 @@
     {
     [self showViewAddress];
     }
-    NSLog(@"Sighn UP");
+//    NSString *text_to_compare_email = _txt.text;
+//    NSString *emailRegEx = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,10}";
+//    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegEx];
+//    NSLog(@"Sighn UP");
+    
     NSString *text_to_compare=_TXT_phonenumber.text;
     NSString *phoneRegex = @"[0-9]{10,14}$";
     NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
-    if([_TXT_firstname.text isEqualToString:@""])
+    
+    
+    
+    if([_TXT_firstname.text isEqualToString:@""] || _TXT_firstname.text.length <= 2 || _TXT_firstname.text.length > 30)
     {
         [_TXT_firstname becomeFirstResponder];
+        [_TXT_firstname showError];
+        [_TXT_firstname showErrorWithText:@" Please enter More than  2 Chracters"];
+        
     }
     
-    else  if([_TXT_lastname.text isEqualToString:@""])
+    else  if([_TXT_lastname.text isEqualToString:@""] || _TXT_lastname.text.length <= 2 || _TXT_lastname.text.length > 30)
     {
         [_TXT_lastname becomeFirstResponder];
+        [_TXT_lastname showError];
+        [_TXT_lastname showErrorWithText:@" Please enter More than  2 Chracters"];
         
     }
-    else if([_TXT_address1.text isEqualToString:@""])
+    else if([_TXT_address1.text isEqualToString:@""] || _TXT_address1.text.length <= 2 || _TXT_address1.text.length > 30)
     {
         [_TXT_address1 becomeFirstResponder];
+        [_TXT_address1 showError];
+        [_TXT_address1 showErrorWithText:@" Please enter More than  2 Chracters"];
         
     }
-    else  if([_TXT_address2.text isEqualToString:@""])
+    
+    else  if([_TXT_address2.text isEqualToString:@""] || _TXT_address2.text.length <= 2 || _TXT_address2.text.length > 30)
     {
         [_TXT_address2 becomeFirstResponder];
+        [_TXT_address2 showError];
+        [_TXT_address2 showErrorWithText:@" Please enter More than  2 Chracters"];
         
     }
-    else if([_TXT_city.text isEqualToString:@""])
+    else if([_TXT_city.text isEqualToString:@""] || _TXT_city.text.length <= 2 || _TXT_city.text.length > 30)
     {
         [_TXT_city becomeFirstResponder];
+        [_TXT_city showError];
+        [_TXT_city showErrorWithText:@" Please enter City"];
         
     }
     
     
+    
+    else if([_TXT_country.text isEqualToString:@""])
+    {
+        [_TXT_country becomeFirstResponder];
+        [_TXT_country showError];
+        [_TXT_country showErrorWithText:@" Please Select Country"];
+        
+    }
     
     else if([_TXT_state.text isEqualToString:@""])
     {
         [_TXT_state becomeFirstResponder];
-        
-    }
-    else if([_TXT_country.text isEqualToString:@""])
-    {
-        [_TXT_country becomeFirstResponder];
+        [_TXT_state showError];
+        [_TXT_state showErrorWithText:@" Please Select State"];
         
     }
     else if([_TXT_zip.text isEqualToString:@""])
     {
         [_TXT_zip becomeFirstResponder];
-        _TXT_zip.tintColor = _TXT_address2.tintColor;
-        
-    }
-    else if ([phoneTest evaluateWithObject:text_to_compare] == NO)
-    {
-        [_TXT_phonenumber becomeFirstResponder];
-    }
-    
-    else if([_TXT_phonenumber.text isEqualToString:@""])
-    {
-        [_TXT_phonenumber becomeFirstResponder];
+        [_TXT_zip showError];
+        [_TXT_zip showErrorWithText:@" Please Enter Zip code"];
         
     }
 
+    
+    else if ([_TXT_phonenumber.text isEqualToString:@""] || [phoneTest evaluateWithObject:text_to_compare] == NO)
+    {
+        [_TXT_phonenumber becomeFirstResponder];
+        [_TXT_phonenumber showError];
+        [_TXT_phonenumber showErrorWithText:@" Please enter More than 5 Numbers"];
+    }
+    
+
+//    else if([_TXT_email.text isEqualToString:@""] || [emailTest evaluateWithObject:text_to_compare_email] == NO)
+//    {
+//        [_TXT_email becomeFirstResponder];
+//        [_TXT_email showError];
+//        [_TXT_email showErrorWithText:@" Please Enter Correct Email"];
+//    }
     else
     {
     VW_overlay.hidden = NO;
