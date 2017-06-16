@@ -1,23 +1,19 @@
 //
-//  VC_checkoutdetail.m
+//  donate_purchase_VC.m
 //  WinningTicket
 //
-//  Created by Test User on 28/03/17.
+//  Created by Test User on 15/06/17.
 //  Copyright © 2017 Test User. All rights reserved.
 //
 
-#import "VC_checkoutdetail.h"
+#import "donate_purchase_VC.h"
 #import "DejalActivityView.h"
 #import "DGActivityIndicatorView.h"
-
-#pragma mark - Image Cache
-#import "SDWebImage/UIImageView+WebCache.h"
-
-@interface VC_checkoutdetail ()
+@interface donate_purchase_VC ()
 
 @end
 
-@implementation VC_checkoutdetail
+@implementation donate_purchase_VC
 {
     NSMutableDictionary *states,*countryS;
     NSString *cntry_name,*conty_code;
@@ -26,20 +22,16 @@
     DGActivityIndicatorView *activityIndicatorView;
 }
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+   [self setup_VIEW];
     // Do any additional setup after loading the view.
-    
-    [self setup_VIEW];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [UIImage new];
@@ -50,7 +42,7 @@
        NSFontAttributeName:[UIFont fontWithName:@"FontAwesome" size:32.0f]
        } forState:UIControlStateNormal];
     
-//    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"cross"] style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
+    //    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"cross"] style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
     UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain
                                                                      target:self action:@selector(backAction)];
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
@@ -83,23 +75,23 @@
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:22.0f]}];
-    self.navigationItem.title = @"Order Preview";
+    self.navigationItem.title = @"Purchase Tickets";
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 -(void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
     [_scroll_contents layoutIfNeeded];
-    _scroll_contents.contentSize = CGSizeMake(_scroll_contents.frame.size.width, _VW_contents.frame.size.height + 20);
+    _scroll_contents.contentSize = CGSizeMake(_scroll_contents.frame.size.width, _VW_contents.frame.size.height);
 }
 
 -(void) setup_VIEW
@@ -129,26 +121,19 @@
     
     VW_overlay.hidden = YES;
     
-    NSError *error;
-    NSMutableDictionary *temp_resp = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults] valueForKey:@"CHKOUTDETAIL"] options:NSASCIIStringEncoding error:&error];
-    NSDictionary *address_dictin = [temp_resp valueForKey:@"billing_address"];
+    NSMutableDictionary *temp_resp = [[NSUserDefaults standardUserDefaults] valueForKey:@"donate_Deatils"];
+    NSMutableDictionary *address_dictin = [temp_resp valueForKey:@"billing_address"];
     
-    NSLog(@"Image Url Vc checkout detail %@",[NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_resp valueForKey:@"avatar_url"]]);
-    [_img_icon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_resp valueForKey:@"avatar_url"]]]
-                  placeholderImage:[UIImage imageNamed:@"Logo_WT.png"]];
-    _img_icon.contentMode = UIViewContentModeScaleAspectFit;
     
-    NSLog(@"The response from checkout detail VC \n%@",temp_resp);
+    NSLog(@"The Response in Donate Purchase \n%@",temp_resp);
     
-    _lbl_datasubtotal.text = [NSString stringWithFormat:@"$ %.02f",[[temp_resp valueForKey:@"price"] floatValue] * [[temp_resp valueForKey:@"quantity"] floatValue]];
-    _lbl_datatotal.text = _lbl_datasubtotal.text;
-    
-    [_BTN_order2 addTarget:self action:@selector(BTN_order2action) forControlEvents:UIControlEventTouchUpInside];
+       [_BTN_order2 addTarget:self action:@selector(BTN_order2action) forControlEvents:UIControlEventTouchUpInside];
     
     CGRect rect_content,frame_rect;
     rect_content = _VW_contents.frame;
-    rect_content.size.width = self.navigationController.navigationBar.frame.size.width;
-    
+    rect_content.size.width = self.View_Nav_Top.frame.size.width;
+    NSString *email = [temp_resp valueForKey:@"email"];
+    email = [email stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
     _lbl_email.text = [temp_resp valueForKey:@"email"];
     
     [self Country_api];
@@ -163,7 +148,10 @@
     
     NSString *zip_code = [address_dictin valueForKey:@"zip_code"];
     
+    
+    
     NSString *address_str = [NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone:%@",[address_dictin valueForKey:@"first_name"],[address_dictin valueForKey:@"last_name"],[address_dictin valueForKey:@"address_line1"],[address_dictin valueForKey:@"address_line2"],[address_dictin valueForKey:@"city"],state_name,cntry_name,zip_code,[address_dictin valueForKey:@"phone"]];
+    address_str = [address_str stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
     
     _lbl_address.text = [NSString stringWithFormat:@"%@",address_str];
     _lbl_address.numberOfLines = 0;
@@ -172,6 +160,7 @@
     frame_rect = _lbl_address.frame;
     frame_rect.size.height = _lbl_address.frame.size.height;
     _lbl_address.frame = frame_rect;
+    
     
     frame_rect = _lbl_titl_payment_info.frame;
     frame_rect.origin.y = _lbl_address.frame.origin.y + _lbl_address.frame.size.height + 10;
@@ -187,18 +176,20 @@
     frame_rect.origin.y = _lbl_data_payment_info.frame.origin.y + _lbl_data_payment_info.frame.size.height + 10;
     _VW_line1.frame = frame_rect;
     
-    float orginal_width = _lbl_ticketDetail.frame.size.width;
-    
     NSString *show = @"Winning Ticket";
-//    NSString *place = @"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
+    //    NSString *place = @"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
     NSString *ticketnumber = [temp_resp valueForKey:@"code"];
     NSString *club_name = [temp_resp valueForKey:@"event_name"];
-    NSString *qty = [NSString stringWithFormat:@"Qty : %@",[temp_resp valueForKey:@"quantity"]];
+//    NSString *qty = [NSString stringWithFormat:@"Qty: %@",[temp_resp valueForKey:@"quantity"]];
     
-    NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@\n%@",show,club_name,ticketnumber,qty];
+    NSString *text = [NSString stringWithFormat:@"%@\n%@ - %@\n",show,ticketnumber,club_name];
     
     text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
     text = [text stringByReplacingOccurrencesOfString:@"(null)" withString:@"Not Mentioned"];
+    _lbl_datasubtotal.text = [NSString stringWithFormat:@"$ %.02f",[[temp_resp valueForKey:@"price"] floatValue]];
+    _lbl_datatotal.text = _lbl_datasubtotal.text;
+    
+
     
     // If attributed text is supported (iOS6+)
     if ([self.lbl_ticketDetail respondsToSelector:@selector(setAttributedText:)]) {
@@ -215,21 +206,14 @@
         // Red text attributes
         //            UIColor *redColor = [UIColor redColor];
         NSRange cmp = [text rangeOfString:show];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:20.0]}
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0]}
                                 range:cmp];
         
         
-        NSRange qt = [text rangeOfString:club_name];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:18.0]}
-                                range:qt];
+//        NSRange qt = [text rangeOfString:qty];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+//        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0]}
+//                                range:qt];
         
-        NSRange tkt_num = [text rangeOfString:ticketnumber];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:14.0]}
-                                range:tkt_num];
-        
-        NSRange qty_range = [text rangeOfString:qty];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:16.0]}
-                                range:qty_range];
         
         self.lbl_ticketDetail.attributedText = attributedText;
     }
@@ -242,11 +226,12 @@
     [self.lbl_ticketDetail sizeToFit];
     
     
-    
-    
     frame_rect = _lbl_ticketDetail.frame;
-    frame_rect.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 5;
-    frame_rect.size.width = orginal_width;
+    frame_rect.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height;
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+    {
+        frame_rect.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 5;
+    }
     _lbl_ticketDetail.frame = frame_rect;
     
     frame_rect = _img_icon.frame;
@@ -256,16 +241,16 @@
     float chk_ht = _lbl_ticketDetail.frame.size.height;
     frame_rect = _VW_line2.frame;
     frame_rect.origin.y = _lbl_ticketDetail.frame.origin.y + _lbl_ticketDetail.frame.size.height + 10;
-//    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-//    {
-        if (chk_ht < _img_icon.frame.size.height + 10) {
-            frame_rect.origin.y = _img_icon.frame.origin.y + _img_icon.frame.size.height + 10;
-        }
-        else
-       {
-           frame_rect.origin.y = _lbl_ticketDetail.frame.origin.y + _lbl_ticketDetail.frame.size.height + 10;
-       }
-//    }
+    //    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+    //    {
+    if (chk_ht < _img_icon.frame.size.height + 10) {
+        frame_rect.origin.y = _img_icon.frame.origin.y + _img_icon.frame.size.height + 10;
+    }
+    else
+    {
+        frame_rect.origin.y = _lbl_ticketDetail.frame.origin.y + _lbl_ticketDetail.frame.size.height + 10;
+    }
+    //    }
     
     _VW_line2.frame = frame_rect;
     
@@ -303,6 +288,10 @@
     
     _VW_contents.frame = rect_content;
     
+    CGRect newframe = _VW_contents.frame;
+    newframe.size.width = _scroll_contents.frame.size.width;
+    _VW_contents.frame = newframe;
+    
     [_scroll_contents addSubview:_VW_contents];
 }
 
@@ -319,11 +308,7 @@
 //}
 -(void) BTN_order2action
 {
-    NSLog(@"BTN_order2action tapped");
-//    [self pay_AMOUNT];
-    VW_overlay.hidden = NO;
-    [activityIndicatorView startAnimating];
-    [self performSelector:@selector(pay_AMOUNT) withObject:activityIndicatorView afterDelay:0.01];
+    [self performSegueWithIdentifier:@"donate_purchase_home" sender:self];
 }
 
 #pragma mark - States and Country
@@ -374,50 +359,5 @@
 }
 
 
--(void) pay_AMOUNT
-{
-    NSError *error;
-    NSHTTPURLResponse *response = nil;
-    
-    
-    NSMutableDictionary *temp_resp = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults] valueForKey:@"CHKOUTDETAIL"] options:NSASCIIStringEncoding error:&error];
-    
-    float total = [[temp_resp valueForKey:@"price"] floatValue] * [[temp_resp valueForKey:@"quantity"] floatValue];
-    NSString *a = [NSString stringWithFormat:@"%.2f", total];
-    
-    NSString *nanunce = [[NSUserDefaults standardUserDefaults] valueForKey:@"NAUNCETOK"];
-    
-    NSDictionary *parameters = @{@"nonce":nanunce, @"transaction_type":@"purchase", @"price":[NSNumber numberWithFloat:[a floatValue]]};
-    
-    NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&error];
-    NSString *urlGetuser =[NSString stringWithFormat:@"%@payments/create",SERVER_URL];
-    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
-    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:urlProducts];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
-    [request setHTTPBody:postData];
-    [request setHTTPShouldHandleCookies:NO];
-    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    if (aData)
-    {
-        [activityIndicatorView stopAnimating];
-        VW_overlay.hidden = YES;
-        
-        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"PurchaseRESPONSE"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        [self performSegueWithIdentifier:@"purchaseidentifier" sender:self];
-    }
-    else
-    {
-        [activityIndicatorView stopAnimating];
-        VW_overlay.hidden = YES;
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-        [alert show];
-    }
-}
 
 @end

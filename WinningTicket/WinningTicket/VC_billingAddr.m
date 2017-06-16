@@ -203,8 +203,8 @@
     NSError *error;
     NSMutableDictionary *dict = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
     NSMutableDictionary *temp_dictin=[dict valueForKey:@"event"];
-    _lbl_amount_des.text = [NSString stringWithFormat:@"%@",[dict valueForKey:@"price"]];
-    _lbl_sub_amount.text = [NSString stringWithFormat:@"$ %d.00",[_lbl_amount_des.text intValue] * [[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"] intValue]];
+    _lbl_amount_des.text = [NSString stringWithFormat:@"$ %.2f",[[dict valueForKey:@"price"] floatValue]];
+    _lbl_sub_amount.text = [NSString stringWithFormat:@"$ %.2f",[[dict valueForKey:@"price"] floatValue] * [[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"] intValue]];
     _lbl_total_amount.text = _lbl_sub_amount.text;
     
     NSMutableDictionary *user=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"User_data"] options:NSASCIIStringEncoding error:&error];
@@ -249,28 +249,28 @@
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:22.0f]}];
-    self.navigationItem.title = @"Add Recipient";
+    self.navigationItem.title = @"Billing Address";
     
     self.lbl_name_ticket.text=@"Winning Ticket";
     int qtynum = [[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"]intValue];
     self.lbl_qty.text=[NSString stringWithFormat:@"Qty:%d",qtynum];
     
-    NSString *show = @"Winning Ticket";
-    NSString *place = [NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"location"]];//@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
-    if(!place)
-    {
-        place=@"Notmentioned";
-    }
-    else
-    {
-        place=@"Notmentioned";
-        
-    }
+//    NSString *show = @"Winning Ticket";
+//    NSString *place = [NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"location"]];//@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
+//    if(!place)
+//    {
+//        place=@"Notmentioned";
+//    }
+//    else
+//    {
+//        place=@"Notmentioned";
+//        
+//    }
 //    place = [place stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
     NSString *ticketnumber = [temp_dictin valueForKey:@"code"];
     NSString *club_name = [temp_dictin valueForKey:@"name"];
     
-    NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@ - %@",show,place,ticketnumber,club_name];
+    NSString *text = [NSString stringWithFormat:@"%@\n%@",club_name,ticketnumber];
     
     text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
 
@@ -286,8 +286,12 @@
                                                    attributes:attribs];
     
 
-    NSRange plce = [text rangeOfString:place];
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0]}range:plce];
+    NSRange plce = [text rangeOfString:club_name];
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:16.0]}range:plce];
+        
+    NSRange codeR = [text rangeOfString:ticketnumber];
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:14.0]}range:codeR];
+        
     self.lbl_des_cription.attributedText = attributedText;
     }
     else
@@ -350,7 +354,7 @@
     [self.scroll_contents addSubview:self.VW_titladdress];
 
     
-    NSString *address_str=[NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone:%@",[user_data valueForKey:@"first_name"],[user_data valueForKey:@"last_name"],[user_data valueForKey:@"address1"],[user_data valueForKey:@"address2"],[user_data valueForKey:@"city"],[user_data valueForKey:@"state"],[user_data valueForKey:@"country"],[user_data valueForKey:@"zipcode"],[user_data valueForKey:@"phone"]];
+    NSString *address_str=[NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone : %@",[user_data valueForKey:@"first_name"],[user_data valueForKey:@"last_name"],[user_data valueForKey:@"address1"],[user_data valueForKey:@"address2"],[user_data valueForKey:@"city"],[user_data valueForKey:@"state"],[user_data valueForKey:@"country"],[user_data valueForKey:@"zipcode"],[user_data valueForKey:@"phone"]];
     
     _TXT_firstname.text = [user_data valueForKey:@"first_name"];
     _TXT_lastname.text = [user_data valueForKey:@"last_name"];

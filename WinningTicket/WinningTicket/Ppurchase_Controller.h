@@ -24,7 +24,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *order_summary;
 @property(nonatomic,weak)IBOutlet UIView *start_View;
 @property (weak, nonatomic) IBOutlet UIScrollView *scroll;
-@property(nonatomic,weak)IBOutlet UIView *content_view;
+//@property(nonatomic,weak)IBOutlet UIView *content_view;
 //@property (weak, nonatomic) IBOutlet UILabel *descripton_status;
 @property (weak, nonatomic) IBOutlet UILabel *amount;
 
@@ -35,5 +35,9 @@
 @property (weak, nonatomic) IBOutlet UIView *third_vw;
 @property (strong, nonatomic) IBOutlet UIView *first_VW;
 @property (nonatomic,weak) IBOutlet UIButton *_BTN_Ok;
+
+
+@property (weak, nonatomic) IBOutlet UIView *VW_head;
+
 
 @end

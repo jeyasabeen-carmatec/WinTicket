@@ -149,8 +149,7 @@
     _TXT_amount.layer.borderWidth = 2.0f;
     _TXT_amount.layer.borderColor = [UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0].CGColor;
 //    _TXT_amount.titleLabel.textColor = [UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0];
-    [_TXT_amount addTarget:self action:@selector(check_TXT_stat:) forControlEvents:UIControlEventEditingChanged];
-    _TXT_amount.delegate=self;
+      _TXT_amount.delegate=self;
 //    
 //   
 //    
@@ -339,6 +338,7 @@
        amount_str = [NSString stringWithFormat:@"%i.00",[[asc_denomarr objectAtIndex:indexPath.row]intValue]];
     
     _TXT_amount.text = @"";
+    NSLog(@"The Text in Amount Field:%@",_TXT_amount.text);
     
 }
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -614,9 +614,14 @@
 //    }
 }
 
--(void) check_TXT_stat :(id)sender
-{
-   }
+//-(void) check_TXT_stat :(id)sender
+//{
+////    NSString *str = _TXT_amount.text;
+////    _TXT_amount.text = [NSString stringWithFormat:@"%.02f",[str floatValue]];
+//    NSString *newContents = self.TXT_amount.text;
+//    newContents = [newContents stringByReplacingOccurrencesOfString:@"." withString:@""];
+//
+//   }
 
 //- (IBAction)tappedToSelectRow:(UITapGestureRecognizer *)tapRecognizer
 //{
@@ -748,11 +753,11 @@
     if([amount_str isEqualToString:@""])
     {
         temp_str = _TXT_amount.text ;
-                 }
+    }
     else if(amount_str.length > 0)
     {
         _TXT_amount.text=@"";
-        temp_str=amount_str;
+        temp_str=[amount_str stringByReplacingOccurrencesOfString:@"," withString:@""];
     }
     NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
     f.numberStyle = NSNumberFormatterDecimalStyle;
@@ -790,10 +795,12 @@
 -(void)add_funds_tapped
 {
     NSString *temp_str;
-    if([amount_str isEqualToString:@""] && _TXT_amount.text.length > 0)
+    if([amount_str isEqualToString:@""] && _TXT_amount.text.length > 0 )
     {
     temp_str = _TXT_amount.text;
+    temp_str = [temp_str stringByReplacingOccurrencesOfString:@"," withString:@""];
     int i=[temp_str intValue];
+    NSLog(@"Temporoary string:%i",i);
     if(i < [[asc_denomarr valueForKeyPath:@"@max.intValue"] intValue])
     {
         _TXT_amount.placeholder=@"0.00";
@@ -816,11 +823,11 @@
     }
 }
     
-    else if(amount_str.length > 0 && [_TXT_amount.text isEqualToString:@""])
+    else if(amount_str.length > 0  && [_TXT_amount.text isEqualToString:@" 0.00"])
     {
     
-        temp_str=amount_str;
-        int i=[temp_str intValue];
+       // temp_str=amount_str;
+       /* int i=[temp_str intValue];
         if(i < [[asc_denomarr valueForKeyPath:@"@max.intValue"] intValue])
         {
             _TXT_amount.placeholder=@"0.00";
@@ -835,13 +842,13 @@
             [self presentViewController:alertControllerAction animated:YES completion:nil];
         }
         else
-        {
+        {*/
             
             VW_overlay.hidden=NO;
             [activityIndicatorView startAnimating];
             [self performSelector:@selector(get_client_TOKEN) withObject:activityIndicatorView afterDelay:0.01];
 
-        }
+        //}
     }
   
     

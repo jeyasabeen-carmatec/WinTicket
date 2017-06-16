@@ -1,15 +1,14 @@
 //
-//  VC_checkoutdetail.h
+//  donate_purchase_VC.h
 //  WinningTicket
 //
-//  Created by Test User on 28/03/17.
+//  Created by Test User on 15/06/17.
 //  Copyright © 2017 Test User. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface VC_checkoutdetail : UIViewController
-
+@interface donate_purchase_VC : UIViewController
 @property (weak, nonatomic) IBOutlet UIView *VW_contents;
 @property (weak, nonatomic) IBOutlet UIScrollView *scroll_contents;
 
@@ -22,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *lbl_datasubtotal;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_titletotal;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_datatotal;
+@property (weak,nonatomic) IBOutlet UIView *View_Nav_Top;
 
 //@property (weak, nonatomic) IBOutlet UIButton *BTN_order1;
 @property (weak, nonatomic) IBOutlet UIButton *BTN_order2;
@@ -36,5 +36,6 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *lbl_titl_payment_info;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_data_payment_info;
+
 
 @end

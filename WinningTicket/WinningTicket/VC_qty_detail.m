@@ -83,7 +83,7 @@
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:22.0f]}];
-    self.navigationItem.title = @"Purchase Tickets";
+    self.navigationItem.title = @"Add Recipients";
 }
 
 /*
@@ -278,11 +278,15 @@
     
     _scroll_TBL.delegate = self;
     
+    
     NSError *error;
     NSMutableDictionary *dict1 = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
     NSMutableDictionary *temp_dictin=[dict1 valueForKey:@"event"];
-    _lbl_amount_des.text = [NSString stringWithFormat:@"%@",[dict1 valueForKey:@"price"]];
-    _lbl_sub_amount.text = [NSString stringWithFormat:@"$ %d.00",[[dict1 valueForKey:@"price"] intValue] * [[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"]] intValue]];
+    
+    NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"QUANTITY"] options:NSASCIIStringEncoding error:&error];
+    
+    _lbl_amount_des.text = [NSString stringWithFormat:@"$ %.2f",[[dict1 valueForKey:@"price"] floatValue]];
+    _lbl_sub_amount.text = [NSString stringWithFormat:@"$ %.2f",[[dict1 valueForKey:@"price"] floatValue] * [[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"]] intValue]];
     _lbl_total_amount.text = _lbl_sub_amount.text;
     
     
@@ -290,22 +294,22 @@
     int qtynum = [[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"]]intValue];
     self.lbl_qty.text=[NSString stringWithFormat:@"Qty:%d",qtynum];
     
-    NSString *show = @"Winning Ticket";
-    NSString *place = [NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"location"]];//@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
-    if(!place)
-    {
-        place=@"Notmentioned";
-    }
-    else
-    {
-        place=@"Notmentioned";
-        
-    }
+//    NSString *show = @"Winning Ticket";
+//    NSString *place = [NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"location"]];//@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
+//    if(!place)
+//    {
+//        place=@"Notmentioned";
+//    }
+//    else
+//    {
+//        place=@"Notmentioned";
+//        
+//    }
     //    place = [place stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
     NSString *ticketnumber = [temp_dictin valueForKey:@"code"];
     NSString *club_name = [temp_dictin valueForKey:@"name"];
     
-    NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@ - %@",show,place,ticketnumber,club_name];
+    NSString *text = [NSString stringWithFormat:@"%@\n%@",club_name,ticketnumber];
     
     text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
     
@@ -321,8 +325,12 @@
                                                attributes:attribs];
         
         
-        NSRange plce = [text rangeOfString:place];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0]}range:plce];
+        NSRange plce = [text rangeOfString:club_name];
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:17.0]}range:plce];
+        
+        NSRange codeR = [text rangeOfString:ticketnumber];
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:15.0]}range:codeR];
+        
         self.lbl_des_cription.attributedText = attributedText;
     }
     else
@@ -380,7 +388,7 @@
     [_scroll_TBL addSubview:_tbl_content];
 
 //    NSError *error;
-    NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"QUANTITY"] options:NSASCIIStringEncoding error:&error];
+//    NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"QUANTITY"] options:NSASCIIStringEncoding error:&error];
     
     NSLog(@"The value stored is %@",dict);
     t = [[dict valueForKey:@"quantity"] intValue];
@@ -460,7 +468,7 @@
     [pu_cell.email setTag:indexPath.row];
     [pu_cell.email addTarget:self action:@selector(TXT_Email:) forControlEvents:UIControlEventEditingChanged];
     
-    pu_cell.stat_lbl.text=[NSString stringWithFormat:@"Ticket : %ld",indexPath.row + 1];
+    pu_cell.stat_lbl.text=[NSString stringWithFormat:@"Extra Ticket  %ld",indexPath.row + 1];
     
     return pu_cell;
 }
@@ -470,6 +478,32 @@
     return  @"Add Recipients";
     
 }
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+//    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 45)];
+//    // 4 * 69 (width of label) + 3 * 8 (distance between labels) = 300
+//    UILabel *label1 = [[UILabel alloc] initWithFrame:headerView.frame];
+//    label1.text = @"Add Recipients";
+//
+//    return headerView;
+//}
+
+
+//- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+//    UIView *customSectionHeaderView;
+//    UILabel *titleLabel;
+//    
+//    customSectionHeaderView = [[UIView alloc] initWithFrame:CGRectMake(20, 0, tableView.frame.size.width, 24)];
+//    titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, tableView.frame.size.width, 24)];
+//    titleLabel.textAlignment = NSTextAlignmentLeft;
+//    [titleLabel setTextColor:[UIColor blackColor]];
+//    [titleLabel setBackgroundColor:[UIColor clearColor]];
+//    titleLabel.font = [UIFont boldSystemFontOfSize:15];
+//    titleLabel.text =  @"Add Recipients";
+//    
+//    [customSectionHeaderView addSubview:titleLabel];
+//    
+//    return customSectionHeaderView;
+//}
 
 #pragma mark - UITextfiel Deligate
 - (void) textFieldDidBeginEditing:(UITextField *)textField {
@@ -505,7 +539,7 @@
             
             [UIView beginAnimations:nil context:NULL];
             // [UIView setAnimationDuration:0.25];
-            self.view.frame = CGRectMake(0,-310,self.view.frame.size.width,self.view.frame.size.height);
+            self.view.frame = CGRectMake(0,- 310,self.view.frame.size.width,self.view.frame.size.height);
 //            [UIView commitAnimations];
         }
         else
@@ -518,7 +552,7 @@
 //            _scroll_TBL.frame = CGRectMake(_scroll_TBL.frame.origin.x, _scroll_TBL.frame.origin.y - 250,_tbl_content.frame.size.width,self.view.frame.size.height);
             [UIView beginAnimations:nil context:NULL];
             // [UIView setAnimationDuration:0.25];
-            self.view.frame = CGRectMake(0,-250,self.view.frame.size.width,self.view.frame.size.height);
+            self.view.frame = CGRectMake(0,- 212,self.view.frame.size.width,self.view.frame.size.height);
 //            [UIView commitAnimations];
         }
         [UIView commitAnimations];
@@ -622,7 +656,7 @@
     
 //    main_Frame = _scroll_TBL.frame;
     
-    _scroll_TBL.contentSize = CGSizeMake(_scroll_TBL.frame.size.width, _VW_main.frame.size.height + 10 + [_tbl_content contentSize].height);
+    _scroll_TBL.contentSize = CGSizeMake(_scroll_TBL.frame.size.width, _VW_main.frame.size.height + 10 + [_tbl_content contentSize].height + 10);
     
 //    [self.scroll_TBL setContentInset:UIEdgeInsetsMake(0.f, 0.f, 0.f, 0.f)];
 //    [self.scroll_TBL scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];

@@ -84,7 +84,7 @@
 {
     [super viewDidLayoutSubviews];
     [_scroll_contents layoutIfNeeded];
-    _scroll_contents.contentSize = CGSizeMake(_scroll_contents.frame.size.width, _VW_contents.frame.size.height + 10 + _IMG_logo_WT.frame.size.height + 20);
+    _scroll_contents.contentSize = CGSizeMake(_scroll_contents.frame.size.width, _VW_contents.frame.size.height + 10 + _IMG_logo_WT.frame.origin.y + _IMG_logo_WT.frame.size.height + 20);
 }
 
 /*
@@ -129,22 +129,18 @@
     frame.origin.x = 10.0f;
     frame.origin.y = self.navigationController.navigationBar.frame.size.height;
     CGRect new_frame = [UIScreen mainScreen].bounds;
-//    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-//    {
-//        frame.origin.y = 288.0f;
-//    }
-    frame.size.height = new_frame.origin.y + new_frame.size.height - self.navigationController.navigationBar.frame.size.height - 20;
+    frame.size.height = new_frame.origin.y + new_frame.size.height - self.navigationController.navigationBar.frame.size.height;
     _scroll_contents.frame = frame;
     
     new_frame = _IMG_logo_WT.frame;
-    new_frame.origin.y = 0;
+    new_frame.origin.y = 15;
     new_frame.origin.x = _scroll_contents.frame.size.width/2 - _IMG_logo_WT.frame.size.width/2;
     _IMG_logo_WT.frame = new_frame;
     
     [_scroll_contents addSubview:_IMG_logo_WT];
     
     new_frame = _VW_contents.frame;
-    new_frame.origin.y = _IMG_logo_WT.frame.size.height + 20;
+    new_frame.origin.y = _IMG_logo_WT.frame.origin.y + _IMG_logo_WT.frame.size.height + 20;
     _VW_contents.frame = new_frame;
     
     [_scroll_contents addSubview:_VW_contents];

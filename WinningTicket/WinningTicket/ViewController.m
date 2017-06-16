@@ -485,7 +485,7 @@
 }
 
 
-/*-(void) parse_listEvents_api
+-(void) parse_listEvents_api
 {
     NSError *error;
     NSHTTPURLResponse *response = nil;
@@ -519,7 +519,7 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Interrupted" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
     }
-}*/
+}
 
 /*-(void)myaccount_API_calling
 {
@@ -576,13 +576,13 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
     {
-        [activityIndicatorView stopAnimating];
-        VW_overlay.hidden = YES;
+//        [activityIndicatorView stopAnimating];
+//        VW_overlay.hidden = YES;
         [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         //        NSLog(@" THe user data is :%@",[[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"]);
         //        [self performSegueWithIdentifier:@"accountstoeditprofileidentifier" sender:self];
-//        [self parse_listEvents_api];
+        [self parse_listEvents_api];
     }
     else
     {

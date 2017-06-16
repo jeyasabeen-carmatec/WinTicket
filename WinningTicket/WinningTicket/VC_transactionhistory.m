@@ -176,8 +176,26 @@
     NSString *ticket_number = [NSString stringWithFormat:@"#%@",[temp_dictin valueForKey:@"order_id"]];
     NSString *date = [self getLocalDateTimeFromUTC:[temp_dictin valueForKey:@"created_at"]];
     NSString *purpose = [temp_dictin valueForKey:@"transaction_type"];
-    NSString *amount = [NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"amount"]];
+     NSString *amount = [NSString stringWithFormat:@"$%@.00",[temp_dictin valueForKey:@"amount"]];
+    if([purpose isEqualToString:@"donation"] || [purpose isEqualToString:@"purchase"] || [purpose isEqualToString:@"withdrawal"])
+    {
+          cell.lbl_amount.textColor = [UIColor redColor];
+        
+          cell.lbl_amount.text = amount;
+        
+    }
+    else
+    {
+         cell.lbl_amount.textColor = [UIColor greenColor];
+        
+         cell.lbl_amount.text = amount;
+    }
     
+    ticket_number = [ticket_number stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
+    date = [date stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
+    purpose = [purpose stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
+    amount = [amount stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
+
     cell.lbl_ticket_ID.text = ticket_number;
     cell.lbl_datetime.text = date;
     cell.lbl_ticketreson.text = purpose;
@@ -200,18 +218,18 @@
 //        debit=@"-you are debited";
 //    }
     
-    float new_val = [amount floatValue];
-    if (new_val < 0) {
-        cell.lbl_amount.textColor = [UIColor redColor];
-        NSArray *arr = [amount componentsSeparatedByString:@"-"];
-        cell.lbl_amount.text = [arr objectAtIndex:1];
-        cell.lbl_amount.text = [NSString stringWithFormat:@"-%@$%@",[arr objectAtIndex:0],[arr objectAtIndex:1]];
-    }
-    else
-    {
-        cell.lbl_amount.textColor = [UIColor greenColor];
-        cell.lbl_amount.text = [NSString stringWithFormat:@"$%@",amount];
-    }
+//    float new_val = [amount floatValue];
+//    if (new_val < 0) {
+//        cell.lbl_amount.textColor = [UIColor redColor];
+//        NSArray *arr = [amount componentsSeparatedByString:@"-"];
+//        cell.lbl_amount.text = [arr objectAtIndex:1];
+//        cell.lbl_amount.text = [NSString stringWithFormat:@"-%@$%@",[arr objectAtIndex:0],[arr objectAtIndex:1]];
+//    }
+//    else
+//    {
+//        cell.lbl_amount.textColor = [UIColor greenColor];
+//        cell.lbl_amount.text = [NSString stringWithFormat:@"$%@",amount];
+//    }
     
     cell.preservesSuperviewLayoutMargins = false;
     cell.separatorInset = UIEdgeInsetsZero;

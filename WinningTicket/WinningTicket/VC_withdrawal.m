@@ -49,9 +49,9 @@
         NSLog(@"the user data is:%@",account_data);
         
 //        NSDictionary *temp_dict=[account_data valueForKey:@"user"];
-        NSString *pricee_STR = [NSString stringWithFormat:@"$ %@",[account_data valueForKey:@"wallet"]];
+        NSString *pricee_STR = [NSString stringWithFormat:@"%.02f",[[account_data valueForKey:@"wallet"] floatValue]];
 ;
-        NSString *text = [NSString stringWithFormat:@"Available balance: %@",pricee_STR];
+        NSString *text = [NSString stringWithFormat:@"Available balance:$ %@",pricee_STR];
         
         if ([self.lbl_availableBAL respondsToSelector:@selector(setAttributedText:)]) {
             
@@ -132,6 +132,7 @@
     _TXT_email.layer.masksToBounds = YES;
     _TXT_email.layer.borderWidth = 2.0f;
     _TXT_email.layer.borderColor = [UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0].CGColor;
+    
     
        NSString *cur = @"$";
     NSString *print_TXT = [NSString stringWithFormat:@"Amount  %@",cur];
@@ -242,7 +243,11 @@
     
 }
 
-
+//-(void)textChanged
+//{
+//    NSString *str = _TXT_amtpaypal.text;
+//    _TXT_amtpaypal.text = [NSString stringWithFormat:@"%.02f",[str floatValue]];
+//}
 #pragma mark - BTN Actions
 -(IBAction)BTN_close:(id)sender
 {
@@ -283,13 +288,17 @@
     {
         _TXT_email.text = @"";
         [_TXT_email becomeFirstResponder];
+        [_TXT_email showError];
+        [_TXT_email showErrorWithText:@" Please enter Correct Mail"];
         
     }
     else
     {
-        if ([_TXT_amtpaypal.text isEqualToString:@""])
+        if ([_TXT_amtpaypal.text isEqualToString:@"0.00"])
         {
             [_TXT_amtpaypal becomeFirstResponder];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please Enter Amount" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
         }
         else
         {
@@ -306,14 +315,21 @@
 
     
     NSString *amount_paypal = _TXT_amtpaypal.text;
+    amount_paypal = [amount_paypal stringByReplacingOccurrencesOfString:@"," withString:@""];
+    NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+    f.numberStyle = NSNumberFormatterDecimalStyle;
+    NSNumber *myNumber = [f numberFromString:amount_paypal];
+    NSLog(@"the number is:%@",myNumber);
+    
     NSString *email = _TXT_email.text;
+    
     
     
     NSError *error;
     NSHTTPURLResponse *response = nil;
     NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
     NSDictionary *parameters = @{ @"email": email,
-                                  @"amount": amount_paypal};
+                                  @"amount": myNumber};
     //    self->activityIndicatorView.hidden=NO;
     //    [self->activityIndicatorView startAnimating];
     //    [self.view addSubview:activityIndicatorView];
@@ -338,6 +354,7 @@
         NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"The response %@",json_DATA);
         NSString *status=[json_DATA valueForKey:@"status"];
+        NSString *error=[json_DATA valueForKey:@"errors"];
         NSString *message=[json_DATA valueForKey:@"message"];
         
         
@@ -350,12 +367,18 @@
             [alert show];
                         
         }
+        
         else
         {
             [activityIndicatorView stopAnimating];
             VW_overlay.hidden=YES;
 
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+        }
+        if(error)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:error delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
             [alert show];
         }
         

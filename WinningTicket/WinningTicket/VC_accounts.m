@@ -568,7 +568,8 @@
         [self.first_name sizeToFit];
         self.last_name.text=[temp_dict valueForKey:@"email"];
         [self.last_name sizeToFit];
-        self.amount.text=[NSString stringWithFormat:@"$ %@",[account_data valueForKey:@"wallet"]];
+        NSString *amount=[NSString stringWithFormat:@"%.02f",[[account_data valueForKey:@"wallet"] floatValue]];
+        self.amount.text =[NSString stringWithFormat:@"$ %@",amount];
         
     }
     

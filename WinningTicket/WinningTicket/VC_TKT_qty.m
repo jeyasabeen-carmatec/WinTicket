@@ -100,7 +100,7 @@
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:22.0f]}];
-    self.navigationItem.title = @"Purchase Tickets";
+    self.navigationItem.title = @"Add Quantity";
     
     VW_overlay = [[UIView alloc]init];
     VW_overlay.frame = [UIScreen mainScreen].bounds;
@@ -188,40 +188,39 @@
         
         if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
         {
-            paragraphStyle.lineSpacing = 5;
+            paragraphStyle.lineSpacing = 4;
             // Red text attributes
             //            UIColor *redColor = [UIColor redColor];
             NSRange cmp = [text rangeOfString:show];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
             [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:22],NSParagraphStyleAttributeName:paragraphStyle}
                                     range:cmp];
             
+            paragraphStyle.lineSpacing = 3;
             NSRange plce = [text rangeOfString:place];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
             [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:18.0],NSParagraphStyleAttributeName:paragraphStyle}
                                     range:plce];
-            
-            NSMutableParagraphStyle *paragraphStyle1 = [[NSMutableParagraphStyle alloc] init];
-            paragraphStyle1.lineSpacing = 2;
-            
+        
+            paragraphStyle.lineSpacing = 0;
             NSRange tkt_num_range = [text rangeOfString:STR_tkt_num_club];
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:16.0],NSParagraphStyleAttributeName:paragraphStyle1} range:tkt_num_range];
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:16.0],NSParagraphStyleAttributeName:paragraphStyle} range:tkt_num_range];
         }
         else
         {
-            paragraphStyle.lineSpacing = 5;
+            paragraphStyle.lineSpacing = 4;
             // Red text attributes
             //            UIColor *redColor = [UIColor redColor];
             NSRange cmp = [text rangeOfString:show];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
             [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:20.0],NSParagraphStyleAttributeName:paragraphStyle}
                                     range:cmp];
             
+            paragraphStyle.lineSpacing = 3;
             NSRange plce = [text rangeOfString:place];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
             [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:16.0],NSParagraphStyleAttributeName:paragraphStyle}
                                     range:plce];
             
-            NSMutableParagraphStyle *paragraphStyle1 = [[NSMutableParagraphStyle alloc] init];
-            paragraphStyle1.lineSpacing = 1;
+            paragraphStyle.lineSpacing = 0;
             NSRange tkt_num_range = [text rangeOfString:STR_tkt_num_club];
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:14.0],NSParagraphStyleAttributeName:paragraphStyle1} range:tkt_num_range];
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:14.0],NSParagraphStyleAttributeName:paragraphStyle} range:tkt_num_range];
         }
 
         self.lbl_ticketdetail.attributedText = attributedText;

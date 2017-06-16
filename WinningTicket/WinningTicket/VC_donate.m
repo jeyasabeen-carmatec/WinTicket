@@ -96,7 +96,7 @@
     [self.scroll_Contents addSubview:_VW_organisationdetail];
 
     VW_frame = _VW_titladdress.frame;
-    VW_frame.origin.y = _VW_organisationdetail.frame.origin.y + _VW_organisationdetail.frame.size.height;
+    VW_frame.origin.y = _VW_organisationdetail.frame.origin.y + _VW_organisationdetail.frame.size.height+10;
     VW_frame.size.width = _scroll_Contents.frame.size.width;
     _VW_titladdress.frame = VW_frame;
     
@@ -132,6 +132,7 @@
         NSDictionary *user_data = [user_DICTIN valueForKey:@"user"];
         NSLog(@"VC donate display Address:%@",user_data);
         NSString *address_str=[NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone:%@",[user_data valueForKey:@"first_name"],[user_data valueForKey:@"last_name"],[user_data valueForKey:@"address1"],[user_data valueForKey:@"address2"],[user_data valueForKey:@"city"],[user_data valueForKey:@"state"],[user_data valueForKey:@"country"],[user_data valueForKey:@"zipcode"],[user_data valueForKey:@"phone"]];
+        address_str = [address_str stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
         _lbl_address.text = address_str;
         _lbl_address.numberOfLines=0;
         [_lbl_address sizeToFit];
@@ -304,7 +305,9 @@
     [VW_overlay addSubview:activityIndicatorView];
     //        activityIndicatorView.center=myview.center;
     
+    
     VW_overlay.hidden = YES;
+        
     
       
     
@@ -315,15 +318,34 @@
     [_TXT_country resignFirstResponder];
     [_TXTVW_organisationname resignFirstResponder];
 }
+-(void)amount_Changed
+{
+    NSString *str = _TXT_getamount.text;
+    _TXT_getamount.text = [NSString stringWithFormat:@"%.02f",[str floatValue]];
+    
+//       NSString *str = _TXT_getamount.text;
+//       str =[NSString stringWithFormat:@"%0.02f",[str floatValue]];
+//
+//     NSArray *arr = [str componentsSeparatedByString:@"."];
+//    _TXT_getamount.text = [NSString stringWithFormat:@"%@.00",[arr objectAtIndex:0]];
+//    NSString *str1 = [arr objectAtIndex:0];
+//    _TXT_getamount.selectedTextRange = str1.length;
 
+    
+}
 #pragma mark - Edit button Clicked 
 
 -(void) edit_BTN_action : (id) sender
 {
+    [self VIEWaddress];
+
+}
+-(void)VIEWaddress
+{
     if(_VW_address.hidden==YES)
     {
         original_height =  self.BTN_deposit.frame.origin.y + _BTN_deposit.frame.size.height + 20;
-     
+        
         
         
         [UIView beginAnimations:@"LeftFlip" context:nil];
@@ -344,22 +366,16 @@
             
             _BTN_deposit.frame = CGRectMake(_BTN_deposit.frame.origin.x, _VW_address.frame.origin.y + _VW_address.frame.size.height + 15, _BTN_deposit.frame.size.width, _BTN_deposit.frame.size.height);
             
-                    }];
+        }];
         [UIView commitAnimations];
         
         _BTN_edit.enabled=NO;
         
         original_height =  self.BTN_deposit.frame.origin.y + _BTN_deposit.frame.size.height + 20;
         [self viewDidLayoutSubviews];
-        
-    }
-    else{
-        //        [self hideview];
-        original_height = original_height - 100;
-        _lbl_address.hidden=NO;
-        [self viewDidLayoutSubviews];
     }
     
+
 }
 
 
@@ -574,7 +590,7 @@
             _VW_organisationdetail.frame = VW_frame;
             
             VW_frame = _VW_titladdress.frame;
-            VW_frame.origin.y = _VW_organisationdetail.frame.origin.y + _VW_organisationdetail.frame.size.height;
+            VW_frame.origin.y = _VW_organisationdetail.frame.origin.y + _VW_organisationdetail.frame.size.height + 10;
             VW_frame.size.width = _scroll_Contents.frame.size.width;
             _VW_titladdress.frame = VW_frame;
             
@@ -639,7 +655,7 @@
             _VW_organisationdetail.frame = VW_frame;
             
             VW_frame = _VW_titladdress.frame;
-            VW_frame.origin.y = _VW_organisationdetail.frame.origin.y + _VW_organisationdetail.frame.size.height;
+            VW_frame.origin.y = _VW_organisationdetail.frame.origin.y + _VW_organisationdetail.frame.size.height + 10;
             VW_frame.size.width = _scroll_Contents.frame.size.width;
             _VW_titladdress.frame = VW_frame;
             
@@ -721,7 +737,7 @@
         _VW_organisationdetail.frame = VW_frame;
         
         VW_frame = _VW_titladdress.frame;
-        VW_frame.origin.y = _VW_organisationdetail.frame.origin.y + _VW_organisationdetail.frame.size.height;
+        VW_frame.origin.y = _VW_organisationdetail.frame.origin.y + _VW_organisationdetail.frame.size.height + 10;
         VW_frame.size.width = _scroll_Contents.frame.size.width;
         _VW_titladdress.frame = VW_frame;
         
@@ -788,7 +804,7 @@
         _VW_organisationdetail.frame = VW_frame;
         
         VW_frame = _VW_titladdress.frame;
-        VW_frame.origin.y = _VW_organisationdetail.frame.origin.y + _VW_organisationdetail.frame.size.height;
+        VW_frame.origin.y = _VW_organisationdetail.frame.origin.y + _VW_organisationdetail.frame.size.height+10;
         VW_frame.size.width = _scroll_Contents.frame.size.width;
         _VW_titladdress.frame = VW_frame;
         
@@ -823,8 +839,8 @@
 }
 -(void)Deposit_Pressed
 {
-    _VW_address.hidden=NO;
-  /*if([_TXTVW_organisationname.text isEqualToString:@""])
+    
+    /*if([_TXTVW_organisationname.text isEqualToString:@""])
   {
       [_TXTVW_organisationname becomeFirstResponder];
   }
@@ -919,68 +935,100 @@
     }
     }*/
     
-    NSLog(@"Sighn UP");
+    
+    [self VIEWaddress];
     NSString *text_to_compare=_TXT_phonenumber.text;
     NSString *phoneRegex = @"[0-9]{10,14}$";
     NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
     
-    
-    if([_TXTVW_organisationname.text isEqualToString:@""])
+    if([_TXTVW_organisationname.text isEqualToString:@"Select Event"] || [_TXTVW_organisationname.text isEqualToString:@""])
     {
-        [_TXTVW_organisationname becomeFirstResponder];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please Select Organisation" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+
+         [_TXTVW_organisationname becomeFirstResponder];
+        
     }
     else if([_TXT_getamount.text isEqualToString:@""])
     {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please Enter Amount" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+        
         [_TXT_getamount becomeFirstResponder];
     }
-     else  if([_TXT_firstname.text isEqualToString:@""])
+    
+   else if([_TXT_firstname.text isEqualToString:@""] || _TXT_firstname.text.length <= 2 || _TXT_firstname.text.length > 30)
     {
         [_TXT_firstname becomeFirstResponder];
+        [_TXT_firstname showError];
+        [_TXT_firstname showErrorWithText:@" Please enter More than  2 Chracters"];
+        
     }
     
-    else  if([_TXT_lastname.text isEqualToString:@""])
+    else  if([_TXT_lastname.text isEqualToString:@""] || _TXT_lastname.text.length <= 2 || _TXT_lastname.text.length > 30)
     {
         [_TXT_lastname becomeFirstResponder];
+        [_TXT_lastname showError];
+        [_TXT_lastname showErrorWithText:@" Please enter More than  2 Chracters"];
         
     }
-    else if([_TXT_address1.text isEqualToString:@""])
+    else if([_TXT_address1.text isEqualToString:@""] || _TXT_address1.text.length <= 2 || _TXT_address1.text.length > 30)
     {
         [_TXT_address1 becomeFirstResponder];
+        [_TXT_address1 showError];
+        [_TXT_address1 showErrorWithText:@" Please enter More than  2 Chracters"];
         
     }
-    else  if([_TXT_address2.text isEqualToString:@""])
+    
+    else  if([_TXT_address2.text isEqualToString:@""] || _TXT_address2.text.length <= 2 || _TXT_address2.text.length > 30)
     {
         [_TXT_address2 becomeFirstResponder];
+        [_TXT_address2 showError];
+        [_TXT_address2 showErrorWithText:@" Please enter More than  2 Chracters"];
         
     }
-    else if([_TXT_city.text isEqualToString:@""])
+    else if([_TXT_city.text isEqualToString:@""] || _TXT_city.text.length <= 2 || _TXT_city.text.length > 30)
     {
         [_TXT_city becomeFirstResponder];
+        [_TXT_city showError];
+        [_TXT_city showErrorWithText:@" Please enter City"];
         
     }
     
     
-    else if ([phoneTest evaluateWithObject:text_to_compare] == NO)
-    {
-        [_TXT_phonenumber becomeFirstResponder];
-    }
     
-    else if([_TXT_phonenumber.text isEqualToString:@""])
+    else if([_TXT_country.text isEqualToString:@""])
     {
-        [_TXT_phonenumber becomeFirstResponder];
+        [_TXT_country becomeFirstResponder];
+        [_TXT_country showError];
+        [_TXT_country showErrorWithText:@" Please Select Country"];
         
     }
     
     else if([_TXT_state.text isEqualToString:@""])
     {
         [_TXT_state becomeFirstResponder];
+        [_TXT_state showError];
+        [_TXT_state showErrorWithText:@" Please Select State"];
         
     }
-    else if([_TXT_country.text isEqualToString:@""])
+    else if([_TXT_zip.text isEqualToString:@""] )
     {
-        [_TXT_country becomeFirstResponder];
+        [_TXT_zip becomeFirstResponder];
+        [_TXT_zip showError];
+        [_TXT_zip showErrorWithText:@" Please Enter Zip code"];
         
     }
+    
+    
+    else if ([_TXT_phonenumber.text isEqualToString:@""] || [phoneTest evaluateWithObject:text_to_compare] == NO)
+    {
+        [_TXT_phonenumber becomeFirstResponder];
+        [_TXT_phonenumber showError];
+        [_TXT_phonenumber showErrorWithText:@" Please enter More than 5 Numbers"];
+    }
+    
 
     else
     {
@@ -1005,6 +1053,7 @@
     NSString *country_code = [countryS valueForKey:country];
     
     NSString *amount = _TXT_getamount.text;
+    amount = [amount stringByReplacingOccurrencesOfString:@"," withString:@""];
     NSString *eventid=[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"event_id_donate"]];
     
     NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
@@ -1033,6 +1082,7 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
     {
+        
         NSMutableDictionary *json_DATA_one = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"Data from Donate VC:%@",json_DATA_one);
         NSString *status=[json_DATA_one valueForKey:@"status"];
@@ -1040,6 +1090,9 @@
         {
             //                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
             //                [alert show];
+            [[NSUserDefaults standardUserDefaults] setObject:json_DATA_one forKey:@"donate_Deatils"];
+            [[NSUserDefaults standardUserDefaults]synchronize];
+
             [self get_client_TOKEN];
         }
         else
@@ -1116,12 +1169,13 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
         
         NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         
         NSLog(@"Client Token = %@",[dict valueForKey:@"client_token"]);
-        VW_overlay.hidden = YES;
-        [activityIndicatorView stopAnimating];
+        
         
         self.braintree = [Braintree braintreeWithClientToken:[dict valueForKey:@"client_token"]];
         NSLog(@"dddd = %@",self.braintree);
@@ -1157,6 +1211,11 @@
         
         [self presentViewController:navigationController animated:YES completion:nil];
     }
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+    }
 }
 
 -(void) create_payment
@@ -1183,7 +1242,14 @@
     if (aData)
     {
         NSMutableDictionary *json_DATA_one = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-        NSLog(@"Data from Donate VC generate client TOK : \n%@",json_DATA_one);
+        
+        
+            NSLog(@"Final Payment data : \n%@",json_DATA_one);
+                }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Payment Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
     }
 }
 
@@ -1191,6 +1257,7 @@
 - (void)dropInViewController:(__unused BTDropInViewController *)viewController didSucceedWithPaymentMethod:(BTPaymentMethod *)paymentMethod {
     [self postNonceToServer:paymentMethod.nonce]; // Send payment method nonce to your server
     [self dismissViewControllerAnimated:YES completion:nil];
+    [self performSegueWithIdentifier:@"donate_purchase" sender:self];
 }
 
 - (void)dropInViewControllerDidCancel:(__unused BTDropInViewController *)viewController {
@@ -1203,14 +1270,13 @@
 -(void) postNonceToServer :(NSString *)str
 {
     NSLog(@"Post %@",str);
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Nonce" message:str delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-    [alert show];
     
     if (str)
     {
         [[NSUserDefaults standardUserDefaults] setValue:str forKey:@"NAUNCETOK"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         [self create_payment];
+       
     }
     else
     {

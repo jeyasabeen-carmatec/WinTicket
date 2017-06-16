@@ -10,7 +10,9 @@
 #import "TBL_VW_Cell_EVENTS.h"
 #import "DejalActivityView.h"
 #import "DGActivityIndicatorView.h"
+
 #import "WinningTicket_Universal-Swift.h"
+
 #import "UITableView+NewCategory.h"
 
 @class FrameObservingView;
@@ -783,7 +785,17 @@
     if (tableView == _tbl_search) {
         return [searchResults count];
     }
-    return [ARR_allevent count];
+    else
+    {
+        if ([ARR_allevent count] == 0)
+        {
+            return 1;
+        }
+        else
+        {
+            return [ARR_allevent count];
+        }
+    }
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -813,34 +825,61 @@
     }
     else
     {
-        static NSString *simpleTableIdentifier = @"SimpleTableItem";
-        
-        TBL_VW_Cell_EVENTS *cell = (TBL_VW_Cell_EVENTS *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-        if (cell == nil)
+        if ([ARR_allevent count] == 0)
         {
-            NSArray *nib;
-            if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+            static NSString *simpleTableIdentifier = @"SimpleTableItem";
+            cell_EMPTY_val *cell = (cell_EMPTY_val *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+            if (cell == nil)
             {
-                nib = [[NSBundle mainBundle] loadNibNamed:@"TBL_VW_Cell_EVENTS~iPad" owner:self options:nil];
+                NSArray *nib;
+                if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+                {
+                    nib = [[NSBundle mainBundle] loadNibNamed:@"cell_EMPTY_val~iPad" owner:self options:nil];
+                }
+                else
+                {
+                    nib = [[NSBundle mainBundle] loadNibNamed:@"cell_EMPTY_val" owner:self options:nil];
+                }
+                cell = [nib objectAtIndex:0];
             }
-            else
-            {
-                nib = [[NSBundle mainBundle] loadNibNamed:@"TBL_VW_Cell_EVENTS" owner:self options:nil];
-            }
-            cell = [nib objectAtIndex:0];
+            
+            cell.lbl_emptycell.text = @"No Events Found";
+            cell.lbl_emptycell.numberOfLines = 0;
+            [cell.lbl_emptycell sizeToFit];
+            
+            return cell;
         }
-        
-        NSDictionary *temp_DICN = [ARR_allevent objectAtIndex:indexPath.row];
-        cell.lbl_event_name.text = [temp_DICN valueForKey:@"name"];
-        cell.lbl_event_name.numberOfLines = 0;
-        [cell.lbl_event_name sizeToFit];
-        
-        cell.lbl_event_time.text = [self getLocalDateTimeFromUTC:[temp_DICN valueForKey:@"start_date"]];
-        
-        [cell.BTN_View_detail setTag:indexPath.row];
-        [cell.BTN_View_detail addTarget:self action:@selector(BTN_ALL_EVENT:) forControlEvents:UIControlEventTouchUpInside];
-        
-        return cell;
+        else
+        {
+            static NSString *simpleTableIdentifier = @"SimpleTableItem";
+            
+            TBL_VW_Cell_EVENTS *cell = (TBL_VW_Cell_EVENTS *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+            if (cell == nil)
+            {
+                NSArray *nib;
+                if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+                {
+                    nib = [[NSBundle mainBundle] loadNibNamed:@"TBL_VW_Cell_EVENTS~iPad" owner:self options:nil];
+                }
+                else
+                {
+                    nib = [[NSBundle mainBundle] loadNibNamed:@"TBL_VW_Cell_EVENTS" owner:self options:nil];
+                }
+                cell = [nib objectAtIndex:0];
+            }
+            
+            NSDictionary *temp_DICN = [ARR_allevent objectAtIndex:indexPath.row];
+            cell.lbl_event_name.text = [temp_DICN valueForKey:@"name"];
+            cell.lbl_event_name.numberOfLines = 0;
+            [cell.lbl_event_name sizeToFit];
+            
+            cell.lbl_event_time.text = [self getLocalDateTimeFromUTC:[temp_DICN valueForKey:@"start_date"]];
+            
+            [cell.BTN_View_detail setTag:indexPath.row];
+            [cell.BTN_View_detail addTarget:self action:@selector(BTN_ALL_EVENT:) forControlEvents:UIControlEventTouchUpInside];
+            
+            return cell;
+        }
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -876,7 +915,9 @@
 #pragma mark - Button Action
 -(void)apply_Clicked
 {
+    VW_overlay.hidden = NO;
     [activityIndicatorView startAnimating];
+    
     NSHTTPURLResponse *response = nil;
     NSError *error;
     NSDateFormatter *formatter=[[NSDateFormatter alloc]init];
@@ -900,6 +941,9 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if(aData)
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
         NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:kNilOptions error:&error];
         //    NSLog(@"The response %@",json_DATA);
         NSLog(@"the filterdata is:%@",json_DATA);
@@ -913,11 +957,13 @@
         [ARR_allevent addObjectsFromArray:temp_ARR];
         
         [_tbl_eventlst reloadData];
-        [activityIndicatorView stopAnimating];
         
     }
     else
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
     }

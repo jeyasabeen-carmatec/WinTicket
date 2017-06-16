@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Braintree/Braintree.h>
+#import "ACFloatingTextField.h"
 
 @interface VC_donate : UIViewController<UIGestureRecognizerDelegate,BTDropInViewControllerDelegate,BTPaymentMethodCreationDelegate>
 
@@ -28,16 +29,16 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *lbl_titlbillingaddress;
 
-@property (weak, nonatomic) IBOutlet UITextField *TXT_firstname;
-@property (weak, nonatomic) IBOutlet UITextField *TXT_lastname;
-@property (weak, nonatomic) IBOutlet UITextField *TXT_address1;
-@property (weak, nonatomic) IBOutlet UITextField *TXT_address2;
-@property (weak, nonatomic) IBOutlet UITextField *TXT_city;
-@property (weak, nonatomic) IBOutlet UITextField *TXT_state;
-@property (weak, nonatomic) IBOutlet UITextField *TXT_zip;
-@property (weak, nonatomic) IBOutlet UITextField *TXT_phonenumber;
+@property (weak, nonatomic) IBOutlet ACFloatingTextField *TXT_firstname;
+@property (weak, nonatomic) IBOutlet ACFloatingTextField *TXT_lastname;
+@property (weak, nonatomic) IBOutlet ACFloatingTextField *TXT_address1;
+@property (weak, nonatomic) IBOutlet ACFloatingTextField *TXT_address2;
+@property (weak, nonatomic) IBOutlet ACFloatingTextField *TXT_city;
+@property (nonatomic, weak) IBOutlet ACFloatingTextField *TXT_country;
+@property (weak, nonatomic) IBOutlet ACFloatingTextField *TXT_state;
+@property (weak, nonatomic) IBOutlet ACFloatingTextField *TXT_zip;
+@property (weak, nonatomic) IBOutlet ACFloatingTextField *TXT_phonenumber;
 @property (nonatomic, strong) UIPickerView *state_pickerView;
-@property (nonatomic, weak) IBOutlet UITextField *TXT_country;
 @property (nonatomic, strong) UIPickerView *contry_pickerView;
 
 @property (weak, nonatomic) IBOutlet UIButton *BTN_edit;

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "ACFloatingTextField.h"
 @interface VC_withdrawal : UIViewController
 
 @property (weak, nonatomic) IBOutlet UILabel *lbl_availableBAL;
@@ -36,6 +36,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *TXT_accholdername;
 @property (weak, nonatomic) IBOutlet UITextField *TXT_acconroutingnumber;
 @property (weak, nonatomic) IBOutlet UITextField *TXT_accountnumber;
-@property (weak, nonatomic) IBOutlet UITextField *TXT_email;
+@property (weak, nonatomic) IBOutlet ACFloatingTextField *TXT_email;
 
 @end
