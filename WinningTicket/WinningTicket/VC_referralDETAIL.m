@@ -8,8 +8,8 @@
 
 #import "VC_referralDETAIL.h"
 #import "add_referal_detail_cell.h"
-#import "DejalActivityView.h"
-#import "DGActivityIndicatorView.h"
+//#import "DejalActivityView.h"
+//#import "DGActivityIndicatorView.h"
 #import "UITableView+NewCategory.h"
 
 
@@ -30,11 +30,12 @@
 {
     
     UIView *VW_overlay;
-    DGActivityIndicatorView *activityIndicatorView;
+    UIActivityIndicatorView *activityIndicatorView;
     NSMutableDictionary *temp_dict;
     NSDictionary *referal_detail_dict;
     int k;
     
+    UILabel *loadingLabel;
 }
 @property(nonatomic,strong)NSMutableArray *ARR_sec_one;
 @property (weak, nonatomic) IBOutlet UITableView *TBL_referal;
@@ -72,25 +73,28 @@
     _TBL_referal.estimatedRowHeight = 10.0;
     _TBL_referal.rowHeight = UITableViewAutomaticDimension;
     
-    VW_overlay = [[UIView alloc]init];
-    VW_overlay.frame = [UIScreen mainScreen].bounds;
-    //    VW_overlay.center = self.view.center;
+    VW_overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+    VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    VW_overlay.clipsToBounds = YES;
+    VW_overlay.layer.cornerRadius = 10.0;
     
-    [self.view addSubview:VW_overlay];
-    VW_overlay.backgroundColor = [UIColor blackColor];
-    VW_overlay.alpha = 0.2;
+    activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
     
-    activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallSpinFadeLoader tintColor:[UIColor whiteColor]];
+    loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 170, 200, 22)];
+    loadingLabel.backgroundColor = [UIColor clearColor];
+    loadingLabel.textColor = [UIColor whiteColor];
+    loadingLabel.adjustsFontSizeToFitWidth = YES;
+    loadingLabel.textAlignment = NSTextAlignmentCenter;
+    loadingLabel.text = @"Loading...";
     
-    CGRect frame_M = activityIndicatorView.frame;
-    frame_M.origin.x = 0;
-    frame_M.origin.y = 0;
-    frame_M.size.width = VW_overlay.frame.size.width;
-    frame_M.size.height = VW_overlay.frame.size.height;
-    activityIndicatorView.frame = frame_M;
-    
+    [VW_overlay addSubview:loadingLabel];
+    activityIndicatorView.center = VW_overlay.center;
     [VW_overlay addSubview:activityIndicatorView];
-    //        activityIndicatorView.center=myview.center;
+    VW_overlay.center = self.view.center;
+    [self.view addSubview:VW_overlay];
+    
+    VW_overlay.hidden = YES;
     
     VW_overlay.hidden = NO;
     [activityIndicatorView startAnimating];

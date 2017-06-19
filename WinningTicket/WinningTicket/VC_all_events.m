@@ -8,8 +8,6 @@
 
 #import "VC_all_events.h"
 #import "TBL_VW_Cell_EVENTS.h"
-#import "DejalActivityView.h"
-#import "DGActivityIndicatorView.h"
 
 #import "WinningTicket_Universal-Swift.h"
 
@@ -40,7 +38,8 @@
     UISearchBar *searchBar1;
     NSMutableArray *ARR_allevent;
     UIView *VW_overlay;
-    DGActivityIndicatorView *activityIndicatorView;
+    UIActivityIndicatorView *activityIndicatorView;
+    UILabel *loadingLabel;
     
     NSMutableArray *searchResults;
     int intvalue;
@@ -65,25 +64,26 @@
     
     ARR_allevent = [[NSMutableArray alloc]init];
     
-    VW_overlay = [[UIView alloc]init];
-    VW_overlay.frame = [UIScreen mainScreen].bounds;
-    //    VW_overlay.center = self.view.center;
+    VW_overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+    VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    VW_overlay.clipsToBounds = YES;
+    VW_overlay.layer.cornerRadius = 10.0;
     
-    [self.view addSubview:VW_overlay];
-    VW_overlay.backgroundColor = [UIColor blackColor];
-    VW_overlay.alpha = 0.2;
+    activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
     
-    activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:DGActivityIndicatorAnimationTypeBallSpinFadeLoader tintColor:[UIColor whiteColor]];
+    loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 170, 200, 22)];
+    loadingLabel.backgroundColor = [UIColor clearColor];
+    loadingLabel.textColor = [UIColor whiteColor];
+    loadingLabel.adjustsFontSizeToFitWidth = YES;
+    loadingLabel.textAlignment = NSTextAlignmentCenter;
+    loadingLabel.text = @"Loading...";
     
-    CGRect frame_M = activityIndicatorView.frame;
-    frame_M.origin.x = 0;
-    frame_M.origin.y = 0;
-    frame_M.size.width = VW_overlay.frame.size.width;
-    frame_M.size.height = VW_overlay.frame.size.height;
-    activityIndicatorView.frame = frame_M;
-    
+    [VW_overlay addSubview:loadingLabel];
+    activityIndicatorView.center = VW_overlay.center;
     [VW_overlay addSubview:activityIndicatorView];
-    //        activityIndicatorView.center=myview.center;
+    VW_overlay.center = self.view.center;
+    [self.view addSubview:VW_overlay];
     
     VW_overlay.hidden = YES;
     
@@ -162,9 +162,9 @@
     _tbl_eventlst.estimatedRowHeight = 10.0;
     _tbl_eventlst.rowHeight = UITableViewAutomaticDimension;
     
-    _tbl_search.estimatedRowHeight = 10.0;
-    _tbl_search.rowHeight = UITableViewAutomaticDimension;
-    _tbl_search.tableFooterView.hidden = YES;
+//    _tbl_search.estimatedRowHeight = 10.0;
+//    _tbl_search.rowHeight = UITableViewAutomaticDimension;
+//    _tbl_search.tableFooterView.hidden = YES;
     
     _TXT_fromdate.adjustsFontSizeToFitWidth = YES;
     _TXT_fromdate.minimumFontSize = 5.0;
@@ -217,7 +217,7 @@
     _VW_line.hidden = YES;
 //    _lbl_Serch_char.hidden = YES;
     _VW_filter.hidden = YES;
-    _tbl_search.hidden = YES;
+//    _tbl_search.hidden = YES;
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];
@@ -545,7 +545,7 @@
 }
 -(void) whenSearchClicked
 {
-    _tbl_search.hidden = YES;
+//    _tbl_search.hidden = YES;
     if (_VW_filter.hidden == NO) {
         
         [UIView transitionWithView:_VW_filter
@@ -782,51 +782,19 @@
 #pragma Mark - UITableview
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (tableView == _tbl_search) {
-        return [searchResults count];
+    if ([ARR_allevent count] == 0)
+    {
+        return 1;
     }
     else
     {
-        if ([ARR_allevent count] == 0)
-        {
-            return 1;
-        }
-        else
-        {
-            return [ARR_allevent count];
-        }
+        return [ARR_allevent count];
     }
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView == _tbl_search)
+    if ([ARR_allevent count] == 0)
     {
-        static NSString *CellIdentifier = @"Cell";
-        Cell_search *cell = (Cell_search *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (cell == nil)
-        {
-            NSArray *nib;
-            if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-            {
-                nib = [[NSBundle mainBundle] loadNibNamed:@"Cell_search~iPad" owner:self options:nil];
-            }
-            else
-            {
-                nib = [[NSBundle mainBundle] loadNibNamed:@"Cell_search" owner:self options:nil];
-            }
-            cell = [nib objectAtIndex:0];
-        }
-        
-        cell.lbl_eventName.text = [searchResults objectAtIndex:indexPath.row];
-        cell.lbl_eventName.numberOfLines = 0;
-        [cell.lbl_eventName sizeToFit];
-        
-        return cell;
-    }
-    else
-    {
-        if ([ARR_allevent count] == 0)
-        {
             static NSString *simpleTableIdentifier = @"SimpleTableItem";
             cell_EMPTY_val *cell = (cell_EMPTY_val *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
             if (cell == nil)
@@ -879,12 +847,11 @@
             [cell.BTN_View_detail addTarget:self action:@selector(BTN_ALL_EVENT:) forControlEvents:UIControlEventTouchUpInside];
             
             return cell;
-        }
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView == _tbl_search)
+   /* if (tableView == _tbl_search)
     {
         NSString *STR_eventname = [searchResults objectAtIndex:indexPath.row];
         [[NSUserDefaults standardUserDefaults] setValue:STR_eventname forKey:@"EVENT_NAME_STORED"];
@@ -894,13 +861,11 @@
         VW_overlay.hidden = NO;
         [activityIndicatorView startAnimating];
         [self performSelector:@selector(get_event_ID) withObject:activityIndicatorView afterDelay:0.01];
-    }
+    }*/
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView != _tbl_search)
-    {
         if (indexPath.row % 2)
         {
             cell.contentView.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.95 alpha:1.0];
@@ -909,7 +874,6 @@
         {
             cell.contentView.backgroundColor = [UIColor colorWithRed:0.88 green:0.88 blue:0.88 alpha:1.0];
         }
-    }
 }
 
 #pragma mark - Button Action
@@ -1164,14 +1128,29 @@
 #pragma mark - Search API
 -(void) searcH_API
 {
-    searchResults = [[NSMutableArray alloc] init];
-    
     NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
-    NSString *search_char = searchBar1.text;
+    NSString *event_NME = searchBar1.text;
+//    event_NME = [event_NME stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
     NSHTTPURLResponse *response = nil;
     NSError *error;
-    NSString *urlGetuser =[NSString stringWithFormat:@"%@events/autocomplete?query=%@",SERVER_URL,search_char];
-    urlGetuser = [urlGetuser stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+    NSString *urlGetuser;
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    {
+        if ([UIScreen mainScreen].bounds.size.height > 667)
+        {
+            urlGetuser = [NSString stringWithFormat:@"%@events/all_events?per_page=13&event_name=%@",SERVER_URL,event_NME];
+        }
+        else
+        {
+            urlGetuser = [NSString stringWithFormat:@"%@events/all_events?per_page=10&event_name=%@",SERVER_URL,event_NME];
+        }
+    }
+    else
+    {
+        urlGetuser = [NSString stringWithFormat:@"%@events/all_events?per_page=20&event_name=%@",SERVER_URL,event_NME];
+    }
+    
     NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:urlProducts];
@@ -1184,42 +1163,27 @@
     NSMutableDictionary *json_DATA;
     if (aData)
     {
+        json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        //        NSLog(@"Search Event tapped %@",json_DATA);
+        
+        NSArray *ARR_tmp = [json_DATA valueForKey:@"events"];
+        
+        _lbl_Serch_char.text = [NSString stringWithFormat:@"%lu Results for '%@'",(unsigned long)[ARR_tmp count],searchBar1.text];
+        
+        ARR_allevent = [[NSMutableArray alloc]init];
+        [ARR_allevent addObjectsFromArray:ARR_tmp];
+        
+        [_tbl_eventlst reloadData];
+        
         [activityIndicatorView stopAnimating];
         VW_overlay.hidden = YES;
-        
-        json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-//        NSLog(@"The response %@",json_DATA);
-        
-        NSArray *ARR_events = [json_DATA valueForKey:@"events"];
-        for (int i = 0; i < [ARR_events count]; i ++)
-        {
-            NSDictionary *temp_DICTN = [ARR_events objectAtIndex:i];
-            NSString *event_name = [temp_DICTN valueForKey:@"name"];
-            [searchResults addObject:event_name];
-        }
-        
-        if ([searchResults count] != 0)
-        {
-            _tbl_search.hidden = NO;
-            _lbl_Serch_char.text = [NSString stringWithFormat:@"%lu ' %@ ' Found",(unsigned long)[searchResults count],searchBar1.text];
-            [_tbl_search reloadData];
-        }
-        else
-        {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"No results Found" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-            [alert show];
-            _tbl_search.hidden = YES;
-        }
-        
-        
-       
     }
     else
     {
         [activityIndicatorView stopAnimating];
         VW_overlay.hidden = YES;
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
     }
 }
@@ -1272,7 +1236,6 @@
         ARR_allevent = [[NSMutableArray alloc]init];
         [ARR_allevent addObjectsFromArray:ARR_tmp];
         
-        _tbl_search.hidden = YES;
         [_tbl_eventlst reloadData];
         
         [activityIndicatorView stopAnimating];

@@ -575,20 +575,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="MUM-B1-v4j">
-                                <rect key="frame" x="0.0" y="61" width="320" height="419"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <view key="tableFooterView" contentMode="scaleToFill" id="gj7-qy-a8E">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="0.0"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </view>
-                                <connections>
-                                    <outlet property="dataSource" destination="a7c-dz-w8I" id="D5A-eH-Pde"/>
-                                    <outlet property="delegate" destination="a7c-dz-w8I" id="gvR-Oa-ZJg"/>
-                                </connections>
-                            </tableView>
                             <view contentMode="scaleToFill" misplaced="YES" id="hNg-S2-VBv">
                                 <rect key="frame" x="0.0" y="64" width="320" height="105"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -678,7 +664,6 @@
                         <outlet property="lbl_Serch_char" destination="1LI-Ii-BZa" id="ajc-VX-t0g"/>
                         <outlet property="search_BAR" destination="Rd2-d6-BjA" id="tLV-aR-s2u"/>
                         <outlet property="tbl_eventlst" destination="EhU-xG-qRA" id="V3X-ei-2xM"/>
-                        <outlet property="tbl_search" destination="MUM-B1-v4j" id="WQh-bZ-Wsj"/>
                         <segue destination="Qsi-iF-Hu8" kind="modal" identifier="eventDetailidentifier" animates="NO" id="yxA-85-JlB"/>
                         <segue destination="SAQ-V2-QWw" kind="modal" identifier="allevent_to_eventDetail" animates="NO" id="ODo-qD-iEi"/>
                     </connections>
@@ -2192,7 +2177,7 @@
                             </collectionViewFlowLayout>
                             <cells>
                                 <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="cellIdentifier" id="szU-Eh-0x1">
-                                    <rect key="frame" x="0.0" y="2" width="183" height="255"/>
+                                    <rect key="frame" x="0.0" y="1.5" width="183" height="255"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                         <rect key="frame" x="0.0" y="0.0" width="183" height="255"/>
@@ -2672,9 +2657,8 @@
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Billing Address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="50k-Qa-klj">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="mxh-nU-L7V">
@@ -2682,11 +2666,11 @@
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="17"/>
                             <state key="normal" title="">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
                 <view contentMode="scaleToFill" misplaced="YES" id="Iy2-I2-QFd">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="140"/>
@@ -4270,7 +4254,7 @@
                             </collectionViewFlowLayout>
                             <cells>
                                 <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="cell" id="WMl-Ic-4gS" customClass="ADD_Funds_CollectionViewCell">
-                                    <rect key="frame" x="0.0" y="2" width="91" height="50"/>
+                                    <rect key="frame" x="0.0" y="3" width="91" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                         <rect key="frame" x="0.0" y="0.0" width="91" height="50"/>
@@ -5742,12 +5726,12 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="PaP-EP-B38"/>
-        <segue reference="aDF-05-jfq"/>
-        <segue reference="KU5-Xe-DT4"/>
-        <segue reference="m5f-k9-dzd"/>
-        <segue reference="6Iw-xR-hwg"/>
+        <segue reference="yxA-85-JlB"/>
+        <segue reference="jMh-2b-WDa"/>
         <segue reference="l6m-hJ-eUx"/>
-        <segue reference="dUH-ov-6LH"/>
+        <segue reference="AmC-Xg-ce2"/>
+        <segue reference="ODo-qD-iEi"/>
+        <segue reference="WqQ-aJ-yS8"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.3921568627" green="0.71764705880000002" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>
