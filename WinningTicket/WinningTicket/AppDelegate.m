@@ -8,8 +8,13 @@
 
 #import "AppDelegate.h"
 #import <Braintree/Braintree.h>
+#import <UserNotifications/UserNotifications.h>
 
-@interface AppDelegate ()
+//@interface AppDelegate : UIResponder   <UIApplicationDelegate,UNUserNotificationCenterDelegate>
+
+//@end
+
+@interface AppDelegate ()<UIApplicationDelegate,UNUserNotificationCenterDelegate>
 
 @end
 
@@ -33,6 +38,23 @@
 //    self.window.rootViewController = vc;
     self.window.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BG_WT"]];
     [self.window makeKeyAndVisible];
+    
+    
+    if(SYSTEM_VERSION_EQUAL_TO(@"10.0")){
+        UNUserNotificationCenter *notifiCenter = [UNUserNotificationCenter currentNotificationCenter];
+        notifiCenter.delegate = self;
+        [notifiCenter requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error){
+            if( !error ){
+                [[UIApplication sharedApplication] registerForRemoteNotifications];
+            }
+        }];
+    }
+    else
+    {
+        UIUserNotificationSettings* notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
+    }
+    
     
     UITextField *lagFreeField = [[UITextField alloc] init];
     [self.window addSubview:lagFreeField];
@@ -89,6 +111,60 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+#ifdef __IPHONE_8_0
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings: (UIUserNotificationSettings *)notificationSettings
+{
+    //register to receive notifications
+    [application registerForRemoteNotifications];
+}
+
+- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString   *)identifier forRemoteNotification:(NSDictionary *)userInfo completionHandler:(void(^)())completionHandler
+{
+    //handle the actions
+    if ([identifier isEqualToString:@"declineAction"])
+    {
+        
+    }
+    else if ([identifier isEqualToString:@"answerAction"])
+    {
+        
+    }
+    
+    NSLog(@"User info appdeliigate = %@",userInfo);
+}
+#else
+-(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler{
+    
+}
+
+-(void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void(^)())completionHandler{
+    
+}
+#endif
+
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSLog(@"Did Register for Remote Notifications with Device Token (%@)", deviceToken);
+    
+    
+    NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet: [NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSUInteger lenthtotes = [token length];
+    NSUInteger req = 64;
+    if (lenthtotes == req) {
+        NSLog(@"uploaded token: %@", token);
+        
+        [[NSUserDefaults standardUserDefaults]setObject:token forKey:@"DEV_TOK"];
+        [[NSUserDefaults standardUserDefaults]synchronize];
+        
+        NSNotification *notif = [NSNotification notificationWithName:@"NEW_TOKEN_AVAILABLE" object:token];
+        [[NSNotificationCenter defaultCenter] postNotification:notif];
+    }
+    
+    
+    
 }
 
 
