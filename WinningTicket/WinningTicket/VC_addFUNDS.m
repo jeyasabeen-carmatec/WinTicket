@@ -664,8 +664,6 @@
 -(void) postNonceToServer :(NSString *)str
 {
     NSLog(@"Post %@",str);
-    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:str delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-    [alert show];
     
     if (str)
     {
@@ -785,6 +783,31 @@
     {
         NSMutableDictionary *json_DATA_one = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"Data from Donate VC generate client TOK : \n%@",json_DATA_one);
+        NSString *str = [json_DATA_one valueForKey:@"status"];
+        NSString *error = [json_DATA_one valueForKey:@"error"];
+        if([str isEqualToString:@"Failure"])
+        {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            [alert show];
+            
+        }
+        else if(error)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            [alert show];
+            
+        }
+        else
+        {
+            [self dismissViewControllerAnimated:YES completion:nil];
+            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            [alert show];
+        }
+        
+
+       
+
         
       
         
@@ -823,7 +846,7 @@
     }
 }
     
-    else if(amount_str.length > 0  && [_TXT_amount.text isEqualToString:@" 0.00"])
+    else if(amount_str.length > 0  && ([_TXT_amount.text isEqualToString:@"0.00"] || [_TXT_amount.text isEqualToString:@" 0.00"]))
     {
     
        // temp_str=amount_str;
@@ -849,6 +872,12 @@
             [self performSelector:@selector(get_client_TOKEN) withObject:activityIndicatorView afterDelay:0.01];
 
         //}
+    }
+    else if(amount_str.length == 0  && ([_TXT_amount.text isEqualToString:@"0.00"] || [_TXT_amount.text isEqualToString:@" 0.00"]))
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please Enter Any amount" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        [_TXT_amount becomeFirstResponder];
     }
   
     
@@ -882,22 +911,22 @@
 //        [activityIndicatorView stopAnimating];
 //        VW_overlay.hidden = YES;
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Interrupted" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Interrupted" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
     }
     
 }
 
-- (void)alertView:(UIAlertView *)alertView
-clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == [alertView firstOtherButtonIndex]){
-        
-        [self myaccount_API_calling];
-        
-        [self dismissViewControllerAnimated:YES completion:nil];
-        
-    }
-}
+//- (void)alertView:(UIAlertView *)alertView
+//clickedButtonAtIndex:(NSInteger)buttonIndex{
+//    if (buttonIndex == [alertView firstOtherButtonIndex]){
+//        
+//        [self myaccount_API_calling];
+//        
+//        [self dismissViewControllerAnimated:YES completion:nil];
+//        
+//    }
+//}
 
 #pragma mark - Tap Gesture
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch

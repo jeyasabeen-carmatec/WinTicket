@@ -131,7 +131,7 @@
         NSMutableDictionary *user_DICTIN = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"User_data"] options:NSASCIIStringEncoding error:&error];
         NSDictionary *user_data = [user_DICTIN valueForKey:@"user"];
         NSLog(@"VC donate display Address:%@",user_data);
-        NSString *address_str=[NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone:%@",[user_data valueForKey:@"first_name"],[user_data valueForKey:@"last_name"],[user_data valueForKey:@"address1"],[user_data valueForKey:@"address2"],[user_data valueForKey:@"city"],[user_data valueForKey:@"state"],[user_data valueForKey:@"country"],[user_data valueForKey:@"zipcode"],[user_data valueForKey:@"phone"]];
+        NSString *address_str=[NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone:%@",[user_data valueForKey:@"first_name"],[user_data valueForKey:@"last_name"],[user_data valueForKey:@"address1"],[user_data valueForKey:@"address2"],[user_data valueForKey:@"city"],[user_DICTIN valueForKey:@"state"],[user_DICTIN valueForKey:@"country"],[user_data valueForKey:@"zipcode"],[user_data valueForKey:@"phone"]];
         address_str = [address_str stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
         _lbl_address.text = address_str;
         _lbl_address.numberOfLines=0;
@@ -142,9 +142,9 @@
         _TXT_address1.text = [user_data valueForKey:@"address1"];
         _TXT_address2.text = [user_data valueForKey:@"address2"];
         _TXT_city.text = [user_data valueForKey:@"city"];
-        _TXT_country.text = [user_data valueForKey:@"country"];
+        _TXT_country.text = [user_DICTIN valueForKey:@"country"];
         _TXT_zip.text = [user_data valueForKey:@"zipcode"];
-        _TXT_state.text = [user_data valueForKey:@"state"];
+        _TXT_state.text = [user_DICTIN valueForKey:@"state"];
         _TXT_phonenumber.text = [user_data valueForKey:@"phone"];
         
     }
@@ -950,7 +950,7 @@
          [_TXTVW_organisationname becomeFirstResponder];
         
     }
-    else if([_TXT_getamount.text isEqualToString:@""])
+    else if([_TXT_getamount.text isEqualToString:@"0.00"] || [_TXT_getamount.text isEqualToString:@" 0.00"])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please Enter Amount" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
@@ -1141,6 +1141,7 @@
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
     [_TXT_getamount resignFirstResponder];
+    [_TXT_phonenumber resignFirstResponder];
     
     if ([touch.view isDescendantOfView:_BTN_edit]) {
         return NO;
@@ -1242,10 +1243,21 @@
     if (aData)
     {
         NSMutableDictionary *json_DATA_one = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-        
-        
-            NSLog(@"Final Payment data : \n%@",json_DATA_one);
-                }
+        NSString *str = [json_DATA_one valueForKey:@"status"];
+        NSLog(@"Final Payment data : \n%@",json_DATA_one);
+        if([str isEqualToString:@"Failure"])
+        {
+             [self dismissViewControllerAnimated:YES completion:nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            [alert show];
+            
+        }
+        else
+        {
+        [self performSegueWithIdentifier:@"donate_purchase" sender:self];
+        }
+
+    }
     else
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Payment Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
@@ -1257,8 +1269,8 @@
 - (void)dropInViewController:(__unused BTDropInViewController *)viewController didSucceedWithPaymentMethod:(BTPaymentMethod *)paymentMethod {
     [self postNonceToServer:paymentMethod.nonce]; // Send payment method nonce to your server
     [self dismissViewControllerAnimated:YES completion:nil];
-    [self performSegueWithIdentifier:@"donate_purchase" sender:self];
-}
+    [self create_payment];
+    }
 
 - (void)dropInViewControllerDidCancel:(__unused BTDropInViewController *)viewController {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -1275,7 +1287,7 @@
     {
         [[NSUserDefaults standardUserDefaults] setValue:str forKey:@"NAUNCETOK"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        [self create_payment];
+        
        
     }
     else

@@ -57,7 +57,6 @@
     _TXT_newPWD.layer.borderWidth = 2.0f;
     _TXT_newPWD.layer.borderColor = [UIColor grayColor].CGColor;
     _TXT_newPWD.tag=2;
-    _TXT_newPWD.enabled=NO;
     _TXT_newPWD.delegate=self;
     
     
@@ -66,14 +65,12 @@
     _TXT_confirmnewPWD.layer.borderWidth = 2.0f;
     _TXT_confirmnewPWD.layer.borderColor = [UIColor grayColor].CGColor;
     _TXT_confirmnewPWD.tag=3;
-    _TXT_confirmnewPWD.enabled=NO;
     _TXT_confirmnewPWD.delegate=self;
     
     
     [self.actviewone stopAnimating];
     
     _Stat_label.hidden=YES;
-    _done_Btn.enabled=NO;
 [_done_Btn addTarget:self action:@selector(done_btnclicked) forControlEvents:UIControlEventTouchUpInside];
     
     VW_overlay = [[UIView alloc]init];
@@ -98,6 +95,11 @@
     
     VW_overlay.hidden = YES;
 
+}
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string

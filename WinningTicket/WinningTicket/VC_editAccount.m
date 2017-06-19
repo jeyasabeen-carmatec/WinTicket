@@ -9,7 +9,7 @@
 #import "VC_editAccount.h"
 #import "DGActivityIndicatorView.h"
 
-@interface VC_editAccount ()
+@interface VC_editAccount ()<UITextFieldDelegate>
 {
     UIView *VW_overlay;
     DGActivityIndicatorView *activityIndicatorView;
@@ -27,6 +27,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(Tap_DTECt:)];
+    [tap setCancelsTouchesInView:NO];
+    tap.delegate = self;
+    [self.view addGestureRecognizer:tap];
     // Do any additional setup after loading the view.
     
 //    NSError *error;
@@ -46,7 +50,7 @@
     [super viewDidLayoutSubviews];
     [_scroll_contents layoutIfNeeded];
     
-    _scroll_contents.contentSize = CGSizeMake(_scroll_contents.frame.size.width, _VW_contents.frame.size.height+200);
+    _scroll_contents.contentSize = CGSizeMake(_scroll_contents.frame.size.width, _VW_contents.frame.size.height + 50);
 }
 /*
 #pragma mark - Navigation
@@ -63,8 +67,9 @@
    NSError *error;
    
    NSMutableDictionary *temp_dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"User_data"] options:NSASCIIStringEncoding error:&error];
+    
    NSDictionary *user_data=[temp_dict valueForKey:@"user"];
-   NSLog(@"the user data is:%@",user_data);
+   NSLog(@"the user data is:%@",temp_dict);
     
     CGRect content_frame = _VW_contents.frame;
     content_frame.size.width = _scroll_contents.frame.size.width;
@@ -78,6 +83,7 @@
     _TXT_fname.layer.borderColor = [UIColor grayColor].CGColor;
     _TXT_fname.text=[user_data valueForKey:@"first_name"];
     _TXT_fname.tag=1;
+    _TXT_fname.delegate = self;
 
     _TXT_lname.layer.cornerRadius = 5.0f;
     _TXT_lname.layer.masksToBounds = YES;
@@ -85,18 +91,21 @@
     _TXT_lname.layer.borderColor = [UIColor grayColor].CGColor;
     _TXT_lname.text=[user_data valueForKey:@"last_name"];
     _TXT_lname.tag=2;
-  
+   _TXT_lname.delegate = self;
+    
     _TXT_email.layer.cornerRadius = 5.0f;
     _TXT_email.layer.masksToBounds = YES;
     _TXT_email.layer.borderWidth = 2.0f;
     _TXT_email.layer.borderColor = [UIColor grayColor].CGColor;
     _TXT_email.text=[user_data valueForKey:@"email"];
+     _TXT_email.delegate = self;
 
     _TXT_username.layer.cornerRadius = 5.0f;
     _TXT_username.layer.masksToBounds = YES;
     _TXT_username.layer.borderWidth = 2.0f;
     _TXT_username.layer.borderColor = [UIColor grayColor].CGColor;
     _TXT_username.text=[user_data valueForKey:@"email"];
+     _TXT_username.delegate = self;
     
     
     _TXT_addr1.layer.cornerRadius = 5.0f;
@@ -105,6 +114,7 @@
     _TXT_addr1.layer.borderColor = [UIColor grayColor].CGColor;
     _TXT_addr1.text=[user_data valueForKey:@"address1"];
     _TXT_addr1.tag=3;
+     _TXT_addr1.delegate = self;
     
     _TXT_addr2.layer.cornerRadius = 5.0f;
     _TXT_addr2.layer.masksToBounds = YES;
@@ -112,6 +122,7 @@
     _TXT_addr2.layer.borderColor = [UIColor grayColor].CGColor;
     _TXT_addr2.text=[user_data valueForKey:@"address2"];
     _TXT_addr2.tag=4;
+     _TXT_addr2.delegate = self;
 
     
     _TXT_city.layer.cornerRadius = 5.0f;
@@ -120,6 +131,7 @@
     _TXT_city.layer.borderColor = [UIColor grayColor].CGColor;
     _TXT_city.text=[user_data valueForKey:@"city"];
     _TXT_city.tag=5;
+     _TXT_city.delegate = self;
     
     _TXT_country.layer.cornerRadius = 5.0f;
     _TXT_country.layer.masksToBounds = YES;
@@ -128,6 +140,7 @@
     _TXT_country.backgroundColor = [UIColor whiteColor];
     _TXT_country.text=[user_data valueForKey:@"country"];
     _TXT_country.tag=6;
+     _TXT_country.delegate = self;
 //    _TXT_country.delegate=self;
     
     _TXT_state.layer.cornerRadius = 5.0f;
@@ -136,6 +149,7 @@
     _TXT_state.layer.borderColor = [UIColor grayColor].CGColor;
     _TXT_state.text=[user_data valueForKey:@"state"];
     _TXT_state.tag=7;
+     _TXT_state.delegate = self;
     
     _TXT_zip.layer.cornerRadius = 5.0f;
     _TXT_zip.layer.masksToBounds = YES;
@@ -143,12 +157,15 @@
     _TXT_zip.layer.borderColor = [UIColor grayColor].CGColor;
     _TXT_zip.text=[user_data valueForKey:@"zipcode"];
     _TXT_zip.tag=8;
+     _TXT_zip.delegate = self;
     
     _TXT_phone.layer.cornerRadius = 5.0f;
     _TXT_phone.layer.masksToBounds = YES;
     _TXT_phone.layer.borderWidth = 2.0f;
     _TXT_phone.layer.borderColor = [UIColor grayColor].CGColor;
     _TXT_phone.text=[user_data valueForKey:@"phone"];
+    _TXT_phone.tag = 9;
+     _TXT_phone.delegate = self;
     
     _state_pickerView=[[UIPickerView alloc]init];
     _state_pickerView.dataSource=self;
@@ -191,7 +208,7 @@
     
     [self Country_api];
     [self State_api];
-    [_BTN_save addTarget:self action:@selector(save_api_call) forControlEvents:UIControlEventTouchUpInside];
+    [_BTN_save addTarget:self action:@selector(save_clikced) forControlEvents:UIControlEventTouchUpInside];
     
     VW_overlay = [[UIView alloc]init];
     VW_overlay.frame = [UIScreen mainScreen].bounds;
@@ -224,48 +241,96 @@
 
 -(void)save_clikced
 {
-    if([_TXT_fname.text isEqualToString:@""])
+//    NSString *text_to_compare_email = _TXT_email.text;
+//    NSString *emailRegEx = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,10}";
+//    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegEx];
+//    NSLog(@"Sighn UP");
+//    
+    NSString *text_to_compare=_TXT_phone.text;
+    NSString *phoneRegex = @"[0-9]{10,14}$";
+    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
+    
+    
+    
+    if([_TXT_fname.text isEqualToString:@""] || _TXT_fname.text.length <= 2 || _TXT_fname.text.length > 30)
     {
         [_TXT_fname becomeFirstResponder];
+        [_TXT_fname showError];
+        [_TXT_fname showErrorWithText:@" Please enter minimum  2 Chracters"];
+        
     }
     
-    else  if([_TXT_lname.text isEqualToString:@""])
+    else  if([_TXT_lname.text isEqualToString:@""] || _TXT_lname.text.length <= 2 || _TXT_lname.text.length > 30)
     {
         [_TXT_lname becomeFirstResponder];
+        [_TXT_lname showError];
+        [_TXT_lname showErrorWithText:@" Please enter minimum  2 Chracters"];
         
     }
-    else if([_TXT_addr1.text isEqualToString:@""])
+    else if([_TXT_addr1.text isEqualToString:@""] || _TXT_addr1.text.length <= 2 || _TXT_addr1.text.length > 30)
     {
         [_TXT_addr1 becomeFirstResponder];
+        [_TXT_addr1 showError];
+        [_TXT_addr1 showErrorWithText:@" Please enter minimum  2 Chracters"];
         
     }
-    else  if([_TXT_addr2.text isEqualToString:@""])
+    
+    else  if([_TXT_addr2.text isEqualToString:@""] || _TXT_addr2.text.length <= 2 || _TXT_addr2.text.length > 30)
     {
         [_TXT_addr2 becomeFirstResponder];
+        [_TXT_addr2 showError];
+        [_TXT_addr2 showErrorWithText:@" Please enter minimum  2 Chracters"];
         
     }
-    else if([_TXT_city.text isEqualToString:@""])
+    else if([_TXT_city.text isEqualToString:@""] || _TXT_city.text.length <= 2 || _TXT_city.text.length > 30)
     {
         [_TXT_city becomeFirstResponder];
+        [_TXT_city showError];
+        [_TXT_city showErrorWithText:@" Please enter City"];
         
     }
     
     
+    
+    else if([_TXT_country.text isEqualToString:@""])
+    {
+        [_TXT_country becomeFirstResponder];
+        [_TXT_country showError];
+        [_TXT_country showErrorWithText:@" Please Select Country"];
+        
+    }
     
     else if([_TXT_state.text isEqualToString:@""])
     {
         [_TXT_state becomeFirstResponder];
+        [_TXT_state showError];
+        [_TXT_state showErrorWithText:@" Please Select State"];
         
     }
-    else if([_TXT_zip.text isEqualToString:@""])
+    else if ([_TXT_zip.text isEqualToString:@""])
     {
         [_TXT_zip becomeFirstResponder];
+        [_TXT_zip showError];
+        [_TXT_zip showErrorWithText:@" Please enter Zip Code"];
     }
-    else{
     
-    [self save_api_call];
-}
-}
+
+    else if ([_TXT_phone.text isEqualToString:@""] || [phoneTest evaluateWithObject:text_to_compare] == NO)
+    {
+        [_TXT_phone becomeFirstResponder];
+        [_TXT_phone showError];
+        [_TXT_phone showErrorWithText:@" Please enter minimum 5 Numbers"];
+    }
+    
+
+    else
+    {
+        //        [self api_integration];
+        VW_overlay.hidden = NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(save_api) withObject:activityIndicatorView afterDelay:0.01];
+    }
+   }
 
 #pragma mark - UIPickerViewDataSource
 
@@ -292,6 +357,44 @@
     
     return 0;
 }
+#pragma Textfield Delegates
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if(textField.tag == 3 || textField.tag == 8 || textField.tag == 9)
+    {
+        [textField setTintColor:[UIColor whiteColor]];
+        //if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        // {
+        //Keyboard becomes visible
+        [UIView beginAnimations:nil context:NULL];
+        // [UIView setAnimationDuration:0.25];
+        self.view.frame = CGRectMake(0,-150,self.view.frame.size.width,self.view.frame.size.height);
+        [UIView commitAnimations];
+        //}
+    }
+    
+}
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    //        if(textField.tag==9)
+    //        {
+    [UIView beginAnimations:nil context:NULL];
+    
+    self.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
+    [UIView commitAnimations];
+    [UIView beginAnimations:nil context:NULL];
+    
+    self.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
+    [UIView commitAnimations];
+    // }
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
+
 #pragma mark - UIPickerViewDataSource
 
 -(void)Country_api
@@ -401,69 +504,7 @@
 
 
 #pragma mark - BTN Actions
--(void)save_api_call
-
-{
-    NSLog(@"Sighn UP");
-    NSString *text_to_compare=_TXT_phone.text;
-    NSString *phoneRegex = @"[0-9]{10,14}$";
-    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
-    if([_TXT_fname.text isEqualToString:@""])
-    {
-        [_TXT_fname becomeFirstResponder];
-    }
-    
-    else  if([_TXT_lname.text isEqualToString:@""])
-    {
-        [_TXT_lname becomeFirstResponder];
-        
-    }
-    else if([_TXT_addr1.text isEqualToString:@""])
-    {
-        [_TXT_addr1 becomeFirstResponder];
-        
-    }
-    else  if([_TXT_addr2.text isEqualToString:@""])
-    {
-        [_TXT_addr2 becomeFirstResponder];
-        
-    }
-    else if([_TXT_city.text isEqualToString:@""])
-    {
-        [_TXT_city becomeFirstResponder];
-        
-    }
-    
-    
-    else if ([phoneTest evaluateWithObject:text_to_compare] == NO)
-    {
-        [_TXT_phone becomeFirstResponder];
-    }
-    
-    else if([_TXT_phone.text isEqualToString:@""])
-    {
-        [_TXT_phone becomeFirstResponder];
-        
-    }
-    
-    else if([_TXT_state.text isEqualToString:@""])
-    {
-        [_TXT_state becomeFirstResponder];
-        
-    }
-    else if([_TXT_country.text isEqualToString:@""])
-    {
-        [_TXT_country becomeFirstResponder];
-        
-    }
-    else{
-        VW_overlay.hidden = NO;
-        [activityIndicatorView startAnimating];
-        [self performSelector:@selector(save_api) withObject:activityIndicatorView afterDelay:0.01];
-    }
-}
-
-    -(void)save_api
+-(void)save_api
     {
         NSString *fname = _TXT_fname.text;
         NSString *lname = _TXT_lname.text;
@@ -595,6 +636,20 @@
             [self pickerView:_state_pickerView didSelectRow:selectedRow inComponent:0];
         }
     }
+}
+
+-(void) Tap_DTECt :(UITapGestureRecognizer *)sender
+{
+}
+#pragma mark - Tap Gesture
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    [_TXT_phone resignFirstResponder];
+    
+    if ([touch.view isDescendantOfView:_BTN_save]) {
+        return NO;
+    }
+    return YES;
 }
 
 

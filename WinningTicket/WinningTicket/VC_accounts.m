@@ -120,6 +120,7 @@
             }
         }
         [self performSegueWithIdentifier:@"event2identifier" sender:self];
+        [self parse_listEvents_api];
     }
     else if ([item.title isEqualToString:@"COURSES"])
     {
@@ -246,7 +247,11 @@
             case 0:
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self get_Denominations];
+                    
+                    VW_overlay.hidden = NO;
+                    [activityIndicatorView startAnimating];
+                    [self performSelector:@selector(get_Denominations) withObject:activityIndicatorView afterDelay:0.01];
+                   
                 });
             }
                 break;
@@ -254,7 +259,9 @@
             case 1:
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self get_EVENTS];
+                    VW_overlay.hidden = NO;
+                    [activityIndicatorView startAnimating];
+                    [self performSelector:@selector(get_EVENTS) withObject:activityIndicatorView afterDelay:0.01];
                 });
             }
                 
@@ -263,15 +270,20 @@
             case 2:
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self performSegueWithIdentifier:@"accounttowithdrawalidentifier" sender:self];
-                
+                    VW_overlay.hidden = NO;
+                    [activityIndicatorView startAnimating];
+                    [self performSelector:@selector(withdrawl) withObject:activityIndicatorView afterDelay:0.01];
+                    
                 });
             }
                 break;
                 
             case 3:
             {
-                [self transaction_history];
+                VW_overlay.hidden = NO;
+                [activityIndicatorView startAnimating];
+                [self performSelector:@selector(transaction_history) withObject:activityIndicatorView afterDelay:0.01];
+               
                 
             }
                 break;
@@ -287,7 +299,9 @@
             {
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self performSegueWithIdentifier:@"accnttonotificationidentifier" sender:self];
+                    VW_overlay.hidden = NO;
+                    [activityIndicatorView startAnimating];
+                    [self performSelector:@selector(notification_settings) withObject:activityIndicatorView afterDelay:0.01];
                     
                 });
             }
@@ -296,7 +310,9 @@
             case 1:
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self performSegueWithIdentifier:@"accnttohowitworksidentifier" sender:self];
+                    VW_overlay.hidden = NO;
+                    [activityIndicatorView startAnimating];
+                    [self performSelector:@selector(how_it_works) withObject:activityIndicatorView afterDelay:0.01];
                     
                 });
             }
@@ -305,7 +321,9 @@
             case 2:
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self performSegueWithIdentifier:@"accounttoaboutusidentifier" sender:self];
+                    VW_overlay.hidden = NO;
+                    [activityIndicatorView startAnimating];
+                    [self performSelector:@selector(about_us) withObject:activityIndicatorView afterDelay:0.01];
                     
                 });
             }
@@ -314,8 +332,9 @@
             case 3:
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self performSegueWithIdentifier:@"accounttocontactusIdentifier" sender:self];
-                    
+                    VW_overlay.hidden = NO;
+                    [activityIndicatorView startAnimating];
+                    [self performSelector:@selector(contactus_page) withObject:activityIndicatorView afterDelay:0.01];
                 });
             }
                 break;
@@ -323,7 +342,9 @@
             case 4:
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self performSegueWithIdentifier:@"accounttotermsofuseidentifier" sender:self];
+                    VW_overlay.hidden = NO;
+                    [activityIndicatorView startAnimating];
+                    [self performSelector:@selector(terms_of_use) withObject:activityIndicatorView afterDelay:0.01];
                     
                 });
             }
@@ -332,7 +353,9 @@
             case 5:
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self performSegueWithIdentifier:@"accounttoprivacyidentifier" sender:self];
+                    VW_overlay.hidden = NO;
+                    [activityIndicatorView startAnimating];
+                    [self performSelector:@selector(privay_policy) withObject:activityIndicatorView afterDelay:0.01];
                     
                 });
             }
@@ -342,7 +365,10 @@
             {
                
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self performSegueWithIdentifier:@"accountstoeditprofileidentifier" sender:self];
+                    VW_overlay.hidden = NO;
+                    [activityIndicatorView startAnimating];
+                    [self performSelector:@selector(myprofiledit) withObject:activityIndicatorView afterDelay:0.01];
+
                     
                     
                     
@@ -353,7 +379,9 @@
             case 7:
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self performSegueWithIdentifier:@"accounttochangepwdidentifier" sender:self];
+                    VW_overlay.hidden = NO;
+                    [activityIndicatorView startAnimating];
+                    [self performSelector:@selector(changepassword) withObject:activityIndicatorView afterDelay:0.01];
                     
                 });
             }
@@ -376,6 +404,82 @@
         }
     }
 }
+-(void)withdrawl
+{
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden = YES;
+
+    [self performSegueWithIdentifier:@"accounttowithdrawalidentifier" sender:self];
+
+    
+}
+
+-(void)notification_settings
+{
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden = YES;
+    
+    [self performSegueWithIdentifier:@"accnttonotificationidentifier" sender:self];
+    
+}
+-(void)how_it_works
+{
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden = YES;
+    
+    [self performSegueWithIdentifier:@"accnttohowitworksidentifier" sender:self];
+    
+}
+-(void)about_us
+{
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden = YES;
+    
+    [self performSegueWithIdentifier:@"accounttoaboutusidentifier" sender:self];
+    
+}
+-(void)contactus_page
+{
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden = YES;
+    
+    [self performSegueWithIdentifier:@"accounttocontactusIdentifier" sender:self];
+    
+}
+-(void)terms_of_use
+{
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden = YES;
+    
+    [self performSegueWithIdentifier:@"accounttotermsofuseidentifier" sender:self];
+    
+}
+-(void)privay_policy
+{
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden = YES;
+    
+    [self performSegueWithIdentifier:@"accounttoprivacyidentifier" sender:self];
+    
+}
+-(void)myprofiledit
+{
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden = YES;
+    
+    
+    [self performSegueWithIdentifier:@"accountstoeditprofileidentifier" sender:self];
+}
+
+-(void)changepassword
+{
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden = YES;
+    
+    [self performSegueWithIdentifier:@"accounttochangepwdidentifier" sender:self];
+}
+
+
 -(void)transaction_history
 {
         NSError *error;
@@ -454,6 +558,8 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if(aData)
     {
+        VW_overlay.hidden = YES;
+        [activityIndicatorView stopAnimating];
         NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         [[NSUserDefaults standardUserDefaults] setValue:json_DATA forKey:@"denom_collection"];
         [[NSUserDefaults standardUserDefaults] synchronize];
@@ -478,6 +584,8 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if(aData)
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
         NSMutableDictionary *json_DICTIn = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"oraganisations dictionary is:%@",json_DICTIn);
         [[NSUserDefaults standardUserDefaults] setValue:json_DICTIn forKey:@"eventsStored"];
@@ -486,6 +594,8 @@
     }
     else
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
         UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:@"Check Connction" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"" , nil];
         [alert show];
     }
@@ -607,5 +717,41 @@
     }
     
 }
+-(void) parse_listEvents_api
+{
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    
+    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@events",SERVER_URL];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    //    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"JsonEventlist"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        //        [self performSegueWithIdentifier:@"logintohomeidentifier" sender:self];
+    }
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Interrupted" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+}
+
 
 @end

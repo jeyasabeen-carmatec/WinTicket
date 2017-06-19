@@ -10,7 +10,7 @@
 #import "DejalActivityView.h"
 #import "DGActivityIndicatorView.h"
 
-@interface VC_withdrawal ()<UIAlertViewDelegate>
+@interface VC_withdrawal ()<UIAlertViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate>
 {
     float scroll_View_HT;
     UIView *VW_overlay;
@@ -25,6 +25,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(Tap_DTECt:)];
+    [tap setCancelsTouchesInView:NO];
+    tap.delegate = self;
+    [self.view addGestureRecognizer:tap];
+
     [self setup_View];
 }
 
@@ -107,31 +112,41 @@
     _TXT_amtbank.layer.masksToBounds = YES;
     _TXT_amtbank.layer.borderWidth = 2.0f;
     _TXT_amtbank.layer.borderColor = [UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0].CGColor;
+    _TXT_amtbank.delegate = self;
+
     
     _TXT_amtpaypal.layer.cornerRadius = 5.0f;
     _TXT_amtpaypal.layer.masksToBounds = YES;
     _TXT_amtpaypal.layer.borderWidth = 2.0f;
     _TXT_amtpaypal.layer.borderColor = [UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0].CGColor;
+    _TXT_amtpaypal.delegate = self;
+
     
     _TXT_accholdername.layer.cornerRadius = 5.0f;
     _TXT_accholdername.layer.masksToBounds = YES;
     _TXT_accholdername.layer.borderWidth = 2.0f;
     _TXT_accholdername.layer.borderColor = [UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0].CGColor;
+    _TXT_accholdername.delegate = self;
+    
     
     _TXT_acconroutingnumber.layer.cornerRadius = 5.0f;
     _TXT_acconroutingnumber.layer.masksToBounds = YES;
     _TXT_acconroutingnumber.layer.borderWidth = 2.0f;
     _TXT_acconroutingnumber.layer.borderColor = [UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0].CGColor;
+    _TXT_acconroutingnumber.delegate = self;
+    
     
     _TXT_accountnumber.layer.cornerRadius = 5.0f;
     _TXT_accountnumber.layer.masksToBounds = YES;
     _TXT_accountnumber.layer.borderWidth = 2.0f;
     _TXT_accountnumber.layer.borderColor = [UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0].CGColor;
+    _TXT_accountnumber.delegate = self;
     
     _TXT_email.layer.cornerRadius = 5.0f;
     _TXT_email.layer.masksToBounds = YES;
     _TXT_email.layer.borderWidth = 2.0f;
     _TXT_email.layer.borderColor = [UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0].CGColor;
+    _TXT_email.delegate = self;
     
     
        NSString *cur = @"$";
@@ -234,7 +249,7 @@
     
     [VW_overlay addSubview:activityIndicatorView];
 
-    
+    NSLog(@"the string is:%@",_TXT_amtpaypal.text);
     VW_overlay.hidden = YES;
   
     
@@ -252,6 +267,13 @@
 -(IBAction)BTN_close:(id)sender
 {
     [self dismissViewControllerAnimated:NO completion:nil];
+}
+#pragma mark -Textfield delagates
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
 }
 
 #pragma mark - UIButton Actions
@@ -292,22 +314,21 @@
         [_TXT_email showErrorWithText:@" Please enter Correct Mail"];
         
     }
-    else
-    {
-        if ([_TXT_amtpaypal.text isEqualToString:@"0.00"])
+else if ([_TXT_amtpaypal.text isEqualToString:@"0.00"] || [_TXT_amtpaypal.text isEqualToString:@" 0.00"]) 
         {
             [_TXT_amtpaypal becomeFirstResponder];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please Enter Amount" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
             [alert show];
         }
-        else
+    
+    else
         {
             VW_overlay.hidden = NO;
             [activityIndicatorView startAnimating];
             [self performSelector:@selector(api_amount_paypal) withObject:activityIndicatorView afterDelay:0.01];
 
         }
-    }
+      
 }
 
 -(void)api_amount_paypal
@@ -367,18 +388,20 @@
             [alert show];
                         
         }
-        
+        else if(error)
+        {
+            [activityIndicatorView stopAnimating];
+            VW_overlay.hidden=YES;
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:error delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+        }
+
         else
         {
             [activityIndicatorView stopAnimating];
             VW_overlay.hidden=YES;
 
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-            [alert show];
-        }
-        if(error)
-        {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:error delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
             [alert show];
         }
         
@@ -430,6 +453,23 @@
         [alert show];
     }
     
+}
+-(void) Tap_DTECt :(UITapGestureRecognizer *)sender
+{
+}
+#pragma mark - Tap Gesture
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    [_TXT_amtpaypal resignFirstResponder];
+    
+    if ([touch.view isDescendantOfView:_BTN_paypal]) {
+        return NO;
+    }
+    else if ([touch.view isDescendantOfView:_BTN_submit_paypal]) {
+        return NO;
+    }
+    
+    return YES;
 }
 
 

@@ -176,19 +176,19 @@
     NSString *ticket_number = [NSString stringWithFormat:@"#%@",[temp_dictin valueForKey:@"order_id"]];
     NSString *date = [self getLocalDateTimeFromUTC:[temp_dictin valueForKey:@"created_at"]];
     NSString *purpose = [temp_dictin valueForKey:@"transaction_type"];
-     NSString *amount = [NSString stringWithFormat:@"$%@.00",[temp_dictin valueForKey:@"amount"]];
+     NSString *amount = [NSString stringWithFormat:@"%.02f",[[temp_dictin valueForKey:@"amount"] floatValue]];
     if([purpose isEqualToString:@"donation"] || [purpose isEqualToString:@"purchase"] || [purpose isEqualToString:@"withdrawal"])
     {
           cell.lbl_amount.textColor = [UIColor redColor];
         
-          cell.lbl_amount.text = amount;
+          cell.lbl_amount.text = [NSString stringWithFormat:@"$%@",amount];
         
     }
     else
     {
          cell.lbl_amount.textColor = [UIColor greenColor];
         
-         cell.lbl_amount.text = amount;
+          cell.lbl_amount.text = [NSString stringWithFormat:@"$%@",amount];
     }
     
     ticket_number = [ticket_number stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
