@@ -384,12 +384,6 @@
             NSString *status = [json_DATA valueForKey:@"message"];
             
             
-            if([status isEqualToString:@"Invalid Email or password."])
-            {
-                NSLog(@"please enter the correct email");
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:status delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-                [alert show];
-            }
             if([[json_DATA valueForKey:@"status"] isEqualToString:@"Failure"])
             {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
@@ -411,7 +405,7 @@
                     [[NSUserDefaults standardUserDefaults] setValue:status forKey:@"auth_token"];
                     [[NSUserDefaults standardUserDefaults] synchronize];
                     
-                    [self performSegueWithIdentifier:@"logintohomeidentifier" sender:self];
+//                    [self performSegueWithIdentifier:@"logintohomeidentifier" sender:self];
                     
                     VW_overlay.hidden = NO;
                     [activityIndicatorView startAnimating];

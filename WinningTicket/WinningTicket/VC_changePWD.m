@@ -94,6 +94,7 @@
     [VW_overlay addSubview:activityIndicatorView];
     VW_overlay.center = self.view.center;
     [self.view addSubview:VW_overlay];
+    _done_Btn.enabled = NO;
     
     VW_overlay.hidden = YES;
 
@@ -106,52 +107,58 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-//    NSInteger inte = textField.text.length;
-//    if(textField.tag==1)
-//    {NSInteger inte = textField.text.length;
-//        if (inte <= 2)
-//        {
-//            return YES;
-//            
-//        }
-//        else if(inte >= 15)
-//        {
-//            return NO;
-//        }
-//        
-//        return YES;
-//        
-//        
-//    }
-//    if(textField.tag==2)
-//    {
-//        if (inte <= 2)
-//        {
-//            return YES;
-//            
-//        }
-//        else if(inte >= 15)
-//        {
-//            return NO;
-//        }
-//        
-//        return YES;
-//    }
-//    if(textField.tag==3)
-//    {
-//        if (inte <= 2)
-//        {
-//            return YES;
-//            
-//        }
-//        else if(inte >= 15)
-//        {
-//            return NO;
-//        }
-//        
-//        return YES;
-//    }
-//
+   NSInteger inte = textField.text.length;
+    if(textField.tag==1)
+    { if (inte <= 2)
+    {
+        
+        _done_Btn.backgroundColor = [UIColor lightGrayColor];
+        return YES;
+        
+    }
+    else if(inte >= 12)
+    {
+        return NO;
+    }
+        
+        return YES;
+        
+        
+    }
+    if(textField.tag==2)
+    {
+        if (inte <= 8)
+        {
+            
+            _done_Btn.backgroundColor = [UIColor lightGrayColor];
+            return YES;
+            
+        }
+        else if(inte >= 12)
+        {
+            return NO;
+        }
+        
+        return YES;
+
+    }
+    if(textField.tag == 3)
+    {
+     if (inte <= 8)
+    {
+
+    _done_Btn.backgroundColor = [UIColor colorWithRed:0.08 green:0.63 blue:0.85 alpha:1.0];
+        _done_Btn.enabled = YES;
+        return YES;
+        
+    }
+    else if(inte >= 12)
+    {
+        return NO;
+    }
+    
+    return YES;
+    }
    return YES;
 }
 #pragma mark - BTN Actions
@@ -165,27 +172,27 @@
     {
         [_TXT_currentPWD becomeFirstResponder];
     }
-    else  if([_TXT_newPWD.text isEqualToString:@""] || _TXT_newPWD.text.length <= 8)
+    else  if([_TXT_newPWD.text isEqualToString:@""])
     {
         [_TXT_newPWD becomeFirstResponder];
-        _Stat_label.hidden=NO;
-        [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];
-        _Stat_label.text=@"Password length should be More than 8 characters";
+//        _Stat_label.hidden=NO;
+//        [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];
+//        _Stat_label.text=@"Password length should be More than 8 characters";
     }
-    else  if([_TXT_confirmnewPWD.text isEqualToString:@""] || _TXT_newPWD.text.length <= 8)
+    else  if([_TXT_confirmnewPWD.text isEqualToString:@""])
     {
         [_TXT_confirmnewPWD becomeFirstResponder];
-        _Stat_label.hidden=NO;
-        [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];
-        _Stat_label.text=@"Password length should be More than 8 characters";
+//        _Stat_label.hidden=NO;
+//        [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];
+//        _Stat_label.text=@"Password length should be More than 8 characters";
     }
-    else if([_TXT_newPWD.text isEqualToString:_TXT_confirmnewPWD.text])
-    {
-        _Stat_label.hidden=NO;
-        [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];
-        _Stat_label.text=@"Passwords are not matched";
-
-    }
+//    else if([_TXT_newPWD.text isEqualToString:_TXT_confirmnewPWD.text])
+//    {
+//        _Stat_label.hidden=NO;
+//        [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];
+//        _Stat_label.text=@"Passwords are not matched";
+//
+//    }
     else
     {
         [activityIndicatorView startAnimating];

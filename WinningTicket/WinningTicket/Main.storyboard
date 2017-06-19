@@ -594,7 +594,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="O3A-Sg-A6i" customClass="BTN_Winnig_TKT">
-                                        <rect key="frame" x="251" y="56" width="61" height="35"/>
+                                        <rect key="frame" x="251" y="58" width="61" height="35"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="15"/>
@@ -631,7 +631,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="To" adjustsFontSizeToFit="NO" minimumFontSize="4" id="A9U-re-gXj" customClass="TXT_alighn_style">
-                                                <rect key="frame" x="83" y="0.0" width="75" height="35"/>
+                                                <rect key="frame" x="83" y="2" width="75" height="35"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" name="GothamBook" family="GothamBook" pointSize="17"/>
@@ -3958,7 +3958,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
                                         <color key="value" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -3980,7 +3980,7 @@
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="oHD-4I-Z86" customClass="BTN_Winnig_TKT">
                                 <rect key="frame" x="31" y="286" width="259" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="18"/>
                                 <state key="normal" title="DONE">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -5725,13 +5725,13 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="PaP-EP-B38"/>
-        <segue reference="yxA-85-JlB"/>
-        <segue reference="jMh-2b-WDa"/>
-        <segue reference="l6m-hJ-eUx"/>
-        <segue reference="AmC-Xg-ce2"/>
-        <segue reference="ODo-qD-iEi"/>
+        <segue reference="D2f-xd-0V5"/>
         <segue reference="WqQ-aJ-yS8"/>
+        <segue reference="KU5-Xe-DT4"/>
+        <segue reference="Kfz-vY-8cB"/>
+        <segue reference="ODo-qD-iEi"/>
+        <segue reference="yxA-85-JlB"/>
+        <segue reference="l6m-hJ-eUx"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.3921568627" green="0.71764705880000002" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

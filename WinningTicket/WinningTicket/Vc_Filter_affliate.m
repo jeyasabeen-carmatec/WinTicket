@@ -124,7 +124,7 @@
 //    temp_dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"TigerWoods Auographed Under Armor GolfShoes",@"key1",@"Contributor",@"key2", nil];
 //    [_sec_one_ARR addObject:temp_dictin];
 //    
-     _roles_ARR=[NSMutableArray arrayWithObjects:@"sponsor",@"contributor",@"affiliate",@"organizer", nil];
+     _roles_ARR=[NSMutableArray arrayWithObjects:@"sponsor",@"contributor",@"affiliate", nil];
     
     _role_picker = [[UIPickerView alloc]init];
     _role_picker.dataSource=self;
