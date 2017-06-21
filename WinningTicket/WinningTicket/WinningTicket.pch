@@ -25,6 +25,7 @@
 #define SERVER_URL @"http://winningticket.carmatec.com/api/v1/"
 #define SERVER_USR @"http://winningticket.carmatec.com/api/v1/users/"
 #define IMAGE_URL @"http://winningticket.carmatec.com"
-
+//#define phoneRegex @"(([+]{1}|[0]{2}){0,1}+[1]{1}){0,1}+[ ]{0,1}+(?:[-( ]{0,1}[0-9]{3}[-) ]{0,1}){0,1}+[ ]{0,1}+[0-9]{2,3}+[0-9- ]{4,8}"//@"^\\x2b?[0-9]+$"
+#define emailRegEx @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,10}"
 
 #endif /* WinningTicket_pch */

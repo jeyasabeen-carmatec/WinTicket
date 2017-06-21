@@ -24,7 +24,7 @@
 @property(nonatomic,weak) IBOutlet UILabel *title_lbl;
 @property(nonatomic,weak) IBOutlet UIView *vw_LINE;
 
-
+@property(nonatomic,weak) IBOutlet UIButton *BTN_logOUT;
 
 
 @end

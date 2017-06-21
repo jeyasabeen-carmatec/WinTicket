@@ -16,7 +16,8 @@
     
     UIView *VW_overlay;
     UIActivityIndicatorView *activityIndicatorView;
-    UILabel *loadingLabel;
+//    UILabel *loadingLabel;
+    NSArray *sorted_STAES,*sorted_Contry;
 }
 @property (nonatomic, strong) NSArray *countrypicker,*statepicker;
 
@@ -105,7 +106,7 @@
 #pragma mark - Customise View
 -(void) setup_VIEW
 {
-    VW_overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+    VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     VW_overlay.clipsToBounds = YES;
     VW_overlay.layer.cornerRadius = 10.0;
@@ -113,14 +114,14 @@
     activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
     
-    loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 170, 200, 22)];
-    loadingLabel.backgroundColor = [UIColor clearColor];
-    loadingLabel.textColor = [UIColor whiteColor];
-    loadingLabel.adjustsFontSizeToFitWidth = YES;
-    loadingLabel.textAlignment = NSTextAlignmentCenter;
-    loadingLabel.text = @"Loading...";
-    
-    [VW_overlay addSubview:loadingLabel];
+//    loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 170, 200, 22)];
+//    loadingLabel.backgroundColor = [UIColor clearColor];
+//    loadingLabel.textColor = [UIColor whiteColor];
+//    loadingLabel.adjustsFontSizeToFitWidth = YES;
+//    loadingLabel.textAlignment = NSTextAlignmentCenter;
+//    loadingLabel.text = @"Loading...";
+//    
+//    [VW_overlay addSubview:loadingLabel];
     activityIndicatorView.center = VW_overlay.center;
     [VW_overlay addSubview:activityIndicatorView];
     VW_overlay.center = self.view.center;
@@ -388,191 +389,117 @@
     if(textField.tag==1)
     {
         NSInteger inte = textField.text.length;
-        if (inte <= 2)
-        {
-            return YES;
-            
-        }
-        else if(inte >= 255)
+        if(inte >= 255)
         {
             return NO;
         }
-        
         return YES;
-        
-        
     }
     if(textField.tag==2)
     {
         NSInteger inte = textField.text.length;
-        
-        if (inte <= 2)
-        {
-            return YES;
-            
-        }
-        else if(inte >= 30)
+        if(inte >= 30)
         {
             return NO;
         }
-        
-        
         return YES;
     }
-    
-    
     if(textField.tag==3)
     {
         NSInteger inte = textField.text.length;
-        if (inte <= 2)
-        {
-            return YES;
-            
-        }
-        else if(inte >= 30)
+        if(inte >= 30)
         {
             return NO;
         }
-        
-        
         return YES;
-        
     }
     if(textField.tag==4)
     {
         NSInteger inte = textField.text.length;
-        if (inte <= 2)
-        {
-            return YES;
-            
-        }
-        else if(inte >= 255)
+        if(inte >= 255)
         {
             return NO;
         }
-        
         return YES;
     }
     if(textField.tag==5)
     {
         NSInteger inte = textField.text.length;
-        if (inte <= 2)
-        {
-            return YES;
-            
-        }
-        else if(inte >= 255)
+        if(inte >= 255)
         {
             return NO;
         }
-        
         return YES;
     }
     if(textField.tag==6)
     {
         NSInteger inte = textField.text.length;
-        if (inte <= 2)
-        {
-            return YES;
-            
-        }
-        else if(inte >= 255)
+        if(inte >= 255)
         {
             return NO;
         }
-        
         return YES;
     }
-    
     if(textField.tag==7)
     {
         NSInteger inte = textField.text.length;
-        if (inte <= 2)
-        {
-            return YES;
-            
-        }
-        else if(inte >= 255)
+        if(inte >= 255)
         {
             return NO;
         }
-        
-        
         return YES;
     }
     if(textField.tag==8)
     {
         NSInteger inte = textField.text.length;
-        if (inte <= 2)
+        if(inte >= 15)
         {
-            return YES;
-            
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
         }
-        else if(inte >= 12)
-        {
-            return NO;
-        }
-        
-        return YES;
+        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789()+-"] invertedSet];
+        NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
+        return [string isEqualToString:filtered];
     }
     if(textField.tag==9)
     {
         NSInteger inte = textField.text.length;
-        if (inte <= 2)
-        {
-            return YES;
-            
-        }
-        else if(inte >= 30)
+        if(inte >= 30)
         {
             return NO;
         }
-        
-        
         return YES;
     }
     if(textField.tag==10)
     {
         NSInteger inte = textField.text.length;
-        if (inte <= 2)
-        {
-            return YES;
-            
-        }
-        else if(inte >= 30)
+        if(inte >= 30)
         {
             return NO;
         }
-        
         return YES;
     }
     if(textField.tag==11)
     {
         NSInteger inte = textField.text.length;
-        
-        if (inte <= 2)
-        {
-            return YES;
-            
-        }
-        else if(inte >= 30)
+        if(inte >= 30)
         {
             return NO;
         }
-        
-        
         return YES;
     }
     return YES;
-    
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
     if(textField.tag==12)
     {
         NSString *text_to_compare = _TXT_email.text;
-        
-        NSString *emailRegEx = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,10}";
         NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegEx];
         
         if ([emailTest evaluateWithObject:text_to_compare] == NO)
@@ -593,104 +520,126 @@
 -(void) btn_sign_up
 {
     NSString *text_to_compare_email = _TXT_email.text;
-    NSString *emailRegEx = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,10}";
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegEx];
     NSLog(@"Sighn UP");
     
-    NSString *text_to_compare=_TXT_phone_num.text;
-    NSString *phoneRegex = @"[0-9]{10,12}$";
-    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
+//    NSString *text_to_compare=_TXT_phone_num.text;
+//    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
     
-    if([_TXT_golfcoursename.text isEqualToString:@""] || _TXT_golfcoursename.text.length <= 2 || _TXT_golfcoursename.text.length > 30)
+    NSString *L_name_STR = _TXT_L_name.text;
+    NSString *addr_line_two = _TXT_addr2.text;
+    
+    if([_TXT_golfcoursename.text isEqualToString:@""])
     {
         [_TXT_golfcoursename becomeFirstResponder];
         [_TXT_golfcoursename showError];
-        [_TXT_golfcoursename showErrorWithText:@" Please enter minimum  2 Chracters"];
-        
+        [_TXT_golfcoursename showErrorWithText:@" Please enter course name"];
     }
-    
-    
-    else if([_TXT_F_name.text isEqualToString:@""] || _TXT_F_name.text.length <= 2 || _TXT_F_name.text.length > 30)
+    else if(_TXT_golfcoursename.text.length < 2)
+    {
+        [_TXT_golfcoursename becomeFirstResponder];
+        [_TXT_golfcoursename showError];
+        [_TXT_golfcoursename showErrorWithText:@" Course name minimum 2 Chracters"];
+    }
+    else if([_TXT_F_name.text isEqualToString:@""])
     {
         [_TXT_F_name becomeFirstResponder];
         [_TXT_F_name showError];
-        [_TXT_F_name showErrorWithText:@" Please enter minimum  2 Chracters"];
-        
+        [_TXT_F_name showErrorWithText:@" Please enter first name"];
     }
-    
-    else  if([_TXT_L_name.text isEqualToString:@""] || _TXT_L_name.text.length <= 2 || _TXT_L_name.text.length > 30)
+    else if(_TXT_F_name.text.length < 2)
+    {
+        [_TXT_F_name becomeFirstResponder];
+        [_TXT_F_name showError];
+        [_TXT_F_name showErrorWithText:@" First name minimum 2 Chracters"];
+    }
+    else  if(L_name_STR.length != 0 && _TXT_L_name.text.length < 2)
     {
         [_TXT_L_name becomeFirstResponder];
         [_TXT_L_name showError];
-        [_TXT_L_name showErrorWithText:@" Please enter minimum  2 Chracters"];
-        
+        [_TXT_L_name showErrorWithText:@" Last name minimum 2 Chracters"];
     }
-    else  if([_TXT_L_name.text isEqualToString:@""] || _TXT_L_name.text.length <= 2 || _TXT_L_name.text.length > 30)
-    {
-        [_TXT_L_name becomeFirstResponder];
-        [_TXT_L_name showError];
-        [_TXT_L_name showErrorWithText:@" Please enter minimum  2 Chracters"];
-        
-    }
-    
-    else if([_TXT_titl.text isEqualToString:@""] || _TXT_titl.text.length <= 2 || _TXT_titl.text.length > 30)
+    else if([_TXT_titl.text isEqualToString:@""])
     {
         [_TXT_titl becomeFirstResponder];
         [_TXT_titl showError];
-        [_TXT_titl showErrorWithText:@" Please enter minimum  2 Chracters"];
-        
+        [_TXT_titl showErrorWithText:@" Please enter contact title"];
     }
-    
-    else  if([_TXT_addr2.text isEqualToString:@""] || _TXT_addr2.text.length <= 2 || _TXT_addr2.text.length > 30)
+    else if(_TXT_titl.text.length < 2)
+    {
+        [_TXT_titl becomeFirstResponder];
+        [_TXT_titl showError];
+        [_TXT_titl showErrorWithText:@" Contact title minimum 2 Chracters"];
+    }
+    else if([_TXT_addr1.text isEqualToString:@""])
+    {
+        [_TXT_addr1 becomeFirstResponder];
+        [_TXT_addr1 showError];
+        [_TXT_addr1 showErrorWithText:@" Please enter address 1"];
+    }
+    else  if(_TXT_addr1.text.length < 2)
+    {
+        [_TXT_addr1 becomeFirstResponder];
+        [_TXT_addr1 showError];
+        [_TXT_addr1 showErrorWithText:@" Address line 1 minimum 2 Chracters"];
+    }
+    else  if(addr_line_two.length != 0 && _TXT_addr2.text.length < 2)
     {
         [_TXT_addr2 becomeFirstResponder];
         [_TXT_addr2 showError];
-        [_TXT_addr2 showErrorWithText:@" Please enter minimum  2 Chracters"];
-        
+        [_TXT_addr2 showErrorWithText:@" Address line 2 minimum 2 Chracters"];
     }
-    else if([_TXT_city.text isEqualToString:@""] || _TXT_city.text.length <= 2 || _TXT_city.text.length > 30)
+    else if([_TXT_city.text isEqualToString:@""])
     {
         [_TXT_city becomeFirstResponder];
         [_TXT_city showError];
-        [_TXT_city showErrorWithText:@" Please enter City"];
-        
+        [_TXT_city showErrorWithText:@" Please enter city"];
     }
-    
-    
-    else if ([_TXT_phone_num.text isEqualToString:@""] || [phoneTest evaluateWithObject:text_to_compare] == NO)
+    else if(_TXT_city.text.length < 2)
+    {
+        [_TXT_city becomeFirstResponder];
+        [_TXT_city showError];
+        [_TXT_city showErrorWithText:@" City minimum 2 Chracters"];
+    }
+    else if([_TXT_phone_num.text isEqualToString:@""])
     {
         [_TXT_phone_num becomeFirstResponder];
         [_TXT_phone_num showError];
-        [_TXT_phone_num showErrorWithText:@" Please enter minimum 5 Numbers"];
+        [_TXT_phone_num showErrorWithText:@" Please enter phone number"];
     }
-    
-    
+    else if (_TXT_phone_num.text.length < 5)
+    {
+        [_TXT_phone_num becomeFirstResponder];
+        [_TXT_phone_num showError];
+        [_TXT_phone_num showErrorWithText:@" Phone number minimum 5 Numbers"];
+    }
     else if([_TXT_country.text isEqualToString:@""])
     {
         [_TXT_country becomeFirstResponder];
         [_TXT_country showError];
         [_TXT_country showErrorWithText:@" Please Select Country"];
-        
     }
-    
-    else if([_TXT_state.text isEqualToString:@""])
+    else if([_TXT_zip.text isEqualToString:@""])
     {
-        [_TXT_state becomeFirstResponder];
-        [_TXT_state showError];
-        [_TXT_state showErrorWithText:@" Please Select State"];
-        
+        [_TXT_zip becomeFirstResponder];
+        [_TXT_zip showError];
+        [_TXT_zip showErrorWithText:@" Please Select zipcode"];
     }
-    else if([_TXT_email.text isEqualToString:@""] || [emailTest evaluateWithObject:text_to_compare_email] == NO)
+    else if(_TXT_zip.text.length < 3)
+    {
+        [_TXT_zip becomeFirstResponder];
+        [_TXT_zip showError];
+        [_TXT_zip showErrorWithText:@" Zipcode minimum 3 Chracters"];
+    }
+    else if([emailTest evaluateWithObject:text_to_compare_email] == NO)
     {
         [_TXT_email becomeFirstResponder];
         [_TXT_email showError];
-        [_TXT_email showErrorWithText:@" Please Enter Correct Email"];
+        [_TXT_email showErrorWithText:@" Please Enter valid Email"];
     }
-    
     else
     {
         NSLog(@"Validation are aperfect:");
-        //        [self affiliate_SignUP];
         VW_overlay.hidden = NO;
         [activityIndicatorView startAnimating];
         [self performSelector:@selector(affiliate_SignUP) withObject:activityIndicatorView afterDelay:0.01];
@@ -745,7 +694,8 @@
         
         countryS = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"The response %@",countryS);
-        self.countrypicker=[countryS allKeys];
+        sorted_Contry = [[countryS allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+        self.countrypicker = sorted_Contry;
     }
     else
     {
@@ -775,7 +725,8 @@
     if (aData) {
         states = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"The response %@",states);
-        self.statepicker=[states allKeys];
+        sorted_STAES = [[states allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+        self.statepicker = sorted_STAES;
     }
     else
     {
@@ -860,10 +811,16 @@
     NSString *country = _TXT_country.text;
     NSString *email = _TXT_email.text;
     
+    NSString *contry_Code = [countryS valueForKey:country];
+    NSString *state_code = [states valueForKey:state];
+    if (!state_code) {
+        state_code = @"";
+    }
+    
     NSError *error;
     NSError *err;
     NSHTTPURLResponse *response = nil;
-    NSDictionary *parameters = @{ @"user": @{ @"first_name":fname, @"last_name": lname, @"address1": addressone, @"address2": addresstwo, @"city": city, @"phone":phone_num, @"state": state, @"country": country, @"email": email },@"user_type": @"affiliate" };
+    NSDictionary *parameters = @{ @"user": @{ @"first_name":fname, @"last_name": lname, @"address1": addressone, @"address2": addresstwo, @"city": city, @"phone":phone_num, @"state": state_code, @"country": contry_Code, @"email": email },@"user_type": @"affiliate" };
     NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&err];
     NSLog(@"the posted data is:%@",parameters);
     NSString *urlGetuser =[NSString stringWithFormat:@"%@users",SERVER_URL];

@@ -33,7 +33,7 @@
         UIActivityIndicatorView *activityIndicatorView;
         NSMutableDictionary *temp_dict;
         int k;
-        UILabel *search_label,*loadingLabel;
+    UILabel *search_label;//,*loadingLabel;
 
     
     
@@ -61,7 +61,7 @@
     _tbl_edit_referral.estimatedRowHeight = 10.0;
     _tbl_edit_referral.rowHeight = UITableViewAutomaticDimension;
     
-    VW_overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+    VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     VW_overlay.clipsToBounds = YES;
     VW_overlay.layer.cornerRadius = 10.0;
@@ -69,14 +69,14 @@
     activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
     
-    loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 170, 200, 22)];
-    loadingLabel.backgroundColor = [UIColor clearColor];
-    loadingLabel.textColor = [UIColor whiteColor];
-    loadingLabel.adjustsFontSizeToFitWidth = YES;
-    loadingLabel.textAlignment = NSTextAlignmentCenter;
-    loadingLabel.text = @"Loading...";
-    
-    [VW_overlay addSubview:loadingLabel];
+//    loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 170, 200, 22)];
+//    loadingLabel.backgroundColor = [UIColor clearColor];
+//    loadingLabel.textColor = [UIColor whiteColor];
+//    loadingLabel.adjustsFontSizeToFitWidth = YES;
+//    loadingLabel.textAlignment = NSTextAlignmentCenter;
+//    loadingLabel.text = @"Loading...";
+//    
+//    [VW_overlay addSubview:loadingLabel];
     activityIndicatorView.center = VW_overlay.center;
     [VW_overlay addSubview:activityIndicatorView];
     VW_overlay.center = self.view.center;
@@ -116,24 +116,23 @@
     NSError *error;
     NSData *aData = [[NSUserDefaults standardUserDefaults] valueForKey:@"AffiliateReferrel"];
     NSMutableDictionary *temp_dictin = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-    if(temp_dictin)
+    if(!error)
     {
-        ;
         NSLog(@"The response VC affiliate Home %@",temp_dict);
         _ARR_sec_one = [temp_dictin valueForKey:@"referrals"];
+        search_label.text = [NSString stringWithFormat:@" %lu Results for' '",(unsigned long)[_ARR_sec_one count]];
         [_tbl_edit_referral reloadData];
-        VW_overlay.hidden = YES;
-        [activityIndicatorView stopAnimating];
         
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
     }
     else
     {
-        VW_overlay.hidden = YES;
         [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
-        
     }
     
 
@@ -250,30 +249,21 @@
     NSDictionary *dictdata=[_ARR_sec_one objectAtIndex:indexPath.row];
     NSDictionary *role = [dictdata valueForKey:@"role"];
     
-    cell.description_lbl.text = [dictdata objectForKey:@"first_name"];
+    cell.description_lbl.text = [[dictdata objectForKey:@"first_name"] capitalizedString];
     cell.description_lbl.numberOfLines=0;
     [cell.description_lbl sizeToFit];
     
     
-    cell.dete_time_lbl.text=[NSString stringWithFormat:@"%@",[role valueForKey:@"name"]];
+    NSString *role_name = [NSString stringWithFormat:@"%@",[role valueForKey:@"name"]];
+    role_name = [role_name stringByReplacingOccurrencesOfString:@"organizer" withString:@"event organizer"];
+    role_name = [role_name stringByReplacingOccurrencesOfString:@"contributor" withString:@"participant"];
+    cell.dete_time_lbl.text = [role_name capitalizedString];
     cell.dete_time_lbl.numberOfLines=0;
     [cell.dete_time_lbl sizeToFit];
     [cell.delete_button setTag:indexPath.row];
     [cell.delete_button addTarget:self action:@selector(BTN_referalDETAIL:) forControlEvents:
      UIControlEventTouchUpInside];
     
-    
-
-
-    
-    
-    if(indexPath.row % 2 == 0){
-        cell.contentView.backgroundColor = [UIColor colorWithRed:0.88 green:0.88 blue:0.88 alpha:1.0];
-        
-        
-    }else{
-        cell.contentView.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.95 alpha:1.0];
-    }
     return cell;
     
 }
@@ -301,6 +291,16 @@
     }
 }
 */
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(indexPath.row % 2 == 0){
+        cell.contentView.backgroundColor = [UIColor colorWithRed:0.88 green:0.88 blue:0.88 alpha:1.0];
+        
+        
+    }else{
+        cell.contentView.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.95 alpha:1.0];
+    }
+}
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -458,20 +458,18 @@
     NSString *str = _search_bar.text;
     search_label.text = [NSString stringWithFormat:@" %lu Results for' %@ '",(unsigned long)[_ARR_sec_one count],str];
     NSLog(@"Updated Text working %@",str);
+    
+    VW_overlay.hidden = NO;
+    [activityIndicatorView startAnimating];
+    
     if([str isEqualToString:@""])
     {
-        [self getdata];
-        
-        
-        //        search_label.text = [NSString stringWithFormat:@" %lu Results for' %@ '",(unsigned long)[_ARR_sec_one count],str];
-        
+        [self performSelector:@selector(getdata) withObject:activityIndicatorView afterDelay:0.01];
     }
     
     
     if([str length] != 0)
     {
-        VW_overlay.hidden = NO;
-        [activityIndicatorView startAnimating];
         [self performSelector:@selector(searcH_API) withObject:activityIndicatorView afterDelay:0.01];
     }
 }
@@ -567,7 +565,7 @@
 - (void)dragTableDidTriggerRefresh:(UITableView *)tableView
 {
     //Pull up go to First Page
-    NSDictionary *metadict=[temp_dict valueForKey:@"meta"];
+  /*  NSDictionary *metadict=[temp_dict valueForKey:@"meta"];
     NSString *prev_PAGE = [NSString stringWithFormat:@"%@",[metadict valueForKey:@"prev_page"]];
     if ([prev_PAGE isEqualToString:@"0"])
     {
@@ -584,7 +582,8 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
         
         [self performSelector:@selector(firstpage_API) withObject:nil afterDelay:0.01];
-    }
+    }*/
+    [self performSelector:@selector(finishRefresh) withObject:nil afterDelay:0.01];
 }
 
 - (void)dragTableRefreshCanceled:(UITableView *)tableView

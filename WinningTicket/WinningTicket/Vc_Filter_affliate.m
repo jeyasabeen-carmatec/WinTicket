@@ -30,7 +30,7 @@
     UIActivityIndicatorView *activityIndicatorView;
     int k;
     NSMutableDictionary *temp_dict;
-    UILabel *loadingLabel;
+//    UILabel *loadingLabel;
 
 }
 @property(nonatomic,strong)NSMutableArray *sec_one_ARR,*roles_ARR;
@@ -53,7 +53,7 @@
     _filter_tab.estimatedRowHeight = 10.0;
     _filter_tab.rowHeight = UITableViewAutomaticDimension;
     
-    VW_overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+    VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     VW_overlay.clipsToBounds = YES;
     VW_overlay.layer.cornerRadius = 10.0;
@@ -61,14 +61,14 @@
     activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
     
-    loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 170, 200, 22)];
-    loadingLabel.backgroundColor = [UIColor clearColor];
-    loadingLabel.textColor = [UIColor whiteColor];
-    loadingLabel.adjustsFontSizeToFitWidth = YES;
-    loadingLabel.textAlignment = NSTextAlignmentCenter;
-    loadingLabel.text = @"Loading...";
-    
-    [VW_overlay addSubview:loadingLabel];
+//    loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 170, 200, 22)];
+//    loadingLabel.backgroundColor = [UIColor clearColor];
+//    loadingLabel.textColor = [UIColor whiteColor];
+//    loadingLabel.adjustsFontSizeToFitWidth = YES;
+//    loadingLabel.textAlignment = NSTextAlignmentCenter;
+//    loadingLabel.text = @"Loading...";
+//    
+//    [VW_overlay addSubview:loadingLabel];
     activityIndicatorView.center = VW_overlay.center;
     [VW_overlay addSubview:activityIndicatorView];
     VW_overlay.center = self.view.center;
@@ -124,7 +124,7 @@
 //    temp_dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"TigerWoods Auographed Under Armor GolfShoes",@"key1",@"Contributor",@"key2", nil];
 //    [_sec_one_ARR addObject:temp_dictin];
 //    
-     _roles_ARR=[NSMutableArray arrayWithObjects:@"sponsor",@"contributor",@"affiliate", nil];
+     _roles_ARR=[NSMutableArray arrayWithObjects:@"sponsor",@"contributor",@"organizer", nil];
     
     _role_picker = [[UIPickerView alloc]init];
     _role_picker.dataSource=self;
@@ -204,12 +204,15 @@
     NSDictionary *dictdata=[_sec_one_ARR objectAtIndex:indexPath.row];
     NSDictionary *role = [dictdata valueForKey:@"role"];
     
-    cell.description_lbl.text = [dictdata objectForKey:@"first_name"];
+    cell.description_lbl.text = [[dictdata objectForKey:@"first_name"] capitalizedString];
     cell.description_lbl.numberOfLines=0;
     [cell.description_lbl sizeToFit];
     
     
-    cell.date_time_lbl.text=[NSString stringWithFormat:@"%@",[role valueForKey:@"name"]];
+    NSString *role_name = [NSString stringWithFormat:@"%@",[role valueForKey:@"name"]];
+    role_name = [role_name stringByReplacingOccurrencesOfString:@"organizer" withString:@"event organizer"];
+    role_name = [role_name stringByReplacingOccurrencesOfString:@"contributor" withString:@"participant"];
+    cell.date_time_lbl.text = [role_name capitalizedString];
     cell.date_time_lbl.numberOfLines=0;
     [cell.date_time_lbl sizeToFit];
     [cell.BTN_view setTag:indexPath.row];
@@ -256,7 +259,10 @@
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     
     if (pickerView == _role_picker) {
-        return _roles_ARR[row];
+        NSString *role_name = _roles_ARR[row];
+        role_name = [role_name stringByReplacingOccurrencesOfString:@"organizer" withString:@"event organizer"];
+        role_name = [role_name stringByReplacingOccurrencesOfString:@"contributor" withString:@"participant"];
+        return [role_name capitalizedString];
     }
     
     return nil;
@@ -266,7 +272,12 @@
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     if (pickerView == _role_picker) {
         
-        self.role_textfield.text=[_roles_ARR objectAtIndex:row];
+        NSString *role_name = _roles_ARR[row];
+        
+        role_name = [role_name stringByReplacingOccurrencesOfString:@"organizer" withString:@"event organizer"];
+        role_name = [role_name stringByReplacingOccurrencesOfString:@"contributor" withString:@"participant"];
+        
+        self.role_textfield.text = [role_name capitalizedString];
         [self.role_textfield resignFirstResponder];
         VW_overlay.hidden = NO;
         [activityIndicatorView startAnimating];
@@ -303,8 +314,13 @@
     NSHTTPURLResponse *response = nil;
     NSString *role = self.role_textfield.text;
     
+    role = [role stringByReplacingOccurrencesOfString:@"Event Organizer" withString:@"organizer"];
+    role = [role stringByReplacingOccurrencesOfString:@"Participant" withString:@"contributor"];
+    
     NSString *urlGetuser ;
     urlGetuser =[NSString stringWithFormat:@"%@referrals?role=%@",SERVER_URL,role];
+    
+    NSLog(@"Post url to server vc affiliate filter %@ ",urlGetuser);
     
     NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
     NSURL *urlProducts=[NSURL URLWithString:urlGetuser];

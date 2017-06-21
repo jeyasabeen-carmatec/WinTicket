@@ -2319,23 +2319,23 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="$" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rle-1k-1IH">
-                                        <rect key="frame" x="603" y="61" width="141" height="23"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="$" textAlignment="right" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="5" id="rle-1k-1IH">
+                                        <rect key="frame" x="548" y="61" width="196" height="23"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="19"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Wpc-EN-egG">
-                                        <rect key="frame" x="89" y="56" width="168" height="18"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="5" id="Wpc-EN-egG">
+                                        <rect key="frame" x="89" y="56" width="436" height="18"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="flV-OG-6eu">
-                                        <rect key="frame" x="89" y="76" width="168" height="18"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="5" id="flV-OG-6eu">
+                                        <rect key="frame" x="89" y="76" width="546" height="18"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -4313,6 +4313,7 @@
                         <outlet property="VW_contents" destination="Q92-4c-6lD" id="2OQ-kH-nom"/>
                         <outlet property="scroll_contents" destination="Ayh-1b-fHw" id="8rm-fF-96q"/>
                         <outlet property="vw_background" destination="Kyp-OG-Cf2" id="a2i-lU-slt"/>
+                        <segue destination="2gX-Fs-HNE" kind="modal" identifier="normalsighnuptoinitialVC" animates="NO" id="TOA-Cn-J0A"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ik7-UC-jXa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4888,6 +4889,14 @@
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="64"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="3yj-L4-qoP">
+                                        <rect key="frame" x="714" y="17" width="46" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="32"/>
+                                        <state key="normal" title="">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Referrals" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KuA-ud-z3m">
                                         <rect key="frame" x="337" y="31" width="94" height="19"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -4988,6 +4997,7 @@
                     <connections>
                         <outlet property="BTN_edit" destination="SWn-EF-Avw" id="pcG-O0-bCE"/>
                         <outlet property="BTN_filter" destination="Ezg-bR-yxF" id="Ufa-qh-TSw"/>
+                        <outlet property="BTN_logOUT" destination="3yj-L4-qoP" id="KXD-lE-cFD"/>
                         <outlet property="BTN_new_refral" destination="e6A-Ho-gaE" id="X7s-tA-c5j"/>
                         <outlet property="VW_title" destination="vHu-rV-4Kh" id="mb4-vk-ifG"/>
                         <outlet property="lbl_header" destination="IYQ-02-dlL" id="4PJ-65-BaV"/>
@@ -5000,11 +5010,12 @@
                         <segue destination="P4I-Ks-Yxo" kind="modal" identifier="afilhometoadrefidentifier" animates="NO" id="3e9-gj-Jyg"/>
                         <segue destination="Mta-aW-abu" kind="modal" identifier="affliatehmetorefdetailidentifier" animates="NO" id="QIu-2y-D8e"/>
                         <segue destination="U1N-7D-KZK" kind="modal" identifier="affilate_filter_identifier" animates="NO" id="lvj-GR-ss9"/>
+                        <segue destination="2gX-Fs-HNE" kind="modal" identifier="affiliatehometoinitialpage" animates="NO" id="yaZ-kM-dL8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X5p-V8-109" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1211" y="5739"/>
+            <point key="canvasLocation" x="-1094" y="5739"/>
         </scene>
         <!--edit Refferel-->
         <scene sceneID="Y0w-Gc-9J3">
@@ -5579,13 +5590,13 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="4wU-Kb-rBo"/>
-        <segue reference="nOz-Ar-hxz"/>
+        <segue reference="TOA-Cn-J0A"/>
         <segue reference="cbC-uE-OEU"/>
-        <segue reference="al3-eI-ip9"/>
-        <segue reference="JKe-Nx-Mhp"/>
+        <segue reference="nOz-Ar-hxz"/>
         <segue reference="wUk-OB-Ft8"/>
+        <segue reference="al3-eI-ip9"/>
         <segue reference="7YG-QU-B6y"/>
+        <segue reference="RzG-Pg-A7n"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.3921568627" green="0.71764705880000002" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

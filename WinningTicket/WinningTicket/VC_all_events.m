@@ -39,10 +39,11 @@
     NSMutableArray *ARR_allevent;
     UIView *VW_overlay;
     UIActivityIndicatorView *activityIndicatorView;
-    UILabel *loadingLabel;
+//    UILabel *loadingLabel;
     
     NSMutableArray *searchResults;
     int intvalue;
+    NSArray *sorted_STAES;
 }
 @property(nonatomic,strong)NSArray *ARR_states;
 
@@ -64,7 +65,7 @@
     
     ARR_allevent = [[NSMutableArray alloc]init];
     
-    VW_overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+    VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     VW_overlay.clipsToBounds = YES;
     VW_overlay.layer.cornerRadius = 10.0;
@@ -72,14 +73,14 @@
     activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
     
-    loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 170, 200, 22)];
-    loadingLabel.backgroundColor = [UIColor clearColor];
-    loadingLabel.textColor = [UIColor whiteColor];
-    loadingLabel.adjustsFontSizeToFitWidth = YES;
-    loadingLabel.textAlignment = NSTextAlignmentCenter;
-    loadingLabel.text = @"Loading...";
-    
-    [VW_overlay addSubview:loadingLabel];
+//    loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 170, 200, 22)];
+//    loadingLabel.backgroundColor = [UIColor clearColor];
+//    loadingLabel.textColor = [UIColor whiteColor];
+//    loadingLabel.adjustsFontSizeToFitWidth = YES;
+//    loadingLabel.textAlignment = NSTextAlignmentCenter;
+//    loadingLabel.text = @"Loading...";
+//    
+//    [VW_overlay addSubview:loadingLabel];
     activityIndicatorView.center = VW_overlay.center;
     [VW_overlay addSubview:activityIndicatorView];
     VW_overlay.center = self.view.center;
@@ -1061,7 +1062,8 @@
     {
     NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
 //    NSLog(@"The response %@",json_DATA);
-    _ARR_states = [json_DATA allKeys];
+    sorted_STAES = [json_DATA allKeys];
+    _ARR_states = [sorted_STAES sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     }
     else
     {

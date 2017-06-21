@@ -43,7 +43,7 @@
     UIActivityIndicatorView *activityIndicatorView;
     NSMutableDictionary *temp_dict;
     int k;
-    UILabel *search_label,*loadingLabel;
+    UILabel *search_label;//*loadingLabel;
 }
 - (void)frameObservingViewFrameChanged:(FrameObservingViewAffiliate_home *)view
 {
@@ -55,7 +55,7 @@
     _tbl_referal.estimatedRowHeight = 10.0;
     _tbl_referal.rowHeight = UITableViewAutomaticDimension;
     
-    VW_overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+    VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     VW_overlay.clipsToBounds = YES;
     VW_overlay.layer.cornerRadius = 10.0;
@@ -63,14 +63,14 @@
     activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
     
-    loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 170, 200, 22)];
-    loadingLabel.backgroundColor = [UIColor clearColor];
-    loadingLabel.textColor = [UIColor whiteColor];
-    loadingLabel.adjustsFontSizeToFitWidth = YES;
-    loadingLabel.textAlignment = NSTextAlignmentCenter;
-    loadingLabel.text = @"Loading...";
-    
-    [VW_overlay addSubview:loadingLabel];
+//    loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 170, 200, 22)];
+//    loadingLabel.backgroundColor = [UIColor clearColor];
+//    loadingLabel.textColor = [UIColor whiteColor];
+//    loadingLabel.adjustsFontSizeToFitWidth = YES;
+//    loadingLabel.textAlignment = NSTextAlignmentCenter;
+//    loadingLabel.text = @"Loading...";
+//    
+//    [VW_overlay addSubview:loadingLabel];
     activityIndicatorView.center = VW_overlay.center;
     [VW_overlay addSubview:activityIndicatorView];
     VW_overlay.center = self.view.center;
@@ -105,6 +105,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [_BTN_logOUT addTarget:self action:@selector(logout_ACTION) forControlEvents:UIControlEventTouchUpInside];
+}
+
+-(void) logout_ACTION
+{
+    NSLog(@"Log out Action Tapped");
+    [self performSegueWithIdentifier:@"affiliatehometoinitialpage" sender:self];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -179,33 +186,24 @@
         }
         cell = [nib objectAtIndex:0];
     }
-
-           NSDictionary *dictdata=[_ARR_sec_one objectAtIndex:indexPath.row];
-        NSDictionary *role = [dictdata valueForKey:@"role"];
-        
-        cell.description_lbl.text = [dictdata objectForKey:@"first_name"];
-        cell.description_lbl.numberOfLines=0;
-        [cell.description_lbl sizeToFit];
-      
-        
-        cell.date_time_lbl.text=[NSString stringWithFormat:@"%@",[role valueForKey:@"name"]];
-        cell.date_time_lbl.numberOfLines=0;
-        [cell.date_time_lbl sizeToFit];
-        [cell.BTN_referalDETAIL setTag:indexPath.row];
-        [cell.BTN_referalDETAIL addTarget:self action:@selector(BTN_referalDETAIL:) forControlEvents:
-         UIControlEventTouchUpInside];
-
- 
+    NSDictionary *dictdata=[_ARR_sec_one objectAtIndex:indexPath.row];
+    NSDictionary *role = [dictdata valueForKey:@"role"];
     
-    if(indexPath.row % 2 == 0){
-        cell.contentView.backgroundColor = [UIColor colorWithRed:0.88 green:0.88 blue:0.88 alpha:1.0];
-        
-        
-    }else{
-        cell.contentView.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.95 alpha:1.0];
-    }
+    cell.description_lbl.text = [[dictdata objectForKey:@"first_name"] capitalizedString];
+    cell.description_lbl.numberOfLines=0;
+    [cell.description_lbl sizeToFit];
+    
+    NSString *role_name = [NSString stringWithFormat:@"%@",[role valueForKey:@"name"]];
+    role_name = [role_name stringByReplacingOccurrencesOfString:@"organizer" withString:@"event organizer"];
+    role_name = [role_name stringByReplacingOccurrencesOfString:@"contributor" withString:@"participant"];
+    cell.date_time_lbl.text = [role_name capitalizedString];
+    cell.date_time_lbl.numberOfLines = 0;
+    [cell.date_time_lbl sizeToFit];
+    [cell.BTN_referalDETAIL setTag:indexPath.row];
+    [cell.BTN_referalDETAIL addTarget:self action:@selector(BTN_referalDETAIL:) forControlEvents:
+     UIControlEventTouchUpInside];
+    
     return cell;
-    
 }
 
 /*- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -234,6 +232,18 @@
 }
 */
 
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(indexPath.row % 2 == 0)
+    {
+        cell.contentView.backgroundColor = [UIColor colorWithRed:0.88 green:0.88 blue:0.88 alpha:1.0];
+    }
+    else
+    {
+        cell.contentView.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.95 alpha:1.0];
+    }
+}
+
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -246,7 +256,9 @@
         }else{
             titleName = [NSString stringWithFormat:@"%lu Results for %@",(unsigned long)_ARR_search.count,self.search_bar.text];
         }
-    }else{
+    }
+    else
+    {
         titleName = @"Items Related To your Search";
     }
     return  titleName;
@@ -297,10 +309,25 @@
     NSError *error;
     NSData *aData = [[NSUserDefaults standardUserDefaults] valueForKey:@"AffiliateReferrel"];
     temp_dict = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-    NSLog(@"The response VC affiliate Home %@",temp_dict);
-   _ARR_sec_one = [temp_dict valueForKey:@"referrals"];
-    [_tbl_referal reloadData];
     
+    if (!error)
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        NSLog(@"The response VC affiliate Home %@",temp_dict);
+        _ARR_sec_one = [temp_dict valueForKey:@"referrals"];
+        search_label.text = [NSString stringWithFormat:@" %lu Results for' '",(unsigned long)[_ARR_sec_one count]];
+        [_tbl_referal reloadData];
+    }
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
 }
 
 
@@ -346,7 +373,6 @@
 #pragma mark - Search View Animations
 -(BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
-    
     _navigation_titlebar.backgroundColor = [UIColor whiteColor];
     _title_lbl.hidden = YES;
 
@@ -460,22 +486,17 @@
 -(void) getSearch_TXT
 {
     NSString *str = _search_bar.text;
-    search_label.text = [NSString stringWithFormat:@" %lu Results for' %@ '",(unsigned long)[_ARR_sec_one count],str];
     NSLog(@"Updated Text working %@",str);
+    VW_overlay.hidden = NO;
+    [activityIndicatorView startAnimating];
+    
     if([str isEqualToString:@""])
     {
-        [self get_DATA];
-
-        
-//        search_label.text = [NSString stringWithFormat:@" %lu Results for' %@ '",(unsigned long)[_ARR_sec_one count],str];
-
+        [self performSelector:@selector(get_DATA) withObject:activityIndicatorView afterDelay:0.01];
     }
-
     
     if([str length] != 0)
     {
-        VW_overlay.hidden = NO;
-        [activityIndicatorView startAnimating];
         [self performSelector:@selector(searcH_API) withObject:activityIndicatorView afterDelay:0.01];
     }
 }

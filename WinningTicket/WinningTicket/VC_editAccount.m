@@ -14,8 +14,8 @@
     UIView *VW_overlay;
     UIActivityIndicatorView *activityIndicatorView;
     NSMutableDictionary *states,*countryS;
-    
-    UILabel *loadingLabel;
+    NSArray *sorted_STAES,*sorted_Contry;
+//    UILabel *loadingLabel;
 }
 @property (nonatomic, strong) NSArray *countrypicker,*statepicker;
 @property(nonatomic,strong)NSMutableDictionary *json_DATA;/*for getting the JSON data  */
@@ -210,7 +210,7 @@
     [self State_api];
     [_BTN_save addTarget:self action:@selector(save_clikced) forControlEvents:UIControlEventTouchUpInside];
     
-    VW_overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+    VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     VW_overlay.clipsToBounds = YES;
     VW_overlay.layer.cornerRadius = 10.0;
@@ -218,14 +218,14 @@
     activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
     
-    loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 170, 200, 22)];
-    loadingLabel.backgroundColor = [UIColor clearColor];
-    loadingLabel.textColor = [UIColor whiteColor];
-    loadingLabel.adjustsFontSizeToFitWidth = YES;
-    loadingLabel.textAlignment = NSTextAlignmentCenter;
-    loadingLabel.text = @"Loading...";
-    
-    [VW_overlay addSubview:loadingLabel];
+//    loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 170, 200, 22)];
+//    loadingLabel.backgroundColor = [UIColor clearColor];
+//    loadingLabel.textColor = [UIColor whiteColor];
+//    loadingLabel.adjustsFontSizeToFitWidth = YES;
+//    loadingLabel.textAlignment = NSTextAlignmentCenter;
+//    loadingLabel.text = @"Loading...";
+//    
+//    [VW_overlay addSubview:loadingLabel];
     activityIndicatorView.center = VW_overlay.center;
     [VW_overlay addSubview:activityIndicatorView];
     VW_overlay.center = self.view.center;
@@ -247,11 +247,8 @@
 //    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegEx];
 //    NSLog(@"Sighn UP");
 //    
-    NSString *text_to_compare=_TXT_phone.text;
-    NSString *phoneRegex = @"[0-9]{10,14}$";
-    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
-    
-    
+//    NSString *text_to_compare=_TXT_phone.text;
+//    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
     
     if([_TXT_fname.text isEqualToString:@""] || _TXT_fname.text.length <= 2 || _TXT_fname.text.length > 30)
     {
@@ -316,7 +313,7 @@
     }
     
 
-    else if ([_TXT_phone.text isEqualToString:@""] || [phoneTest evaluateWithObject:text_to_compare] == NO)
+    else if (_TXT_phone.text.length < 5)
     {
         [_TXT_phone becomeFirstResponder];
         [_TXT_phone showError];
@@ -389,6 +386,27 @@
     [UIView commitAnimations];
     // }
 }
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField == _TXT_phone)
+    {
+        NSInteger inte = textField.text.length;
+        if(inte >= 15)
+        {
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+        }
+        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789()+-"] invertedSet];
+        NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
+        return [string isEqualToString:filtered];
+    }
+    return YES;
+}
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -417,7 +435,8 @@
         
         countryS = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"The response %@",countryS);
-        self.countrypicker=[countryS allKeys];
+        sorted_Contry = [[countryS allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+        self.countrypicker = sorted_Contry;
     }
     else
     {
@@ -447,18 +466,14 @@
     if (aData) {
         states = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"The response %@",states);
-        self.statepicker=[states allKeys];
+        sorted_STAES = [[states allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+        self.statepicker = sorted_STAES;
     }
     else
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
     }
-    
-
-    
-    
-    
 }
 
 #pragma mark - UIPickerViewDelegate

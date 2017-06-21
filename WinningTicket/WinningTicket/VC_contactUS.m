@@ -14,7 +14,7 @@
 {
     UIView *VW_overlay;
     UIActivityIndicatorView *activityIndicatorView;
-    UILabel *loadingLabel;
+//    UILabel *loadingLabel;
 }
 
 @end
@@ -107,7 +107,7 @@
     _TXT_VW_message.delegate=self;
     [_BTn_send addTarget:self action:@selector(send_Clicked) forControlEvents:UIControlEventTouchUpInside];
     
-    VW_overlay = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+    VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     VW_overlay.clipsToBounds = YES;
     VW_overlay.layer.cornerRadius = 10.0;
@@ -115,14 +115,14 @@
     activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
     
-    loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 170, 200, 22)];
-    loadingLabel.backgroundColor = [UIColor clearColor];
-    loadingLabel.textColor = [UIColor whiteColor];
-    loadingLabel.adjustsFontSizeToFitWidth = YES;
-    loadingLabel.textAlignment = NSTextAlignmentCenter;
-    loadingLabel.text = @"Loading...";
-    
-    [VW_overlay addSubview:loadingLabel];
+//    loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 170, 200, 22)];
+//    loadingLabel.backgroundColor = [UIColor clearColor];
+//    loadingLabel.textColor = [UIColor whiteColor];
+//    loadingLabel.adjustsFontSizeToFitWidth = YES;
+//    loadingLabel.textAlignment = NSTextAlignmentCenter;
+//    loadingLabel.text = @"Loading...";
+//    
+//    [VW_overlay addSubview:loadingLabel];
     activityIndicatorView.center = VW_overlay.center;
     [VW_overlay addSubview:activityIndicatorView];
     VW_overlay.center = self.view.center;
@@ -151,8 +151,6 @@
     if(textField.tag==3)
     {
         NSString *text_to_compare = _TXT_email.text;
-        
-        NSString *emailRegEx = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,10}";
         NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegEx];
         
         if ([emailTest evaluateWithObject:text_to_compare] == NO)
@@ -209,7 +207,26 @@
     self.view.frame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
     [UIView commitAnimations];
 }
-
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField == _TXT_phone) {
+        NSInteger inte = textField.text.length;
+        if(inte >= 15)
+        {
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+        }
+        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789()+-"] invertedSet];
+        NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
+        return [string isEqualToString:filtered];
+    }
+    return YES;
+}
 
 
 #pragma mark - BTN Actions
@@ -220,11 +237,6 @@
 
 -(void)send_Clicked
 {
-    
-    NSString *text_to_compare=_TXT_phone.text;
-    NSString *phoneRegex = @"[0-9]{10,14}$";
-    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
-    
     if([_TXT_fname.text isEqualToString:@""])
     {
         [_TXT_fname becomeFirstResponder];
@@ -250,7 +262,7 @@
         [_TXT_VW_message becomeFirstResponder];
         
     }
-    else if ([_TXT_phone.text isEqualToString:@""] && [phoneTest evaluateWithObject:text_to_compare] == NO)
+    else if (_TXT_phone.text.length < 5)
     {
         [_TXT_phone becomeFirstResponder];
     }
