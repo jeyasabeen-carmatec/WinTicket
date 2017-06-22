@@ -378,7 +378,7 @@
                 return NO;
             }
         }
-        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789()+-"] invertedSet];
+        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789()+- "] invertedSet];
         NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
         return [string isEqualToString:filtered];
         
@@ -468,6 +468,7 @@
 //    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
     
     NSString *addr_line_two = _TXT_addressLine_two.text;
+    NSString *lst_name = _TXT_L_name.text;
     if ([_TXT_F_name.text isEqualToString:@""])
     {
         [_TXT_F_name becomeFirstResponder];
@@ -490,13 +491,19 @@
     {
         [_TXT_addressLine_one becomeFirstResponder];
         [_TXT_addressLine_one showError];
-        [_TXT_addressLine_one showErrorWithText:@" Address line 1 minimum  2 Chracters"];
+        [_TXT_addressLine_one showErrorWithText:@" Address line 1 minimum 2 Chracters"];
     }
     else  if(addr_line_two.length != 0 && _TXT_addressLine_two.text.length < 2)
     {
         [_TXT_addressLine_two becomeFirstResponder];
         [_TXT_addressLine_two showError];
-        [_TXT_addressLine_two showErrorWithText:@" Address line 2 minimum  2 Chracters"];
+        [_TXT_addressLine_two showErrorWithText:@" Address line 2 minimum 2 Chracters"];
+    }
+    else  if(lst_name.length != 0 && _TXT_L_name.text.length < 2)
+    {
+        [_TXT_L_name becomeFirstResponder];
+        [_TXT_L_name showError];
+        [_TXT_L_name showErrorWithText:@" Last name minimum 2 Chracters"];
     }
     else if([_TXT_city.text isEqualToString:@""])
     {
@@ -508,7 +515,7 @@
     {
         [_TXT_city becomeFirstResponder];
         [_TXT_city showError];
-        [_TXT_city showErrorWithText:@" City minimum  2 Chracters"];
+        [_TXT_city showErrorWithText:@" City minimum 2 Chracters"];
     }
     else if([_TXT_phone_number.text isEqualToString:@""])
     {
@@ -592,11 +599,12 @@
         NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"The response Api post sighn up API %@",json_DATA);
         NSString *status = [json_DATA valueForKey:@"status"];
+        NSString *msg = [json_DATA valueForKey:@"message"];
         
         if([status isEqualToString:@"Success"])
         {
             
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:status delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
             [alert show];
             
             [self performSegueWithIdentifier:@"normalsighnuptoinitialVC" sender:self];
@@ -604,7 +612,7 @@
         }
         else
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:status delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
             [alert show];
         }
         

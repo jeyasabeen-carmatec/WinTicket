@@ -371,9 +371,11 @@
             else
             {
                 [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"loginEmail"];
-                [[NSUserDefaults standardUserDefaults] setValue:password forKey:@"loginPWD"];
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"loginPWD"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
             }
+            
+            
             
             NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
             NSLog(@"The response %@",json_DATA);
@@ -391,8 +393,7 @@
                 {
                     status = [json_DATA valueForKey:@"authentication_token"];
                     [[NSUserDefaults standardUserDefaults] setValue:status forKey:@"auth_token"];
-                    [[NSUserDefaults standardUserDefaults] synchronize];
-                    
+                    [[NSUserDefaults standardUserDefaults] synchronize];                    
                     [self performSegueWithIdentifier:@"logintoaffiliateidentifier" sender:self];
                 }
                 else

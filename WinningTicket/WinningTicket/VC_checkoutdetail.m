@@ -85,6 +85,9 @@
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:22.0f]}];
     self.navigationItem.title = @"Order Preview";
+    
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"PurchaseRESPONSE"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 /*
@@ -139,7 +142,7 @@
     
     NSLog(@"The response from checkout detail VC \n%@",temp_resp);
     
-    _lbl_datasubtotal.text = [NSString stringWithFormat:@"$ %.02f",[[temp_resp valueForKey:@"price"] floatValue] * [[temp_resp valueForKey:@"quantity"] floatValue]];
+    _lbl_datasubtotal.text = [NSString stringWithFormat:@"$%.2f",[[temp_resp valueForKey:@"price"] floatValue] * [[temp_resp valueForKey:@"quantity"] floatValue]];
     _lbl_datatotal.text = _lbl_datasubtotal.text;
     
     [_BTN_order2 addTarget:self action:@selector(BTN_order2action) forControlEvents:UIControlEventTouchUpInside];
@@ -307,7 +310,29 @@
 
 -(void) backAction
 {
-    [self.navigationController popViewControllerAnimated:NO];
+//    [self.navigationController popViewControllerAnimated:NO];
+//    checkoutTohome
+    NSError *error;
+    NSMutableDictionary *dict;
+    @try {
+        dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults] valueForKey:@"PurchaseRESPONSE"] options:NSJSONReadingAllowFragments error:&error];
+        NSLog(@"Response from purchase controller :%@",dict);
+    }
+    @catch (NSException *exception)
+    {
+//        [self performSegueWithIdentifier:@"checkoutTohome" sender:self];
+        [self.navigationController popViewControllerAnimated:NO];
+    }
+    
+    if (dict)
+    {
+        [self performSegueWithIdentifier:@"checkoutTohome" sender:self];
+    }
+    else
+    {
+        [self performSegueWithIdentifier:@"checkoutTohome" sender:self];
+    }
+    
 }
 
 #pragma mark - UIButton Actions
@@ -378,7 +403,6 @@
     NSError *error;
     NSHTTPURLResponse *response = nil;
     
-    
     NSMutableDictionary *temp_resp = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults] valueForKey:@"CHKOUTDETAIL"] options:NSASCIIStringEncoding error:&error];
     
     float total = [[temp_resp valueForKey:@"price"] floatValue] * [[temp_resp valueForKey:@"quantity"] floatValue];
@@ -407,7 +431,27 @@
         
         [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"PurchaseRESPONSE"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        [self performSegueWithIdentifier:@"purchaseidentifier" sender:self];
+        
+        NSError *error;
+        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults] valueForKey:@"PurchaseRESPONSE"] options:NSJSONReadingAllowFragments error:&error];
+        NSLog(@"Response from purchase controller :%@",dict);
+        
+        if (dict)
+        {
+            if ([[dict valueForKey:@"status"] isEqualToString:@"Failure"]) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[dict valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                [alert show];
+            }
+            else
+            {
+                [self performSegueWithIdentifier:@"purchaseidentifier" sender:self];
+            }
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            [alert show];
+        }
     }
     else
     {

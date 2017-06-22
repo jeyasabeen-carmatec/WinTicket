@@ -7,14 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ACFloatingTextField.h"
 
 @interface purchase_Cell : UITableViewCell
 @property(nonatomic,weak)IBOutlet UILabel *stat_lbl;
-@property (weak, nonatomic) IBOutlet UITextField *fname;
-@property (weak, nonatomic) IBOutlet UITextField *lname;
+@property (weak, nonatomic) IBOutlet ACFloatingTextField *fname;
+@property (weak, nonatomic) IBOutlet ACFloatingTextField *lname;
 @property (weak, nonatomic) IBOutlet UIView *VW_contentcell;
 
-@property (weak, nonatomic) IBOutlet UITextField *email;
+@property (weak, nonatomic) IBOutlet ACFloatingTextField *email;
 
 
 

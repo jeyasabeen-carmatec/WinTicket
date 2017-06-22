@@ -154,17 +154,18 @@
     _TXT_qty.text = @"1";
     NSString *show = @"Winning Ticket";
     NSString *place = [temp_dict valueForKey:@"name"];
+    NSString *org_name = [temp_dict valueForKey:@"organization_name"];
     NSString *ticketnumber = [temp_dict  valueForKey:@"code"];
     
-    NSString *STR_tkt_num_club = [NSString stringWithFormat:@"%@ - Grand Cypress Country Club",ticketnumber];
+    NSString *STR_tkt_num_club = [NSString stringWithFormat:@"%@ - %@",ticketnumber,place];
     
     _lbl_price.text=[NSString stringWithFormat:@"$%.02f",[[dict valueForKey:@"price"] floatValue]];
     
     NSArray *arr = [_lbl_price.text componentsSeparatedByString:@"$"];
-    _lbl_dataTotal.text = [NSString stringWithFormat:@"$ %.02f",[_TXT_qty.text floatValue] * [[arr objectAtIndex:1] floatValue]];
-    _lbl_datasubtotal.text = [NSString stringWithFormat:@"$ %.02f",[_TXT_qty.text floatValue] * [[arr objectAtIndex:1] floatValue]];
+    _lbl_dataTotal.text = [NSString stringWithFormat:@"$%.02f",[_TXT_qty.text floatValue] * [[arr objectAtIndex:1] floatValue]];
+    _lbl_datasubtotal.text = [NSString stringWithFormat:@"$%.02f",[_TXT_qty.text floatValue] * [[arr objectAtIndex:1] floatValue]];
     
-    NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@",show,place,STR_tkt_num_club];
+    NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@",show,org_name,STR_tkt_num_club];
     
     text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
     text = [text stringByReplacingOccurrencesOfString:@"(null)" withString:@"Not Mentioned"];
@@ -187,39 +188,45 @@
         
         if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
         {
-            paragraphStyle.lineSpacing = 4;
+            NSMutableParagraphStyle *paragraphStyle1  = [[NSMutableParagraphStyle alloc] init];
+            paragraphStyle1.lineSpacing = 5;
             // Red text attributes
             //            UIColor *redColor = [UIColor redColor];
             NSRange cmp = [text rangeOfString:show];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:22],NSParagraphStyleAttributeName:paragraphStyle}
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:22],NSParagraphStyleAttributeName:paragraphStyle1}
                                     range:cmp];
             
-            paragraphStyle.lineSpacing = 3;
-            NSRange plce = [text rangeOfString:place];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:18.0],NSParagraphStyleAttributeName:paragraphStyle}
+            NSMutableParagraphStyle *paragraphStyle2  = [[NSMutableParagraphStyle alloc] init];
+            paragraphStyle2.lineSpacing = 2;
+            NSRange plce = [text rangeOfString:org_name];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:18.0],NSParagraphStyleAttributeName:paragraphStyle2}
                                     range:plce];
         
-            paragraphStyle.lineSpacing = 0;
+            NSMutableParagraphStyle *paragraphStyle3  = [[NSMutableParagraphStyle alloc] init];
+            paragraphStyle3.lineSpacing = 2;
             NSRange tkt_num_range = [text rangeOfString:STR_tkt_num_club];
             [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:16.0],NSParagraphStyleAttributeName:paragraphStyle} range:tkt_num_range];
         }
         else
         {
-            paragraphStyle.lineSpacing = 4;
+            NSMutableParagraphStyle *paragraphStyle1  = [[NSMutableParagraphStyle alloc] init];
+            paragraphStyle1.lineSpacing = 5;
             // Red text attributes
             //            UIColor *redColor = [UIColor redColor];
             NSRange cmp = [text rangeOfString:show];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:20.0],NSParagraphStyleAttributeName:paragraphStyle}
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:20.0],NSParagraphStyleAttributeName:paragraphStyle1}
                                     range:cmp];
             
-            paragraphStyle.lineSpacing = 3;
-            NSRange plce = [text rangeOfString:place];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:16.0],NSParagraphStyleAttributeName:paragraphStyle}
+            NSMutableParagraphStyle *paragraphStyle2  = [[NSMutableParagraphStyle alloc] init];
+            paragraphStyle2.lineSpacing = 2;
+            NSRange plce = [text rangeOfString:org_name];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:16.0],NSParagraphStyleAttributeName:paragraphStyle2}
                                     range:plce];
             
-            paragraphStyle.lineSpacing = 0;
+            NSMutableParagraphStyle *paragraphStyle3  = [[NSMutableParagraphStyle alloc] init];
+            paragraphStyle3.lineSpacing = 2;
             NSRange tkt_num_range = [text rangeOfString:STR_tkt_num_club];
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:14.0],NSParagraphStyleAttributeName:paragraphStyle} range:tkt_num_range];
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:14.0],NSParagraphStyleAttributeName:paragraphStyle3} range:tkt_num_range];
         }
 
         self.lbl_ticketdetail.attributedText = attributedText;
@@ -406,20 +413,18 @@
 #define MAX_LENGTH 2
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    if (textField == _TXT_qty) {
-        if (textField.text.length >= MAX_LENGTH && range.length == 0)
-        {
-            return NO;
-        }
-        else
-        {
-            return YES;
-        }
-    }
-    else
-    {
-        return YES;
-    }
+//    if (textField == _TXT_qty)
+//    {
+//        float width = textField.frame.size.width;
+//        if (width  < 200) {
+//            
+//            CGRect rect = textField.frame;
+//            rect.size.width += 10 ;
+//            
+//            textField.frame =rect;
+//        }
+//    }
+    return YES;
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -512,8 +517,8 @@
 -(void)get_caluculated_text
 {
     NSArray *arr = [_lbl_price.text componentsSeparatedByString:@"$"];
-    _lbl_dataTotal.text = [NSString stringWithFormat:@"$ %.02f",[_TXT_qty.text floatValue] * [[arr objectAtIndex:1] floatValue]];
-    _lbl_datasubtotal.text = [NSString stringWithFormat:@"$ %.02f",[_TXT_qty.text floatValue] * [[arr objectAtIndex:1] floatValue]];
+    _lbl_dataTotal.text = [NSString stringWithFormat:@"$%.02f",[_TXT_qty.text floatValue] * [[arr objectAtIndex:1] floatValue]];
+    _lbl_datasubtotal.text = [NSString stringWithFormat:@"$%.02f",[_TXT_qty.text floatValue] * [[arr objectAtIndex:1] floatValue]];
 }
 
 #pragma mark - API Integration

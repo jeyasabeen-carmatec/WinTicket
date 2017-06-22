@@ -391,7 +391,13 @@
         NSInteger inte = textField.text.length;
         if(inte >= 255)
         {
-            return NO;
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
         }
         return YES;
     }
@@ -400,7 +406,13 @@
         NSInteger inte = textField.text.length;
         if(inte >= 30)
         {
-            return NO;
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
         }
         return YES;
     }
@@ -409,7 +421,13 @@
         NSInteger inte = textField.text.length;
         if(inte >= 30)
         {
-            return NO;
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
         }
         return YES;
     }
@@ -418,7 +436,13 @@
         NSInteger inte = textField.text.length;
         if(inte >= 255)
         {
-            return NO;
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
         }
         return YES;
     }
@@ -427,7 +451,13 @@
         NSInteger inte = textField.text.length;
         if(inte >= 255)
         {
-            return NO;
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
         }
         return YES;
     }
@@ -436,7 +466,13 @@
         NSInteger inte = textField.text.length;
         if(inte >= 255)
         {
-            return NO;
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
         }
         return YES;
     }
@@ -445,7 +481,13 @@
         NSInteger inte = textField.text.length;
         if(inte >= 255)
         {
-            return NO;
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
         }
         return YES;
     }
@@ -462,7 +504,7 @@
                 return NO;
             }
         }
-        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789()+-"] invertedSet];
+        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789()+- "] invertedSet];
         NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
         return [string isEqualToString:filtered];
     }
@@ -471,7 +513,13 @@
         NSInteger inte = textField.text.length;
         if(inte >= 30)
         {
-            return NO;
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
         }
         return YES;
     }
@@ -480,14 +528,20 @@
         NSInteger inte = textField.text.length;
         if(inte >= 30)
         {
-            return NO;
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
         }
         return YES;
     }
-    if(textField.tag==11)
+    if(textField.tag == 11)
     {
         NSInteger inte = textField.text.length;
-        if(inte >= 30)
+        if(inte >= 8)
         {
             return NO;
         }
@@ -625,7 +679,7 @@
         [_TXT_zip showError];
         [_TXT_zip showErrorWithText:@" Please Select zipcode"];
     }
-    else if(_TXT_zip.text.length < 3)
+    else if(_TXT_zip.text.length < 4)
     {
         [_TXT_zip becomeFirstResponder];
         [_TXT_zip showError];
@@ -696,6 +750,13 @@
         NSLog(@"The response %@",countryS);
         sorted_Contry = [[countryS allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
         self.countrypicker = sorted_Contry;
+        if ([[countryS allKeys] count] == 1)
+        {
+            _TXT_country.text = [[countryS allKeys]objectAtIndex:0];
+            VW_overlay.hidden = NO;
+            [activityIndicatorView startAnimating];
+            [self performSelector:@selector(State_api) withObject:activityIndicatorView afterDelay:0.01];
+        }
     }
     else
     {
@@ -722,7 +783,11 @@
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPShouldHandleCookies:NO];
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    if (aData) {
+    if (aData)
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
         states = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"The response %@",states);
         sorted_STAES = [[states allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
@@ -730,14 +795,12 @@
     }
     else
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
     }
-    
-    
-    
-    
-    
 }
 
 #pragma mark - UIPickerViewDelegate
@@ -841,18 +904,18 @@
 
             NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
             NSLog(@"The response %@",json_DATA);
-            NSString *status=[json_DATA valueForKey:@"message"];
-        
-              if([status isEqualToString:@"User already exists"])
+            NSString *status = [json_DATA valueForKey:@"status"];
+            NSString *msg = [json_DATA valueForKey:@"message"];
+              if([status isEqualToString:@"Success"])
                 {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:status delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Thank you for your submission. Check your email for login credentials. Please allow 24-48 hours for your account to be verified" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
                     [alert show];
+                    [self performSegueWithIdentifier:@"affiliatetologin" sender:self];
                 }
               else
                 {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:status delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
                     [alert show];
-                    [self performSegueWithIdentifier:@"affiliatetologin" sender:self];
                 }
           }
        else

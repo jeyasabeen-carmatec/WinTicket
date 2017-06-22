@@ -148,6 +148,7 @@
     _TXT_address1.tag=3;
     _TXT_address1.delegate=self;
     
+    
     _TXT_address2.layer.cornerRadius = 5.0f;
     _TXT_address2.layer.masksToBounds = YES;
     _TXT_address2.layer.borderWidth = 2.0f;
@@ -187,7 +188,7 @@
     _TXT_zip.layer.borderColor = [UIColor grayColor].CGColor;
     //_TXT_zip.backgroundColor = [UIColor whiteColor];
     _TXT_zip.tintColor = self.TXT_city.tintColor;
-    _TXT_zip.tag=8;
+    _TXT_zip.tag = 8;
     _TXT_zip.delegate=self;
     
     _TXT_phonenumber.layer.cornerRadius = 5.0f;
@@ -195,7 +196,7 @@
     _TXT_phonenumber.layer.borderWidth = 2.0f;
     _TXT_phonenumber.layer.borderColor = [UIColor grayColor].CGColor;
    // _TXT_phonenumber.backgroundColor = [UIColor whiteColor];
-    _TXT_phonenumber.tag=9;
+    _TXT_phonenumber.tag = 9;
       _TXT_phonenumber.tintColor = self.TXT_city.tintColor;
     _TXT_phonenumber.delegate=self;
     
@@ -203,8 +204,8 @@
     NSError *error;
     NSMutableDictionary *dict = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
     NSMutableDictionary *temp_dictin=[dict valueForKey:@"event"];
-    _lbl_amount_des.text = [NSString stringWithFormat:@"$ %.2f",[[dict valueForKey:@"price"] floatValue]];
-    _lbl_sub_amount.text = [NSString stringWithFormat:@"$ %.2f",[[dict valueForKey:@"price"] floatValue] * [[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"] intValue]];
+    _lbl_amount_des.text = [NSString stringWithFormat:@"$%.2f",[[dict valueForKey:@"price"] floatValue]];
+    _lbl_sub_amount.text = [NSString stringWithFormat:@"$%.2f",[[dict valueForKey:@"price"] floatValue] * [[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"] intValue]];
     _lbl_total_amount.text = _lbl_sub_amount.text;
     
     NSMutableDictionary *user=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"User_data"] options:NSASCIIStringEncoding error:&error];
@@ -255,44 +256,36 @@
     int qtynum = [[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"]intValue];
     self.lbl_qty.text=[NSString stringWithFormat:@"Qty:%d",qtynum];
     
-//    NSString *show = @"Winning Ticket";
-//    NSString *place = [NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"location"]];//@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
-//    if(!place)
-//    {
-//        place=@"Notmentioned";
-//    }
-//    else
-//    {
-//        place=@"Notmentioned";
-//        
-//    }
-//    place = [place stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
+
     NSString *ticketnumber = [temp_dictin valueForKey:@"code"];
     NSString *club_name = [temp_dictin valueForKey:@"name"];
+    NSString *org_name = [temp_dictin valueForKey:@"organization_name"];
     
-    NSString *text = [NSString stringWithFormat:@"%@\n%@",club_name,ticketnumber];
+    NSString *text = [NSString stringWithFormat:@"%@\n%@ - %@",org_name,ticketnumber,club_name];
     
     text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
-
+    
     
     if ([self.lbl_des_cription respondsToSelector:@selector(setAttributedText:)])
     {
-    NSDictionary *attribs = @{
-                                 NSForegroundColorAttributeName: self.lbl_des_cription.textColor,
-                                 NSFontAttributeName: self.lbl_des_cription.font
-                              };
-    NSMutableAttributedString *attributedText =
-       [[NSMutableAttributedString alloc] initWithString:text
-                                                   attributes:attribs];
-    
-
-    NSRange plce = [text rangeOfString:club_name];
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:16.0]}range:plce];
+        NSDictionary *attribs = @{
+                                  NSForegroundColorAttributeName: self.lbl_des_cription.textColor,
+                                  NSFontAttributeName: self.lbl_des_cription.font
+                                  };
+        NSMutableAttributedString *attributedText =
+        [[NSMutableAttributedString alloc] initWithString:text
+                                               attributes:attribs];
         
-    NSRange codeR = [text rangeOfString:ticketnumber];
+        NSRange org = [text rangeOfString:org_name];
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:17.0]}range:org];
+        
+        NSRange plce = [text rangeOfString:club_name];
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:14.0]}range:plce];
+        
+        NSRange codeR = [text rangeOfString:ticketnumber];
         [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:14.0]}range:codeR];
         
-    self.lbl_des_cription.attributedText = attributedText;
+        self.lbl_des_cription.attributedText = attributedText;
     }
     else
     {
@@ -303,7 +296,7 @@
     [_lbl_des_cription sizeToFit];
     CGRect frame_NEW;
     frame_NEW=_lbl_amount_des.frame;
-    frame_NEW.origin.y=_lbl_des_cription.frame.origin.y+20;
+    frame_NEW.origin.y=_lbl_des_cription.frame.origin.y;
     _lbl_amount_des.frame=frame_NEW;
     
     frame_NEW = _VW_line1.frame;
@@ -354,20 +347,118 @@
     [self.scroll_contents addSubview:self.VW_titladdress];
 
     
-    NSString *address_str=[NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone : %@",[user_data valueForKey:@"first_name"],[user_data valueForKey:@"last_name"],[user_data valueForKey:@"address1"],[user_data valueForKey:@"address2"],[user_data valueForKey:@"city"],[user valueForKey:@"state"],[user valueForKey:@"country"],[user_data valueForKey:@"zipcode"],[user_data valueForKey:@"phone"]];
-    address_str = [address_str stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
+    NSString *STR_fname = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"first_name"]];
+    STR_fname = [STR_fname stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_fname = [STR_fname stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    NSString *STR_lname = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"last_name"]];
+    STR_lname = [STR_lname stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_lname = [STR_lname stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    NSString *STR_addr1 = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"address1"]];
+    STR_addr1 = [STR_addr1 stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_addr1 = [STR_addr1 stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    NSString *STR_addr2 = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"address2"]];
+    STR_addr2 = [STR_addr2 stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_addr2 = [STR_addr2 stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    NSString *STR_city = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"city"]];
+    STR_city = [STR_city stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_city = [STR_city stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    NSString *STR_state = [NSString stringWithFormat:@"%@",[user valueForKey:@"state"]];
+    STR_state = [STR_state stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_state = [STR_state stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    NSString *STR_cntry = [NSString stringWithFormat:@"%@",[user valueForKey:@"country"]];
+    STR_cntry = [STR_cntry stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_cntry = [STR_cntry stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    NSString *STR_zip = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"zipcode"]];
+    STR_zip = [STR_zip stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_zip = [STR_zip stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    NSString *STR_phone = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"phone"]];
+    STR_phone = [STR_phone stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_phone = [STR_phone stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
     
-    _TXT_firstname.text = [user_data valueForKey:@"first_name"];
-    _TXT_lastname.text = [user_data valueForKey:@"last_name"];
-    _TXT_address1.text = [user_data valueForKey:@"address1"];
-    _TXT_address2.text = [user_data valueForKey:@"address2"];
-    _TXT_city.text = [user_data valueForKey:@"city"];
-    _TXT_country.text = [user valueForKey:@"country"];
-    _TXT_zip.text = [user_data valueForKey:@"zipcode"];
-    _TXT_state.text = [user valueForKey:@"state"];
-    _TXT_phonenumber.text = [user_data valueForKey:@"phone"];
+    NSString *name;
+    if (STR_lname.length == 0)
+    {
+        name = [NSString stringWithFormat:@"%@,\n",STR_fname];
+    }
+    else
+    {
+        name = [NSString stringWithFormat:@"%@ %@,\n",STR_fname,STR_lname];
+    }
     
-    _lbl_address.text = address_str;
+    NSString *addr;
+    if (STR_addr2.length == 0)
+    {
+        addr = [NSString stringWithFormat:@"%@,\n",STR_addr1];
+    }
+    else
+    {
+        addr = [NSString stringWithFormat:@"%@,\n%@,\n",STR_addr1,STR_addr2];
+    }
+    
+    NSString *city = [NSString stringWithFormat:@"%@,\n",STR_city];
+    NSString *state = [NSString stringWithFormat:@"%@\n",STR_state];
+    NSString *cntry;
+    if (STR_zip.length == 0)
+    {
+        cntry = [NSString stringWithFormat:@"%@.\n",STR_cntry];
+    }
+    else
+    {
+        if (STR_cntry.length == 0) {
+            cntry = [NSString stringWithFormat:@"%@.\n",STR_zip];
+        }
+        else
+        {
+            cntry = [NSString stringWithFormat:@"%@ - %@.\n",STR_cntry,STR_zip];
+        }
+    }
+    NSString *phone = [NSString stringWithFormat:@"Phone : %@",STR_phone];
+    
+    NSMutableArray *final_ADDR = [[NSMutableArray alloc] init];
+    if (name.length != 0) {
+        [final_ADDR addObject:name];
+    }
+    
+    if (addr.length != 0) {
+        [final_ADDR addObject:addr];
+    }
+    
+    if (city.length != 0 && ![city isEqualToString:@", \n"]) {
+        [final_ADDR addObject:city];
+    }
+    
+    if (state.length != 0 && ![state isEqualToString:@"\n"]) {
+        [final_ADDR addObject:state];
+    }
+    
+    if (cntry.length != 0){
+        [final_ADDR addObject:cntry];
+    }
+    
+    if (phone.length != 0) {
+        [final_ADDR addObject:phone];
+    }
+    
+//    NSString *address_str=[NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone : %@",,,,,,,,,];
+    
+    NSMutableString *str_TST = [[NSMutableString alloc]init];
+    for (int i = 0; i<[final_ADDR count]; i++) {
+        [str_TST appendString:[final_ADDR objectAtIndex:i]];
+    }
+    
+    NSLog(@"Testing Addr = %@",str_TST);
+    
+    _TXT_firstname.text = STR_fname;// [user_data valueForKey:@"first_name"];
+    _TXT_lastname.text = STR_lname;//[user_data valueForKey:@"last_name"];
+    _TXT_address1.text = STR_addr1;//[user_data valueForKey:@"address1"];
+    _TXT_address2.text = STR_addr2;//[user_data valueForKey:@"address2"];
+    _TXT_city.text = STR_city;//[user_data valueForKey:@"city"];
+    _TXT_country.text = STR_cntry;//[user valueForKey:@"country"];
+    _TXT_zip.text = STR_zip;//[user_data valueForKey:@"zipcode"];
+    _TXT_state.text = STR_state;//[user valueForKey:@"state"];
+    _TXT_phonenumber.text = STR_phone;//[user_data valueForKey:@"phone"];
+    
+    _lbl_address.text = str_TST;
     [_lbl_address sizeToFit];
     
     frame_NEW=_lbl_address.frame;
@@ -492,7 +583,7 @@
 
 -(void)showViewAddress
 {
-           BTN_originY = _BTN_checkout.frame.origin.y;
+        BTN_originY = _BTN_checkout.frame.origin.y;
         
         
         [UIView beginAnimations:@"LeftFlip" context:nil];
@@ -529,7 +620,7 @@
 {
     if(_VW_address.hidden == YES)
     {
-    [self showViewAddress];
+      [self showViewAddress];
     }
 //    NSString *text_to_compare_email = _txt.text;
 //    NSString *emailRegEx = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,10}";
@@ -538,45 +629,59 @@
     
     
     
-    if([_TXT_firstname.text isEqualToString:@""] || _TXT_firstname.text.length <= 2 || _TXT_firstname.text.length > 30)
+    if([_TXT_firstname.text isEqualToString:@""])
     {
         [_TXT_firstname becomeFirstResponder];
         [_TXT_firstname showError];
-        [_TXT_firstname showErrorWithText:@" Please enter More than  2 Chracters"];
-        
+        [_TXT_firstname showErrorWithText:@" Please enter first name"];
     }
-    
-    else  if([_TXT_lastname.text isEqualToString:@""] || _TXT_lastname.text.length <= 2 || _TXT_lastname.text.length > 30)
+    else if (_TXT_firstname.text.length < 2)
     {
-        [_TXT_lastname becomeFirstResponder];
-        [_TXT_lastname showError];
-        [_TXT_lastname showErrorWithText:@" Please enter More than  2 Chracters"];
-        
+        [_TXT_firstname becomeFirstResponder];
+        [_TXT_firstname showError];
+        [_TXT_firstname showErrorWithText:@" First name minimum 2 Character"];
     }
-    else if([_TXT_address1.text isEqualToString:@""] || _TXT_address1.text.length <= 2 || _TXT_address1.text.length > 30)
+//    else  if([_TXT_lastname.text isEqualToString:@""])
+//    {
+//        [_TXT_lastname becomeFirstResponder];
+//        [_TXT_lastname showError];
+//        [_TXT_lastname showErrorWithText:@" Please enter More than  2 Chracters"];
+//    }
+//    else if (_TXT_lastname.text.length < 2)
+//    {
+//        
+//    }
+    else if([_TXT_address1.text isEqualToString:@""])
     {
         [_TXT_address1 becomeFirstResponder];
         [_TXT_address1 showError];
-        [_TXT_address1 showErrorWithText:@" Please enter More than  2 Chracters"];
-        
+        [_TXT_address1 showErrorWithText:@" Please enter address line 1"];
     }
-    
-    else  if([_TXT_address2.text isEqualToString:@""] || _TXT_address2.text.length <= 2 || _TXT_address2.text.length > 30)
+    else if (_TXT_address1.text.length < 2)
     {
-        [_TXT_address2 becomeFirstResponder];
-        [_TXT_address2 showError];
-        [_TXT_address2 showErrorWithText:@" Please enter More than  2 Chracters"];
-        
+        [_TXT_address1 becomeFirstResponder];
+        [_TXT_address1 showError];
+        [_TXT_address1 showErrorWithText:@" Address line 1 minimum 2 Chracters"];
     }
-    else if([_TXT_city.text isEqualToString:@""] || _TXT_city.text.length <= 2 || _TXT_city.text.length > 30)
+//    else  if([_TXT_address2.text isEqualToString:@""] || _TXT_address2.text.length <= 2 || _TXT_address2.text.length > 30)
+//    {
+//        [_TXT_address2 becomeFirstResponder];
+//        [_TXT_address2 showError];
+//        [_TXT_address2 showErrorWithText:@" Please enter More than  2 Chracters"];
+//        
+//    }
+    else if([_TXT_city.text isEqualToString:@""])
     {
         [_TXT_city becomeFirstResponder];
         [_TXT_city showError];
         [_TXT_city showErrorWithText:@" Please enter City"];
-        
     }
-    
-    
+    else if (_TXT_city.text.length < 2)
+    {
+        [_TXT_city becomeFirstResponder];
+        [_TXT_city showError];
+        [_TXT_city showErrorWithText:@" City minimum 2 Chracters"];
+    }
     
     else if([_TXT_country.text isEqualToString:@""])
     {
@@ -585,7 +690,6 @@
         [_TXT_country showErrorWithText:@" Please Select Country"];
         
     }
-    
     else if([_TXT_state.text isEqualToString:@""])
     {
         [_TXT_state becomeFirstResponder];
@@ -598,9 +702,13 @@
         [_TXT_zip becomeFirstResponder];
         [_TXT_zip showError];
         [_TXT_zip showErrorWithText:@" Please Enter Zip code"];
-        
     }
-
+    else if (_TXT_zip.text.length < 4)
+    {
+        [_TXT_zip becomeFirstResponder];
+        [_TXT_zip showError];
+        [_TXT_zip showErrorWithText:@" Zip code minimum 4 Chracters"];
+    }
     else if (_TXT_phonenumber.text.length < 5)
     {
         [_TXT_phonenumber becomeFirstResponder];
@@ -699,7 +807,6 @@
 {
     if(textField.tag == 3 || textField.tag == 8 || textField.tag == 9)
     {
-        [textField setTintColor:[UIColor whiteColor]];
         //if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
         // {
         //Keyboard becomes visible
@@ -731,133 +838,7 @@
     if(textField.tag==1)
     {
         NSInteger inte = textField.text.length;
-        if (inte <= 2)
-        {
-            return YES;
-            
-        }
-        else if(inte >= 30)
-        {
-            return NO;
-        }
-        
-        return YES;
-        
-        
-    }
-    if(textField.tag==2)
-    {
-        NSInteger inte = textField.text.length;
-        
-        if (inte <= 2)
-        {
-            return YES;
-            
-        }
-        else if(inte >= 30)
-        {
-            return NO;
-        }
-        
-        
-        return YES;
-    }
-    
-    
-    if(textField.tag==3)
-    {
-        NSInteger inte = textField.text.length;
-        if (inte <= 2)
-        {
-            return YES;
-            
-        }
-        else if(inte >= 255)
-        {
-            return NO;
-        }
-        
-        
-        return YES;
-        
-    }
-    if(textField.tag==4)
-    {
-        NSInteger inte = textField.text.length;
-        if (inte <= 2)
-        {
-            return YES;
-            
-        }
-        else if(inte >= 255)
-        {
-            return NO;
-        }
-        
-        return YES;
-    }
-    if(textField.tag==5)
-    {
-        NSInteger inte = textField.text.length;
-        if (inte <= 2)
-        {
-            return YES;
-            
-        }
-        else if(inte >= 60)
-        {
-            return NO;
-        }
-        
-        return YES;
-    }
-    
-    if(textField.tag==6)
-    {
-        NSInteger inte = textField.text.length;
-        if (inte <= 2)
-        {
-            return YES;
-            
-        }
-        else if(inte >= 12)
-        {
-            return NO;
-        }
-        
-        return YES;
-    }
-    if(textField.tag==7)
-    {
-        NSInteger inte = textField.text.length;
-        if (inte <= 2)
-        {
-            return YES;
-            
-        }
-        else if(inte >= 60)
-        {
-            return NO;
-        }
-        
-        
-        return YES;
-    }
-    if(textField.tag==8)
-    {
-        NSInteger inte = textField.text.length;
-        /*if (inte <= 2)
-        {
-            return YES;
-            
-        }
-        else if(inte >= 15)
-        {
-            return NO;
-        }
-        
-        return YES;*/
-        if(inte >= 15)
+        if(inte >= 30)
         {
             if ([string isEqualToString:@""]) {
                 return YES;
@@ -867,30 +848,146 @@
                 return NO;
             }
         }
-        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789()+-"] invertedSet];
-        NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
-        return [string isEqualToString:filtered];
+        return YES;
     }
-        if(textField.tag==9)
+    if(textField.tag==2)
+    {
+        NSInteger inte = textField.text.length;
+        if(inte >= 30)
         {
-            NSInteger inte = textField.text.length;
-    
-            if (inte <= 2)
-            {
+            if ([string isEqualToString:@""]) {
                 return YES;
-    
             }
-            else if(inte >= 12)
+            else
             {
                 return NO;
             }
-    
-    
-            return YES;
         }
+        return YES;
+    }
     
+    
+    if(textField.tag==3)
+    {
+        NSInteger inte = textField.text.length;
+        if(inte >= 255)
+        {
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+        }
+        return YES;
+    }
+    if(textField.tag==4)
+    {
+        NSInteger inte = textField.text.length;
+        if(inte >= 255)
+        {
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+        }
+        return YES;
+    }
+    if(textField.tag==5)
+    {
+        NSInteger inte = textField.text.length;
+        if(inte >= 60)
+        {
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+        }
+        return YES;
+    }
+    
+    if(textField.tag==6)
+    {
+        NSInteger inte = textField.text.length;
+        if(inte >= 12)
+        {
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+        }
+        return YES;
+    }
+    if(textField.tag==7)
+    {
+        NSInteger inte = textField.text.length;
+        if(inte >= 60)
+        {
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+        }
+        return YES;
+    }
+    if(textField.tag==8)
+    {
+        NSInteger inte = textField.text.length;
+        if(inte >= 8)
+        {
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+        }
+        return YES;
+    }
+    if(textField.tag==9)
+    {
+            NSInteger inte = textField.text.length;
+            if(inte >= 15)
+            {
+                if ([string isEqualToString:@""]) {
+                    return YES;
+                }
+                else
+                {
+                    return NO;
+                }
+            }
+            NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789()+- "] invertedSet];
+            NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
+            return [string isEqualToString:filtered];
+//            if (inte <= 2)
+//            {
+//                return YES;
+//    
+//            }
+//            else if(inte >= 12)
+//            {
+//                return NO;
+//            }
+//    
+//    
+//            return YES;
+    }
     return YES;
-    
 }
 
 #pragma mark - UIPickerViewDataSource
@@ -937,6 +1034,14 @@
         NSLog(@"The response %@",countryS);
         sorted_Contry = [[countryS allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
         self.countrypicker = sorted_Contry;
+        
+        if ([[countryS allKeys] count] == 1)
+        {
+            _TXT_country.text = [[countryS allKeys]objectAtIndex:0];
+            VW_overlay.hidden = NO;
+            [activityIndicatorView startAnimating];
+            [self performSelector:@selector(State_api) withObject:activityIndicatorView afterDelay:0.01];
+        }
     }
     else
     {
@@ -956,7 +1061,10 @@
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPShouldHandleCookies:NO];
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    if (aData) {
+    if (aData)
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
         states = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"The response %@",states);
         sorted_STAES = [[states allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
@@ -964,6 +1072,8 @@
     }
     else
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
     }
@@ -1080,13 +1190,16 @@
     NSString *state = _TXT_state.text;
     NSString *phone = _TXT_phonenumber.text;
     
+    NSString *contry_Code = [countryS valueForKey:country];
     NSString *state_code = [states valueForKey:state];
-    NSString *country_code = [countryS valueForKey:country];
+    if (!state_code) {
+        state_code = @"";
+    }
     
     NSHTTPURLResponse *response = nil;
 
     
-    NSDictionary *parameters = @{@"billing_address":@{ @"first_name": first_name,@"last_name": last_name,@"address_line1": address_line1,@"address_line2": address_line2,@"city": city,@"country": country_code,@"zip_code": zip_code,@"state": state_code,@"order_id": order_ID,@"phone": phone }};
+    NSDictionary *parameters = @{@"billing_address":@{ @"first_name": first_name,@"last_name": last_name,@"address_line1": address_line1,@"address_line2": address_line2,@"city": city,@"country": contry_Code,@"zip_code": zip_code,@"state": state_code,@"order_id": order_ID,@"phone": phone }};
     
     NSLog(@"Post contents VC Billing Address %@",parameters);
     

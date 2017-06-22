@@ -40,6 +40,17 @@
 //    self.ARR_states=[json_DAT allKeys];
    
     [self setup_VIEW];
+    
+//    NSIndexPath *index = [NSIndexPath indexPathForItem:1 inSection:1];
+//    [self collectionView:_amount_collection didDeselectItemAtIndexPath:index];
+//    [self collectionView:_amount_collection didSelectItemAtIndexPath:index];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    NSIndexPath *indexPathForFirstRow = [NSIndexPath indexPathForRow:0 inSection:0];
+    [self.amount_collection selectItemAtIndexPath:indexPathForFirstRow animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+    [self collectionView:self.amount_collection didSelectItemAtIndexPath:indexPathForFirstRow];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -49,10 +60,10 @@
 -(void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    [_scroll_Contents layoutIfNeeded];
+//    [_scroll_Contents layoutIfNeeded];
 //    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
 //    {
-        _scroll_Contents.contentSize = CGSizeMake(_scroll_Contents.frame.size.width, original_height);
+//        _scroll_Contents.contentSize = CGSizeMake(_scroll_Contents.frame.size.width, original_height);
 //    }
 //    else
 //    {
@@ -72,13 +83,25 @@
 
 -(void) setup_VIEW
 {
-    _denom_arr=[[[NSUserDefaults standardUserDefaults] valueForKey:@"denom_collection"] valueForKey:@"denominations"];
+    @try
+    {
+        _denom_arr=[[[NSUserDefaults standardUserDefaults] valueForKey:@"denom_collection"] valueForKey:@"denominations"];
+    }
+    @catch (NSException *exception)
+    {
+        [self dismissViewControllerAnimated:NO completion:nil];
+    }
     
     asc_denomarr = [_denom_arr sortedArrayUsingComparator:^NSComparisonResult(NSNumber* n1, NSNumber* n2) {
         return [n1 compare:n2];
     }];
     NSLog(@"Ascending: %@", asc_denomarr);
     
+    [_amount_collection reloadData];
+//    [self.amount_collection
+//     s];
+    
+
     _VW_contents.frame=CGRectMake(0,0, self.scroll_Contents.frame.size.width, self.VW_contents.frame.size.height);
     [self.scroll_Contents addSubview:_VW_contents];
     
@@ -339,10 +362,10 @@
     
     
     [_TXT_amount resignFirstResponder];
-       amount_str = [NSString stringWithFormat:@"%i.00",[[asc_denomarr objectAtIndex:indexPath.row]intValue]];
+       amount_str = [NSString stringWithFormat:@"%.2f",[[asc_denomarr objectAtIndex:indexPath.row]floatValue]];
     
     _TXT_amount.text = @"";
-    NSLog(@"The Text in Amount Field:%@",_TXT_amount.text);
+    NSLog(@"called index path:%ld",(long)indexPath.row);
     
 }
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -352,6 +375,8 @@
      cell.LBL_amount.backgroundColor = [UIColor whiteColor];
      cell.LBL_amount.textColor = [UIColor lightGrayColor];
     amount_str=@"";
+    
+    NSLog(@"VC add funds Called collection view deselect");
 }
 
 //#pragma mark - Edit button Clicked
@@ -824,57 +849,57 @@
     NSString *temp_str;
     if([amount_str isEqualToString:@""] && _TXT_amount.text.length > 0 )
     {
-    temp_str = _TXT_amount.text;
-    temp_str = [temp_str stringByReplacingOccurrencesOfString:@"," withString:@""];
-    int i=[temp_str intValue];
-    NSLog(@"Temporoary string:%i",i);
-    if(i < [[asc_denomarr valueForKeyPath:@"@max.intValue"] intValue])
-    {
-        _TXT_amount.placeholder=@"0.00";
-        UIAlertController  *alertControllerAction = [UIAlertController alertControllerWithTitle:@"" message:@"Amount Should be Grater than Maximum." preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *okaction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            
-            
-        }];
-        [alertControllerAction addAction:okaction];
-        
-        [self presentViewController:alertControllerAction animated:YES completion:nil];
-        
-    }
-    else
-    {
-        VW_overlay.hidden=NO;
-        [activityIndicatorView startAnimating];
-        [self performSelector:@selector(get_client_TOKEN) withObject:activityIndicatorView afterDelay:0.01];
-
-    }
-}
-    
-    else if(amount_str.length > 0  && ([_TXT_amount.text isEqualToString:@"0.00"] || [_TXT_amount.text isEqualToString:@" 0.00"]))
-    {
-    
-       // temp_str=amount_str;
-       /* int i=[temp_str intValue];
+        temp_str = _TXT_amount.text;
+        temp_str = [temp_str stringByReplacingOccurrencesOfString:@"," withString:@""];
+        int i=[temp_str intValue];
+        NSLog(@"Temporoary string:%i",i);
         if(i < [[asc_denomarr valueForKeyPath:@"@max.intValue"] intValue])
         {
             _TXT_amount.placeholder=@"0.00";
-            UIAlertController  *alertControllerAction = [UIAlertController alertControllerWithTitle:@"" message:@"Amount Should be Grater than Maximum." preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *okaction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                
-                //            [self dismissViewControllerAnimated:YES completion:nil];
-                
-            }];
-            [alertControllerAction addAction:okaction];
-            
-            [self presentViewController:alertControllerAction animated:YES completion:nil];
+            //        UIAlertController  *alertControllerAction = [UIAlertController alertControllerWithTitle:@"" message:@"Amount Should be Grater than Maximum." preferredStyle:UIAlertControllerStyleAlert];
+            //        UIAlertAction *okaction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            //
+            //
+            //        }];
+            //        [alertControllerAction addAction:okaction];
+            //
+            //        [self presentViewController:alertControllerAction animated:YES completion:nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Amount Should be Grater than Maximum." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            [alert show];
         }
         else
-        {*/
-            
+        {
             VW_overlay.hidden=NO;
             [activityIndicatorView startAnimating];
             [self performSelector:@selector(get_client_TOKEN) withObject:activityIndicatorView afterDelay:0.01];
-
+            
+        }
+    }
+    else if(amount_str.length > 0  && ([_TXT_amount.text isEqualToString:@"0.00"] || [_TXT_amount.text isEqualToString:@" 0.00"]))
+    {
+        
+        // temp_str=amount_str;
+        /* int i=[temp_str intValue];
+         if(i < [[asc_denomarr valueForKeyPath:@"@max.intValue"] intValue])
+         {
+         _TXT_amount.placeholder=@"0.00";
+         UIAlertController  *alertControllerAction = [UIAlertController alertControllerWithTitle:@"" message:@"Amount Should be Grater than Maximum." preferredStyle:UIAlertControllerStyleAlert];
+         UIAlertAction *okaction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+         
+         //            [self dismissViewControllerAnimated:YES completion:nil];
+         
+         }];
+         [alertControllerAction addAction:okaction];
+         
+         [self presentViewController:alertControllerAction animated:YES completion:nil];
+         }
+         else
+         {*/
+        
+        VW_overlay.hidden=NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(get_client_TOKEN) withObject:activityIndicatorView afterDelay:0.01];
+        
         //}
     }
     else if(amount_str.length == 0  && ([_TXT_amount.text isEqualToString:@"0.00"] || [_TXT_amount.text isEqualToString:@" 0.00"]))
@@ -883,8 +908,6 @@
         [alert show];
         [_TXT_amount becomeFirstResponder];
     }
-  
-    
 }
 -(void)myaccount_API_calling
 {

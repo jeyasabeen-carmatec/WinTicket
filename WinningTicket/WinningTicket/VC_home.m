@@ -219,6 +219,9 @@
     
     [_scroll_content addSubview:_VW_Scroll_CONTENT];
 //    CGRect new_frame = _scroll_content.frame;
+    
+    [[NSUserDefaults standardUserDefaults] setValue:@"contributor" forKey:@"LoginSTAT"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 #pragma mark - Tabbar deligate
@@ -651,6 +654,8 @@
         else
         {
             nextResponder= [textField.superview viewWithTag:nextTag];
+            
+            
             
             if (! nextResponder)
                 nextResponder = [textField.superview viewWithTag:0];

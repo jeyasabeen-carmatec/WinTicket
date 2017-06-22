@@ -247,19 +247,7 @@
         _start_View.frame = VW_frame;
     }
     
-    
     [__BTN_Ok addTarget:self action:@selector(Ok_Clicked) forControlEvents:UIControlEventTouchUpInside];
-    
-    //    CGRect titleLabelBounds = self.des_cription.bounds;
-    //    titleLabelBounds.size.height = CGFLOAT_MAX;
-    //    // Change limitedToNumberOfLines to your preferred limit (0 for no limit)
-    //    CGRect minimumTextRect = [self.des_cription textRectForBounds:titleLabelBounds limitedToNumberOfLines:2];
-    //
-    //    CGFloat titleLabelHeightDelta = minimumTextRect.size.height - self.des_cription.frame.size.height;
-    //    CGRect titleFrame = self.des_cription.frame;
-    //    titleFrame.size.height += titleLabelHeightDelta;
-    //    self.des_cription.frame = titleFrame;
-    
     [_scroll addSubview:_start_View];
 
 }

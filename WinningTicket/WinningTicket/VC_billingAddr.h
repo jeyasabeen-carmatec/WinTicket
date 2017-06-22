@@ -24,7 +24,7 @@
 @property(nonatomic,weak)IBOutlet UILabel *lbl_total;
 @property(nonatomic,weak)IBOutlet UILabel *lbl_total_amount;
 @property(nonatomic,weak)IBOutlet UILabel *lbl_address;
-@property (weak, nonatomic) IBOutlet  ACFloatingTextField *TXT_firstname;
+@property (weak, nonatomic) IBOutlet ACFloatingTextField *TXT_firstname;
 @property (weak, nonatomic) IBOutlet ACFloatingTextField *TXT_lastname;
 @property (weak, nonatomic) IBOutlet ACFloatingTextField *TXT_address1;
 @property (weak, nonatomic) IBOutlet ACFloatingTextField *TXT_address2;

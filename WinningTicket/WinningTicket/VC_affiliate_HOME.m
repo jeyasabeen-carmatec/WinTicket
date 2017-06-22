@@ -111,6 +111,8 @@
 -(void) logout_ACTION
 {
     NSLog(@"Log out Action Tapped");
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"LoginSTAT"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     [self performSegueWithIdentifier:@"affiliatehometoinitialpage" sender:self];
 }
 
@@ -146,7 +148,9 @@
    
     search_label.hidden = YES;
     _vw_LINE.hidden = YES;
-
+    
+    [[NSUserDefaults standardUserDefaults] setValue:@"affiliate" forKey:@"LoginSTAT"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 //-(void)buttonClick

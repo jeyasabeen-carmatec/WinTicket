@@ -10,7 +10,7 @@
 #import "cellACCOUNTS.h"
 //#import "DGActivityIndicatorView.h"
 
-@interface VC_accounts ()
+@interface VC_accounts () <UIAlertViewDelegate>
 {
     NSArray *section1,*section2;
     UIView *VW_overlay;
@@ -390,9 +390,9 @@
             {
                 dispatch_async(dispatch_get_main_queue(), ^{
 //                    [self performSegueWithIdentifier:@"accounttowelcomescreen" sender:self];
-                    VW_overlay.hidden = NO;
-                    [activityIndicatorView startAnimating];
-                    [self performSelector:@selector(log_OUTAPI) withObject:activityIndicatorView afterDelay:0.01];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Log out" message:@"Please confirm" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Cancel",@"Ok", nil];
+                    alert.tag = 1;
+                    [alert show];
                     
                 });
             }
@@ -563,8 +563,14 @@
         [[NSUserDefaults standardUserDefaults] setValue:json_DATA forKey:@"denom_collection"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         NSLog(@"The response get_Denominations VC Accounts %@",json_DATA);
+        [self performSegueWithIdentifier:@"accountstofundsidentifier" sender:self];
     }
-    [self performSegueWithIdentifier:@"accountstofundsidentifier" sender:self];
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+    
 }
 
 -(void)get_EVENTS
@@ -622,6 +628,8 @@
     
     [activityIndicatorView stopAnimating];
     VW_overlay.hidden = YES;
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"LoginSTAT"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     [self performSegueWithIdentifier:@"accounttowelcomescreen" sender:self];
 }
 
@@ -752,5 +760,20 @@
     }
 }
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == 1) {
+        if (buttonIndex == 0)
+        {
+            NSLog(@"Cancel tapped");
+        }
+        else
+        {
+            VW_overlay.hidden = NO;
+            [activityIndicatorView startAnimating];
+            [self performSelector:@selector(log_OUTAPI) withObject:activityIndicatorView afterDelay:0.01];
+        }
+    }
+}
 
 @end

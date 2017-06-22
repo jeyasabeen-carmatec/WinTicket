@@ -119,56 +119,53 @@
             NSString *fname = [dict valueForKey:@"first_name"];
             NSString *lname = [dict valueForKey:@"last_name"];
             
-            if([fname isEqual:@""])
-                {
-                   NSLog(@"emailnull index %i",i);
-                   NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
-                   NSLog(@"path  = %@",path);
-                   pu_cell = [self.tbl_content cellForRowAtIndexPath:path];
-                   [pu_cell.fname becomeFirstResponder];
-                   break;
-                 }
             
             if (fname.length < 2)
             {
-                NSLog(@"emailnull index %i",i);
-                NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
-                NSLog(@"path  = %@",path);
-                pu_cell = [self.tbl_content cellForRowAtIndexPath:path];
-                [pu_cell.fname becomeFirstResponder];
-                break;
+                if([fname isEqual:@""])
+                {
+//                    break;
+                }
+                else
+                {
+                    NSLog(@"emailnull index %i",i);
+                    NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
+                    NSLog(@"path  = %@",path);
+                    pu_cell = [self.tbl_content cellForRowAtIndexPath:path];
+                    [pu_cell.fname becomeFirstResponder];
+                    [pu_cell.fname showError];
+                    [pu_cell.fname showErrorWithText:@" First name minimum 2 Character"];
+                    break;
+                }
+                
             }
-
-            if([lname isEqual:@""])
-            {
-                NSLog(@"first_namenull index %i",i);
-                NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
-                NSLog(@"path  = %@",path);
-                pu_cell = [self.tbl_content cellForRowAtIndexPath:path];
-                [pu_cell.lname becomeFirstResponder];
-                break;
-            }
-            
             if (lname.length < 2)
             {
-                NSLog(@"first_namenull index %i",i);
-                NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
-                NSLog(@"path  = %@",path);
-                pu_cell = [self.tbl_content cellForRowAtIndexPath:path];
-                [pu_cell.lname becomeFirstResponder];
-                break;
+                if([lname isEqual:@""])
+                {
+//                    break;
+                }
+                else
+                {
+                    NSLog(@"first_namenull index %i",i);
+                    NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
+                    NSLog(@"path  = %@",path);
+                    pu_cell = [self.tbl_content cellForRowAtIndexPath:path];
+                    [pu_cell.lname becomeFirstResponder];
+                    [pu_cell.lname showError];
+                    [pu_cell.lname showErrorWithText:@" Last name minimum 2 Character"];
+                    break;
+                }
+                
             }
             
-            if([email isEqual:@""])
-             {
-                 NSLog(@"last_namenull index %i",i);
-                 NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
-                 NSLog(@"path  = %@",path);
-                 pu_cell = [self.tbl_content cellForRowAtIndexPath:path];
-                 [pu_cell.email becomeFirstResponder];
-                 break;
-              }
             if (email.length !=0) {
+                if([email isEqual:@""])
+                {
+//                    break;
+                }
+                else
+                {
                     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegEx];
                     
                     if ([emailTest evaluateWithObject:email] == NO)
@@ -178,8 +175,11 @@
                         NSLog(@"path  = %@",path);
                         pu_cell = [self.tbl_content cellForRowAtIndexPath:path];
                         [pu_cell.email becomeFirstResponder];
+                        [pu_cell.email showError];
+                        [pu_cell.email showErrorWithText:@" Email is not valid"];
                         break;
                     }
+                }
             }
     }
     
@@ -283,8 +283,8 @@
     
     NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"QUANTITY"] options:NSASCIIStringEncoding error:&error];
     
-    _lbl_amount_des.text = [NSString stringWithFormat:@"$ %.2f",[[dict1 valueForKey:@"price"] floatValue]];
-    _lbl_sub_amount.text = [NSString stringWithFormat:@"$ %.2f",[[dict1 valueForKey:@"price"] floatValue] * [[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"]] intValue]];
+    _lbl_amount_des.text = [NSString stringWithFormat:@"$%.2f",[[dict1 valueForKey:@"price"] floatValue]];
+    _lbl_sub_amount.text = [NSString stringWithFormat:@"$%.2f",[[dict1 valueForKey:@"price"] floatValue] * [[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"]] intValue]];
     _lbl_total_amount.text = _lbl_sub_amount.text;
     
     
@@ -306,8 +306,9 @@
     //    place = [place stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
     NSString *ticketnumber = [temp_dictin valueForKey:@"code"];
     NSString *club_name = [temp_dictin valueForKey:@"name"];
+    NSString *org_name = [temp_dictin valueForKey:@"organization_name"];
     
-    NSString *text = [NSString stringWithFormat:@"%@\n%@",club_name,ticketnumber];
+    NSString *text = [NSString stringWithFormat:@"%@\n%@ - %@",org_name,ticketnumber,club_name];
     
     text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
     
@@ -322,12 +323,14 @@
         [[NSMutableAttributedString alloc] initWithString:text
                                                attributes:attribs];
         
+        NSRange org = [text rangeOfString:org_name];
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:17.0]}range:org];
         
         NSRange plce = [text rangeOfString:club_name];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:17.0]}range:plce];
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:14.0]}range:plce];
         
         NSRange codeR = [text rangeOfString:ticketnumber];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:15.0]}range:codeR];
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:14.0]}range:codeR];
         
         self.lbl_des_cription.attributedText = attributedText;
     }
@@ -341,7 +344,7 @@
     
     CGRect frame_NEW;
     frame_NEW=_lbl_amount_des.frame;
-    frame_NEW.origin.y=_lbl_des_cription.frame.origin.y+20;
+    frame_NEW.origin.y=_lbl_des_cription.frame.origin.y;
     _lbl_amount_des.frame=frame_NEW;
     
     frame_NEW = _VW_line1.frame;
