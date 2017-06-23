@@ -209,7 +209,39 @@
 }
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    if (textField == _TXT_phone) {
+    if(textField == _TXT_fname)
+    {
+        NSInteger inte = textField.text.length;
+        if(inte >= 30)
+        {
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+        }
+        return YES;
+    }
+    if(textField == _TXT_subject)
+       
+    {
+        NSInteger inte = textField.text.length;
+        if(inte >= 255)
+        {
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+        }
+        return YES;
+    }
+    if(textField == _TXT_phone)
+    {
         NSInteger inte = textField.text.length;
         if(inte >= 15)
         {
@@ -221,11 +253,13 @@
                 return NO;
             }
         }
-        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789()+-"] invertedSet];
+        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789()+- "] invertedSet];
         NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
         return [string isEqualToString:filtered];
+        
     }
-    return YES;
+
+        return YES;
 }
 
 
@@ -237,37 +271,59 @@
 
 -(void)send_Clicked
 {
+    NSString *text_to_compare_email = _TXT_email.text;
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegEx];
+    NSLog(@"Sighn UP");
+   
     if([_TXT_fname.text isEqualToString:@""])
     {
         [_TXT_fname becomeFirstResponder];
+        [_TXT_fname showError];
+        [_TXT_fname showErrorWithText:@" Plese Enter First name "];
     }
     
-    else  if([_TXT_lname.text isEqualToString:@""])
+    else if(_TXT_fname.text.length < 2)
     {
-        [_TXT_lname becomeFirstResponder];
-        
+        [_TXT_fname becomeFirstResponder];
+        [_TXT_fname showError];
+        [_TXT_fname showErrorWithText:@" First name minimum 2 Character"];
     }
-       else  if([_TXT_email.text isEqualToString:@""])
+    else if([emailTest evaluateWithObject:text_to_compare_email] == NO)
     {
         [_TXT_email becomeFirstResponder];
-        
+        [_TXT_email showError];
+        [_TXT_email showErrorWithText:@" Please Enter a valid Email address"];
+    }
+
+    else if([_TXT_phone.text isEqualToString:@""])
+    {
+        [_TXT_phone becomeFirstResponder];
+        [_TXT_phone showError];
+        [_TXT_phone showErrorWithText:@" Please enter phone number"];
+    }
+    
+    else if (_TXT_phone.text.length < 5)
+    {
+        [_TXT_phone becomeFirstResponder];
+        [_TXT_phone showError];
+        [_TXT_phone showErrorWithText:@" Phone number minimum 5 Numbers"];
     }
     else if([_TXT_subject.text isEqualToString:@""])
     {
         [_TXT_subject becomeFirstResponder];
-        
+        [_TXT_subject showError];
+        [_TXT_subject showErrorWithText:@" Please Enter Subject"];
+
     }
-    else if([_TXT_VW_message.text isEqualToString:@""])
+    else if([_TXT_VW_message.text isEqualToString:@""] || [_TXT_VW_message.text isEqualToString:@"Your Message"])
     {
         [_TXT_VW_message becomeFirstResponder];
         
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please Enter any Message" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+
     }
-    else if (_TXT_phone.text.length < 5)
-    {
-        [_TXT_phone becomeFirstResponder];
-    }
-    
-    
+
     else
     {
     VW_overlay.hidden = NO;
@@ -280,7 +336,7 @@
 {
 
     NSString *fname = _TXT_fname.text;
-    NSString *lname = _TXT_lname.text;
+//    NSString *lname = _TXT_lname.text;
     //      NSString *email = _TXT_email.text;
     //
     //      NSString *username=_TXT_username.text;
@@ -295,7 +351,6 @@
     NSHTTPURLResponse *response = nil;
     NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
     NSDictionary *parameters = @{ @"first_name": fname,
-                                  @"last_name": lname,
                                   @"email": email,
                                   @"subject": subject,
                                   @"message": mesage,
@@ -330,14 +385,9 @@
             [activityIndicatorView stopAnimating];
             VW_overlay.hidden = YES;
             
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Details SUccesfully Send" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Thank you. We aim to respond to your request within 48 hours." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
             [alert show];
-            if(!json_DATA)
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-                [alert show];
-
-            }
+            [self dismissViewControllerAnimated:YES completion:nil];
             
         }
         else
@@ -365,13 +415,13 @@
     
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == [alertView firstOtherButtonIndex])
-    {
-        [self dismissViewControllerAnimated:YES completion:nil];
-        
-    }
-}
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+//    if (buttonIndex == [alertView firstOtherButtonIndex])
+//    {
+//        [self dismissViewControllerAnimated:YES completion:nil];
+//        
+//    }
+//}
 
 
 

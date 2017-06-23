@@ -7,14 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ACFloatingTextField.h"
 
 @interface VC_contactUS : UIViewController
 
-@property (weak, nonatomic) IBOutlet UITextField *TXT_fname;
-@property (weak, nonatomic) IBOutlet UITextField *TXT_lname;
-@property (weak, nonatomic) IBOutlet UITextField *TXT_email;
-@property (weak, nonatomic) IBOutlet UITextField *TXT_phone;
-@property (weak, nonatomic) IBOutlet UITextField *TXT_subject;
+@property (weak, nonatomic) IBOutlet ACFloatingTextField *TXT_fname;
+@property (weak, nonatomic) IBOutlet ACFloatingTextField *TXT_lname;
+@property (weak, nonatomic) IBOutlet ACFloatingTextField *TXT_email;
+@property (weak, nonatomic) IBOutlet ACFloatingTextField *TXT_phone;
+@property (weak, nonatomic) IBOutlet ACFloatingTextField *TXT_subject;
 
 
 @property (weak, nonatomic) IBOutlet UITextView *TXT_VW_message;

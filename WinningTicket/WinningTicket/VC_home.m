@@ -164,9 +164,9 @@
         [self.VW_hold_code  setHidden:YES];
         
         [UIView animateWithDuration:0.5 animations:^{
-            _lbl_upcoming_event.frame = CGRectMake(_lbl_upcoming_event.frame.origin.x, _lbl_upcoming_event.frame.origin.y - 100, _lbl_upcoming_event.frame.size.width, _lbl_upcoming_event.frame.size.height);
-            _scroll_content.frame = CGRectMake(_scroll_content.frame.origin.x, _scroll_content.frame.origin.y - 100, _scroll_content.frame.size.width, _scroll_content.frame.size.height + 100);
-            _VW_hold_BTN.frame = CGRectMake(_VW_hold_BTN.frame.origin.x, _VW_hold_BTN.frame.origin.y, _VW_hold_BTN.frame.size.width, _VW_hold_BTN.frame.size.height - 100);
+            _lbl_upcoming_event.frame = CGRectMake(_lbl_upcoming_event.frame.origin.x, _lbl_upcoming_event.frame.origin.y - 85, _lbl_upcoming_event.frame.size.width, _lbl_upcoming_event.frame.size.height);
+            _scroll_content.frame = CGRectMake(_scroll_content.frame.origin.x, _scroll_content.frame.origin.y - 85, _scroll_content.frame.size.width, _scroll_content.frame.size.height + 85);
+            _VW_hold_BTN.frame = CGRectMake(_VW_hold_BTN.frame.origin.x, _VW_hold_BTN.frame.origin.y, _VW_hold_BTN.frame.size.width, _VW_hold_BTN.frame.size.height - 85);
         }];
         [UIView commitAnimations];
         
@@ -190,11 +190,11 @@
     _tbl_upcomming_event.frame = new_frame;
     
     new_frame = _lbl_titleallevents.frame;
-    new_frame.origin.y = _tbl_upcomming_event.frame.origin.y + [self upcommingEvent_height] + 10;
+    new_frame.origin.y = _tbl_upcomming_event.frame.origin.y + [self upcommingEvent_height] + 15;
     _lbl_titleallevents.frame = new_frame;
     
     new_frame = _VW_allevent_HEAD.frame;
-    new_frame.origin.y = _lbl_titleallevents.frame.origin.y + _lbl_titleallevents.frame.size.height + 10;
+    new_frame.origin.y = _lbl_titleallevents.frame.origin.y + _lbl_titleallevents.frame.size.height + 5;
     _VW_allevent_HEAD.frame = new_frame;
     
     new_frame = _tbl_all_event.frame;
@@ -203,7 +203,7 @@
     _tbl_all_event.frame = new_frame;
     
     new_frame = _BTN_all_event.frame;
-    new_frame.origin.y = _tbl_all_event.frame.origin.y + [self allEvent_height] + 10;
+    new_frame.origin.y = _tbl_all_event.frame.origin.y + [self allEvent_height] + 15;
     new_frame.size.height = _BTN_all_event.frame.size.height;
     _BTN_all_event.frame = new_frame;
     
@@ -530,9 +530,9 @@
     [UIView commitAnimations];
     
     [UIView animateWithDuration:0.5 animations:^{
-        _lbl_upcoming_event.frame = CGRectMake(_lbl_upcoming_event.frame.origin.x, _lbl_upcoming_event.frame.origin.y + 100, _lbl_upcoming_event.frame.size.width, _lbl_upcoming_event.frame.size.height);
-        _scroll_content.frame = CGRectMake(_scroll_content.frame.origin.x, _scroll_content.frame.origin.y + 100, _scroll_content.frame.size.width, _scroll_content.frame.size.height - 100);
-        _VW_hold_BTN.frame = CGRectMake(_VW_hold_BTN.frame.origin.x, _VW_hold_BTN.frame.origin.y, _VW_hold_BTN.frame.size.width, _VW_hold_BTN.frame.size.height + 100);
+        _lbl_upcoming_event.frame = CGRectMake(_lbl_upcoming_event.frame.origin.x, _lbl_upcoming_event.frame.origin.y + 85, _lbl_upcoming_event.frame.size.width, _lbl_upcoming_event.frame.size.height);
+        _scroll_content.frame = CGRectMake(_scroll_content.frame.origin.x, _scroll_content.frame.origin.y + 85, _scroll_content.frame.size.width, _scroll_content.frame.size.height - 85);
+        _VW_hold_BTN.frame = CGRectMake(_VW_hold_BTN.frame.origin.x, _VW_hold_BTN.frame.origin.y, _VW_hold_BTN.frame.size.width, _VW_hold_BTN.frame.size.height + 85);
     }];
     [UIView commitAnimations];
     
@@ -578,9 +578,9 @@
     [self.VW_hold_code  setHidden:YES];
     
     [UIView animateWithDuration:0.5 animations:^{
-        _lbl_upcoming_event.frame = CGRectMake(_lbl_upcoming_event.frame.origin.x, _lbl_upcoming_event.frame.origin.y - 100, _lbl_upcoming_event.frame.size.width, _lbl_upcoming_event.frame.size.height);
-        _scroll_content.frame = CGRectMake(_scroll_content.frame.origin.x, _scroll_content.frame.origin.y - 100, _scroll_content.frame.size.width, _scroll_content.frame.size.height + 100);
-        _VW_hold_BTN.frame = CGRectMake(_VW_hold_BTN.frame.origin.x, _VW_hold_BTN.frame.origin.y, _VW_hold_BTN.frame.size.width, _VW_hold_BTN.frame.size.height - 100);
+        _lbl_upcoming_event.frame = CGRectMake(_lbl_upcoming_event.frame.origin.x, _lbl_upcoming_event.frame.origin.y - 85, _lbl_upcoming_event.frame.size.width, _lbl_upcoming_event.frame.size.height);
+        _scroll_content.frame = CGRectMake(_scroll_content.frame.origin.x, _scroll_content.frame.origin.y - 85, _scroll_content.frame.size.width, _scroll_content.frame.size.height + 85);
+        _VW_hold_BTN.frame = CGRectMake(_VW_hold_BTN.frame.origin.x, _VW_hold_BTN.frame.origin.y, _VW_hold_BTN.frame.size.width, _VW_hold_BTN.frame.size.height - 85);
     }];
     [UIView commitAnimations];
     

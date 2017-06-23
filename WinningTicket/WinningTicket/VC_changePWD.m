@@ -98,7 +98,6 @@
     [VW_overlay addSubview:activityIndicatorView];
     VW_overlay.center = self.view.center;
     [self.view addSubview:VW_overlay];
-    _done_Btn.enabled = NO;
     
     VW_overlay.hidden = YES;
 
@@ -175,7 +174,7 @@
 #pragma mark - BTN Actions
 -(void)textlength_Chnaged
 {
-    NSLog(@"currendpwd:%u,%u,%u",_TXT_currentPWD.text.length,_TXT_newPWD.text.length,_TXT_confirmnewPWD.text.length);
+    NSLog(@"currendpwd:%lu,%lu,%lu",_TXT_currentPWD.text.length,_TXT_newPWD.text.length,_TXT_confirmnewPWD.text.length);
 
     if(_TXT_currentPWD.text.length  >= 8 && _TXT_newPWD.text.length  >= 8 && _TXT_confirmnewPWD.text.length  >= 8)
     {
@@ -184,7 +183,6 @@
     }
     else
     {
-        _done_Btn.enabled = NO;
         _done_Btn.backgroundColor = [UIColor lightGrayColor];
         
     }
@@ -269,15 +267,19 @@
     [activityIndicatorView stopAnimating];
     VW_overlay.hidden = YES;
         
-        NSString *password = [[NSUserDefaults standardUserDefaults] valueForKey:@"loginPWD"];
-        if (password) {
-            [[NSUserDefaults standardUserDefaults] setValue:confirm_pwd forKey:@"loginPWD"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-        }
+//        NSString *password = [[NSUserDefaults standardUserDefaults] valueForKey:@"loginPWD"];
+//        if (password) {
+//            [[NSUserDefaults standardUserDefaults] setValue:confirm_pwd forKey:@"loginPWD"];
+//            [[NSUserDefaults standardUserDefaults] synchronize];
+//        }
         
     _Stat_label.hidden=NO;
     [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];
     _Stat_label.text=[json_DATA valueForKey:@"message"];
+        
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"loginPWD"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+       
         
     }
     else
@@ -299,5 +301,6 @@
 }
 - (void)hiddenLabel{
     _Stat_label.hidden = YES;
+     [self performSegueWithIdentifier:@"changepwdtoviewcontroller" sender:self];
 }
 @end
