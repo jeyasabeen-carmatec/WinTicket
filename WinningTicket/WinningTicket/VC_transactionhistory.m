@@ -199,7 +199,7 @@
 
     cell.lbl_ticket_ID.text = ticket_number;
     cell.lbl_datetime.text = date;
-    cell.lbl_ticketreson.text = purpose;
+    cell.lbl_ticketreson.text = [purpose capitalizedString];
 //    NSString *credit=[temp_dictin valueForKey:@"credit"];
 //    NSString *debit=[temp_dictin valueForKey:@"debit"];
     if(temp_dictin[@"value" ] !=(id)[NSNull null])

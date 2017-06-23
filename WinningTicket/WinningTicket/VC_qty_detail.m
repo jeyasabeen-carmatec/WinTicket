@@ -305,8 +305,8 @@
 //    }
     //    place = [place stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
     NSString *ticketnumber = [temp_dictin valueForKey:@"code"];
-    NSString *club_name = [temp_dictin valueForKey:@"name"];
-    NSString *org_name = [temp_dictin valueForKey:@"organization_name"];
+    NSString *club_name = [[temp_dictin valueForKey:@"name"] capitalizedString];
+    NSString *org_name = [[temp_dictin valueForKey:@"organization_name"] capitalizedString];
     
     NSString *text = [NSString stringWithFormat:@"%@\n%@ - %@",org_name,ticketnumber,club_name];
     
@@ -336,7 +336,7 @@
     }
     else
     {
-        self.lbl_des_cription.text = text;
+        self.lbl_des_cription.text = [text capitalizedString];
     }
     
     _lbl_des_cription.numberOfLines = 0;

@@ -9,6 +9,10 @@
 #import "donate_purchase_VC.h"
 //#import "DejalActivityView.h"
 //#import "DGActivityIndicatorView.h"
+
+#pragma mark - Image Cache
+#import "SDWebImage/UIImageView+WebCache.h"
+
 @interface donate_purchase_VC ()
 
 @end
@@ -127,7 +131,14 @@
     NSLog(@"The Response in Donate Purchase \n%@",temp_resp);
     
        [_BTN_order2 addTarget:self action:@selector(BTN_order2action) forControlEvents:UIControlEventTouchUpInside];
+    NSLog(@"Image Url Vc checkout detail %@",[NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_resp valueForKey:@"avatar_url"]]);
     
+    [_img_icon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_resp valueForKey:@"avatar_url"]]]
+                 placeholderImage:[UIImage imageNamed:@"Logo_WT.png"]];
+    _img_icon.contentMode = UIViewContentModeScaleAspectFit;
+    
+    NSLog(@"The response from checkout detail VC \n%@",temp_resp);
+
     CGRect rect_content,frame_rect;
     rect_content = _VW_contents.frame;
     rect_content.size.width = self.View_Nav_Top.frame.size.width;
@@ -205,14 +216,17 @@
         // Red text attributes
         //            UIColor *redColor = [UIColor redColor];
         NSRange cmp = [text rangeOfString:show];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0]}
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:20.0]}
                                 range:cmp];
         
         
-//        NSRange qt = [text rangeOfString:qty];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-//        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0]}
-//                                range:qt];
+        NSRange qt = [text rangeOfString:club_name];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:14.0]}
+                                range:qt];
         
+        NSRange tkt_num = [text rangeOfString:ticketnumber];
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:14.0]}
+                                range:tkt_num];
         
         self.lbl_ticketDetail.attributedText = attributedText;
     }
@@ -225,16 +239,17 @@
     [self.lbl_ticketDetail sizeToFit];
     
     
+    
     frame_rect = _lbl_ticketDetail.frame;
-    frame_rect.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height;
+    frame_rect.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 5;
     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
     {
-        frame_rect.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 5;
+        frame_rect.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
     }
     _lbl_ticketDetail.frame = frame_rect;
     
     frame_rect = _img_icon.frame;
-    frame_rect.origin.y = _lbl_ticketDetail.frame.origin.y + 10;
+    frame_rect.origin.y = _lbl_ticketDetail.frame.origin.y;
     _img_icon.frame = frame_rect;
     
     float chk_ht = _lbl_ticketDetail.frame.size.height;

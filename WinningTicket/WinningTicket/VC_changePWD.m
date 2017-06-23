@@ -72,6 +72,10 @@
     [self.actviewone stopAnimating];
     
     _Stat_label.hidden=YES;
+    [_TXT_currentPWD addTarget:self action:@selector(textlength_Chnaged) forControlEvents:UIControlEventAllEvents];
+    [_TXT_newPWD addTarget:self action:@selector(textlength_Chnaged) forControlEvents:UIControlEventAllEvents];
+    [_TXT_confirmnewPWD addTarget:self action:@selector(textlength_Chnaged) forControlEvents:UIControlEventAllEvents];
+
 [_done_Btn addTarget:self action:@selector(done_btnclicked) forControlEvents:UIControlEventTouchUpInside];
     
     VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -104,95 +108,115 @@
     [textField resignFirstResponder];
     return YES;
 }
-
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-   NSInteger inte = textField.text.length;
-    if(textField.tag==1)
-    { if (inte <= 2)
+   
+    
+
+    if (textField == _TXT_currentPWD)
     {
         
-        _done_Btn.backgroundColor = [UIColor lightGrayColor];
-        return YES;
-        
-    }
-    else if(inte >= 12)
-    {
-        return NO;
-    }
-        
-        return YES;
-        
-        
-    }
-    if(textField.tag==2)
-    {
-        if (inte <= 8)
+        NSInteger inte = textField.text.length;
+        if(inte >= 64)
         {
-            
-            _done_Btn.backgroundColor = [UIColor lightGrayColor];
+           
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+        }
+       
+        return YES;
+    }
+    if (textField == _TXT_newPWD)
+    {
+        
+        
+        NSInteger inte = textField.text.length;
+        if(inte >= 64)
+        {
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+           
+        }
+        
+        return YES;
+    }
+    if (textField == _TXT_confirmnewPWD)
+    {
+        NSInteger inte = textField.text.length;
+        if(inte >= 64)
+        {
+            if ([string isEqualToString:@""])
+            {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+         }
+        
             return YES;
-            
-        }
-        else if(inte >= 12)
-        {
-            return NO;
-        }
-        
-        return YES;
-
-    }
-    if(textField.tag == 3)
-    {
-     if (inte <= 8)
-    {
-
-    _done_Btn.backgroundColor = [UIColor colorWithRed:0.08 green:0.63 blue:0.85 alpha:1.0];
-        _done_Btn.enabled = YES;
-        return YES;
-        
-    }
-    else if(inte >= 12)
-    {
-        return NO;
     }
     
+
+    
     return YES;
-    }
-   return YES;
 }
 #pragma mark - BTN Actions
+-(void)textlength_Chnaged
+{
+    NSLog(@"currendpwd:%u,%u,%u",_TXT_currentPWD.text.length,_TXT_newPWD.text.length,_TXT_confirmnewPWD.text.length);
+
+    if(_TXT_currentPWD.text.length  >= 8 && _TXT_newPWD.text.length  >= 8 && _TXT_confirmnewPWD.text.length  >= 8)
+    {
+        _done_Btn.enabled = YES;
+        _done_Btn.backgroundColor = [UIColor colorWithRed:0.08 green:0.63 blue:0.85 alpha:1.0];
+    }
+    else
+    {
+        _done_Btn.enabled = NO;
+        _done_Btn.backgroundColor = [UIColor lightGrayColor];
+        
+    }
+
+}
 -(IBAction)BTN_close:(id)sender
 {
       [self dismissViewControllerAnimated:NO completion:nil];
 }
 -(void)done_btnclicked
 {
-    if([_TXT_currentPWD.text isEqualToString:@""])
+    if(_TXT_currentPWD.text.length < 8)
     {
         [_TXT_currentPWD becomeFirstResponder];
+        [_TXT_currentPWD showError];
+        [_TXT_currentPWD showErrorWithText:@" Current Password should have minimum 8 chraters"];
+
     }
-    else  if([_TXT_newPWD.text isEqualToString:@""])
+    else  if(_TXT_newPWD.text.length < 8)
     {
         [_TXT_newPWD becomeFirstResponder];
-//        _Stat_label.hidden=NO;
-//        [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];
-//        _Stat_label.text=@"Password length should be More than 8 characters";
+        [_TXT_newPWD showError];
+        [_TXT_newPWD showErrorWithText:@" New Password should have minimum 8 chraters"];
+        
     }
-    else  if([_TXT_confirmnewPWD.text isEqualToString:@""])
+    else  if(_TXT_confirmnewPWD.text.length < 8)
     {
         [_TXT_confirmnewPWD becomeFirstResponder];
-//        _Stat_label.hidden=NO;
-//        [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];
-//        _Stat_label.text=@"Password length should be More than 8 characters";
+        [_TXT_confirmnewPWD showError];
+        [_TXT_confirmnewPWD showErrorWithText:@" Confirm Password should have minimum 8 chraters"];
     }
-//    else if([_TXT_newPWD.text isEqualToString:_TXT_confirmnewPWD.text])
-//    {
-//        _Stat_label.hidden=NO;
-//        [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];
-//        _Stat_label.text=@"Passwords are not matched";
-//
-//    }
+
     else
     {
         [activityIndicatorView startAnimating];

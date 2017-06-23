@@ -165,9 +165,115 @@
     
     NSString *zip_code = [address_dictin valueForKey:@"zip_code"];
     
-    NSString *address_str = [NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone:%@",[address_dictin valueForKey:@"first_name"],[address_dictin valueForKey:@"last_name"],[address_dictin valueForKey:@"address_line1"],[address_dictin valueForKey:@"address_line2"],[address_dictin valueForKey:@"city"],state_name,cntry_name,zip_code,[address_dictin valueForKey:@"phone"]];
+//    NSString *address_str = [NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone:%@",[address_dictin valueForKey:@"first_name"],[address_dictin valueForKey:@"last_name"],[address_dictin valueForKey:@"address_line1"],[address_dictin valueForKey:@"address_line2"],[address_dictin valueForKey:@"city"],state_name,cntry_name,zip_code,[address_dictin valueForKey:@"phone"]];
+//    
+//    _lbl_address.text = [NSString stringWithFormat:@"%@",address_str];
+//    _lbl_address.numberOfLines = 0;
+//    [_lbl_address sizeToFit];
     
-    _lbl_address.text = [NSString stringWithFormat:@"%@",address_str];
+    NSString *STR_fname = [NSString stringWithFormat:@"%@",[address_dictin valueForKey:@"first_name"]];
+    STR_fname = [STR_fname stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_fname = [STR_fname stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    NSString *STR_lname = [NSString stringWithFormat:@"%@",[address_dictin valueForKey:@"last_name"]];
+    STR_lname = [STR_lname stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_lname = [STR_lname stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    NSString *STR_addr1 = [NSString stringWithFormat:@"%@",[address_dictin valueForKey:@"address_line1"]];
+    STR_addr1 = [STR_addr1 stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_addr1 = [STR_addr1 stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    NSString *STR_addr2 = [NSString stringWithFormat:@"%@",[address_dictin valueForKey:@"address_line2"]];
+    STR_addr2 = [STR_addr2 stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_addr2 = [STR_addr2 stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    NSString *STR_city = [NSString stringWithFormat:@"%@",[address_dictin valueForKey:@"city"]];
+    STR_city = [STR_city stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_city = [STR_city stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    NSString *STR_state = [NSString stringWithFormat:@"%@",state_name];
+    STR_state = [STR_state stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_state = [STR_state stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    NSString *STR_cntry = [NSString stringWithFormat:@"%@",cntry_name];
+    STR_cntry = [STR_cntry stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_cntry = [STR_cntry stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    NSString *STR_zip = [NSString stringWithFormat:@"%@",zip_code];
+    STR_zip = [STR_zip stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_zip = [STR_zip stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    NSString *STR_phone = [NSString stringWithFormat:@"%@",[address_dictin valueForKey:@"phone"]];
+    STR_phone = [STR_phone stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_phone = [STR_phone stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    
+    NSString *name;
+    if (STR_lname.length == 0)
+    {
+        name = [NSString stringWithFormat:@"%@,\n",STR_fname];
+    }
+    else
+    {
+        name = [NSString stringWithFormat:@"%@ %@,\n",STR_fname,STR_lname];
+    }
+    
+    NSString *addr;
+    if (STR_addr2.length == 0)
+    {
+        addr = [NSString stringWithFormat:@"%@,\n",STR_addr1];
+    }
+    else
+    {
+        addr = [NSString stringWithFormat:@"%@,\n%@,\n",STR_addr1,STR_addr2];
+    }
+    
+    NSString *city = [NSString stringWithFormat:@"%@,\n",STR_city];
+    NSString *state = [NSString stringWithFormat:@"%@\n",STR_state];
+    NSString *cntry;
+    if (STR_zip.length == 0)
+    {
+        cntry = [NSString stringWithFormat:@"%@.\n",STR_cntry];
+    }
+    else
+    {
+        if (STR_cntry.length == 0) {
+            cntry = [NSString stringWithFormat:@"%@.\n",STR_zip];
+        }
+        else
+        {
+            cntry = [NSString stringWithFormat:@"%@ - %@.\n",STR_cntry,STR_zip];
+        }
+    }
+    NSString *phone = [NSString stringWithFormat:@"Phone : %@",STR_phone];
+    
+    NSMutableArray *final_ADDR = [[NSMutableArray alloc] init];
+    if (name.length != 0) {
+        [final_ADDR addObject:name];
+    }
+    
+    if (addr.length != 0) {
+        [final_ADDR addObject:addr];
+    }
+    
+    if (city.length != 0 && ![city isEqualToString:@", \n"]) {
+        [final_ADDR addObject:city];
+    }
+    
+    if (state.length != 0 && ![state isEqualToString:@"\n"]) {
+        [final_ADDR addObject:state];
+    }
+    
+    if (cntry.length != 0){
+        [final_ADDR addObject:cntry];
+    }
+    
+    if (phone.length != 0) {
+        [final_ADDR addObject:phone];
+    }
+    
+    //    NSString *address_str=[NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone : %@",,,,,,,,,];
+    
+    NSMutableString *str_TST = [[NSMutableString alloc]init];
+    for (int i = 0; i<[final_ADDR count]; i++) {
+        [str_TST appendString:[final_ADDR objectAtIndex:i]];
+    }
+    
+    NSLog(@"Testing Addr = \n%@",str_TST);
+    
+    
+    _lbl_address.text = str_TST;
     _lbl_address.numberOfLines = 0;
     [_lbl_address sizeToFit];
     
@@ -194,10 +300,11 @@
     NSString *show = @"Winning Ticket";
 //    NSString *place = @"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
     NSString *ticketnumber = [temp_resp valueForKey:@"code"];
-    NSString *club_name = [temp_resp valueForKey:@"event_name"];
+    NSString *club_name = [[temp_resp valueForKey:@"event_name"] capitalizedString];
+    NSString *org_name = [[temp_resp valueForKey:@"organization_name"] capitalizedString];
     NSString *qty = [NSString stringWithFormat:@"Qty : %@",[temp_resp valueForKey:@"quantity"]];
     
-    NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@\n%@",show,club_name,ticketnumber,qty];
+    NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@ - %@\n%@",show,org_name,ticketnumber,club_name,qty];
     
     text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
     text = [text stringByReplacingOccurrencesOfString:@"(null)" withString:@"Not Mentioned"];
@@ -217,16 +324,19 @@
         // Red text attributes
         //            UIColor *redColor = [UIColor redColor];
         NSRange cmp = [text rangeOfString:show];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:20.0]}
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:18.0]}
                                 range:cmp];
         
+        NSRange org = [text rangeOfString:org_name];
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:14.0]}
+                                range:org];
         
         NSRange qt = [text rangeOfString:club_name];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:18.0]}
+        [attributedText setAttributes:@{NSFontAttributeName:_lbl_address.font}
                                 range:qt];
         
         NSRange tkt_num = [text rangeOfString:ticketnumber];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:14.0]}
+        [attributedText setAttributes:@{NSFontAttributeName:_lbl_address.font}
                                 range:tkt_num];
         
         NSRange qty_range = [text rangeOfString:qty];
@@ -237,14 +347,11 @@
     }
     else
     {
-        self.lbl_ticketDetail.text = text;
+        self.lbl_ticketDetail.text = [text capitalizedString];
     }
     
     self.lbl_ticketDetail.numberOfLines = 0;
     [self.lbl_ticketDetail sizeToFit];
-    
-    
-    
     
     frame_rect = _lbl_ticketDetail.frame;
     frame_rect.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 5;
@@ -260,16 +367,31 @@
     frame_rect.origin.y = _lbl_ticketDetail.frame.origin.y + _lbl_ticketDetail.frame.size.height + 10;
 //    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
 //    {
-        if (chk_ht < _img_icon.frame.size.height + 10) {
+        if (chk_ht < _img_icon.frame.size.height)
+        {
             frame_rect.origin.y = _img_icon.frame.origin.y + _img_icon.frame.size.height + 10;
+            
+            CGRect temp_frame = _lbl_ticketDetail.frame;
+            temp_frame.origin.y = _img_icon.frame.origin.y;
+            temp_frame.size.height = _img_icon.frame.size.height;
+            _lbl_ticketDetail.frame = temp_frame;
         }
         else
        {
            frame_rect.origin.y = _lbl_ticketDetail.frame.origin.y + _lbl_ticketDetail.frame.size.height + 10;
+           
+           CGRect temp_frame = _img_icon.frame;
+           temp_frame.origin.y = _lbl_ticketDetail.frame.origin.y;
+           temp_frame.size.height = _lbl_ticketDetail.frame.size.height;
+           _img_icon.frame = temp_frame;
        }
 //    }
     
     _VW_line2.frame = frame_rect;
+    
+//    frame_rect = _img_icon.frame;
+//    frame_rect.origin.y = _lbl_ticketDetail.frame.origin.y;
+//    _img_icon.frame = frame_rect;
     
     frame_rect = _lbl_titleSubtotal.frame;
     frame_rect.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;

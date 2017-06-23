@@ -54,9 +54,9 @@
         NSLog(@"the user data is:%@",account_data);
         
 //        NSDictionary *temp_dict=[account_data valueForKey:@"user"];
-        NSString *pricee_STR = [NSString stringWithFormat:@"%.02f",[[account_data valueForKey:@"wallet"] floatValue]];
+        NSString *pricee_STR = [NSString stringWithFormat:@"%.2f",[[account_data valueForKey:@"wallet"] floatValue]];
 ;
-        NSString *text = [NSString stringWithFormat:@"Available balance:$ %@",pricee_STR];
+        NSString *text = [NSString stringWithFormat:@"Available balance: $%@",pricee_STR];
         
         if ([self.lbl_availableBAL respondsToSelector:@selector(setAttributedText:)]) {
             
@@ -468,5 +468,11 @@ else if ([_TXT_amtpaypal.text isEqualToString:@"0.00"] || [_TXT_amtpaypal.text i
     return YES;
 }
 
+-(void)submitClicked_account
+{
+    NSLog(@"Tappd order detail");
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"This option will be available in next version" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+    [alert show];
+}
 
 @end

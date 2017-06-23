@@ -258,8 +258,8 @@
     
 
     NSString *ticketnumber = [temp_dictin valueForKey:@"code"];
-    NSString *club_name = [temp_dictin valueForKey:@"name"];
-    NSString *org_name = [temp_dictin valueForKey:@"organization_name"];
+    NSString *club_name = [[temp_dictin valueForKey:@"name"] capitalizedString];
+    NSString *org_name = [[temp_dictin valueForKey:@"organization_name"] capitalizedString];
     
     NSString *text = [NSString stringWithFormat:@"%@\n%@ - %@",org_name,ticketnumber,club_name];
     
@@ -289,7 +289,7 @@
     }
     else
     {
-        self.lbl_des_cription.text = text;
+        self.lbl_des_cription.text = [text capitalizedString];
     }
    
     _lbl_des_cription.numberOfLines = 0;
@@ -446,7 +446,7 @@
         [str_TST appendString:[final_ADDR objectAtIndex:i]];
     }
     
-    NSLog(@"Testing Addr = %@",str_TST);
+    NSLog(@"Testing Addr = \n%@",str_TST);
     
     _TXT_firstname.text = STR_fname;// [user_data valueForKey:@"first_name"];
     _TXT_lastname.text = STR_lname;//[user_data valueForKey:@"last_name"];
@@ -490,7 +490,7 @@
     
     original_height= _lbl_agree.frame.origin.y + _lbl_agree.frame.size.height;
 
-    _VW_address.frame=CGRectMake(_VW_titladdress.frame.origin.x,_VW_titladdress.frame.origin.y+60,self.scroll_contents.frame.size.width,_VW_address.frame.size.height);
+    _VW_address.frame=CGRectMake(_VW_titladdress.frame.origin.x,_VW_titladdress.frame.origin.y+_VW_titladdress.frame.size.height,self.scroll_contents.frame.size.width,_VW_address.frame.size.height);
     [self.scroll_contents addSubview:_VW_address];
     _VW_address.hidden=YES;
     
@@ -588,7 +588,7 @@
         
         [UIView beginAnimations:@"LeftFlip" context:nil];
         [UIView setAnimationDuration:0.5];
-        _VW_address.frame=CGRectMake(_VW_titladdress.frame.origin.x,_VW_titladdress.frame.origin.y+60,self.scroll_contents.frame.size.width,_VW_address.frame.size.height);
+        _VW_address.frame=CGRectMake(_VW_titladdress.frame.origin.x,_VW_titladdress.frame.origin.y+_VW_titladdress.frame.size.height,self.scroll_contents.frame.size.width,_VW_address.frame.size.height);
         [self.scroll_contents addSubview:_VW_address];
         _VW_address.hidden=NO;
         [UIView setAnimationCurve:UIViewAnimationCurveLinear];
@@ -690,13 +690,13 @@
         [_TXT_country showErrorWithText:@" Please Select Country"];
         
     }
-    else if([_TXT_state.text isEqualToString:@""])
-    {
-        [_TXT_state becomeFirstResponder];
-        [_TXT_state showError];
-        [_TXT_state showErrorWithText:@" Please Select State"];
-        
-    }
+//    else if([_TXT_state.text isEqualToString:@""])
+//    {
+//        [_TXT_state becomeFirstResponder];
+//        [_TXT_state showError];
+//        [_TXT_state showErrorWithText:@" Please Select State"];
+//        
+//    }
     else if([_TXT_zip.text isEqualToString:@""])
     {
         [_TXT_zip becomeFirstResponder];

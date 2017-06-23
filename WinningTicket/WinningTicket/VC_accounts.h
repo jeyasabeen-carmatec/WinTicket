@@ -19,5 +19,6 @@
 @property(nonatomic,weak)IBOutlet UILabel *amount;
 
 
+@property(nonatomic,weak)IBOutlet UIImageView *img_profile;
 
 @end

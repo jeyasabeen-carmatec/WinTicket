@@ -10,6 +10,9 @@
 #import "cellACCOUNTS.h"
 //#import "DGActivityIndicatorView.h"
 
+#pragma mark - Image Cache
+#import "SDWebImage/UIImageView+WebCache.h"
+
 @interface VC_accounts () <UIAlertViewDelegate>
 {
     NSArray *section1,*section2;
@@ -685,11 +688,21 @@
         [self.first_name sizeToFit];
         self.last_name.text=[temp_dict valueForKey:@"email"];
         [self.last_name sizeToFit];
-        NSString *amount=[NSString stringWithFormat:@"%.02f",[[account_data valueForKey:@"wallet"] floatValue]];
-        self.amount.text =[NSString stringWithFormat:@"$ %@",amount];
+        NSString *amount=[NSString stringWithFormat:@"%.2f",[[account_data valueForKey:@"wallet"] floatValue]];
+        self.amount.text =[NSString stringWithFormat:@"$%@",amount];
         
+        NSLog(@"Image Url is %@",[NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_dict valueForKey:@"avatar_url"]]);
+        
+        @try {
+            [_img_profile sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_dict valueForKey:@"avatar_url"]]]
+                            placeholderImage:[UIImage imageNamed:@"profile_pic.png"]];
+        } @catch (NSException *exception) {
+            NSLog(@"Exception");
+        }
     }
     
+    _img_profile.layer.cornerRadius = _img_profile.frame.size.width / 2;
+    _img_profile.clipsToBounds = YES;
     
 
     NSHTTPURLResponse *response = nil;

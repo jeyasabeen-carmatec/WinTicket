@@ -153,8 +153,8 @@
     }
     _TXT_qty.text = @"1";
     NSString *show = @"Winning Ticket";
-    NSString *place = [temp_dict valueForKey:@"name"];
-    NSString *org_name = [temp_dict valueForKey:@"organization_name"];
+    NSString *place = [[temp_dict valueForKey:@"name"] capitalizedString];
+    NSString *org_name = [[temp_dict valueForKey:@"organization_name"] capitalizedString];
     NSString *ticketnumber = [temp_dict  valueForKey:@"code"];
     
     NSString *STR_tkt_num_club = [NSString stringWithFormat:@"%@ - %@",ticketnumber,place];
@@ -233,7 +233,7 @@
     }
     else
     {
-        self.lbl_ticketdetail.text = text;
+        self.lbl_ticketdetail.text = [text capitalizedString];
     }
     
     self.lbl_ticketdetail.numberOfLines = 0;

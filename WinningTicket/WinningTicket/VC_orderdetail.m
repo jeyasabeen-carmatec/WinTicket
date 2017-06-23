@@ -140,7 +140,7 @@
     
     CGRect old_frame = _lbl_eventname.frame;
     
-    _lbl_eventname.text = [temp_dict valueForKey:@"name"];
+    _lbl_eventname.text = [[temp_dict valueForKey:@"name"] capitalizedString];
     _lbl_eventname.numberOfLines = 0;
     [_lbl_eventname sizeToFit];
     
@@ -245,7 +245,7 @@
     _lbl_location.frame = frame_NN;
     
     frame_HT = _BTN_viewTKT.frame;
-    frame_HT.origin.y = _VW_eventcontent.frame.origin.y + _VW_eventcontent.frame.size.height + 40;
+    frame_HT.origin.y = _VW_eventcontent.frame.origin.y + _VW_eventcontent.frame.size.height + 10;
     _BTN_viewTKT.frame = frame_HT;
     
     frame_HT = _BTN_giftBAG.frame;

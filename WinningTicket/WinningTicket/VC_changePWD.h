@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ACFloatingTextField.h"
 
 @interface VC_changePWD : UIViewController
 
-@property (weak, nonatomic) IBOutlet UITextField *TXT_currentPWD;
-@property (weak, nonatomic) IBOutlet UITextField *TXT_newPWD;
-@property (weak, nonatomic) IBOutlet UITextField *TXT_confirmnewPWD;
+@property (weak, nonatomic) IBOutlet ACFloatingTextField *TXT_currentPWD;
+@property (weak, nonatomic) IBOutlet ACFloatingTextField *TXT_newPWD;
+@property (weak, nonatomic) IBOutlet ACFloatingTextField *TXT_confirmnewPWD;
 @property(nonatomic,weak)IBOutlet UILabel *Stat_label;
 @property(nonatomic,weak)IBOutlet UIButton *done_Btn;
 @property(nonatomic,weak)IBOutlet UIView *actview;

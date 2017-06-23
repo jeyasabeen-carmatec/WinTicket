@@ -9,6 +9,10 @@
 #import "Ppurchase_Controller.h"
 
 @interface Ppurchase_Controller ()
+{
+    UIView *VW_overlay;
+    UIActivityIndicatorView *activityIndicatorView;
+}
 
 @end
 
@@ -18,6 +22,30 @@
 {
     [super viewDidLoad];
 //    [self.view addSubview:self.scroll];
+    
+    VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    VW_overlay.clipsToBounds = YES;
+    VW_overlay.layer.cornerRadius = 10.0;
+    
+    activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
+    
+    //    loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 170, 200, 22)];
+    //    loadingLabel.backgroundColor = [UIColor clearColor];
+    //    loadingLabel.textColor = [UIColor whiteColor];
+    //    loadingLabel.adjustsFontSizeToFitWidth = YES;
+    //    loadingLabel.textAlignment = NSTextAlignmentCenter;
+    //    loadingLabel.text = @"Loading...";
+    //
+    //    [VW_overlay addSubview:loadingLabel];
+    activityIndicatorView.center = VW_overlay.center;
+    [VW_overlay addSubview:activityIndicatorView];
+    VW_overlay.center = self.view.center;
+    [self.view addSubview:VW_overlay];
+    
+    VW_overlay.hidden = YES;
+    
     [self set_UP_VW];
 }
 
@@ -134,14 +162,14 @@
         self.confirm_mail.text = [NSString stringWithFormat:@"A Confirmation mail Has been Sent to your Mail %@",[dict valueForKey:@"email"]];
         [self.confirm_mail sizeToFit];
         
-        frame_rect.origin.y = _status_Label.frame.origin.y + _status_Label.frame.size.height + 10;
+        frame_rect.origin.y = _status_Label.frame.origin.y + _status_Label.frame.size.height + 2;
         frame_rect.size.width = orginal_width;
         frame_rect.size.height = _confirm_mail.frame.size.height;
         _confirm_mail.frame = frame_rect;
         
         self.order.text = [NSString stringWithFormat:@"Order #%@",[dict valueForKey:@"order_id"]];
         frame_rect = _order.frame;
-        frame_rect.origin.y = _confirm_mail.frame.origin.y + _confirm_mail.frame.size.height + 10;
+        frame_rect.origin.y = _confirm_mail.frame.origin.y + _confirm_mail.frame.size.height + 2;
         _order.frame = frame_rect;
         
         CGRect VW_frame;
@@ -154,7 +182,7 @@
         
         self.order_summary.text = @"Order Summary";
         frame_rect = _order_summary.frame;
-        frame_rect.origin.y = _VW_head.frame.origin.y + _VW_head.frame.size.height;
+        frame_rect.origin.y = _VW_head.frame.origin.y + _VW_head.frame.size.height + 5;
         _order_summary.frame = frame_rect;
         
         VW_frame = _first_VW.frame;
@@ -172,7 +200,7 @@
         
        
         
-        NSString *des = [dict valueForKey:@"name"];
+        NSString *des = [[dict valueForKey:@"name"] capitalizedString];
         NSString *code = [NSString stringWithFormat:@"%@",[dict valueForKey:@"code"]];
         NSString *text = [NSString stringWithFormat:@"%@\n%@",code,des];
         NSDictionary *attribs = @{
@@ -182,7 +210,7 @@
         NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:text attributes:attribs];
         
         
-//        UIFont *boldFont = [UIFont fontWithName:@"Gotham-Book" size:17];
+//        UIFont *boldFont = [UIFont fontWithName:@"Gotham-Book" size:17]; 
         NSRange range = [text rangeOfString:des];
         [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Gotham-Book" size:14.0]}
                                 range:range];
@@ -201,11 +229,11 @@
         frame_rect = _des_cription.frame;
         
         
-        frame_rect.origin.y = _name_ticket.frame.origin.y + _name_ticket.frame.size.height + 10;
+        frame_rect.origin.y = _name_ticket.frame.origin.y + _name_ticket.frame.size.height + 5;
         frame_rect.size.width = orginal_width;
         _des_cription.frame = frame_rect;
         
-        _amount.text = [NSString stringWithFormat:@"$ %.2f",[[dict valueForKey:@"price"] floatValue]];
+        _amount.text = [NSString stringWithFormat:@"$%.2f",[[dict valueForKey:@"price"] floatValue]];
         
         frame_rect = _amount.frame;
         frame_rect.origin.y = _name_ticket.frame.origin.y + _name_ticket.frame.size.height + 10;
@@ -216,29 +244,29 @@
         _pur_view.frame = frame_rect;
         
         frame_rect = _sub_total.frame;
-        frame_rect.origin.y = _pur_view.frame.origin.y + _pur_view.frame.size.height + 10;
+        frame_rect.origin.y = _pur_view.frame.origin.y + _pur_view.frame.size.height + 5;
         _sub_total.frame = frame_rect;
         
-        _sub_amount.text = [NSString stringWithFormat:@"$ %.2f",[[dict valueForKey:@"price"] floatValue]];
+        _sub_amount.text = [NSString stringWithFormat:@"$%.2f",[[dict valueForKey:@"price"] floatValue]];
         frame_rect = _sub_amount.frame;
-        frame_rect.origin.y = _pur_view.frame.origin.y + _pur_view.frame.size.height + 10;
+        frame_rect.origin.y = _pur_view.frame.origin.y + _pur_view.frame.size.height + 5;
         _sub_amount.frame = frame_rect;
         
         frame_rect = _sec_vw.frame;
-        frame_rect.origin.y = _sub_amount.frame.origin.y + _sub_amount.frame.size.height + 10;
+        frame_rect.origin.y = _sub_amount.frame.origin.y + _sub_amount.frame.size.height + 5;
         _sec_vw.frame = frame_rect;
         
         frame_rect = _total.frame;
-        frame_rect.origin.y = _sec_vw.frame.origin.y + _sec_vw.frame.size.height + 10;
+        frame_rect.origin.y = _sec_vw.frame.origin.y + _sec_vw.frame.size.height + 5;
         _total.frame = frame_rect;
         
-        _total_amount.text = [NSString stringWithFormat:@"$ %.2f",[[dict valueForKey:@"price"] floatValue]];
+        _total_amount.text = [NSString stringWithFormat:@"$%.2f",[[dict valueForKey:@"price"] floatValue]];
         frame_rect = _total_amount.frame;
-        frame_rect.origin.y = _sec_vw.frame.origin.y + _sec_vw.frame.size.height + 10;
+        frame_rect.origin.y = _sec_vw.frame.origin.y + _sec_vw.frame.size.height + 5;
         _total_amount.frame = frame_rect;
         
         frame_rect = __BTN_Ok.frame;
-        frame_rect.origin.y = _total.frame.origin.y + _total.frame.size.height + 10;
+        frame_rect.origin.y = _total.frame.origin.y + _total.frame.size.height + 5;
         __BTN_Ok.frame = frame_rect;
         
         VW_frame = _start_View.frame;
@@ -313,8 +341,45 @@
 }
 -(void)Ok_Clicked
 {
-    [self performSegueWithIdentifier:@"homesegueidentifier" sender:self];
+    VW_overlay.hidden = NO;
+    [activityIndicatorView startAnimating];
+    [self performSelector:@selector(api_HOME) withObject:activityIndicatorView afterDelay:0.01];
+}
 
+- (void) api_HOME
+{
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    
+    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@events",SERVER_URL];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    //    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"JsonEventlist"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [self performSegueWithIdentifier:@"homesegueidentifier" sender:self];
+    }
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Interrupted" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

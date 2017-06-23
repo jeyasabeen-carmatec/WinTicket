@@ -137,7 +137,7 @@
     
     CGRect old_frame = _lbl_eventname.frame;
     
-    _lbl_eventname.text = [temp_dict valueForKey:@"name"];
+    _lbl_eventname.text = [[temp_dict valueForKey:@"name"] capitalizedString];
     _lbl_eventname.numberOfLines = 0;
     [_lbl_eventname sizeToFit];
     
