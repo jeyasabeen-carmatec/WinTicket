@@ -158,7 +158,6 @@
 		BECD7CA61EF284320037A968 /* TXT_alighn_style.m in Sources */ = {isa = PBXBuildFile; fileRef = BECD7CA51EF284320037A968 /* TXT_alighn_style.m */; };
 		BECD7CB81EF404EB0037A968 /* TSCurrencyTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = BECD7CB71EF404EB0037A968 /* TSCurrencyTextField.m */; };
 		BECD7CBE1EF78C350037A968 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BECD7CBC1EF78C350037A968 /* Main.storyboard */; };
-		BECD7CBF1EF78C350037A968 /* Main~ipad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BECD7CBD1EF78C350037A968 /* Main~ipad.storyboard */; };
 		BECD7CC21EF78C880037A968 /* VC_billingAddr.m in Sources */ = {isa = PBXBuildFile; fileRef = BECD7CC11EF78C880037A968 /* VC_billingAddr.m */; };
 		BECD7CC51EF78CBB0037A968 /* VC_accounts.m in Sources */ = {isa = PBXBuildFile; fileRef = BECD7CC41EF78CBB0037A968 /* VC_accounts.m */; };
 		BECD7CC81EF78CD60037A968 /* VC_addFUNDS.m in Sources */ = {isa = PBXBuildFile; fileRef = BECD7CC71EF78CD60037A968 /* VC_addFUNDS.m */; };
@@ -207,6 +206,7 @@
 		BED71F941EEABC7D00492E97 /* gotham-pro-medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = BED71F931EEABC7D00492E97 /* gotham-pro-medium.otf */; };
 		BED71F971EEABFEB00492E97 /* CSTM_cell_LBL.m in Sources */ = {isa = PBXBuildFile; fileRef = BED71F961EEABFEB00492E97 /* CSTM_cell_LBL.m */; };
 		BED71F9B1EEACF0700492E97 /* TBL_VW_Cell_EVENTS.xib in Resources */ = {isa = PBXBuildFile; fileRef = BED71F9A1EEACF0700492E97 /* TBL_VW_Cell_EVENTS.xib */; };
+		BEFC202C1EFCCD550067717D /* Main~ipad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEFC202B1EFCCD550067717D /* Main~ipad.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -428,7 +428,6 @@
 		BECD7CB61EF404EB0037A968 /* TSCurrencyTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCurrencyTextField.h; sourceTree = "<group>"; };
 		BECD7CB71EF404EB0037A968 /* TSCurrencyTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCurrencyTextField.m; sourceTree = "<group>"; };
 		BECD7CBC1EF78C350037A968 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		BECD7CBD1EF78C350037A968 /* Main~ipad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Main~ipad.storyboard"; sourceTree = "<group>"; };
 		BECD7CC01EF78C880037A968 /* VC_billingAddr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_billingAddr.h; sourceTree = "<group>"; };
 		BECD7CC11EF78C880037A968 /* VC_billingAddr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_billingAddr.m; sourceTree = "<group>"; };
 		BECD7CC31EF78CBB0037A968 /* VC_accounts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_accounts.h; sourceTree = "<group>"; };
@@ -537,6 +536,7 @@
 		BEE665F81E64373800DF9235 /* User-48X-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "User-48X-48.png"; sourceTree = "<group>"; };
 		BEE9B3061E684D3C00AD83C6 /* VC_courses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_courses.h; sourceTree = "<group>"; };
 		BEE9B3071E684D3C00AD83C6 /* VC_courses.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_courses.m; sourceTree = "<group>"; };
+		BEFC202B1EFCCD550067717D /* Main~ipad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Main~ipad.storyboard"; sourceTree = "<group>"; };
 		C4ED404CD45FD4D5E511FDDC /* libPods-WinningTicket_Universal.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WinningTicket_Universal.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -1267,7 +1267,7 @@
 				BE0055D11EC2DA1100E95941 /* ViewController.h */,
 				BE0055D21EC2DA1100E95941 /* ViewController.m */,
 				BECD7CBC1EF78C350037A968 /* Main.storyboard */,
-				BECD7CBD1EF78C350037A968 /* Main~ipad.storyboard */,
+				BEFC202B1EFCCD550067717D /* Main~ipad.storyboard */,
 				BED71F2C1EE7CB4400492E97 /* Required_IMG */,
 				BEC548631EA719A100FF2114 /* Affiliate */,
 				BEE665A01E5EBDDC00DF9235 /* Sighn_UP */,
@@ -1507,6 +1507,7 @@
 				BED71F301EE7EDCF00492E97 /* gotham-bold-italic.otf in Resources */,
 				BE4EEEB81ED2AAB9003C1C24 /* dotActive.png in Resources */,
 				BE4EEEB51ED2AAB9003C1C24 /* image4.jpg in Resources */,
+				BEFC202C1EFCCD550067717D /* Main~ipad.storyboard in Resources */,
 				BEA875EA1E8D06CA00EFBB7F /* sec0_3.png in Resources */,
 				BEB702F51ECEE6CB004CB729 /* blueArrow.png in Resources */,
 				BEA875921E89007B00EFBB7F /* UI_01.png in Resources */,
@@ -1555,7 +1556,6 @@
 				BEB49DD41E76B3A900209E63 /* Logo_WT.png in Resources */,
 				BEC3BDBE1EAA255700AD97E4 /* GothamBook Regular.otf in Resources */,
 				BECD7C761EF1413D0037A968 /* cell_edit_referral.xib in Resources */,
-				BECD7CBF1EF78C350037A968 /* Main~ipad.storyboard in Resources */,
 				BE52DF4A1E9B3E3B0055E914 /* IMG_0003.PNG in Resources */,
 				BE4EEEB21ED2AAB9003C1C24 /* image1.jpg in Resources */,
 				BE4EEEB61ED2AAB9003C1C24 /* image5.jpg in Resources */,
