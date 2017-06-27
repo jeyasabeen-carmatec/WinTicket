@@ -345,7 +345,7 @@
     cell.LBL_amount.layer.borderColor = [UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0].CGColor;
 //    [cell.LBL_amount setTitleColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0] forState:UIControlStateNormal];
 
-    cell.LBL_amount.text=[NSString stringWithFormat:@"$ %i",[[asc_denomarr objectAtIndex:indexPath.row]intValue]];
+    cell.LBL_amount.text=[NSString stringWithFormat:@"$%i",[[asc_denomarr objectAtIndex:indexPath.row]intValue]];
 //    [cell.LBL_amount sizeToFit];
 //    cell.LBL_amount.numberOfLines=0;
     
@@ -705,6 +705,36 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Payment Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
     }
+}
+
+-(void)paymentMethodCreator:(id)sender didFailWithError:(NSError *)error
+{
+    NSLog(@"Error = %@",error);
+}
+
+-(void)paymentMethodCreator:(id)sender requestsPresentationOfViewController:(UIViewController *)viewController
+{
+    NSLog(@"BT Request Presentation Braintree UI");
+}
+-(void)paymentMethodCreator:(id)sender requestsDismissalOfViewController:(UIViewController *)viewController
+{
+    NSLog(@"BT Request Dismissal Braintree UI");
+}
+-(void)paymentMethodCreatorWillPerformAppSwitch:(id)sender
+{
+    NSLog(@"BT performing app switch");
+}
+-(void)paymentMethodCreatorWillProcess:(id)sender
+{
+    NSLog(@"BT Payment methord creator process");
+}
+-(void)paymentMethodCreatorDidCancel:(id)sender
+{
+    NSLog(@"BT user did cancel");
+}
+-(void)paymentMethodCreator:(id)sender didCreatePaymentMethod:(BTPaymentMethod *)paymentMethod
+{
+    NSLog(@"BT Payment methord created");
 }
 
 #pragma mark - Generate Client Token

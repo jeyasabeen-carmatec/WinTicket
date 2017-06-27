@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" colorMatched="YES" initialViewController="2gX-Fs-HNE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" colorMatched="YES" initialViewController="2gX-Fs-HNE">
     <device id="ipad9_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -35,6 +35,9 @@
         </array>
         <array key="gotham-pro-medium.otf">
             <string>GothamPro-Medium</string>
+        </array>
+        <array key="gotham-pro-narrow-medium.otf">
+            <string>GothamPro-NarrowMedium</string>
         </array>
     </customFonts>
     <scenes>
@@ -160,16 +163,16 @@
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             </switch>
                                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Q9d-AL-zQo" customClass="BTN_Winnig_TKT">
-                                                <rect key="frame" x="95" y="325" width="400" height="69"/>
+                                                <rect key="frame" x="95" y="331" width="400" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 <color key="backgroundColor" red="0.011764705882352941" green="0.69019607843137254" blue="0.87450980392156863" alpha="1" colorSpace="calibratedRGB"/>
-                                                <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="27"/>
+                                                <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="24"/>
                                                 <state key="normal" title="LOG IN">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8AU-zS-ydJ">
-                                                <rect key="frame" x="92" y="402" width="405" height="55"/>
+                                                <rect key="frame" x="92" y="400" width="405" height="55"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 <fontDescription key="fontDescription" name="Gotham-MediumItalic" family="Gotham" pointSize="22"/>
                                                 <state key="normal" title="Forgot your password?">
@@ -250,25 +253,25 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="kRc-vJ-SBE" customClass="BTN_Winnig_TKT">
-                                        <rect key="frame" x="127" y="8" width="514" height="69"/>
+                                        <rect key="frame" x="127" y="8" width="514" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="27"/>
+                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="24"/>
                                         <state key="normal" title="ENTER NEW EVENT CODE">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Enter code provided by event organizer" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NNH-aK-kfc">
-                                        <rect key="frame" x="15" y="8" width="475" height="30"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Enter code provided by event organizer" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NNH-aK-kfc">
+                                        <rect key="frame" x="8" y="8" width="760" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="22"/>
+                                        <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="22"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Upcoming Events" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="teQ-KZ-m3G">
                                         <rect key="frame" x="15" y="86" width="361" height="47"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="28"/>
+                                        <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="25"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                         <size key="shadowOffset" width="0.0" height="0.0"/>
@@ -341,19 +344,19 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8Kw-fa-sYO" customClass="BTN_Winnig_TKT">
-                                        <rect key="frame" x="374" y="107" width="345" height="69"/>
+                                        <rect key="frame" x="374" y="107" width="345" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="27"/>
+                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="24"/>
                                         <state key="normal" title="ENTER EVENT CODE">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="9vo-VX-HHS" customClass="BTN_Winnig_TKT">
-                                        <rect key="frame" x="62" y="107" width="268" height="69"/>
+                                        <rect key="frame" x="62" y="107" width="268" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.46274509803921571" green="0.46274509803921571" blue="0.46274509803921571" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="27"/>
+                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="24"/>
                                         <state key="normal" title="CANCEL">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -468,7 +471,7 @@
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="All Events" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ykb-aN-BNs">
                             <rect key="frame" x="18" y="186" width="191" height="43"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="28"/>
+                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="25"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                             <size key="shadowOffset" width="0.0" height="0.0"/>
@@ -504,10 +507,10 @@
                             </connections>
                         </tableView>
                         <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="MFe-0Y-Mms" customClass="BTN_Winnig_TKT">
-                            <rect key="frame" x="131" y="433" width="514" height="69"/>
+                            <rect key="frame" x="131" y="433" width="514" height="50"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="27"/>
+                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="24"/>
                             <state key="normal" title="VIEW ALL EVENTS">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -706,9 +709,9 @@
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="GId-Y3-RHF">
-                                                <rect key="frame" x="248" y="8" width="511" height="23"/>
+                                                <rect key="frame" x="248" y="8" width="511" height="180"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
+                                                <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="18"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -716,32 +719,32 @@
                                                 <rect key="frame" x="-1" y="196" width="769" height="40"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Monday February 20, 2017" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3HI-9F-QQQ">
-                                                        <rect key="frame" x="0.0" y="0.0" width="207" height="30"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="  Monday February 20, 2017" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3HI-9F-QQQ">
+                                                        <rect key="frame" x="0.0" y="0.0" width="227" height="30"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" red="0.72156862749999995" green="0.72156862749999995" blue="0.72156862749999995" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="14"/>
+                                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="14"/>
                                                         <color key="textColor" red="0.29411764709999999" green="0.29411764709999999" blue="0.29411764709999999" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="START TIME (EST)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3dg-bE-zrx">
                                                         <rect key="frame" x="605" y="3" width="159" height="12"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                        <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="9"/>
+                                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="10"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12.30 AM" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="08z-0H-Mya">
                                                         <rect key="frame" x="605" y="13" width="155" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="17"/>
+                                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="18"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="EVENT CODE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MgZ-xd-Yl4">
                                                         <rect key="frame" x="23" y="30" width="86" height="12"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="9"/>
+                                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="10"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
@@ -785,10 +788,10 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Mwb-BB-zPx" customClass="BTN_Winnig_TKT">
-                                        <rect key="frame" x="151" y="344" width="466" height="70"/>
+                                        <rect key="frame" x="151" y="344" width="466" height="50"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="27"/>
+                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="24"/>
                                         <state key="normal" title="PURCHASE WINNING TICKET">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -842,14 +845,14 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="d9T-jl-gxj">
                                         <rect key="frame" x="8" y="8" width="597" height="34"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="20"/>
+                                        <fontDescription key="fontDescription" name="GothamPro-NarrowMedium" family="Gotham Pro" pointSize="20"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="QLb-aZ-9Ss">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="QLb-aZ-9Ss">
                                         <rect key="frame" x="637" y="9" width="123" height="33"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="18"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -860,12 +863,11 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Choose Quantity:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kBa-62-Obf">
                                                 <rect key="frame" x="8" y="8" width="149" height="34"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
-                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="_ _" textAlignment="center" minimumFontSize="17" id="sjL-pP-XmS">
-                                                <rect key="frame" x="165" y="10" width="36" height="30"/>
+                                                <rect key="frame" x="165" y="10" width="54" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="textColor"/>
@@ -876,28 +878,28 @@
                                                 </connections>
                                             </textField>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zaY-Rd-Pql">
-                                        <rect key="frame" x="647" y="114" width="55" height="50"/>
+                                        <rect key="frame" x="675" y="114" width="55" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="30"/>
                                         <color key="textColor" red="0.39063969250000002" green="0.71770030259999995" blue="0.79560863969999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="pSt-Uq-Gv2">
-                                        <rect key="frame" x="28" y="108" width="712" height="50"/>
+                                        <rect key="frame" x="8" y="108" width="712" height="50"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
                                         <state key="normal" title="Apply Promo Code"/>
                                     </button>
                                     <view contentMode="scaleToFill" misplaced="YES" id="ycZ-5B-FeX">
-                                        <rect key="frame" x="26" y="172" width="716" height="1"/>
+                                        <rect key="frame" x="8" y="172" width="734" height="1"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Subtotal" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iXo-Wn-uav">
-                                        <rect key="frame" x="28" y="182" width="96" height="20"/>
+                                        <rect key="frame" x="8" y="182" width="216" height="20"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="16"/>
                                         <nil key="textColor"/>
@@ -911,12 +913,12 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" misplaced="YES" id="EYG-PN-oES">
-                                        <rect key="frame" x="26" y="210" width="716" height="1"/>
+                                        <rect key="frame" x="8" y="210" width="733" height="1"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Total" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2V2-3D-FJd">
-                                        <rect key="frame" x="26" y="220" width="66" height="22"/>
+                                        <rect key="frame" x="8" y="220" width="87" height="22"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="18"/>
                                         <nil key="textColor"/>
@@ -929,28 +931,20 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Z8i-9o-f09" customClass="BTN_Winnig_TKT">
-                                        <rect key="frame" x="151" y="406" width="465" height="70"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="27"/>
-                                        <state key="normal" title="CHECKOUT">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                    </button>
                                     <view contentMode="scaleToFill" misplaced="YES" id="v5R-h3-0Zy">
-                                        <rect key="frame" x="28" y="114" width="712" height="50"/>
+                                        <rect key="frame" x="8" y="114" width="731" height="50"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Discount or promo code" textAlignment="natural" minimumFontSize="17" id="WAz-UJ-4lm" customClass="ACFloatingTextField">
-                                                <rect key="frame" x="0.0" y="0.0" width="672" height="50"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Discount promo code" textAlignment="natural" minimumFontSize="17" id="e9n-B0-haj">
+                                                <rect key="frame" x="4" y="0.0" width="664" height="50"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="textColor"/>
-                                                <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="18"/>
-                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8Ba-Of-6hq">
-                                                <rect key="frame" x="637" y="0.0" width="75" height="50"/>
+                                                <rect key="frame" x="656" y="0.0" width="75" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" red="0.30980392159999998" green="0.31372549020000001" blue="0.31764705879999999" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
@@ -961,6 +955,15 @@
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Z8i-9o-f09" customClass="BTN_Winnig_TKT">
+                                        <rect key="frame" x="164" y="305" width="465" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="25"/>
+                                        <state key="normal" title="CHECKOUT">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                             </scrollView>
                         </subviews>
@@ -970,10 +973,11 @@
                     <connections>
                         <outlet property="BTN_checkout" destination="Z8i-9o-f09" id="MfG-5r-ofF"/>
                         <outlet property="BTN_promocode" destination="pSt-Uq-Gv2" id="Nlr-e7-daw"/>
+                        <outlet property="TXT_promocode" destination="e9n-B0-haj" id="gro-sF-7zl"/>
                         <outlet property="TXT_qty" destination="sjL-pP-XmS" id="Odw-3b-DLa"/>
                         <outlet property="VW_line1" destination="ycZ-5B-FeX" id="V6v-qi-lFJ"/>
                         <outlet property="VW_line2" destination="EYG-PN-oES" id="R9d-jR-ACV"/>
-                        <outlet property="VW_promo" destination="v5R-h3-0Zy" id="oix-2K-S4m"/>
+                        <outlet property="VW_promo" destination="v5R-h3-0Zy" id="hwB-ws-5NX"/>
                         <outlet property="VW_qtycontent" destination="2wb-ct-0qT" id="vNs-Gf-CuE"/>
                         <outlet property="lbl_arrowpromocode" destination="zaY-Rd-Pql" id="TmW-ci-7Z1"/>
                         <outlet property="lbl_dataTotal" destination="Q5i-er-AdQ" id="aOJ-gc-uVs"/>
@@ -1013,11 +1017,11 @@
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" red="0.97647058819999999" green="0.97254901959999995" blue="0.97254901959999995" alpha="1" colorSpace="calibratedRGB"/>
                                         <inset key="separatorInset" minX="30" minY="0.0" maxX="20" maxY="0.0"/>
-                                        <button key="tableFooterView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="6PW-Ys-4eC">
-                                            <rect key="frame" x="0.0" y="0.0" width="768" height="70"/>
+                                        <button key="tableFooterView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="6PW-Ys-4eC">
+                                            <rect key="frame" x="0.0" y="0.0" width="768" height="50"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="27"/>
+                                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="24"/>
                                             <state key="normal" title="Continue To Checkout">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -1047,17 +1051,17 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Who-g9-aCK">
-                                        <rect key="frame" x="678" y="20" width="63" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Who-g9-aCK">
+                                        <rect key="frame" x="685" y="20" width="63" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$180.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yfy-T0-fYJ">
                                         <rect key="frame" x="654" y="57" width="94" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
+                                        <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -1145,10 +1149,10 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="lXg-pw-bGH" customClass="BTN_Winnig_TKT">
-                                        <rect key="frame" x="152" y="772" width="465" height="70"/>
+                                        <rect key="frame" x="152" y="772" width="465" height="50"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="27"/>
+                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="24"/>
                                         <state key="normal" title="PREVIEW ORDER">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -1364,33 +1368,33 @@
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dV7-db-EqJ">
                             <rect key="frame" x="683" y="20" width="63" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
+                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="$180.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ipu-sK-1b3">
                             <rect key="frame" x="654" y="57" width="94" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
+                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" id="sSR-SU-UuX">
-                            <rect key="frame" x="16" y="99" width="741" height="1"/>
+                        <view contentMode="scaleToFill" misplaced="YES" id="sSR-SU-UuX">
+                            <rect key="frame" x="8" y="99" width="749" height="1"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Sub total" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VeO-Mo-X47">
                             <rect key="frame" x="8" y="110" width="87" height="29"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
+                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="$180.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mpK-14-HMM">
                             <rect key="frame" x="111" y="114" width="637" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
+                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -1577,10 +1581,10 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="2Z3-H4-DCC" customClass="BTN_Winnig_TKT">
-                            <rect key="frame" x="152" y="541" width="465" height="70"/>
+                            <rect key="frame" x="152" y="541" width="465" height="50"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="27"/>
+                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="24"/>
                             <state key="normal" title="PLACE ORDER">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -1641,156 +1645,162 @@
                     </view>
                     <navigationItem key="navigationItem" id="C47-mO-Xb8"/>
                     <connections>
-                        <outlet property="_BTN_Ok" destination="j5Z-bm-MSL" id="ytW-36-ypp"/>
-                        <outlet property="amount" destination="kcV-KF-3UM" id="n1r-0e-YMN"/>
-                        <outlet property="confirm_mail" destination="58f-5g-enY" id="HBj-hX-tkB"/>
-                        <outlet property="content_view" destination="oeD-BJ-KA8" id="SIZ-tK-6d3"/>
-                        <outlet property="des_cription" destination="i98-8B-Ei5" id="wtk-F9-bnS"/>
-                        <outlet property="first_VW" destination="6Qe-dC-0G3" id="JSZ-F7-bj2"/>
-                        <outlet property="name_ticket" destination="3Lg-gg-2L9" id="04h-hJ-AX1"/>
-                        <outlet property="order" destination="obJ-Ls-tzV" id="jP5-Ij-fSg"/>
-                        <outlet property="order_summary" destination="dhR-a2-rJz" id="dOH-Cp-1eB"/>
-                        <outlet property="pur_view" destination="WMq-yp-3gc" id="twf-0y-uRE"/>
-                        <outlet property="qty" destination="3lR-1r-myo" id="EWj-Ji-OaL"/>
+                        <outlet property="VW_head" destination="auY-5z-cVe" id="HsI-F3-SJH"/>
+                        <outlet property="_BTN_Ok" destination="p1R-qJ-lVV" id="0GC-mu-h7x"/>
+                        <outlet property="amount" destination="ElB-Gm-Qr3" id="rQi-Uj-dgR"/>
+                        <outlet property="confirm_mail" destination="PIf-Yb-TyR" id="lSO-he-svy"/>
+                        <outlet property="des_cription" destination="gFS-P6-kFn" id="kxB-Xg-F30"/>
+                        <outlet property="first_VW" destination="K9l-Vu-YLl" id="DCo-ec-cmC"/>
+                        <outlet property="name_ticket" destination="DJA-u2-EK4" id="cVe-Od-Lqu"/>
+                        <outlet property="order" destination="3RX-fh-kII" id="nO0-hi-V0f"/>
+                        <outlet property="order_summary" destination="KsE-rD-TDQ" id="33U-W9-gxN"/>
+                        <outlet property="pur_view" destination="CdU-1g-EmF" id="QdC-U1-lNR"/>
+                        <outlet property="qty" destination="0Dr-aL-QmZ" id="QZ7-vw-kC2"/>
                         <outlet property="scroll" destination="gKs-iy-ney" id="Sea-yX-gMt"/>
-                        <outlet property="sec_vw" destination="JK3-Tc-4MZ" id="gyc-bn-Rex"/>
-                        <outlet property="start_View" destination="fET-Rc-240" id="Kgi-Xl-dVL"/>
-                        <outlet property="status_Label" destination="6Vv-6S-e6l" id="CfW-bj-k8C"/>
-                        <outlet property="sub_amount" destination="aF6-OH-gDk" id="tN3-YG-YTA"/>
-                        <outlet property="sub_total" destination="fRL-Dw-HW1" id="Rvw-82-M90"/>
-                        <outlet property="total" destination="wea-lg-QYa" id="jKm-Z0-CeC"/>
-                        <outlet property="total_amount" destination="iO6-DN-d5h" id="64c-4q-OtL"/>
+                        <outlet property="sec_vw" destination="8i0-dH-rEO" id="JWy-aE-ad1"/>
+                        <outlet property="start_View" destination="VnN-49-A5m" id="scZ-13-BKi"/>
+                        <outlet property="status_Label" destination="GmL-79-C8F" id="nr7-Ea-JeL"/>
+                        <outlet property="sub_amount" destination="0RJ-0n-VBy" id="Z6w-SS-L1t"/>
+                        <outlet property="sub_total" destination="aHL-pH-NMk" id="fcS-Tl-pEr"/>
+                        <outlet property="total" destination="aDK-y0-nPt" id="Zeb-JZ-X6h"/>
+                        <outlet property="total_amount" destination="W6W-Qh-j2l" id="b9a-80-J7o"/>
                         <segue destination="h5q-N2-UdF" kind="push" identifier="orderdetailidentifier" animates="NO" id="n7A-AH-YVp"/>
                         <segue destination="kml-eO-yxj" kind="modal" identifier="homesegueidentifier" animates="NO" id="bYb-rN-GL5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pHs-tg-TPt" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <view contentMode="scaleToFill" misplaced="YES" id="fET-Rc-240">
-                    <rect key="frame" x="0.0" y="0.0" width="758" height="701"/>
+                <view contentMode="scaleToFill" misplaced="YES" id="VnN-49-A5m">
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="712"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Logo_WT.png" id="hzn-oE-UUI">
-                            <rect key="frame" x="270" y="77" width="233" height="142"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        </imageView>
-                        <view contentMode="scaleToFill" misplaced="YES" id="SuZ-QC-nZK">
-                            <rect key="frame" x="0.0" y="259" width="758" height="1"/>
+                        <view contentMode="scaleToFill" misplaced="YES" id="auY-5z-cVe">
+                            <rect key="frame" x="0.0" y="0.0" width="768" height="247"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo_WT.png" id="MZA-V4-vh3">
+                                    <rect key="frame" x="317" y="8" width="134" height="94"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
+                                <view contentMode="scaleToFill" id="mla-ls-ZCf">
+                                    <rect key="frame" x="0.0" y="121" width="768" height="1"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                </view>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="GmL-79-C8F">
+                                    <rect key="frame" x="14" y="130" width="740" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="18"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PIf-Yb-TyR">
+                                    <rect key="frame" x="14" y="159" width="740" height="32"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" name="GothamBook" family="GothamBook" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3RX-fh-kII">
+                                    <rect key="frame" x="14" y="199" width="740" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="18"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6Vv-6S-e6l">
-                            <rect key="frame" x="20" y="270" width="725" height="21"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KsE-rD-TDQ">
+                            <rect key="frame" x="16" y="267" width="740" height="21"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="58f-5g-enY">
-                            <rect key="frame" x="20" y="299" width="718" height="20"/>
+                        <view contentMode="scaleToFill" misplaced="YES" id="K9l-Vu-YLl">
+                            <rect key="frame" x="0.0" y="294" width="768" height="1"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Winning Ticket" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DJA-u2-EK4">
+                            <rect key="frame" x="14" y="307" width="211" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="right" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="4" id="0Dr-aL-QmZ">
+                            <rect key="frame" x="674" y="305" width="75" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gFS-P6-kFn">
+                            <rect key="frame" x="16" y="345" width="613" height="35"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="GothamBook" family="GothamBook" pointSize="17"/>
-                            <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="obJ-Ls-tzV">
-                            <rect key="frame" x="20" y="339" width="718" height="21"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="$180.00" textAlignment="right" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="4" id="ElB-Gm-Qr3">
+                            <rect key="frame" x="661" y="352" width="91" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" misplaced="YES" id="6Qe-dC-0G3">
-                            <rect key="frame" x="20" y="404" width="713" height="1"/>
+                        <view contentMode="scaleToFill" misplaced="YES" id="CdU-1g-EmF">
+                            <rect key="frame" x="14" y="392" width="738" height="1"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dhR-a2-rJz">
-                            <rect key="frame" x="20" y="375" width="718" height="21"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Winning Ticket" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3Lg-gg-2L9">
-                            <rect key="frame" x="20" y="417" width="501" height="18"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Sub total" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aHL-pH-NMk">
+                            <rect key="frame" x="16" y="397" width="87" height="29"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
+                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="16"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3lR-1r-myo">
-                            <rect key="frame" x="621" y="413" width="119" height="21"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="$180.00" textAlignment="right" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="4" adjustsLetterSpacingToFitWidth="YES" id="0RJ-0n-VBy">
+                            <rect key="frame" x="585" y="401" width="164" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
+                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="16"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="$180.00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kcV-KF-3UM">
-                            <rect key="frame" x="641" y="452" width="97" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="i98-8B-Ei5">
-                            <rect key="frame" x="20" y="455" width="497" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="GothamBook" family="GothamBook" pointSize="17"/>
-                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <view contentMode="scaleToFill" misplaced="YES" id="WMq-yp-3gc">
-                            <rect key="frame" x="0.0" y="497" width="758" height="1"/>
+                        <view contentMode="scaleToFill" misplaced="YES" id="8i0-dH-rEO">
+                            <rect key="frame" x="16" y="437" width="736" height="1"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="$180.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aF6-OH-gDk">
-                            <rect key="frame" x="555" y="513" width="164" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <view contentMode="scaleToFill" misplaced="YES" id="JK3-Tc-4MZ">
-                            <rect key="frame" x="20" y="558" width="713" height="1"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                        </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Total" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wea-lg-QYa">
-                            <rect key="frame" x="20" y="567" width="62" height="29"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Total" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aDK-y0-nPt">
+                            <rect key="frame" x="16" y="444" width="62" height="29"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
+                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="18"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="$180.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iO6-DN-d5h">
-                            <rect key="frame" x="634" y="567" width="92" height="25"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="$180.00" textAlignment="right" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="4" adjustsLetterSpacingToFitWidth="YES" id="W6W-Qh-j2l">
+                            <rect key="frame" x="598" y="446" width="154" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
+                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="18"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Sub total" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fRL-Dw-HW1">
-                            <rect key="frame" x="20" y="509" width="87" height="29"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="j5Z-bm-MSL">
-                            <rect key="frame" x="152" y="639" width="465" height="70"/>
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="p1R-qJ-lVV">
+                            <rect key="frame" x="152" y="515" width="465" height="50"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="27"/>
+                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="23"/>
                             <state key="normal" title="GO TO DASHBOARD">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
             </objects>
-            <point key="canvasLocation" x="10061" y="1406"/>
+            <point key="canvasLocation" x="10122" y="1209"/>
         </scene>
         <!--orderdetail-->
         <scene sceneID="HxL-03-xPV">
@@ -2323,28 +2333,28 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="CURRENT BALANCE" textAlignment="right" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="axZ-vl-vwH">
                                         <rect key="frame" x="643" y="92" width="101" height="12"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="10"/>
+                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="8"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="$" textAlignment="right" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="5" id="rle-1k-1IH">
                                         <rect key="frame" x="548" y="61" width="196" height="23"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="19"/>
+                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="19"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="5" id="Wpc-EN-egG">
                                         <rect key="frame" x="89" y="56" width="436" height="18"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
+                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="15"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="5" id="flV-OG-6eu">
                                         <rect key="frame" x="89" y="76" width="546" height="18"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                        <fontDescription key="fontDescription" name="GothamBook" family="GothamBook" pointSize="15"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -2456,10 +2466,10 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Z8l-uw-FvC" customClass="BTN_Winnig_TKT">
-                                        <rect key="frame" x="151" y="880" width="465" height="70"/>
+                                        <rect key="frame" x="151" y="880" width="465" height="50"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="27"/>
+                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="24"/>
                                         <state key="normal" title="DEPOSIT FUNDS">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -2761,10 +2771,10 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="V7r-nw-hyl" customClass="BTN_Winnig_TKT">
-                                        <rect key="frame" x="151" y="884" width="465" height="70"/>
+                                        <rect key="frame" x="151" y="884" width="465" height="50"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="27"/>
+                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="24"/>
                                         <state key="normal" title="DEPOSIT FUNDS">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -2992,9 +3002,9 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="$" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Se3-yS-7Sr">
-                            <rect key="frame" x="99" y="123" width="64" height="26"/>
+                            <rect key="frame" x="99" y="127" width="64" height="26"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="25"/>
+                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="15"/>
                             <color key="textColor" red="0.43529411759999997" green="0.4823529412" blue="0.50588235290000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <size key="shadowOffset" width="0.0" height="0.0"/>
@@ -3154,11 +3164,11 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Y3z-iP-CN4" customClass="BTN_Winnig_TKT">
-                            <rect key="frame" x="152" y="541" width="465" height="70"/>
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Y3z-iP-CN4" customClass="BTN_Winnig_TKT">
+                            <rect key="frame" x="152" y="541" width="465" height="50"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="27"/>
+                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="24"/>
                             <state key="normal" title="PLACE ORDER">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -3298,10 +3308,10 @@
                             </userDefinedRuntimeAttributes>
                         </textField>
                         <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="b03-IP-NPA" customClass="BTN_Winnig_TKT">
-                            <rect key="frame" x="185" y="188" width="465" height="70"/>
+                            <rect key="frame" x="185" y="188" width="465" height="50"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="27"/>
+                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="24"/>
                             <state key="normal" title="SUBMIT">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -3380,10 +3390,10 @@
                             </userDefinedRuntimeAttributes>
                         </textField>
                         <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8Lf-xs-4DN" customClass="BTN_Winnig_TKT">
-                            <rect key="frame" x="162" y="320" width="465" height="70"/>
+                            <rect key="frame" x="185" y="305" width="465" height="50"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="27"/>
+                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="24"/>
                             <state key="normal" title="SUBMIT">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -3421,19 +3431,19 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="th8-b2-D3a" customClass="BTN_Winnig_TKT">
-                                    <rect key="frame" x="20" y="20" width="298" height="70"/>
+                                    <rect key="frame" x="20" y="20" width="298" height="50"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="30"/>
+                                    <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="24"/>
                                     <state key="normal" title="BANK TRANSFER">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="LPK-bT-u7a" customClass="BTN_Winnig_TKT">
-                                    <rect key="frame" x="353" y="20" width="295" height="70"/>
+                                    <rect key="frame" x="353" y="20" width="295" height="50"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <fontDescription key="fontDescription" name="Gotham-BoldItalic" family="Gotham" pointSize="30"/>
+                                    <fontDescription key="fontDescription" name="Gotham-BoldItalic" family="Gotham" pointSize="24"/>
                                     <state key="normal" title="PayPal">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
@@ -3807,10 +3817,10 @@
                             <state key="normal" title=""/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Agd-tV-XZ9" customClass="BTN_Winnig_TKT">
-                            <rect key="frame" x="174" y="452" width="465" height="70"/>
+                            <rect key="frame" x="174" y="460" width="465" height="50"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="27"/>
+                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="24"/>
                             <state key="normal" title="SEND">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -4091,10 +4101,10 @@
                             <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
                         </textField>
                         <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4Gh-CU-2E6" customClass="BTN_Winnig_TKT">
-                            <rect key="frame" x="184" y="713" width="465" height="70"/>
+                            <rect key="frame" x="184" y="722" width="465" height="50"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="27"/>
+                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="24"/>
                             <state key="normal" title="SAVE CHANGES">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -4196,10 +4206,10 @@
                                 </userDefinedRuntimeAttributes>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="LVy-50-6lR" customClass="BTN_Winnig_TKT">
-                                <rect key="frame" x="184" y="379" width="465" height="70"/>
+                                <rect key="frame" x="184" y="356" width="465" height="50"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="27"/>
+                                <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="24"/>
                                 <state key="normal" title="DONE">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -4492,10 +4502,10 @@
                             </connections>
                         </textField>
                         <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="i4d-8e-Nn3" customClass="BTN_Winnig_TKT">
-                            <rect key="frame" x="180" y="782" width="406" height="69"/>
+                            <rect key="frame" x="180" y="782" width="406" height="50"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="27"/>
+                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="24"/>
                             <state key="normal" title="SIGN UP NOW">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -4578,10 +4588,10 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="51V-Hv-RPU" customClass="BTN_Winnig_TKT">
-                            <rect key="frame" x="181" y="1004" width="406" height="69"/>
+                            <rect key="frame" x="181" y="1004" width="406" height="50"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="27"/>
+                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="24"/>
                             <state key="normal" title="SIGN UP NOW">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -4884,7 +4894,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cwI-Hu-vzI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="10873" y="1463"/>
+            <point key="canvasLocation" x="10999" y="1482"/>
         </scene>
         <!--affiliateHOME-->
         <scene sceneID="HQk-Rk-thM">
@@ -5254,10 +5264,10 @@
                             </state>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="IME-uS-nbO">
-                            <rect key="frame" x="54" y="539" width="661" height="70"/>
+                            <rect key="frame" x="54" y="539" width="661" height="50"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="30"/>
+                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="24"/>
                             <state key="normal" title="ADD REFERAL">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -5419,10 +5429,11 @@
                                 <fontDescription key="fontDescription" name="GothamBook" family="GothamBook" pointSize="20"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="U9u-HC-0NX">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="U9u-HC-0NX">
                                 <rect key="frame" x="671" y="89" width="65" height="43"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="27"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" id="whd-Is-Jon">
@@ -5549,20 +5560,20 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="S6r-vc-Uw8">
-                                <rect key="frame" x="20" y="313" width="220" height="79"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="S6r-vc-Uw8">
+                                <rect key="frame" x="20" y="313" width="220" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="30"/>
+                                <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="24"/>
                                 <state key="normal" title="Cancel">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="sN6-ek-FoX">
-                                <rect key="frame" x="332" y="314" width="420" height="78"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="sN6-ek-FoX">
+                                <rect key="frame" x="332" y="314" width="420" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="30"/>
+                                <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="24"/>
                                 <state key="normal" title="UPDATE REFERAL">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -5599,15 +5610,15 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="2yE-Jf-Xnt"/>
-        <segue reference="4wU-Kb-rBo"/>
         <segue reference="F3l-cw-bxd"/>
-        <segue reference="bYb-rN-GL5"/>
-        <segue reference="FNW-jD-ovm"/>
+        <segue reference="cbC-uE-OEU"/>
         <segue reference="XW0-8d-7Pi"/>
-        <segue reference="n7A-AH-YVp"/>
-        <segue reference="QvG-ex-gHc"/>
+        <segue reference="PfX-7b-7Ai"/>
+        <segue reference="FNW-jD-ovm"/>
+        <segue reference="RzG-Pg-A7n"/>
         <segue reference="0ik-bb-uAM"/>
+        <segue reference="TOA-Cn-J0A"/>
+        <segue reference="2yE-Jf-Xnt"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.3921568627" green="0.71764705880000002" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

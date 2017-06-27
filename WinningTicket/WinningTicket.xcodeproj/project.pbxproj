@@ -202,11 +202,11 @@
 		BED71F941EEABC7D00492E97 /* gotham-pro-medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = BED71F931EEABC7D00492E97 /* gotham-pro-medium.otf */; };
 		BED71F971EEABFEB00492E97 /* CSTM_cell_LBL.m in Sources */ = {isa = PBXBuildFile; fileRef = BED71F961EEABFEB00492E97 /* CSTM_cell_LBL.m */; };
 		BED71F9B1EEACF0700492E97 /* TBL_VW_Cell_EVENTS.xib in Resources */ = {isa = PBXBuildFile; fileRef = BED71F9A1EEACF0700492E97 /* TBL_VW_Cell_EVENTS.xib */; };
-		BEFC202E1EFD23650067717D /* Main~ipad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEFC202D1EFD23650067717D /* Main~ipad.storyboard */; };
 		BEFC20311EFD23860067717D /* VC_changePWD.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFC20301EFD23860067717D /* VC_changePWD.m */; };
 		BEFC20341EFD23AC0067717D /* VC_editAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFC20331EFD23AC0067717D /* VC_editAccount.m */; };
 		BEFC20371EFD23CD0067717D /* VC_donate.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFC20361EFD23CD0067717D /* VC_donate.m */; };
 		BEFC203A1EFD34D60067717D /* VC_contactUS.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFC20391EFD34D60067717D /* VC_contactUS.m */; };
+		BEFC203C1F021F4E0067717D /* Main~ipad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEFC203B1F021F4E0067717D /* Main~ipad.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -528,7 +528,6 @@
 		BEE665F81E64373800DF9235 /* User-48X-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "User-48X-48.png"; sourceTree = "<group>"; };
 		BEE9B3061E684D3C00AD83C6 /* VC_courses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_courses.h; sourceTree = "<group>"; };
 		BEE9B3071E684D3C00AD83C6 /* VC_courses.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_courses.m; sourceTree = "<group>"; };
-		BEFC202D1EFD23650067717D /* Main~ipad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Main~ipad.storyboard"; sourceTree = "<group>"; };
 		BEFC202F1EFD23860067717D /* VC_changePWD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_changePWD.h; sourceTree = "<group>"; };
 		BEFC20301EFD23860067717D /* VC_changePWD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_changePWD.m; sourceTree = "<group>"; };
 		BEFC20321EFD23AC0067717D /* VC_editAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_editAccount.h; sourceTree = "<group>"; };
@@ -537,6 +536,7 @@
 		BEFC20361EFD23CD0067717D /* VC_donate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_donate.m; sourceTree = "<group>"; };
 		BEFC20381EFD34D60067717D /* VC_contactUS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_contactUS.h; sourceTree = "<group>"; };
 		BEFC20391EFD34D60067717D /* VC_contactUS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_contactUS.m; sourceTree = "<group>"; };
+		BEFC203B1F021F4E0067717D /* Main~ipad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Main~ipad.storyboard"; sourceTree = "<group>"; };
 		C4ED404CD45FD4D5E511FDDC /* libPods-WinningTicket_Universal.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WinningTicket_Universal.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -1267,7 +1267,7 @@
 				BE0055D11EC2DA1100E95941 /* ViewController.h */,
 				BE0055D21EC2DA1100E95941 /* ViewController.m */,
 				BECD7CBC1EF78C350037A968 /* Main.storyboard */,
-				BEFC202D1EFD23650067717D /* Main~ipad.storyboard */,
+				BEFC203B1F021F4E0067717D /* Main~ipad.storyboard */,
 				BED71F2C1EE7CB4400492E97 /* Required_IMG */,
 				BEC548631EA719A100FF2114 /* Affiliate */,
 				BEE665A01E5EBDDC00DF9235 /* Sighn_UP */,
@@ -1507,7 +1507,7 @@
 				BED71F301EE7EDCF00492E97 /* gotham-bold-italic.otf in Resources */,
 				BE4EEEB81ED2AAB9003C1C24 /* dotActive.png in Resources */,
 				BE4EEEB51ED2AAB9003C1C24 /* image4.jpg in Resources */,
-				BEFC202E1EFD23650067717D /* Main~ipad.storyboard in Resources */,
+				BEFC203C1F021F4E0067717D /* Main~ipad.storyboard in Resources */,
 				BEA875EA1E8D06CA00EFBB7F /* sec0_3.png in Resources */,
 				BEB702F51ECEE6CB004CB729 /* blueArrow.png in Resources */,
 				BEA875921E89007B00EFBB7F /* UI_01.png in Resources */,
@@ -1760,8 +1760,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WinningTicket_Universal.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Carmatec IT Solutions Private Limited (4MCGAH3G26)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Carmatec IT Solutions Private Limited (4MCGAH3G26)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Aromal P. Rajagopal (CPRZV94W5U)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Aromal P. Rajagopal (CPRZV94W5U)";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 4MCGAH3G26;
 				GCC_PREFIX_HEADER = WinningTicket/WinningTicket.pch;
@@ -1770,8 +1770,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.carmatec.WinningTicket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a2278d91-f9a4-46dd-9b30-32dfaacee582";
-				PROVISIONING_PROFILE_SPECIFIER = WT_adhoc_new;
+				PROVISIONING_PROFILE = "0007f77e-8780-4009-97f4-a8cb28049e01";
+				PROVISIONING_PROFILE_SPECIFIER = WT_DEV_new;
 				SWIFT_OBJC_BRIDGING_HEADER = "WinningTicket/WinningTicket_Universal-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -1787,8 +1787,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WinningTicket_Universal.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Carmatec IT Solutions Private Limited (4MCGAH3G26)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Carmatec IT Solutions Private Limited (4MCGAH3G26)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Aromal P. Rajagopal (CPRZV94W5U)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Aromal P. Rajagopal (CPRZV94W5U)";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 4MCGAH3G26;
 				GCC_PREFIX_HEADER = WinningTicket/WinningTicket.pch;
@@ -1797,8 +1797,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.carmatec.WinningTicket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a2278d91-f9a4-46dd-9b30-32dfaacee582";
-				PROVISIONING_PROFILE_SPECIFIER = WT_adhoc_new;
+				PROVISIONING_PROFILE = "0007f77e-8780-4009-97f4-a8cb28049e01";
+				PROVISIONING_PROFILE_SPECIFIER = WT_DEV_new;
 				SWIFT_OBJC_BRIDGING_HEADER = "WinningTicket/WinningTicket_Universal-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1827,8 +1827,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Carmatec IT Solutions Private Limited (4MCGAH3G26)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Carmatec IT Solutions Private Limited (4MCGAH3G26)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Aromal P. Rajagopal (CPRZV94W5U)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Aromal P. Rajagopal (CPRZV94W5U)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 4MCGAH3G26;
@@ -1851,7 +1851,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "a2278d91-f9a4-46dd-9b30-32dfaacee582";
+				PROVISIONING_PROFILE = "0007f77e-8780-4009-97f4-a8cb28049e01";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1879,8 +1879,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Carmatec IT Solutions Private Limited (4MCGAH3G26)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Carmatec IT Solutions Private Limited (4MCGAH3G26)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Aromal P. Rajagopal (CPRZV94W5U)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Aromal P. Rajagopal (CPRZV94W5U)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 4MCGAH3G26;
@@ -1896,7 +1896,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "a2278d91-f9a4-46dd-9b30-32dfaacee582";
+				PROVISIONING_PROFILE = "0007f77e-8780-4009-97f4-a8cb28049e01";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
