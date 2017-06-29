@@ -106,7 +106,6 @@
 -(void) button_TAPPed
 {
     NSLog(@"BTN checkout tapped Current values are %@",userDetails);
-    
     int i;
     
     purchase_Cell *pu_cell = [[purchase_Cell alloc]init];
@@ -118,7 +117,6 @@
             NSString *email = [dict valueForKey:@"email"];
             NSString *fname = [dict valueForKey:@"first_name"];
             NSString *lname = [dict valueForKey:@"last_name"];
-            
             
             if (fname.length < 2)
             {
@@ -134,10 +132,9 @@
                     pu_cell = [self.tbl_content cellForRowAtIndexPath:path];
                     [pu_cell.fname becomeFirstResponder];
                     [pu_cell.fname showError];
-                    [pu_cell.fname showErrorWithText:@" First name minimum 2 Character"];
+                    [pu_cell.fname showErrorWithText:@" First name minimum 2 characters"];
                     break;
                 }
-                
             }
             if (lname.length < 2)
             {
@@ -156,7 +153,6 @@
                     [pu_cell.lname showErrorWithText:@" Last name minimum 2 Character"];
                     break;
                 }
-                
             }
             
             if (email.length !=0) {
@@ -167,7 +163,6 @@
                 else
                 {
                     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegEx];
-                    
                     if ([emailTest evaluateWithObject:email] == NO)
                     {
                         NSLog(@"last_namenull index %i",i);
@@ -180,6 +175,17 @@
                         break;
                     }
                 }
+            }
+            
+            if (fname.length >= 2 && [email isEqual:@""])
+            {
+                NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:0];
+                NSLog(@"path  = %@",path);
+                pu_cell = [self.tbl_content cellForRowAtIndexPath:path];
+                [pu_cell.email becomeFirstResponder];
+                [pu_cell.email showError];
+                [pu_cell.email showErrorWithText:@" Please enter valid email address"];
+                break;
             }
     }
     
@@ -326,7 +332,7 @@
         [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:17.0]}range:org];
         
         NSRange plce = [text rangeOfString:club_name];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:14.0]}range:plce];
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:15.0]}range:plce];
         
         NSRange codeR = [text rangeOfString:ticketnumber];
         [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:15.0]}range:codeR];

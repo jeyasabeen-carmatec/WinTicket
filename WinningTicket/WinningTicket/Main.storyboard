@@ -1368,14 +1368,14 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cgT-yj-VvR">
-                            <rect key="frame" x="13" y="31" width="192" height="21"/>
+                            <rect key="frame" x="13" y="22" width="192" height="21"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="$180.00" textAlignment="right" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="4" id="an2-q0-E3a">
-                            <rect key="frame" x="218" y="39" width="91" height="21"/>
+                            <rect key="frame" x="218" y="35" width="91" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
                             <nil key="textColor"/>
@@ -1738,7 +1738,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="$180.00" textAlignment="right" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="4" id="cQN-fB-wb5">
-                            <rect key="frame" x="210" y="343" width="91" height="21"/>
+                            <rect key="frame" x="213" y="343" width="91" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
                             <nil key="textColor"/>
@@ -1750,16 +1750,16 @@
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Sub total" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mYe-cY-jp5">
-                            <rect key="frame" x="16" y="388" width="87" height="29"/>
+                            <rect key="frame" x="16" y="391" width="87" height="29"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="16"/>
+                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="18"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="$180.00" textAlignment="right" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="4" adjustsLetterSpacingToFitWidth="YES" id="irb-Ao-awr">
-                            <rect key="frame" x="137" y="392" width="164" height="21"/>
+                            <rect key="frame" x="140" y="392" width="164" height="29"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="16"/>
+                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="18"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -5743,16 +5743,16 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="s6C-pU-Rfp"/>
         <segue reference="D2f-xd-0V5"/>
         <segue reference="WqQ-aJ-yS8"/>
-        <segue reference="Kfz-vY-8cB"/>
         <segue reference="KU5-Xe-DT4"/>
         <segue reference="wI7-Ti-9mU"/>
-        <segue reference="yxA-85-JlB"/>
-        <segue reference="ODo-qD-iEi"/>
-        <segue reference="l6m-hJ-eUx"/>
         <segue reference="aL9-XN-ghu"/>
-        <segue reference="s6C-pU-Rfp"/>
+        <segue reference="jMh-2b-WDa"/>
+        <segue reference="l6m-hJ-eUx"/>
+        <segue reference="yxA-85-JlB"/>
+        <segue reference="dUH-ov-6LH"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.3921568627" green="0.71764705880000002" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

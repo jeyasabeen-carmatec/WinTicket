@@ -298,9 +298,9 @@
     _lbl_des_cription.numberOfLines = 0;
     [_lbl_des_cription sizeToFit];
     CGRect frame_NEW;
-    frame_NEW=_lbl_amount_des.frame;
-    frame_NEW.origin.y=_lbl_des_cription.frame.origin.y;
-    _lbl_amount_des.frame=frame_NEW;
+//    frame_NEW=_lbl_amount_des.frame;
+//    frame_NEW.origin.y=_lbl_des_cription.frame.origin.y;
+//    _lbl_amount_des.frame=frame_NEW;
     
     frame_NEW = _VW_line1.frame;
     frame_NEW.origin.y = _lbl_des_cription.frame.origin.y + _lbl_des_cription.frame.size.height + 10;
