@@ -835,22 +835,32 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
         
         [self presentViewController:navigationController animated:YES completion:nil];*/
         
-        BTDropInRequest *request = [[BTDropInRequest alloc] init];
-        BTDropInController *dropIn = [[BTDropInController alloc] initWithAuthorization:[dict valueForKey:@"client_token"] request:request handler:^(BTDropInController * _Nonnull controller, BTDropInResult * _Nullable result, NSError * _Nullable error) {
-            
-            if (error != nil) {
-                NSLog(@"ERROR");
-            } else if (result.cancelled) {
-                NSLog(@"CANCELLED");
-                [self dismissViewControllerAnimated:YES completion:NULL];
-            } else {
-                [self performSelector:@selector(dismiss_BT)
-                           withObject:nil
-                           afterDelay:0.0];
-                [self postNonceToServer:result.paymentMethod.nonce];
-            }
-        }];
-        [self presentViewController:dropIn animated:YES completion:nil];
+        @try
+        {
+            BTDropInRequest *request = [[BTDropInRequest alloc] init];
+            BTDropInController *dropIn = [[BTDropInController alloc] initWithAuthorization:[dict valueForKey:@"client_token"] request:request handler:^(BTDropInController * _Nonnull controller, BTDropInResult * _Nullable result, NSError * _Nullable error) {
+                
+                if (error != nil) {
+                    NSLog(@"ERROR");
+                } else if (result.cancelled) {
+                    NSLog(@"CANCELLED");
+                    [self dismissViewControllerAnimated:YES completion:NULL];
+                } else {
+                    [self performSelector:@selector(dismiss_BT)
+                               withObject:nil
+                               afterDelay:0.0];
+                    [self postNonceToServer:result.paymentMethod.nonce];
+                }
+            }];
+            [self presentViewController:dropIn animated:YES completion:nil];
+        }
+        @catch (NSException *exception)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            [alert show];
+        }
+        
+        
     }
 }
 -(void) dismiss_BT

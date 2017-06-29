@@ -203,9 +203,9 @@
                                     range:plce];
         
             NSMutableParagraphStyle *paragraphStyle3  = [[NSMutableParagraphStyle alloc] init];
-            paragraphStyle3.lineSpacing = 2;
+            paragraphStyle3.lineSpacing = 0;
             NSRange tkt_num_range = [text rangeOfString:STR_tkt_num_club];
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:16.0],NSParagraphStyleAttributeName:paragraphStyle} range:tkt_num_range];
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:17.0],NSParagraphStyleAttributeName:paragraphStyle} range:tkt_num_range];
         }
         else
         {
@@ -224,9 +224,9 @@
                                     range:plce];
             
             NSMutableParagraphStyle *paragraphStyle3  = [[NSMutableParagraphStyle alloc] init];
-            paragraphStyle3.lineSpacing = 2;
+            paragraphStyle3.lineSpacing = 0;
             NSRange tkt_num_range = [text rangeOfString:STR_tkt_num_club];
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:14.0],NSParagraphStyleAttributeName:paragraphStyle3} range:tkt_num_range];
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:15.0],NSParagraphStyleAttributeName:paragraphStyle3} range:tkt_num_range];
         }
 
         self.lbl_ticketdetail.attributedText = attributedText;

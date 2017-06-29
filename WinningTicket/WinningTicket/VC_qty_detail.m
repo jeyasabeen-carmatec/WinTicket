@@ -201,7 +201,6 @@
     NSError *error;
     NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"QUANTITY"] options:NSASCIIStringEncoding error:&error];
     
-    
     NSError *err;
     NSHTTPURLResponse *response = nil;
     NSDictionary *parameters = @{ @"recipients": userDetails, @"order_item" : @{ @"id":[dict valueForKey:@"order_item_id"]}};
@@ -330,7 +329,7 @@
         [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:14.0]}range:plce];
         
         NSRange codeR = [text rangeOfString:ticketnumber];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:14.0]}range:codeR];
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:15.0]}range:codeR];
         
         self.lbl_des_cription.attributedText = attributedText;
     }

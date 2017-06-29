@@ -283,10 +283,10 @@
         [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:17.0]}range:org];
         
         NSRange plce = [text rangeOfString:club_name];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:14.0]}range:plce];
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:15.0]}range:plce];
         
         NSRange codeR = [text rangeOfString:ticketnumber];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:14.0]}range:codeR];
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:15.0]}range:codeR];
         
         self.lbl_des_cription.attributedText = attributedText;
     }
@@ -809,22 +809,32 @@
     
     [self presentViewController:navigationController animated:YES completion:nil];*/
     
-    BTDropInRequest *request = [[BTDropInRequest alloc] init];
-    BTDropInController *dropIn = [[BTDropInController alloc] initWithAuthorization:client_TOK request:request handler:^(BTDropInController * _Nonnull controller, BTDropInResult * _Nullable result, NSError * _Nullable error) {
-        
-        if (error != nil) {
-            NSLog(@"ERROR");
-        } else if (result.cancelled) {
-            NSLog(@"CANCELLED");
-            [self dismissViewControllerAnimated:YES completion:NULL];
-        } else {
-            [self performSelector:@selector(dismiss_BT)
-                       withObject:nil
-                       afterDelay:0.0];
-            [self postNonceToServer:result.paymentMethod.nonce];
-        }
-    }];
-    [self presentViewController:dropIn animated:YES completion:nil];
+    @try
+    {
+        BTDropInRequest *request = [[BTDropInRequest alloc] init];
+        BTDropInController *dropIn = [[BTDropInController alloc] initWithAuthorization:client_TOK request:request handler:^(BTDropInController * _Nonnull controller, BTDropInResult * _Nullable result, NSError * _Nullable error) {
+            
+            if (error != nil) {
+                NSLog(@"ERROR");
+            } else if (result.cancelled) {
+                NSLog(@"CANCELLED");
+                [self dismissViewControllerAnimated:YES completion:NULL];
+            } else {
+                [self performSelector:@selector(dismiss_BT)
+                           withObject:nil
+                           afterDelay:0.0];
+                [self postNonceToServer:result.paymentMethod.nonce];
+            }
+        }];
+        [self presentViewController:dropIn animated:YES completion:nil];
+    }
+    @catch (NSException *exception)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+    
+    
 }
 
 

@@ -1186,76 +1186,75 @@
     {
         [_TXT_firstname becomeFirstResponder];
         [_TXT_firstname showError];
-        [_TXT_firstname showErrorWithText:@" Plese Enter First name "];
+        [_TXT_firstname showErrorWithText:@" Plese enter first name"];
     }
 
        else if(_TXT_firstname.text.length < 2)
     {
         [_TXT_firstname becomeFirstResponder];
         [_TXT_firstname showError];
-        [_TXT_firstname showErrorWithText:@" First name minimum 2 Character"];
+        [_TXT_firstname showErrorWithText:@" First name minimum 2 characters"];
     }
     else if([_TXT_address1.text isEqualToString:@""])
     {
         [_TXT_address1 becomeFirstResponder];
         [_TXT_address1 showError];
-        [_TXT_address1 showErrorWithText:@" Please Enter address line 1"];
+        [_TXT_address1 showErrorWithText:@" Please enter address line 1"];
     }
     else if (_TXT_address1.text.length < 2)
     {
         [_TXT_address1 becomeFirstResponder];
         [_TXT_address1 showError];
-        [_TXT_address1 showErrorWithText:@" Address line 1 minimum 2 Chracters"];
+        [_TXT_address1 showErrorWithText:@" Address line 1 minimum 2 characters"];
     }
     else  if(addr_line_two.length != 0 && _TXT_address2.text.length < 2)
     {
         [_TXT_address2 becomeFirstResponder];
         [_TXT_address2 showError];
-        [_TXT_address2 showErrorWithText:@" Address line 2 minimum 2 Chracters"];
+        [_TXT_address2 showErrorWithText:@" Address line 2 minimum 2 characters"];
     }
     else  if(lst_name.length != 0 && _TXT_lastname.text.length < 2)
     {
         [_TXT_lastname becomeFirstResponder];
         [_TXT_lastname showError];
-        [_TXT_lastname showErrorWithText:@" Last name minimum 2 Chracters"];
+        [_TXT_lastname showErrorWithText:@" Last name minimum 2 characters"];
     }
     else if([_TXT_city.text isEqualToString:@""])
     {
         [_TXT_city becomeFirstResponder];
         [_TXT_city showError];
-        [_TXT_city showErrorWithText:@" Please Enter City"];
+        [_TXT_city showErrorWithText:@" Please enter city"];
     }
     else if(_TXT_city.text.length < 2)
     {
         [_TXT_city becomeFirstResponder];
         [_TXT_city showError];
-        [_TXT_city showErrorWithText:@" City minimum 2 Chracters"];
+        [_TXT_city showErrorWithText:@" City minimum 2 characters"];
     }
     else if([_TXT_country.text isEqualToString:@""])
     {
         [_TXT_country becomeFirstResponder];
         [_TXT_country showError];
-        [_TXT_country showErrorWithText:@" Please Select Country"];
+        [_TXT_country showErrorWithText:@" Please Select country"];
     }
-    else if([_TXT_state.text isEqualToString:@""])
-    {
-        [_TXT_state becomeFirstResponder];
-        [_TXT_state showError];
-        [_TXT_state showErrorWithText:@" Please Select State"];
-    }
+//    else if([_TXT_state.text isEqualToString:@""])
+//    {
+//        [_TXT_state becomeFirstResponder];
+//        [_TXT_state showError];
+//        [_TXT_state showErrorWithText:@" Please Select State"];
+//    }
 
-
-        else if([_TXT_zip.text isEqualToString:@""])
+    else if([_TXT_zip.text isEqualToString:@""])
     {
         [_TXT_zip becomeFirstResponder];
         [_TXT_zip showError];
-        [_TXT_zip showErrorWithText:@" Please Enter zipcode"];
+        [_TXT_zip showErrorWithText:@" Please enter zipcode"];
     }
     else if(_TXT_zip.text.length < 3)
     {
         [_TXT_zip becomeFirstResponder];
         [_TXT_zip showError];
-        [_TXT_zip showErrorWithText:@" Zipcode minimum 4 Chracters"];
+        [_TXT_zip showErrorWithText:@" Zipcode minimum 4 characters"];
     }
     else if([_TXT_phonenumber.text isEqualToString:@""])
     {
@@ -1268,7 +1267,7 @@
     {
         [_TXT_phonenumber becomeFirstResponder];
         [_TXT_phonenumber showError];
-        [_TXT_phonenumber showErrorWithText:@" Phone number minimum 5 Numbers"];
+        [_TXT_phonenumber showErrorWithText:@" Phone number minimum 5 numbers"];
     }
       else
     {
@@ -1422,22 +1421,31 @@
         
         NSLog(@"Client Token = %@",[dict valueForKey:@"client_token"]);
         
-        BTDropInRequest *request = [[BTDropInRequest alloc] init];
-        BTDropInController *dropIn = [[BTDropInController alloc] initWithAuthorization:[dict valueForKey:@"client_token"] request:request handler:^(BTDropInController * _Nonnull controller, BTDropInResult * _Nullable result, NSError * _Nullable error) {
-            
-            if (error != nil) {
-                NSLog(@"ERROR");
-            } else if (result.cancelled) {
-                NSLog(@"CANCELLED");
-                [self dismissViewControllerAnimated:YES completion:NULL];
-            } else {
-                [self performSelector:@selector(dismiss_BT)
-                           withObject:nil
-                           afterDelay:0.0];
-                [self postNonceToServer:result.paymentMethod.nonce];
-            }
-        }];
-        [self presentViewController:dropIn animated:YES completion:nil];
+        @try {
+            BTDropInRequest *request = [[BTDropInRequest alloc] init];
+            BTDropInController *dropIn = [[BTDropInController alloc] initWithAuthorization:[dict valueForKey:@"client_token"] request:request handler:^(BTDropInController * _Nonnull controller, BTDropInResult * _Nullable result, NSError * _Nullable error) {
+                
+                if (error != nil) {
+                    NSLog(@"ERROR");
+                } else if (result.cancelled) {
+                    NSLog(@"CANCELLED");
+                    [self dismissViewControllerAnimated:YES completion:NULL];
+                } else {
+                    [self performSelector:@selector(dismiss_BT)
+                               withObject:nil
+                               afterDelay:0.0];
+                    [self postNonceToServer:result.paymentMethod.nonce];
+                }
+            }];
+            [self presentViewController:dropIn animated:YES completion:nil];
+        }
+        @catch (NSException *exception)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            [alert show];
+        }
+        
+        
         
       /*  self.braintree = [Braintree braintreeWithClientToken:[dict valueForKey:@"client_token"]];
         NSLog(@"dddd = %@",self.braintree);
