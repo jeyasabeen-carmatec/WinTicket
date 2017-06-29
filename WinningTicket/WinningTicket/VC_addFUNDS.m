@@ -12,6 +12,8 @@
 //#import "DejalActivityView.h"
 
 
+
+
 @interface VC_addFUNDS ()<UICollectionViewDelegate,UICollectionViewDataSource,UIAlertViewDelegate>
 {
     NSMutableDictionary *states,*countryS;
@@ -677,17 +679,49 @@
 //    }
 //}
 
-#pragma mark - Braintree Integration
-- (void)dropInViewController:(__unused BTDropInViewController *)viewController didSucceedWithPaymentMethod:(BTPaymentMethod *)paymentMethod {
-    [self postNonceToServer:paymentMethod.nonce]; // Send payment method nonce to your server
-    [self dismissViewControllerAnimated:YES completion:nil];
+#pragma mark - BTViewControllerPresentingDelegate
+// Required
+- (void)paymentDriver:(id)paymentDriver
+requestsPresentationOfViewController:(UIViewController *)viewController {
+    [self presentViewController:viewController animated:YES completion:nil];
 }
 
-- (void)dropInViewControllerDidCancel:(__unused BTDropInViewController *)viewController {
-    [self dismissViewControllerAnimated:YES completion:nil];
+// Required
+- (void)paymentDriver:(id)paymentDriver
+requestsDismissalOfViewController:(UIViewController *)viewController {
+    [viewController dismissViewControllerAnimated:YES completion:nil];
 }
-- (void)userDidCancelPayment {
-    [self dismissViewControllerAnimated:YES completion:nil];
+
+#pragma mark - BTAppSwitchDelegate
+
+// Optional - display and hide loading indicator UI
+- (void)appSwitcherWillPerformAppSwitch:(id)appSwitcher {
+    [self showLoadingUI];
+    
+    // You may also want to subscribe to UIApplicationDidBecomeActiveNotification
+    // to dismiss the UI when a customer manually switches back to your app since
+    // the payment button completion block will not be invoked in that case (e.g.
+    // customer switches back via iOS Task Manager)
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(hideLoadingUI:)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+}
+
+- (void)appSwitcherWillProcessPaymentInfo:(id)appSwitcher {
+    [self hideLoadingUI:nil];
+}
+
+#pragma mark - Private methods
+
+- (void)showLoadingUI {
+    
+}
+
+- (void)hideLoadingUI:(NSNotification *)notification {
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationDidBecomeActiveNotification
+                                                  object:nil];
 }
 
 -(void) postNonceToServer :(NSString *)str
@@ -698,7 +732,10 @@
     {
         [[NSUserDefaults standardUserDefaults] setValue:str forKey:@"NAUNCETOK"];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        [self create_payment];
+//        [self create_payment];
+        VW_overlay.hidden = NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(create_payment) withObject:activityIndicatorView afterDelay:0.01];
     }
     else
     {
@@ -732,10 +769,10 @@
 {
     NSLog(@"BT user did cancel");
 }
--(void)paymentMethodCreator:(id)sender didCreatePaymentMethod:(BTPaymentMethod *)paymentMethod
-{
-    NSLog(@"BT Payment methord created");
-}
+//-(void)paymentMethodCreator:(id)sender didCreatePaymentMethod:(BTPaymentMethod *)paymentMethod
+//{
+//    NSLog(@"BT Payment methord created");
+//}
 
 #pragma mark - Generate Client Token
 -(void) get_client_TOKEN
@@ -764,7 +801,7 @@
         [activityIndicatorView stopAnimating];
         
         
-        self.braintree = [Braintree braintreeWithClientToken:[dict valueForKey:@"client_token"]];
+       /* self.braintree = [Braintree braintreeWithClientToken:[dict valueForKey:@"client_token"]];
         NSLog(@"dddd = %@",self.braintree);
         
         BTDropInViewController *dropInViewController = [self.braintree dropInViewControllerWithDelegate:self];
@@ -796,9 +833,31 @@
         navigationController.navigationBar.shadowImage = [UIImage new];
         navigationController.navigationBar.tintColor = [UIColor whiteColor];
         
-        [self presentViewController:navigationController animated:YES completion:nil];
+        [self presentViewController:navigationController animated:YES completion:nil];*/
+        
+        BTDropInRequest *request = [[BTDropInRequest alloc] init];
+        BTDropInController *dropIn = [[BTDropInController alloc] initWithAuthorization:[dict valueForKey:@"client_token"] request:request handler:^(BTDropInController * _Nonnull controller, BTDropInResult * _Nullable result, NSError * _Nullable error) {
+            
+            if (error != nil) {
+                NSLog(@"ERROR");
+            } else if (result.cancelled) {
+                NSLog(@"CANCELLED");
+                [self dismissViewControllerAnimated:YES completion:NULL];
+            } else {
+                [self performSelector:@selector(dismiss_BT)
+                           withObject:nil
+                           afterDelay:0.0];
+                [self postNonceToServer:result.paymentMethod.nonce];
+            }
+        }];
+        [self presentViewController:dropIn animated:YES completion:nil];
     }
 }
+-(void) dismiss_BT
+{
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
 
 -(void) create_payment
 {
@@ -846,31 +905,23 @@
         NSString *error = [json_DATA_one valueForKey:@"error"];
         if([str isEqualToString:@"Failure"])
         {
-            
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
             [alert show];
-            
         }
         else if(error)
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
             [alert show];
-            
         }
         else
         {
             [self dismissViewControllerAnimated:YES completion:nil];
-            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:@"Funds added successfully" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
             [alert show];
         }
-        
-
-       
-
-        
-      
-        
     }
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden = YES;
 }
 #pragma Add_funds Tapped
 
@@ -894,7 +945,7 @@
             //        [alertControllerAction addAction:okaction];
             //
             //        [self presentViewController:alertControllerAction animated:YES completion:nil];
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Amount Should be Grater than Maximum." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"Please enter an amount greater than %d",[[asc_denomarr valueForKeyPath:@"@max.intValue"] intValue]] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
             [alert show];
         }
         else

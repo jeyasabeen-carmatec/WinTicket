@@ -392,7 +392,7 @@
     {
         [_TXT_fname becomeFirstResponder];
         [_TXT_fname showError];
-        [_TXT_fname showErrorWithText:@" First name minimum 2 Character"];
+        [_TXT_fname showErrorWithText:@" First name minimum 2 characters"];
     }
     else if([_TXT_username.text isEqualToString:@""])
     {
@@ -404,32 +404,32 @@
     {
         [_TXT_username becomeFirstResponder];
         [_TXT_username showError];
-        [_TXT_username showErrorWithText:@" Address line 1 minimum 2 Chracters"];
+        [_TXT_username showErrorWithText:@" Address line 1 minimum 2 characters"];
     }
 
     else if([_TXT_addr1.text isEqualToString:@""])
     {
         [_TXT_addr1 becomeFirstResponder];
         [_TXT_addr1 showError];
-        [_TXT_addr1 showErrorWithText:@" Please Enter address line 1"];
+        [_TXT_addr1 showErrorWithText:@" Please Enter address line 2"];
     }
     else if (_TXT_addr1.text.length < 2)
     {
         [_TXT_addr1 becomeFirstResponder];
         [_TXT_addr1 showError];
-        [_TXT_addr1 showErrorWithText:@" Address line 1 minimum 2 Chracters"];
+        [_TXT_addr1 showErrorWithText:@" Address line 2 minimum 2 characters"];
     }
        else if([_TXT_city.text isEqualToString:@""])
     {
         [_TXT_city becomeFirstResponder];
         [_TXT_city showError];
-        [_TXT_city showErrorWithText:@" Please Enter City"];
+        [_TXT_city showErrorWithText:@" Please Enter city"];
     }
     else if(_TXT_city.text.length < 2)
     {
         [_TXT_city becomeFirstResponder];
         [_TXT_city showError];
-        [_TXT_city showErrorWithText:@" City minimum 2 Chracters"];
+        [_TXT_city showErrorWithText:@" City minimum 2 characters"];
     }
       else if([_TXT_zip.text isEqualToString:@""])
     {
@@ -441,7 +441,7 @@
     {
         [_TXT_zip becomeFirstResponder];
         [_TXT_zip showError];
-        [_TXT_zip showErrorWithText:@" Zipcode minimum 3 Chracters"];
+        [_TXT_zip showErrorWithText:@" Zipcode minimum 3 characters"];
     }
     else if([_TXT_phone.text isEqualToString:@""])
     {
@@ -449,18 +449,17 @@
         [_TXT_phone showError];
         [_TXT_phone showErrorWithText:@" Please enter phone number"];
     }
-
     else if (_TXT_phone.text.length < 5)
     {
         [_TXT_phone becomeFirstResponder];
         [_TXT_phone showError];
-        [_TXT_phone showErrorWithText:@" Phone number minimum 5 Numbers"];
+        [_TXT_phone showErrorWithText:@" Phone number minimum 5 numbers"];
     }
     else if([_TXT_country.text isEqualToString:@""])
     {
         [_TXT_country becomeFirstResponder];
         [_TXT_country showError];
-        [_TXT_country showErrorWithText:@" Please Select Country"];
+        [_TXT_country showErrorWithText:@" Please Select country"];
     }
 
     else

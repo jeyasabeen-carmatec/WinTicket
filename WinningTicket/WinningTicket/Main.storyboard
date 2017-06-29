@@ -52,16 +52,16 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="THE ALL-INCLUSIVE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="A3l-36-sbm">
-                                        <rect key="frame" x="1" y="229" width="318" height="32"/>
+                                        <rect key="frame" x="1" y="222" width="318" height="38"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="26"/>
+                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="28"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="FUNDRAISING APP" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YyQ-vO-dM7">
-                                        <rect key="frame" x="16" y="255" width="288" height="31"/>
+                                        <rect key="frame" x="16" y="251" width="288" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="22"/>
+                                        <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="23"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -2992,9 +2992,9 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Request PayPal withdrawal" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5PJ-pd-FEa">
-                            <rect key="frame" x="6" y="8" width="299" height="24"/>
+                            <rect key="frame" x="13" y="8" width="299" height="24"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="22"/>
+                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="20"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -3050,7 +3050,7 @@
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Request bank transfer" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zfV-gC-cUh">
                             <rect key="frame" x="13" y="4" width="244" height="24"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="22"/>
+                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="20"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -4254,21 +4254,21 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="nj4-et-AEW">
-                                <size key="itemSize" width="91" height="50"/>
+                                <size key="itemSize" width="100" height="50"/>
                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                 <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                             </collectionViewFlowLayout>
                             <cells>
                                 <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="cell" id="WMl-Ic-4gS" customClass="ADD_Funds_CollectionViewCell">
-                                    <rect key="frame" x="0.0" y="2" width="91" height="50"/>
+                                    <rect key="frame" x="0.0" y="2" width="100" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                        <rect key="frame" x="0.0" y="0.0" width="91" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dv2-hL-jw9">
-                                                <rect key="frame" x="0.0" y="0.0" width="91" height="50"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="4" id="dv2-hL-jw9">
+                                                <rect key="frame" x="0.0" y="0.0" width="100" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="17"/>
                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -5743,16 +5743,16 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="ODo-qD-iEi"/>
-        <segue reference="Kfz-vY-8cB"/>
-        <segue reference="WqQ-aJ-yS8"/>
         <segue reference="D2f-xd-0V5"/>
+        <segue reference="WqQ-aJ-yS8"/>
+        <segue reference="Kfz-vY-8cB"/>
         <segue reference="KU5-Xe-DT4"/>
         <segue reference="wI7-Ti-9mU"/>
-        <segue reference="7yl-5E-R4B"/>
-        <segue reference="pDZ-0U-Rag"/>
         <segue reference="yxA-85-JlB"/>
+        <segue reference="ODo-qD-iEi"/>
         <segue reference="l6m-hJ-eUx"/>
+        <segue reference="aL9-XN-ghu"/>
+        <segue reference="s6C-pU-Rfp"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.3921568627" green="0.71764705880000002" blue="0.79607843140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

@@ -283,7 +283,10 @@
     //    }
     _VW_paypal.hidden = YES;
     
-
+    [[_BTN_banktransfer layer] setBorderWidth:3.0f];
+    [[_BTN_banktransfer layer] setBorderColor:[UIColor greenColor].CGColor];
+    
+    [[_BTN_paypal layer] setBorderWidth:0.0f];
   
 }
 
@@ -295,6 +298,10 @@
     _VW_paypal.hidden = NO;
     //    }
     
+    [[_BTN_paypal layer] setBorderWidth:3.0f];
+    [[_BTN_paypal layer] setBorderColor:[UIColor greenColor].CGColor];
+    
+    [[_BTN_banktransfer layer] setBorderWidth:0.0f];
     
 }
 -(void)submitClicked_paypal

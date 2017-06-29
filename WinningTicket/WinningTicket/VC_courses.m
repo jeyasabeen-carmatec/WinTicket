@@ -9,6 +9,10 @@
 #import "VC_courses.h"
 
 @interface VC_courses ()
+{
+    UIView *VW_overlay;
+    UIActivityIndicatorView *activityIndicatorView;
+}
 
 @end
 
@@ -59,6 +63,29 @@
             //            [[self.segment_bottom.subviews objectAtIndex:i] setTintColor:tintcolor];
         }
     }
+    
+    VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    VW_overlay.clipsToBounds = YES;
+    VW_overlay.layer.cornerRadius = 10.0;
+    
+    activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
+    
+    //    loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 170, 200, 22)];
+    //    loadingLabel.backgroundColor = [UIColor clearColor];
+    //    loadingLabel.textColor = [UIColor whiteColor];
+    //    loadingLabel.adjustsFontSizeToFitWidth = YES;
+    //    loadingLabel.textAlignment = NSTextAlignmentCenter;
+    //    loadingLabel.text = @"Loading...";
+    //
+    //    [VW_overlay addSubview:loadingLabel];
+    activityIndicatorView.center = VW_overlay.center;
+    [VW_overlay addSubview:activityIndicatorView];
+    VW_overlay.center = self.view.center;
+    [self.view addSubview:VW_overlay];
+    
+    VW_overlay.hidden = YES;
 }
 
 #pragma mark - Tabbar deligate
@@ -83,6 +110,10 @@
             }
         }
         [self performSegueWithIdentifier:@"eventssegueidentifier" sender:self];
+        
+        VW_overlay.hidden = NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(parse_listEvents_api) withObject:activityIndicatorView afterDelay:0.01];
     }
     else if ([item.title isEqualToString:@"COURSES"])
     {
@@ -122,6 +153,42 @@
             }
         }
         [self performSegueWithIdentifier:@"accountidentifier" sender:self];
+    }
+}
+
+-(void) parse_listEvents_api
+{
+    NSError *error;
+    NSHTTPURLResponse *response = nil;
+    
+    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@events",SERVER_URL];
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+    //    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData)
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"JsonEventlist"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        //        [self performSegueWithIdentifier:@"logintohomeidentifier" sender:self];
+    }
+    else
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Interrupted" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
     }
 }
 

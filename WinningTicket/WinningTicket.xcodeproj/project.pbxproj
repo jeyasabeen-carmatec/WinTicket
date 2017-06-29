@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8348717B5CA7DB7E6BCB7285 /* libPods-WinningTicket_Universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4ED404CD45FD4D5E511FDDC /* libPods-WinningTicket_Universal.a */; };
+		0794DD6D28F5CCD42CBF0E75 /* libPods-WinningTicket_Universal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DF95C9B9EE59230A8BE59B4D /* libPods-WinningTicket_Universal.a */; };
 		BE0055D31EC2DA1100E95941 /* VC_initial_VC.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0055D01EC2DA1100E95941 /* VC_initial_VC.m */; };
 		BE0055D41EC2DA1100E95941 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0055D21EC2DA1100E95941 /* ViewController.m */; };
 		BE0055FE1EC44BF800E95941 /* purchase_Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE0055FD1EC44BF800E95941 /* purchase_Cell.xib */; };
@@ -207,6 +207,7 @@
 		BEFC20371EFD23CD0067717D /* VC_donate.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFC20361EFD23CD0067717D /* VC_donate.m */; };
 		BEFC203A1EFD34D60067717D /* VC_contactUS.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFC20391EFD34D60067717D /* VC_contactUS.m */; };
 		BEFC203C1F021F4E0067717D /* Main~ipad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEFC203B1F021F4E0067717D /* Main~ipad.storyboard */; };
+		BEFC203E1F0243DE0067717D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BEFC203D1F0243DE0067717D /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -223,8 +224,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		5DF0A946474ACA8104908DD0 /* Pods-WinningTicket_Universal.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WinningTicket_Universal.release.xcconfig"; path = "Pods/Target Support Files/Pods-WinningTicket_Universal/Pods-WinningTicket_Universal.release.xcconfig"; sourceTree = "<group>"; };
-		8605BC8E93DB52B267FE5F2F /* Pods-WinningTicket_Universal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WinningTicket_Universal.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WinningTicket_Universal/Pods-WinningTicket_Universal.debug.xcconfig"; sourceTree = "<group>"; };
+		100F6CFB58002025B4D6A523 /* Pods-WinningTicket_Universal.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WinningTicket_Universal.release.xcconfig"; path = "Pods/Target Support Files/Pods-WinningTicket_Universal/Pods-WinningTicket_Universal.release.xcconfig"; sourceTree = "<group>"; };
+		9A96F8B73B7AD6AB5DD2F7AC /* Pods-WinningTicket_Universal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WinningTicket_Universal.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WinningTicket_Universal/Pods-WinningTicket_Universal.debug.xcconfig"; sourceTree = "<group>"; };
 		BE0055CF1EC2DA1100E95941 /* VC_initial_VC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_initial_VC.h; sourceTree = "<group>"; };
 		BE0055D01EC2DA1100E95941 /* VC_initial_VC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_initial_VC.m; sourceTree = "<group>"; };
 		BE0055D11EC2DA1100E95941 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
@@ -339,7 +340,6 @@
 		BEA9C31D1EAE2A0900930A7F /* bidding_Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bidding_Cell.h; sourceTree = "<group>"; };
 		BEA9C31E1EAE2A0900930A7F /* bidding_Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = bidding_Cell.m; sourceTree = "<group>"; };
 		BEB49DDB1E76B3A900209E63 /* WinningTicket_Universal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WinningTicket_Universal.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		BEB49DDC1E76B3AA00209E63 /* WinningTicket_Universal-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "WinningTicket_Universal-Info.plist"; path = "/Users/testuser/Documents/Winning_TKT_code/WinningTicket/WinningTicket_Universal-Info.plist"; sourceTree = "<absolute>"; };
 		BEB49DE51E77D21F00209E63 /* Untitled-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Untitled-2.png"; sourceTree = "<group>"; };
 		BEB49DE81E7960E300209E63 /* TBL_VW_Cell_EVENTS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBL_VW_Cell_EVENTS.h; sourceTree = "<group>"; };
 		BEB49DE91E7960E300209E63 /* TBL_VW_Cell_EVENTS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBL_VW_Cell_EVENTS.m; sourceTree = "<group>"; };
@@ -537,7 +537,9 @@
 		BEFC20381EFD34D60067717D /* VC_contactUS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_contactUS.h; sourceTree = "<group>"; };
 		BEFC20391EFD34D60067717D /* VC_contactUS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_contactUS.m; sourceTree = "<group>"; };
 		BEFC203B1F021F4E0067717D /* Main~ipad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Main~ipad.storyboard"; sourceTree = "<group>"; };
-		C4ED404CD45FD4D5E511FDDC /* libPods-WinningTicket_Universal.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WinningTicket_Universal.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEFC203D1F0243DE0067717D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		BEFC203F1F02443F0067717D /* WinningTicket_Universal-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WinningTicket_Universal-Info.plist"; sourceTree = "<group>"; };
+		DF95C9B9EE59230A8BE59B4D /* libPods-WinningTicket_Universal.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WinningTicket_Universal.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -546,7 +548,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BECD7CDD1EF7EF950037A968 /* UserNotifications.framework in Frameworks */,
-				8348717B5CA7DB7E6BCB7285 /* libPods-WinningTicket_Universal.a in Frameworks */,
+				0794DD6D28F5CCD42CBF0E75 /* libPods-WinningTicket_Universal.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -572,7 +574,7 @@
 			isa = PBXGroup;
 			children = (
 				BECD7CDC1EF7EF950037A968 /* UserNotifications.framework */,
-				C4ED404CD45FD4D5E511FDDC /* libPods-WinningTicket_Universal.a */,
+				DF95C9B9EE59230A8BE59B4D /* libPods-WinningTicket_Universal.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -794,15 +796,6 @@
 				BEFC20391EFD34D60067717D /* VC_contactUS.m */,
 			);
 			name = ContactUS;
-			sourceTree = "<group>";
-		};
-		BE9C408242388109CB915CC8 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				8605BC8E93DB52B267FE5F2F /* Pods-WinningTicket_Universal.debug.xcconfig */,
-				5DF0A946474ACA8104908DD0 /* Pods-WinningTicket_Universal.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		BEA875901E89005300EFBB7F /* test_images */ = {
@@ -1214,13 +1207,14 @@
 		BEE665721E5D90EB00DF9235 = {
 			isa = PBXGroup;
 			children = (
+				BEFC203D1F0243DE0067717D /* Default-568h@2x.png */,
 				BECD7CDB1EF7EF700037A968 /* WinningTicket_Universal.entitlements */,
 				BEB49DB61E76B02B00209E63 /* Resources-iPad */,
 				BEE6657D1E5D90EC00DF9235 /* WinningTicket */,
 				BEE6657C1E5D90EC00DF9235 /* Products */,
-				BEB49DDC1E76B3AA00209E63 /* WinningTicket_Universal-Info.plist */,
+				BEFC203F1F02443F0067717D /* WinningTicket_Universal-Info.plist */,
 				BE52DF971E9CAA2F0055E914 /* Frameworks */,
-				BE9C408242388109CB915CC8 /* Pods */,
+				DADD7D7502D5C91A77B31D61 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1418,6 +1412,15 @@
 			name = Account;
 			sourceTree = "<group>";
 		};
+		DADD7D7502D5C91A77B31D61 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9A96F8B73B7AD6AB5DD2F7AC /* Pods-WinningTicket_Universal.debug.xcconfig */,
+				100F6CFB58002025B4D6A523 /* Pods-WinningTicket_Universal.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1425,13 +1428,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BEB49DD81E76B3A900209E63 /* Build configuration list for PBXNativeTarget "WinningTicket_Universal" */;
 			buildPhases = (
-				49AD32C81E999A813BC5B85C /* [CP] Check Pods Manifest.lock */,
+				2F83190F35F0894F85E48015 /* [CP] Check Pods Manifest.lock */,
 				BEB49DBB1E76B3A900209E63 /* Sources */,
 				BEB49DC41E76B3A900209E63 /* Frameworks */,
 				BEB49DC51E76B3A900209E63 /* Resources */,
 				BE52DF951E9CA2A30055E914 /* Embed App Extensions */,
-				C17184C0380D2859DCAB2295 /* [CP] Embed Pods Frameworks */,
-				89F5A4FE4C64FDC4A9EB7B46 /* [CP] Copy Pods Resources */,
+				30A86E0A7C81F48CADF25351 /* [CP] Embed Pods Frameworks */,
+				348D1383E65720DFC3C340B7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1508,6 +1511,7 @@
 				BE4EEEB81ED2AAB9003C1C24 /* dotActive.png in Resources */,
 				BE4EEEB51ED2AAB9003C1C24 /* image4.jpg in Resources */,
 				BEFC203C1F021F4E0067717D /* Main~ipad.storyboard in Resources */,
+				BEFC203E1F0243DE0067717D /* Default-568h@2x.png in Resources */,
 				BEA875EA1E8D06CA00EFBB7F /* sec0_3.png in Resources */,
 				BEB702F51ECEE6CB004CB729 /* blueArrow.png in Resources */,
 				BEA875921E89007B00EFBB7F /* UI_01.png in Resources */,
@@ -1589,7 +1593,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		49AD32C81E999A813BC5B85C /* [CP] Check Pods Manifest.lock */ = {
+		2F83190F35F0894F85E48015 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1604,22 +1608,7 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		89F5A4FE4C64FDC4A9EB7B46 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WinningTicket_Universal/Pods-WinningTicket_Universal-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C17184C0380D2859DCAB2295 /* [CP] Embed Pods Frameworks */ = {
+		30A86E0A7C81F48CADF25351 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1632,6 +1621,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WinningTicket_Universal/Pods-WinningTicket_Universal-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		348D1383E65720DFC3C340B7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WinningTicket_Universal/Pods-WinningTicket_Universal-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1755,7 +1759,7 @@
 /* Begin XCBuildConfiguration section */
 		BEB49DD91E76B3A900209E63 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8605BC8E93DB52B267FE5F2F /* Pods-WinningTicket_Universal.debug.xcconfig */;
+			baseConfigurationReference = 9A96F8B73B7AD6AB5DD2F7AC /* Pods-WinningTicket_Universal.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1782,7 +1786,7 @@
 		};
 		BEB49DDA1E76B3A900209E63 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5DF0A946474ACA8104908DD0 /* Pods-WinningTicket_Universal.release.xcconfig */;
+			baseConfigurationReference = 100F6CFB58002025B4D6A523 /* Pods-WinningTicket_Universal.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

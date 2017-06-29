@@ -274,6 +274,7 @@
 //        }
         
     _Stat_label.hidden=NO;
+        _Stat_label.backgroundColor=[UIColor greenColor];
     [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];
     _Stat_label.text=[json_DATA valueForKey:@"message"];
         
@@ -288,7 +289,7 @@
     [activityIndicatorView stopAnimating];
     VW_overlay.hidden = YES;
     _Stat_label.hidden=NO;
-    [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];
+    [self performSelector:@selector(hiddenLabel_other) withObject:nil afterDelay:3];
     _Stat_label.text=[json_DATA valueForKey:@"message"];
     _Stat_label.backgroundColor=[UIColor redColor];
      
@@ -302,5 +303,9 @@
 - (void)hiddenLabel{
     _Stat_label.hidden = YES;
      [self performSegueWithIdentifier:@"changepwdtoviewcontroller" sender:self];
+}
+-(void) hiddenLabel_other
+{
+    _Stat_label.hidden = YES;
 }
 @end

@@ -7,11 +7,13 @@
 //
 
 #import "VC_donate.h"
+#import "BraintreeCore.h"
+#import "BraintreeDropIn.h"
 //#import "DGActivityIndicatorView.h"
 //#import "DejalActivityView.h"
 
 
-@interface VC_donate ()<UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,UITextViewDelegate>
+@interface VC_donate ()<UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,UITextViewDelegate,BTViewControllerPresentingDelegate>
 {
     UIView *VW_overlay;
     UIActivityIndicatorView *activityIndicatorView;
@@ -1249,11 +1251,11 @@
         [_TXT_zip showError];
         [_TXT_zip showErrorWithText:@" Please Enter zipcode"];
     }
-    else if(_TXT_zip.text.length < 4)
+    else if(_TXT_zip.text.length < 3)
     {
         [_TXT_zip becomeFirstResponder];
         [_TXT_zip showError];
-        [_TXT_zip showErrorWithText:@" Zipcode minimum 3 Chracters"];
+        [_TXT_zip showErrorWithText:@" Zipcode minimum 4 Chracters"];
     }
     else if([_TXT_phonenumber.text isEqualToString:@""])
     {
@@ -1420,8 +1422,24 @@
         
         NSLog(@"Client Token = %@",[dict valueForKey:@"client_token"]);
         
+        BTDropInRequest *request = [[BTDropInRequest alloc] init];
+        BTDropInController *dropIn = [[BTDropInController alloc] initWithAuthorization:[dict valueForKey:@"client_token"] request:request handler:^(BTDropInController * _Nonnull controller, BTDropInResult * _Nullable result, NSError * _Nullable error) {
+            
+            if (error != nil) {
+                NSLog(@"ERROR");
+            } else if (result.cancelled) {
+                NSLog(@"CANCELLED");
+                [self dismissViewControllerAnimated:YES completion:NULL];
+            } else {
+                [self performSelector:@selector(dismiss_BT)
+                           withObject:nil
+                           afterDelay:0.0];
+                [self postNonceToServer:result.paymentMethod.nonce];
+            }
+        }];
+        [self presentViewController:dropIn animated:YES completion:nil];
         
-        self.braintree = [Braintree braintreeWithClientToken:[dict valueForKey:@"client_token"]];
+      /*  self.braintree = [Braintree braintreeWithClientToken:[dict valueForKey:@"client_token"]];
         NSLog(@"dddd = %@",self.braintree);
         
         BTDropInViewController *dropInViewController = [self.braintree dropInViewControllerWithDelegate:self];
@@ -1453,7 +1471,7 @@
         navigationController.navigationBar.shadowImage = [UIImage new];
         navigationController.navigationBar.tintColor = [UIColor whiteColor];
         
-        [self presentViewController:navigationController animated:YES completion:nil];
+        [self presentViewController:navigationController animated:YES completion:nil];*/
     }
     else
     {
@@ -1461,9 +1479,14 @@
         VW_overlay.hidden = YES;
     }
 }
+-(void)dismiss_BT
+{
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
 
 -(void) create_payment
 {
+    [self dismissViewControllerAnimated:YES completion:nil];
     NSError *error;
     NSHTTPURLResponse *response = nil;
     NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
@@ -1485,41 +1508,83 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
         NSMutableDictionary *json_DATA_one = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSString *str = [json_DATA_one valueForKey:@"status"];
         NSLog(@"Final Payment data : \n%@",json_DATA_one);
         if([str isEqualToString:@"Failure"])
         {
-             [self dismissViewControllerAnimated:YES completion:nil];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
             [alert show];
             
         }
         else
         {
-        [self performSegueWithIdentifier:@"donate_purchase" sender:self];
+            [self performSelector:@selector(load_donatepurchase)
+                       withObject:activityIndicatorView
+                       afterDelay:1.0];
         }
 
     }
     else
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Payment Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
     }
 }
 
-#pragma mark - Braintree Integration
-- (void)dropInViewController:(__unused BTDropInViewController *)viewController didSucceedWithPaymentMethod:(BTPaymentMethod *)paymentMethod {
-    [self postNonceToServer:paymentMethod.nonce]; // Send payment method nonce to your server
-    [self dismissViewControllerAnimated:YES completion:nil];
-    [self create_payment];
-    }
-
-- (void)dropInViewControllerDidCancel:(__unused BTDropInViewController *)viewController {
-    [self dismissViewControllerAnimated:YES completion:nil];
+-(void)load_donatepurchase
+{
+    [self performSegueWithIdentifier:@"donate_purchase" sender:self];
 }
-- (void)userDidCancelPayment {
-    [self dismissViewControllerAnimated:YES completion:nil];
+
+#pragma mark - BTViewControllerPresentingDelegate
+// Required
+- (void)paymentDriver:(id)paymentDriver
+requestsPresentationOfViewController:(UIViewController *)viewController {
+    [self presentViewController:viewController animated:YES completion:nil];
+}
+
+// Required
+- (void)paymentDriver:(id)paymentDriver
+requestsDismissalOfViewController:(UIViewController *)viewController {
+    [viewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - BTAppSwitchDelegate
+
+// Optional - display and hide loading indicator UI
+- (void)appSwitcherWillPerformAppSwitch:(id)appSwitcher {
+    [self showLoadingUI];
+    
+    // You may also want to subscribe to UIApplicationDidBecomeActiveNotification
+    // to dismiss the UI when a customer manually switches back to your app since
+    // the payment button completion block will not be invoked in that case (e.g.
+    // customer switches back via iOS Task Manager)
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(hideLoadingUI:)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+}
+
+- (void)appSwitcherWillProcessPaymentInfo:(id)appSwitcher {
+    [self hideLoadingUI:nil];
+}
+
+#pragma mark - Private methods
+
+- (void)showLoadingUI {
+    
+}
+
+- (void)hideLoadingUI:(NSNotification *)notification {
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationDidBecomeActiveNotification
+                                                  object:nil];
 }
 
 -(void) postNonceToServer :(NSString *)str
@@ -1531,7 +1596,9 @@
         [[NSUserDefaults standardUserDefaults] setValue:str forKey:@"NAUNCETOK"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-       
+        VW_overlay.hidden = NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(create_payment) withObject:activityIndicatorView afterDelay:0.01];
     }
     else
     {

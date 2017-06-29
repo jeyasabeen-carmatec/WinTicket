@@ -1,1 +1,1 @@
-../../../Braintree/Braintree/API/Networking/BTURLUtils.h
+../../../Braintree/BraintreeCore/BTURLUtils.h

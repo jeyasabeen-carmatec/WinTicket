@@ -1,41 +1,38 @@
 PODS:
-  - Braintree (3.9.9):
-    - Braintree/API (= 3.9.9)
-    - Braintree/Coinbase (= 3.9.9)
-    - Braintree/Drop-In (= 3.9.9)
-    - Braintree/Payments (= 3.9.9)
-    - Braintree/PayPal (= 3.9.9)
-    - Braintree/UI (= 3.9.9)
-    - Braintree/Venmo (= 3.9.9)
-  - Braintree/API (3.9.9)
-  - Braintree/Coinbase (3.9.9):
-    - Braintree/API
-  - Braintree/Drop-In (3.9.9):
-    - Braintree/API
-    - Braintree/Coinbase
-    - Braintree/Payments
-    - Braintree/PayPal
-    - Braintree/UI
-    - Braintree/Venmo
-  - Braintree/Payments (3.9.9):
-    - Braintree/API
-    - Braintree/Coinbase
-    - Braintree/PayPal
-    - Braintree/Venmo
-  - Braintree/PayPal (3.9.9):
-    - Braintree/API
-    - Braintree/UI
-  - Braintree/UI (3.9.9):
-    - Braintree/API
-  - Braintree/Venmo (3.9.9):
-    - Braintree/API
+  - Braintree/Card (4.8.2):
+    - Braintree/Core
+  - Braintree/Core (4.8.2)
+  - Braintree/PayPal (4.8.2):
+    - Braintree/Core
+    - Braintree/PayPalOneTouch
+  - Braintree/PayPalDataCollector (4.8.2):
+    - Braintree/Core
+    - Braintree/PayPalUtils
+  - Braintree/PayPalOneTouch (4.8.2):
+    - Braintree/Core
+    - Braintree/PayPalDataCollector
+    - Braintree/PayPalUtils
+  - Braintree/PayPalUtils (4.8.2)
+  - Braintree/UnionPay (4.8.2):
+    - Braintree/Card
+    - Braintree/Core
+  - BraintreeDropIn (5.2.0):
+    - BraintreeDropIn/DropIn (= 5.2.0)
+  - BraintreeDropIn/DropIn (5.2.0):
+    - Braintree/Card (~> 4.0)
+    - Braintree/Core (~> 4.0)
+    - Braintree/UnionPay (~> 4.0)
+    - BraintreeDropIn/UIKit
+  - BraintreeDropIn/UIKit (5.2.0)
 
 DEPENDENCIES:
-  - Braintree (~> 3.9)
+  - Braintree/PayPal
+  - BraintreeDropIn
 
 SPEC CHECKSUMS:
-  Braintree: a9d35b7d5a8d76267adcb5795d32c20ca5f39a99
+  Braintree: 54216849aa3239401d82f2236a678b2bda7e1362
+  BraintreeDropIn: f4278c4eafc1395d06ce79652fa1658d2b5ab815
 
-PODFILE CHECKSUM: 8c92983a0d867b64c3499ab1d6caf4e1a5a7f903
+PODFILE CHECKSUM: 5e0e510d8124090a39d94bd9cd323f6c5383eb64
 
 COCOAPODS: 1.2.0

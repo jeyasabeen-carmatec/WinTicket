@@ -10,6 +10,9 @@
 //#import "DejalActivityView.h"
 //#import "DGActivityIndicatorView.h"
 
+#import "BraintreeCore.h"
+#import "BraintreeDropIn.h"
+
 @interface VC_billingAddr ()
 {
     float original_height;
@@ -56,7 +59,7 @@
         // Continue to the next section to learn more...
     }] resume];*/
     
-    [self get_client_TOKEN];
+//    [self get_client_TOKEN];
   [self setup_VIEW];
     
         
@@ -639,7 +642,7 @@
     {
         [_TXT_firstname becomeFirstResponder];
         [_TXT_firstname showError];
-        [_TXT_firstname showErrorWithText:@" First name minimum 2 Character"];
+        [_TXT_firstname showErrorWithText:@" First name minimum 2 characters"];
     }
 //    else  if([_TXT_lastname.text isEqualToString:@""])
 //    {
@@ -661,7 +664,7 @@
     {
         [_TXT_address1 becomeFirstResponder];
         [_TXT_address1 showError];
-        [_TXT_address1 showErrorWithText:@" Address line 1 minimum 2 Chracters"];
+        [_TXT_address1 showErrorWithText:@" Address line 1 minimum 2 characters"];
     }
 //    else  if([_TXT_address2.text isEqualToString:@""] || _TXT_address2.text.length <= 2 || _TXT_address2.text.length > 30)
 //    {
@@ -674,20 +677,20 @@
     {
         [_TXT_city becomeFirstResponder];
         [_TXT_city showError];
-        [_TXT_city showErrorWithText:@" Please enter City"];
+        [_TXT_city showErrorWithText:@" Please enter city"];
     }
     else if (_TXT_city.text.length < 2)
     {
         [_TXT_city becomeFirstResponder];
         [_TXT_city showError];
-        [_TXT_city showErrorWithText:@" City minimum 2 Chracters"];
+        [_TXT_city showErrorWithText:@" City minimum 2 characters"];
     }
     
     else if([_TXT_country.text isEqualToString:@""])
     {
         [_TXT_country becomeFirstResponder];
         [_TXT_country showError];
-        [_TXT_country showErrorWithText:@" Please Select Country"];
+        [_TXT_country showErrorWithText:@" Please Select country"];
         
     }
 //    else if([_TXT_state.text isEqualToString:@""])
@@ -701,19 +704,19 @@
     {
         [_TXT_zip becomeFirstResponder];
         [_TXT_zip showError];
-        [_TXT_zip showErrorWithText:@" Please Enter Zip code"];
+        [_TXT_zip showErrorWithText:@" Please Enter Zipcode code"];
     }
     else if (_TXT_zip.text.length < 4)
     {
         [_TXT_zip becomeFirstResponder];
         [_TXT_zip showError];
-        [_TXT_zip showErrorWithText:@" Zip code minimum 4 Chracters"];
+        [_TXT_zip showErrorWithText:@" Zipcode minimum 4 characters"];
     }
     else if (_TXT_phonenumber.text.length < 5)
     {
         [_TXT_phonenumber becomeFirstResponder];
         [_TXT_phonenumber showError];
-        [_TXT_phonenumber showErrorWithText:@" Please enter More than 5 Numbers"];
+        [_TXT_phonenumber showErrorWithText:@" Please enter More than 5 numbers"];
     }
     
 
@@ -727,7 +730,7 @@
     {
     VW_overlay.hidden = NO;
     [activityIndicatorView startAnimating];
-    [self performSelector:@selector(braintree_Dropin_UI) withObject:activityIndicatorView afterDelay:0.01];
+    [self performSelector:@selector(get_client_TOKEN) withObject:activityIndicatorView afterDelay:0.01];
     }
 }
 
@@ -749,19 +752,30 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
         
         NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         
         NSLog(@"Client Token = %@",[dict valueForKey:@"client_token"]);
         
-        self.braintree = [Braintree braintreeWithClientToken:[dict valueForKey:@"client_token"]];
-        NSLog(@"dddd = %@",self.braintree);
+        [self braintree_Dropin_UI:[dict valueForKey:@"client_token"]];
+        
+//        self.braintree = [Braintree braintreeWithClientToken:[dict valueForKey:@"client_token"]];
+//        NSLog(@"dddd = %@",self.braintree);
+        
+        
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please retry" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
     }
 }
 
--(void) braintree_Dropin_UI
+-(void) braintree_Dropin_UI :(NSString *) client_TOK
 {
-    BTDropInViewController *dropInViewController = [self.braintree dropInViewControllerWithDelegate:self];
+   /* BTDropInViewController *dropInViewController = [self.braintree dropInViewControllerWithDelegate:self];
     // This is where you might want to customize your Drop in. (See below.)
     
     // The way you present your BTDropInViewController instance is up to you.
@@ -793,7 +807,30 @@
     [activityIndicatorView stopAnimating];
     VW_overlay.hidden = YES;
     
-    [self presentViewController:navigationController animated:YES completion:nil];
+    [self presentViewController:navigationController animated:YES completion:nil];*/
+    
+    BTDropInRequest *request = [[BTDropInRequest alloc] init];
+    BTDropInController *dropIn = [[BTDropInController alloc] initWithAuthorization:client_TOK request:request handler:^(BTDropInController * _Nonnull controller, BTDropInResult * _Nullable result, NSError * _Nullable error) {
+        
+        if (error != nil) {
+            NSLog(@"ERROR");
+        } else if (result.cancelled) {
+            NSLog(@"CANCELLED");
+            [self dismissViewControllerAnimated:YES completion:NULL];
+        } else {
+            [self performSelector:@selector(dismiss_BT)
+                       withObject:nil
+                       afterDelay:0.0];
+            [self postNonceToServer:result.paymentMethod.nonce];
+        }
+    }];
+    [self presentViewController:dropIn animated:YES completion:nil];
+}
+
+
+-(void) dismiss_BT
+{
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 #pragma mark textfieldDelegates
@@ -1139,17 +1176,50 @@
 }
 
 
-#pragma mark - Braintree Integration
-- (void)dropInViewController:(__unused BTDropInViewController *)viewController didSucceedWithPaymentMethod:(BTPaymentMethod *)paymentMethod {
-    [self postNonceToServer:paymentMethod.nonce]; // Send payment method nonce to your server
-    [self dismissViewControllerAnimated:YES completion:nil];
+#pragma mark - BTViewControllerPresentingDelegate
+
+// Required
+- (void)paymentDriver:(id)paymentDriver
+requestsPresentationOfViewController:(UIViewController *)viewController {
+    [self presentViewController:viewController animated:YES completion:nil];
 }
 
-- (void)dropInViewControllerDidCancel:(__unused BTDropInViewController *)viewController {
-    [self dismissViewControllerAnimated:YES completion:nil];
+// Required
+- (void)paymentDriver:(id)paymentDriver
+requestsDismissalOfViewController:(UIViewController *)viewController {
+    [viewController dismissViewControllerAnimated:YES completion:nil];
 }
-- (void)userDidCancelPayment {
-    [self dismissViewControllerAnimated:YES completion:nil];
+
+#pragma mark - BTAppSwitchDelegate
+
+// Optional - display and hide loading indicator UI
+- (void)appSwitcherWillPerformAppSwitch:(id)appSwitcher {
+    [self showLoadingUI];
+    
+    // You may also want to subscribe to UIApplicationDidBecomeActiveNotification
+    // to dismiss the UI when a customer manually switches back to your app since
+    // the payment button completion block will not be invoked in that case (e.g.
+    // customer switches back via iOS Task Manager)
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(hideLoadingUI:)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+}
+
+- (void)appSwitcherWillProcessPaymentInfo:(id)appSwitcher {
+    [self hideLoadingUI:nil];
+}
+
+#pragma mark - Private methods
+
+- (void)showLoadingUI {
+    
+}
+
+- (void)hideLoadingUI:(NSNotification *)notification {
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIApplicationDidBecomeActiveNotification
+                                                  object:nil];
 }
 
 -(void) postNonceToServer :(NSString *)str

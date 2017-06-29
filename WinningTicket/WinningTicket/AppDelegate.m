@@ -7,7 +7,8 @@
 //
 
 #import "AppDelegate.h"
-#import <Braintree/Braintree.h>
+//#import <Braintree/Braintree.h>
+#import "BraintreeCore.h"
 #import <UserNotifications/UserNotifications.h>
 
 //@interface AppDelegate : UIResponder   <UIApplicationDelegate,UNUserNotificationCenterDelegate>
@@ -62,7 +63,7 @@
     [lagFreeField resignFirstResponder];
     [lagFreeField removeFromSuperview];
     
-    [Braintree setReturnURLScheme:@"com.carmatec.WinningTicket.payments"];
+    [BTAppSwitch setReturnURLScheme:@"com.carmatec.WinningTicket.payments"];
     
     return YES;
 }
@@ -71,7 +72,7 @@
             openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
     if ([url.scheme localizedCaseInsensitiveCompare:@"com.carmatec.WinningTicket.payments"] == NSOrderedSame) {
-        return [Braintree handleOpenURL:url sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]];
+        return [BTAppSwitch handleOpenURL:url options:options];
     }
     return NO;
 }
@@ -82,7 +83,7 @@
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
     if ([url.scheme localizedCaseInsensitiveCompare:@"com.carmatec.WinningTicket.payments"] == NSOrderedSame) {
-        return [Braintree handleOpenURL:url sourceApplication:sourceApplication];
+        return [BTAppSwitch handleOpenURL:url sourceApplication:sourceApplication];
     }
     return NO;
 }

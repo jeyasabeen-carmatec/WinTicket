@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Braintree/Braintree.h>
+//#import <Braintree/Braintree.h>
 #import "ACFloatingTextField.h"
 
-@interface VC_billingAddr : UIViewController<UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,UIGestureRecognizerDelegate,BTDropInViewControllerDelegate,BTPaymentMethodCreationDelegate>
+@interface VC_billingAddr : UIViewController<UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,UIGestureRecognizerDelegate>
 
-@property (nonatomic, strong) Braintree *braintree;
+//@property (nonatomic, strong) Braintree *braintree;
 
 @property(nonatomic,weak)IBOutlet UIView *VW_main;
 @property(nonatomic,weak)IBOutlet UILabel *lbl_name_ticket;

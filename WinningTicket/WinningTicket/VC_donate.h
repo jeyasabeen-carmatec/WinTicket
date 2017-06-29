@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Braintree/Braintree.h>
+//#import <Braintree/Braintree.h>
 #import "ACFloatingTextField.h"
 
-@interface VC_donate : UIViewController<UIGestureRecognizerDelegate,BTDropInViewControllerDelegate,BTPaymentMethodCreationDelegate>
+@interface VC_donate : UIViewController<UIGestureRecognizerDelegate>
 
-@property (nonatomic, strong) Braintree *braintree;
+//@property (nonatomic, strong) Braintree *braintree;
 
 @property (weak, nonatomic) IBOutlet UITextView *TXTVW_organisationname;
 @property (nonatomic, strong) UIPickerView *organisation_list;

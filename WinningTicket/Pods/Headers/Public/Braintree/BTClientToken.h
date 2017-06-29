@@ -1,1 +1,1 @@
-../../../Braintree/Braintree/API/@Public/BTClientToken.h
+../../../Braintree/BraintreeCore/Public/BTClientToken.h

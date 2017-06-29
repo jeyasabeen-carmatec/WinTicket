@@ -1,1 +1,1 @@
-../../../Braintree/Braintree/API/App Switch/BTAppSwitch.h
+../../../Braintree/BraintreeCore/Public/BTAppSwitch.h

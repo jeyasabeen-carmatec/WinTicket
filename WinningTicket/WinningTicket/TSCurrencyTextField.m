@@ -154,24 +154,38 @@
 - (BOOL) textField: (TSCurrencyTextField *) textField shouldChangeCharactersInRange: (NSRange) range replacementString: (NSString *) string
 {
     // "deleting" a formatting character just back-spaces over that character:
+    NSInteger inte = textField.text.length;
+    if(inte >= 11)
+    {
+        if ([string isEqualToString:@""]) {
+            return YES;
+        }
+        else
+        {
+            return NO;
+        }
+    }
+//    return YES;
+    
     if ( string.length == 0 && range.length == 1 && [[textField invalidInputCharacterSet] characterIsMember: [textField.text characterAtIndex: range.location]] )
     {
         [textField setCaratPosition: range.location];
         return NO;
     }
     
-    int distanceFromEnd = textField.text.length - (range.location + range.length + 10);
+    int distanceFromEnd = (int)textField.text.length - (int)(range.location + range.length + 10);
     
     NSString* changed = [textField.text stringByReplacingCharactersInRange: range withString: string];
     [textField setText: changed];
     
-    int pos = textField.text.length - distanceFromEnd;
+    int pos = (int)textField.text.length - (int) distanceFromEnd;
     if ( pos >= 0 && pos <= textField.text.length )
     {
         [textField setCaratPosition: pos];
     }
     
     [textField sendActionsForControlEvents: UIControlEventEditingChanged];
+    
     
     return NO;
 }

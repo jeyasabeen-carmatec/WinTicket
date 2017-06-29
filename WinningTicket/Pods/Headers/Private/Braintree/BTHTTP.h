@@ -1,1 +1,1 @@
-../../../Braintree/Braintree/API/Networking/BTHTTP.h
+../../../Braintree/BraintreeCore/BTHTTP.h

@@ -1,1 +1,1 @@
-../../../Braintree/Braintree/API/@Public/BTPostalAddress.h
+../../../Braintree/BraintreeCore/Public/BTPostalAddress.h

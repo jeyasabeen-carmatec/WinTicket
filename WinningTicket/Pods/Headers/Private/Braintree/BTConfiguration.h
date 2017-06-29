@@ -1,1 +1,1 @@
-../../../Braintree/Braintree/API/Client/BTConfiguration.h
+../../../Braintree/BraintreeCore/Public/BTConfiguration.h

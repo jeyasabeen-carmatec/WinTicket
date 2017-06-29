@@ -1,1 +1,1 @@
-../../../Braintree/Braintree/API/Utility/BTLogger_Internal.h
+../../../Braintree/BraintreeCore/BTLogger_Internal.h

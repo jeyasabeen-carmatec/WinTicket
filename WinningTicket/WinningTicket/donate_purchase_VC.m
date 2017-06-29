@@ -196,7 +196,7 @@
     
     text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
     text = [text stringByReplacingOccurrencesOfString:@"(null)" withString:@"Not Mentioned"];
-    _lbl_datasubtotal.text = [NSString stringWithFormat:@"$ %.02f",[[temp_resp valueForKey:@"price"] floatValue]];
+    _lbl_datasubtotal.text = [NSString stringWithFormat:@"$%.2f",[[temp_resp valueForKey:@"price"] floatValue]];
     _lbl_datatotal.text = _lbl_datasubtotal.text;
     
 
@@ -259,6 +259,10 @@
     //    {
     if (chk_ht < _img_icon.frame.size.height + 10) {
         frame_rect.origin.y = _img_icon.frame.origin.y + _img_icon.frame.size.height + 10;
+        
+        CGRect temp_frame = _lbl_ticketDetail.frame;
+        temp_frame.size.height = _img_icon.frame.size.height;
+        _lbl_ticketDetail.frame = temp_frame;
     }
     else
     {

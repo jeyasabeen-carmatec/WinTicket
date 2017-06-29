@@ -1,1 +1,1 @@
-../../../Braintree/Braintree/API/@Public/BTErrors.h
+../../../Braintree/BraintreeCore/Public/BTErrors.h

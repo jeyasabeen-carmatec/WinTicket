@@ -390,7 +390,7 @@
             }
             
             NSDictionary *temp_DICN = [ARR_upcommingevent objectAtIndex:indexPath.row];
-            cell.lbl_event_name.text = [temp_DICN valueForKey:@"name"];
+            cell.lbl_event_name.text = [[temp_DICN valueForKey:@"name"] capitalizedString];
             cell.lbl_event_name.numberOfLines = 0;
             [cell.lbl_event_name sizeToFit];
             
@@ -446,7 +446,7 @@
             }
             
             NSDictionary *temp_DICN = [ARR_allevent objectAtIndex:indexPath.row];
-            cell.lbl_event_name.text = [temp_DICN valueForKey:@"name"];
+            cell.lbl_event_name.text = [[temp_DICN valueForKey:@"name"] capitalizedString];
             cell.lbl_event_name.numberOfLines = 0;
             [cell.lbl_event_name sizeToFit];
             
@@ -901,7 +901,15 @@
         NSLog(@"VC home enter event code :%@",dict);
         
         
-        if (![[dict valueForKey:@"status"] isEqualToString:@"Success"]) {
+        if (![[dict valueForKey:@"status"] isEqualToString:@"Success"])
+        {
+            [_TXT_0 becomeFirstResponder];
+            _TXT_0.text = @"";
+            _TXT_1.text = @"";
+            _TXT_2.text = @"";
+            _TXT_3.text = @"";
+            _TXT_4.text = @"";
+            _TXT_5.text = @"";
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[dict valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
             [alert show];
         }

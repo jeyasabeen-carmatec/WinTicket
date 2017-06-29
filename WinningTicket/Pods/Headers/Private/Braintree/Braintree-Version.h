@@ -1,1 +1,1 @@
-../../../Braintree/Braintree/API/@Public/Braintree-Version.h
+../../../Braintree/BraintreeCore/Braintree-Version.h

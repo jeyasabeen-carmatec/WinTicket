@@ -389,7 +389,7 @@
     if(textField.tag==1)
     {
         NSInteger inte = textField.text.length;
-        if(inte >= 255)
+        if(inte >= 150)
         {
             if ([string isEqualToString:@""]) {
                 return YES;
@@ -593,7 +593,7 @@
     {
         [_TXT_golfcoursename becomeFirstResponder];
         [_TXT_golfcoursename showError];
-        [_TXT_golfcoursename showErrorWithText:@" Course name minimum 2 Chracters"];
+        [_TXT_golfcoursename showErrorWithText:@" Course name minimum 2 characters"];
     }
     else if([_TXT_F_name.text isEqualToString:@""])
     {
@@ -605,13 +605,13 @@
     {
         [_TXT_F_name becomeFirstResponder];
         [_TXT_F_name showError];
-        [_TXT_F_name showErrorWithText:@" First name minimum 2 Chracters"];
+        [_TXT_F_name showErrorWithText:@" First name minimum 2 characters"];
     }
     else  if(L_name_STR.length != 0 && _TXT_L_name.text.length < 2)
     {
         [_TXT_L_name becomeFirstResponder];
         [_TXT_L_name showError];
-        [_TXT_L_name showErrorWithText:@" Last name minimum 2 Chracters"];
+        [_TXT_L_name showErrorWithText:@" Last name minimum 2 characters"];
     }
     else if([_TXT_titl.text isEqualToString:@""])
     {
@@ -623,7 +623,7 @@
     {
         [_TXT_titl becomeFirstResponder];
         [_TXT_titl showError];
-        [_TXT_titl showErrorWithText:@" Contact title minimum 2 Chracters"];
+        [_TXT_titl showErrorWithText:@" Contact title minimum 2 characters"];
     }
     else if([_TXT_addr1.text isEqualToString:@""])
     {
@@ -635,13 +635,13 @@
     {
         [_TXT_addr1 becomeFirstResponder];
         [_TXT_addr1 showError];
-        [_TXT_addr1 showErrorWithText:@" Address line 1 minimum 2 Chracters"];
+        [_TXT_addr1 showErrorWithText:@" Address line 1 minimum 2 characters"];
     }
     else  if(addr_line_two.length != 0 && _TXT_addr2.text.length < 2)
     {
         [_TXT_addr2 becomeFirstResponder];
         [_TXT_addr2 showError];
-        [_TXT_addr2 showErrorWithText:@" Address line 2 minimum 2 Chracters"];
+        [_TXT_addr2 showErrorWithText:@" Address line 2 minimum 2 characters"];
     }
     else if([_TXT_city.text isEqualToString:@""])
     {
@@ -653,7 +653,7 @@
     {
         [_TXT_city becomeFirstResponder];
         [_TXT_city showError];
-        [_TXT_city showErrorWithText:@" City minimum 2 Chracters"];
+        [_TXT_city showErrorWithText:@" City minimum 2 characters"];
     }
     else if([_TXT_phone_num.text isEqualToString:@""])
     {
@@ -665,13 +665,13 @@
     {
         [_TXT_phone_num becomeFirstResponder];
         [_TXT_phone_num showError];
-        [_TXT_phone_num showErrorWithText:@" Phone number minimum 5 Numbers"];
+        [_TXT_phone_num showErrorWithText:@" Phone number minimum 5 numbers"];
     }
     else if([_TXT_country.text isEqualToString:@""])
     {
         [_TXT_country becomeFirstResponder];
         [_TXT_country showError];
-        [_TXT_country showErrorWithText:@" Please Select Country"];
+        [_TXT_country showErrorWithText:@" Please Select country"];
     }
     else if([_TXT_zip.text isEqualToString:@""])
     {
@@ -683,13 +683,13 @@
     {
         [_TXT_zip becomeFirstResponder];
         [_TXT_zip showError];
-        [_TXT_zip showErrorWithText:@" Zipcode minimum 3 Chracters"];
+        [_TXT_zip showErrorWithText:@" Zipcode minimum 4 characters"];
     }
     else if([emailTest evaluateWithObject:text_to_compare_email] == NO)
     {
         [_TXT_email becomeFirstResponder];
         [_TXT_email showError];
-        [_TXT_email showErrorWithText:@" Please Enter valid Email"];
+        [_TXT_email showErrorWithText:@" Please Enter valid email"];
     }
     else
     {
@@ -766,10 +766,6 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
     }
-    
-    
-    
-    
 }
 -(void)State_api
 {
@@ -914,6 +910,10 @@
                 }
               else
                 {
+                    if ([msg isEqualToString:@"User already exists"])
+                    {
+                        msg = @"Email address already in use, Please try with different email.";
+                    }
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:msg delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
                     [alert show];
                 }

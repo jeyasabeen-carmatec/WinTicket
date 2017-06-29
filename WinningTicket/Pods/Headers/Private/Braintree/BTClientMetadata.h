@@ -1,1 +1,1 @@
-../../../Braintree/Braintree/API/Client/BTClientMetadata.h
+../../../Braintree/BraintreeCore/Public/BTClientMetadata.h

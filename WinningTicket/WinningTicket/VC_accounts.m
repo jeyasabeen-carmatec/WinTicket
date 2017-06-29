@@ -122,7 +122,9 @@
             }
         }
         [self performSegueWithIdentifier:@"event2identifier" sender:self];
-        [self parse_listEvents_api];
+        VW_overlay.hidden = NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(parse_listEvents_api) withObject:activityIndicatorView afterDelay:0.01];
     }
     else if ([item.title isEqualToString:@"COURSES"])
     {

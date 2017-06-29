@@ -1,1 +1,1 @@
-../../../Braintree/Braintree/API/Networking/Certificates/BTAPIPinnedCertificates.h
+../../../Braintree/BraintreeCore/BTAPIPinnedCertificates.h

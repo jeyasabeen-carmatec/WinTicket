@@ -2,8 +2,6 @@
 # platform :ios, '9.0'
 
 target 'WinningTicket_Universal' do
-
-  pod 'Braintree', '~> 3.9'
-
+  pod 'BraintreeDropIn'
+  pod 'Braintree/PayPal'
 end
-

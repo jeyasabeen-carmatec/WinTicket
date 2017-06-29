@@ -1,1 +1,1 @@
-../../../Braintree/Braintree/API/Utility/BTAnalyticsMetadata.h
+../../../Braintree/BraintreeCore/BTAnalyticsMetadata.h

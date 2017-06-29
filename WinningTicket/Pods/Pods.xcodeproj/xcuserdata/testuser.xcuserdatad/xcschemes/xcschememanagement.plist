@@ -4,17 +4,17 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Braintree-Braintree-Drop-In-Localization.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>Braintree-Braintree-UI-Localization.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Braintree.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>BraintreeDropIn-Braintree-UIKit-Localization.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>BraintreeDropIn.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -27,22 +27,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0F55DDB566B087BC85EFE7523CFBCC8D</key>
+		<key>20C56D7C456D9B7CE88ACB562DFEDFDA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5F87E096C4017EC0B88E941F2E029FD4</key>
+		<key>385F89CC6210E9756486AAF1FF01ACBD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9AFE617F1653287071AEECEBE21BDFD5</key>
+		<key>5CA864AF48B6D6BE6527F10E92D62E28</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9BECB3C358BE2883BE9F95EEE6EC88D9</key>
+		<key>7AA957AA723292FFB22462E3116BAC55</key>
 		<dict>
 			<key>primary</key>
 			<true/>

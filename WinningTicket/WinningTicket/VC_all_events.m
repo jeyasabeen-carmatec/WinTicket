@@ -110,48 +110,7 @@
     [_tbl_eventlst setDragDelegate:self refreshDatePermanentKey:@"FriendList"];
     _tbl_eventlst.showLoadMoreView = YES;
 }
--(void) fromdateTextField:(id)sender
-{
-    //    [_fromdate_picker setMaximumDate:[NSDate date]];
-    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    NSDate *eventDate = _picker_fromdate.date;
-    [dateFormat setDateFormat:@"dd-MM-YYYY"];
-    
-    NSString *dateString = [dateFormat stringFromDate:eventDate];
-    _TXT_fromdate.text = [NSString stringWithFormat:@"%@",dateString];
-    _TXT_todate.text = @"";
-}
 
--(void) todateTextField:(id)sender
-{
-    if ([_TXT_fromdate.text isEqualToString:@""])
-    {
-        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-        NSDate *eventDate = _picker_todate.date;
-        [dateFormat setDateFormat:@"dd-MM-YYYY"];
-        
-        NSString *dateString = [dateFormat stringFromDate:eventDate];
-        _TXT_fromdate.text = [NSString stringWithFormat:@"%@",dateString];
-        _TXT_todate.text = @"";
-    }
-    else
-    {
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"dd-MM-yyyy"];
-        
-        NSString *STR_tmp = [NSString stringWithFormat:@"%@",_TXT_fromdate.text];
-        
-        NSDate *min_date = [[NSDate alloc] init];
-        min_date = [formatter dateFromString:STR_tmp];
-        
-        [_picker_todate setMinimumDate:min_date];
-        
-        NSDate *eventDate = _picker_todate.date;
-        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-        [dateFormat setDateFormat:@"dd-MM-YYYY "];
-        _TXT_todate.text = [dateFormat stringFromDate:eventDate];
-    }
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -340,34 +299,133 @@
         datelbl.font = [UIFont fontWithName:@"GothamMedium" size:16];
     }
     datelbl.backgroundColor = [UIColor clearColor];
-
-//    UIButton *closeDate =[[UIButton alloc]init];
-//    closeDate.frame=CGRectMake(date_close.frame.size.width - 90, 0, 100, date_close.frame.size.height);
-//    [closeDate setTitle:@"Close" forState:UIControlStateNormal];
-//    [closeDate addTarget:self action:@selector(closebuttonClick) forControlEvents:UIControlEventTouchUpInside];
-//    [date_close addSubview:closeDate];
+    
+    UIToolbar* date_close1 = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+    date_close1.translucent = NO; //.barStyle = UIBarStyleDefault;
+    date_close1.barTintColor = [UIColor colorWithRed:0.94 green:0.94 blue:0.94 alpha:1.0];
+    [date_close1 sizeToFit];
+    
     
     UIBarButtonItem *leftButton1 = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(closebuttonClick)];
     
     UIBarButtonItem *flex1 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     
-    UIBarButtonItem *rightButton1 = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(closebuttonClick)];
+    UIBarButtonItem *rightButton1 = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(donefromdate)];
+    
+    UIBarButtonItem *rightButton2 = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(donetodate)];
     
     UIBarButtonItem *title_lbl1 = [[UIBarButtonItem alloc] initWithCustomView:datelbl];
-    
     [date_close setItems:[NSArray arrayWithObjects: leftButton1, flex1, title_lbl1, flex1, rightButton1, nil]];
+    [date_close1 setItems:[NSArray arrayWithObjects: leftButton1, flex1, title_lbl1, flex1, rightButton2, nil]];
     
     _TXT_state.inputAccessoryView = state_close;
-    _TXT_todate.inputAccessoryView = date_close;
+    _TXT_todate.inputAccessoryView = date_close1;
     _TXT_fromdate.inputAccessoryView = date_close;
     
     [_apply addTarget:self action:@selector(apply_Clicked) forControlEvents:UIControlEventTouchUpInside];
 }
+
+#pragma mark - UIbarbutton Item clicked
 -(void)closebuttonClick
 {
     [_TXT_state resignFirstResponder];
     [_TXT_todate resignFirstResponder];
     [_TXT_fromdate resignFirstResponder];
+}
+
+-(void)donefromdate
+{
+    [_TXT_state resignFirstResponder];
+    [_TXT_todate resignFirstResponder];
+    [_TXT_fromdate resignFirstResponder];
+    
+    //    [_fromdate_picker setMaximumDate:[NSDate date]];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    NSDate *eventDate = _picker_fromdate.date;
+    [dateFormat setDateFormat:@"dd-MM-YYYY"];
+    
+    NSString *dateString = [dateFormat stringFromDate:eventDate];
+    _TXT_fromdate.text = [NSString stringWithFormat:@"%@",dateString];
+    _TXT_todate.text = @"";
+}
+
+-(void)donetodate
+{
+    [_TXT_state resignFirstResponder];
+    [_TXT_todate resignFirstResponder];
+    [_TXT_fromdate resignFirstResponder];
+    
+    if ([_TXT_fromdate.text isEqualToString:@""])
+    {
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        NSDate *eventDate = _picker_todate.date;
+        [dateFormat setDateFormat:@"dd-MM-YYYY"];
+        
+        NSString *dateString = [dateFormat stringFromDate:eventDate];
+        _TXT_fromdate.text = [NSString stringWithFormat:@"%@",dateString];
+        _TXT_todate.text = @"";
+    }
+    else
+    {
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"dd-MM-yyyy"];
+        
+        NSString *STR_tmp = [NSString stringWithFormat:@"%@",_TXT_fromdate.text];
+        
+        NSDate *min_date = [[NSDate alloc] init];
+        min_date = [formatter dateFromString:STR_tmp];
+        
+        [_picker_todate setMinimumDate:min_date];
+        
+        NSDate *eventDate = _picker_todate.date;
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"dd-MM-YYYY "];
+        _TXT_todate.text = [dateFormat stringFromDate:eventDate];
+    }
+}
+
+#pragma mark - Datepickerdid tap date
+-(void) fromdateTextField:(id)sender
+{
+    //    [_fromdate_picker setMaximumDate:[NSDate date]];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    NSDate *eventDate = _picker_fromdate.date;
+    [dateFormat setDateFormat:@"dd-MM-YYYY"];
+    
+    NSString *dateString = [dateFormat stringFromDate:eventDate];
+    _TXT_fromdate.text = [NSString stringWithFormat:@"%@",dateString];
+    _TXT_todate.text = @"";
+}
+
+-(void) todateTextField:(id)sender
+{
+    if ([_TXT_fromdate.text isEqualToString:@""])
+    {
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        NSDate *eventDate = _picker_todate.date;
+        [dateFormat setDateFormat:@"dd-MM-YYYY"];
+        
+        NSString *dateString = [dateFormat stringFromDate:eventDate];
+        _TXT_fromdate.text = [NSString stringWithFormat:@"%@",dateString];
+        _TXT_todate.text = @"";
+    }
+    else
+    {
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"dd-MM-yyyy"];
+        
+        NSString *STR_tmp = [NSString stringWithFormat:@"%@",_TXT_fromdate.text];
+        
+        NSDate *min_date = [[NSDate alloc] init];
+        min_date = [formatter dateFromString:STR_tmp];
+        
+        [_picker_todate setMinimumDate:min_date];
+        
+        NSDate *eventDate = _picker_todate.date;
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"dd-MM-YYYY "];
+        _TXT_todate.text = [dateFormat stringFromDate:eventDate];
+    }
 }
 /*
 #pragma mark - Navigation
@@ -456,16 +514,20 @@
     
     _picker_fromdate = [[UIDatePicker alloc]init];
     _picker_fromdate.datePickerMode = UIDatePickerModeDate;
+    UITapGestureRecognizer* gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fromdateTextField:)];
+    [_picker_fromdate addGestureRecognizer:gestureRecognizer];
+    gestureRecognizer.delegate = self;
     
     _picker_todate=[[UIDatePicker alloc]init];
     _picker_todate.datePickerMode=UIDatePickerModeDate;
+    UITapGestureRecognizer* gestureRecognizer1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(todateTextField:)];
+    [_picker_todate addGestureRecognizer:gestureRecognizer1];
+    gestureRecognizer1.delegate = self;
     
     _state_pickerView.dataSource = self;
     _state_pickerView.delegate = self;
     
     [_picker_fromdate addTarget:self action:@selector(fromdateTextField:) forControlEvents:UIControlEventValueChanged];
-    
-    
     [_picker_todate addTarget:self action:@selector(todateTextField:) forControlEvents:UIControlEventValueChanged];
     
     _TXT_state.text = @"";
@@ -838,7 +900,7 @@
             }
             
             NSDictionary *temp_DICN = [ARR_allevent objectAtIndex:indexPath.row];
-            cell.lbl_event_name.text = [temp_DICN valueForKey:@"name"];
+            cell.lbl_event_name.text = [[temp_DICN valueForKey:@"name"] capitalizedString];
             cell.lbl_event_name.numberOfLines = 0;
             [cell.lbl_event_name sizeToFit];
             
@@ -1412,6 +1474,11 @@
             searchBar1.delegate = self;
         }
     }
+}
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
 }
 
 @end

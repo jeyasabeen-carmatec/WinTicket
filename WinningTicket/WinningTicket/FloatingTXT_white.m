@@ -171,7 +171,14 @@
     _labelErrorPlaceholder.textColor = _errorTextColor;
     _labelErrorPlaceholder.tag = 21;
     _labelErrorPlaceholder.backgroundColor = [UIColor clearColor];
-    _labelErrorPlaceholder.font = [UIFont fontWithName:self.font.fontName size:12];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] ==UIUserInterfaceIdiomPad)
+    {
+        _labelErrorPlaceholder.font = [UIFont fontWithName:self.font.fontName size:14];
+    }
+    else
+    {
+        _labelErrorPlaceholder.font = [UIFont fontWithName:self.font.fontName size:12];
+    }
     
     CGRect frameError = _labelErrorPlaceholder.frame;
     frameError.size.height = 12;

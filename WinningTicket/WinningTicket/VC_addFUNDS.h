@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Braintree/Braintree.h>
+//#import <Braintree/Braintree.h>
+#import "BraintreeCore.h"
+#import "BraintreeDropIn.h"
 
-@interface VC_addFUNDS : UIViewController <UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource,BTDropInViewControllerDelegate,BTPaymentMethodCreationDelegate,UIGestureRecognizerDelegate>
+@interface VC_addFUNDS : UIViewController <UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource,BTViewControllerPresentingDelegate,UIGestureRecognizerDelegate>
 
-@property (nonatomic, strong) Braintree *braintree;
+//@property (nonatomic, strong) Braintree *braintree;
 @property (weak, nonatomic) IBOutlet UITextField *TXT_amount;
 @property (weak, nonatomic) IBOutlet UIView *VW_contents;
 @property (weak, nonatomic) IBOutlet UIScrollView *scroll_Contents;

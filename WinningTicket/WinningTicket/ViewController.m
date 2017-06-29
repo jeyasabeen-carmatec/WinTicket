@@ -273,7 +273,6 @@
         textField.clearButtonMode = UITextFieldViewModeWhileEditing;
         [textField addTarget:self action:@selector(textDidChange:) forControlEvents:UIControlEventEditingChanged];
     }];
-     self.submit_action.enabled = NO;
     
     self.submit_action = [UIAlertAction actionWithTitle:@"Submit"
                                              style:UIAlertActionStyleDefault
@@ -283,10 +282,10 @@
                                                     VW_overlay.hidden = NO;
                                                     [activityIndicatorView startAnimating];
                                                     [self performSelector:@selector(forgot_PWD) withObject:activityIndicatorView afterDelay:0.01];
-
                                                 }];
 
      [alertController addAction:self.submit_action];
+     self.submit_action.enabled = NO;
     
     [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
         
@@ -578,13 +577,17 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
     {
-//        [activityIndicatorView stopAnimating];
-//        VW_overlay.hidden = YES;
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
         [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         //        NSLog(@" THe user data is :%@",[[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"User_data"]);
         //        [self performSegueWithIdentifier:@"accountstoeditprofileidentifier" sender:self];
-        [self parse_listEvents_api];
+//        [self parse_listEvents_api];
+        VW_overlay.hidden = NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(parse_listEvents_api) withObject:activityIndicatorView afterDelay:0.01];
     }
     else
     {
