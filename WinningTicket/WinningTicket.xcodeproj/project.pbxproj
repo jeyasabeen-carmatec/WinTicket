@@ -206,8 +206,8 @@
 		BEFC20341EFD23AC0067717D /* VC_editAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFC20331EFD23AC0067717D /* VC_editAccount.m */; };
 		BEFC20371EFD23CD0067717D /* VC_donate.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFC20361EFD23CD0067717D /* VC_donate.m */; };
 		BEFC203A1EFD34D60067717D /* VC_contactUS.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFC20391EFD34D60067717D /* VC_contactUS.m */; };
-		BEFC203C1F021F4E0067717D /* Main~ipad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEFC203B1F021F4E0067717D /* Main~ipad.storyboard */; };
 		BEFC203E1F0243DE0067717D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BEFC203D1F0243DE0067717D /* Default-568h@2x.png */; };
+		BEFC20421F04CE590067717D /* Main~ipad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEFC20411F04CE590067717D /* Main~ipad.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -536,9 +536,9 @@
 		BEFC20361EFD23CD0067717D /* VC_donate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_donate.m; sourceTree = "<group>"; };
 		BEFC20381EFD34D60067717D /* VC_contactUS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_contactUS.h; sourceTree = "<group>"; };
 		BEFC20391EFD34D60067717D /* VC_contactUS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_contactUS.m; sourceTree = "<group>"; };
-		BEFC203B1F021F4E0067717D /* Main~ipad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Main~ipad.storyboard"; sourceTree = "<group>"; };
 		BEFC203D1F0243DE0067717D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		BEFC203F1F02443F0067717D /* WinningTicket_Universal-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WinningTicket_Universal-Info.plist"; sourceTree = "<group>"; };
+		BEFC20411F04CE590067717D /* Main~ipad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Main~ipad.storyboard"; sourceTree = "<group>"; };
 		DF95C9B9EE59230A8BE59B4D /* libPods-WinningTicket_Universal.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WinningTicket_Universal.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -1261,7 +1261,7 @@
 				BE0055D11EC2DA1100E95941 /* ViewController.h */,
 				BE0055D21EC2DA1100E95941 /* ViewController.m */,
 				BECD7CBC1EF78C350037A968 /* Main.storyboard */,
-				BEFC203B1F021F4E0067717D /* Main~ipad.storyboard */,
+				BEFC20411F04CE590067717D /* Main~ipad.storyboard */,
 				BED71F2C1EE7CB4400492E97 /* Required_IMG */,
 				BEC548631EA719A100FF2114 /* Affiliate */,
 				BEE665A01E5EBDDC00DF9235 /* Sighn_UP */,
@@ -1510,7 +1510,6 @@
 				BED71F301EE7EDCF00492E97 /* gotham-bold-italic.otf in Resources */,
 				BE4EEEB81ED2AAB9003C1C24 /* dotActive.png in Resources */,
 				BE4EEEB51ED2AAB9003C1C24 /* image4.jpg in Resources */,
-				BEFC203C1F021F4E0067717D /* Main~ipad.storyboard in Resources */,
 				BEFC203E1F0243DE0067717D /* Default-568h@2x.png in Resources */,
 				BEA875EA1E8D06CA00EFBB7F /* sec0_3.png in Resources */,
 				BEB702F51ECEE6CB004CB729 /* blueArrow.png in Resources */,
@@ -1560,6 +1559,7 @@
 				BEB49DD41E76B3A900209E63 /* Logo_WT.png in Resources */,
 				BEC3BDBE1EAA255700AD97E4 /* GothamBook Regular.otf in Resources */,
 				BECD7C761EF1413D0037A968 /* cell_edit_referral.xib in Resources */,
+				BEFC20421F04CE590067717D /* Main~ipad.storyboard in Resources */,
 				BE52DF4A1E9B3E3B0055E914 /* IMG_0003.PNG in Resources */,
 				BE4EEEB21ED2AAB9003C1C24 /* image1.jpg in Resources */,
 				BE4EEEB61ED2AAB9003C1C24 /* image5.jpg in Resources */,

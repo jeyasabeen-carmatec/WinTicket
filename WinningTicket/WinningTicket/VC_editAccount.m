@@ -688,29 +688,18 @@
             VW_overlay.hidden = YES;
             [activityIndicatorView stopAnimating];
             
-            UIAlertController *alertcontrollerone=[UIAlertController alertControllerWithTitle: @"Details"message: @"Details Successfully Updated" preferredStyle:UIAlertControllerStyleAlert];
-            [alertcontrollerone addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action)
-            {
-                
-            }]];
-            [self presentViewController:alertcontrollerone animated:YES completion:nil];
-            
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"" message:@"Details Successfully Updated" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+            [self dismissViewControllerAnimated:YES completion:nil];
             
         }
         else
         {
             VW_overlay.hidden = YES;
             [activityIndicatorView stopAnimating];
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"" message:@"Please Check The Details" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
             
-            UIAlertController *alertcontrollertwo = [UIAlertController alertControllerWithTitle:@"Check Details" message: @"Please Check The Details" preferredStyle:UIAlertControllerStyleAlert];
-            [alertcontrollertwo addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-                
-                //                [self performSegueWithIdentifier:@"success_segue" sender:self];
-                
-                
-            }]];
-            [self presentViewController:alertcontrollertwo animated:YES completion:nil];
-            [self dismissViewControllerAnimated:YES completion:nil];
         }
         
     }
@@ -721,13 +710,10 @@
         {
             [activityIndicatorView stopAnimating];
             VW_overlay.hidden = YES;
-            
-            UIAlertController *alertcontrollertwo=[UIAlertController alertControllerWithTitle: @"Server Not Coneected"message: @"Please Check your Connection."
-                                                                               preferredStyle:UIAlertControllerStyleAlert];
-            [alertcontrollertwo addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-                
-            }]];
-            [self presentViewController:alertcontrollertwo animated:YES completion:nil];
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"" message:@"Please Check your Connection." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+
+        
           }
   
                       

@@ -4261,7 +4261,7 @@
                             </collectionViewFlowLayout>
                             <cells>
                                 <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="cell" id="WMl-Ic-4gS" customClass="ADD_Funds_CollectionViewCell">
-                                    <rect key="frame" x="0.0" y="2" width="100" height="50"/>
+                                    <rect key="frame" x="0.0" y="2.5" width="100" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="50"/>
