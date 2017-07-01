@@ -374,18 +374,11 @@
 
 -(void)save_clikced
 {
-//    NSString *text_to_compare_email = _TXT_email.text;
-//    NSString *emailRegEx = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,10}";
-//    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegEx];
-//    NSLog(@"Sighn UP");
-//    
-//    NSString *text_to_compare=_TXT_phone.text;
-//    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
     if([_TXT_fname.text isEqualToString:@""])
     {
         [_TXT_fname becomeFirstResponder];
         [_TXT_fname showError];
-        [_TXT_fname showErrorWithText:@" Plese Enter First name "];
+        [_TXT_fname showErrorWithText:@" Plese enter first name "];
     }
     
     else if(_TXT_fname.text.length < 2)
@@ -398,7 +391,7 @@
     {
         [_TXT_username becomeFirstResponder];
         [_TXT_username showError];
-        [_TXT_username showErrorWithText:@" Please Enter address line 1"];
+        [_TXT_username showErrorWithText:@" Please enter address line 1"];
     }
     else if (_TXT_username.text.length < 2)
     {
@@ -411,7 +404,7 @@
     {
         [_TXT_addr1 becomeFirstResponder];
         [_TXT_addr1 showError];
-        [_TXT_addr1 showErrorWithText:@" Please Enter address line 2"];
+        [_TXT_addr1 showErrorWithText:@" Please enter address line 2"];
     }
     else if (_TXT_addr1.text.length < 2)
     {
@@ -423,7 +416,7 @@
     {
         [_TXT_city becomeFirstResponder];
         [_TXT_city showError];
-        [_TXT_city showErrorWithText:@" Please Enter city"];
+        [_TXT_city showErrorWithText:@" Please enter city"];
     }
     else if(_TXT_city.text.length < 2)
     {
@@ -435,7 +428,7 @@
     {
         [_TXT_zip becomeFirstResponder];
         [_TXT_zip showError];
-        [_TXT_zip showErrorWithText:@" Please Enter zipcode"];
+        [_TXT_zip showErrorWithText:@" Please enter zipcode"];
     }
     else if(_TXT_zip.text.length < 4)
     {
@@ -459,7 +452,7 @@
     {
         [_TXT_country becomeFirstResponder];
         [_TXT_country showError];
-        [_TXT_country showErrorWithText:@" Please Select country"];
+        [_TXT_country showErrorWithText:@" Please select country"];
     }
 
     else

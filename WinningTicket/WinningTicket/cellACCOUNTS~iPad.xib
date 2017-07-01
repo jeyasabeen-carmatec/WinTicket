@@ -32,7 +32,7 @@
                         <size key="shadowOffset" width="0.0" height="0.0"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" id="MQ4-iX-fx6">
-                        <rect key="frame" x="717" y="5" width="40" height="40"/>
+                        <rect key="frame" x="708" y="5" width="40" height="40"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     </imageView>
                 </subviews>

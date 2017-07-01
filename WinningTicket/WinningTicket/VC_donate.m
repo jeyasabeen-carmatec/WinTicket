@@ -19,7 +19,7 @@
     UIActivityIndicatorView *activityIndicatorView;
 //    UILabel *loadingLabel;
     NSMutableDictionary *states,*countryS;
-    NSArray *sorted_STAES,*sorted_Contry;
+    NSArray *sorted_STAES,*sorted_Contry,*sorted_Events;
 }
 @property (nonatomic, strong) NSArray *countrypicker,*statepicker,*oraganisationpicker,*arr;
 
@@ -140,30 +140,39 @@
         NSString *STR_fname = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"first_name"]];
         STR_fname = [STR_fname stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
         STR_fname = [STR_fname stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+        STR_fname = [STR_fname capitalizedString];
         NSString *STR_lname = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"last_name"]];
         STR_lname = [STR_lname stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
         STR_lname = [STR_lname stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+        STR_lname = [STR_lname capitalizedString];
         NSString *STR_addr1 = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"address1"]];
         STR_addr1 = [STR_addr1 stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
         STR_addr1 = [STR_addr1 stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+        STR_addr1 = [STR_addr1 capitalizedString];
         NSString *STR_addr2 = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"address2"]];
         STR_addr2 = [STR_addr2 stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
         STR_addr2 = [STR_addr2 stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+        STR_addr2 = [STR_addr2 capitalizedString];
         NSString *STR_city = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"city"]];
         STR_city = [STR_city stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
         STR_city = [STR_city stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+        STR_city = [STR_city capitalizedString];
         NSString *STR_state = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"state"]];
         STR_state = [STR_state stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
         STR_state = [STR_state stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-        NSString *STR_cntry = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"country"]];
+        STR_state = [STR_state capitalizedString];
+        NSString *STR_cntry = [NSString stringWithFormat:@"%@",[user_DICTIN valueForKey:@"country"]];
         STR_cntry = [STR_cntry stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
         STR_cntry = [STR_cntry stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+        STR_cntry = [STR_cntry capitalizedString];
         NSString *STR_zip = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"zipcode"]];
         STR_zip = [STR_zip stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
         STR_zip = [STR_zip stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+        STR_zip = [STR_zip capitalizedString];
         NSString *STR_phone = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"phone"]];
         STR_phone = [STR_phone stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
         STR_phone = [STR_phone stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+        STR_phone = [STR_phone capitalizedString];
         
         NSString *name;
         if (STR_lname.length == 0)
@@ -182,51 +191,53 @@
         }
         else
         {
-            addr = [NSString stringWithFormat:@"%@,\n%@,\n",STR_addr1,STR_addr2];
+            addr = [NSString stringWithFormat:@"%@, %@,\n",STR_addr1,STR_addr2];
         }
         
-        NSString *city = [NSString stringWithFormat:@"%@,\n",STR_city];
-        NSString *state = [NSString stringWithFormat:@"%@\n",STR_state];
+        NSString *city = [NSString stringWithFormat:@"%@",STR_city];
+        NSString *state = [NSString stringWithFormat:@"%@",STR_state];
+        NSString *zip = [NSString stringWithFormat:@"%@",STR_zip];
         NSString *cntry;
         if (STR_zip.length == 0)
         {
-            cntry = [NSString stringWithFormat:@"%@.\n",STR_cntry];
+            cntry = [NSString stringWithFormat:@"%@, %@, \n",city,state];
         }
         else
         {
-            if (STR_cntry.length == 0) {
-                cntry = [NSString stringWithFormat:@"%@.\n",STR_zip];
+            if (STR_state.length == 0)
+            {
+                cntry = [NSString stringWithFormat:@"%@, %@,\n",city,zip];
             }
             else
             {
-                cntry = [NSString stringWithFormat:@"%@ - %@.\n",STR_cntry,STR_zip];
+                cntry = [NSString stringWithFormat:@"%@, %@, %@,\n",city,state,zip];
             }
         }
-        NSString *phone = [NSString stringWithFormat:@"Phone : %@",STR_phone];
-        
+        NSString *country;
+        if(STR_cntry.length == 0)
+        {
+            country = [NSString stringWithFormat:@"Phone : %@.",STR_phone];
+        }
+        else
+        {
+            country = [NSString stringWithFormat:@"%@ \nPhone : %@.",STR_cntry,STR_phone];
+            
+        }
         NSMutableArray *final_ADDR = [[NSMutableArray alloc] init];
         if (name.length != 0) {
-            [final_ADDR addObject:name];
+            [final_ADDR addObject:[name capitalizedString]];
         }
         
         if (addr.length != 0) {
             [final_ADDR addObject:addr];
         }
         
-        if (city.length != 0 && ![city isEqualToString:@", \n"]) {
-            [final_ADDR addObject:city];
-        }
-        
-        if (state.length != 0 && ![state isEqualToString:@"\n"]) {
-            [final_ADDR addObject:state];
-        }
-        
-        if (cntry.length != 0){
+        if (city.length != 0 && state.length != 0 && zip.length != 0) {
             [final_ADDR addObject:cntry];
         }
         
-        if (phone.length != 0) {
-            [final_ADDR addObject:phone];
+        if (country.length != 0){
+            [final_ADDR addObject:country];
         }
         
         //    NSString *address_str=[NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone : %@",,,,,,,,,];
@@ -585,7 +596,9 @@
                 return NO;
             }
         }
-        return YES;
+        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "] invertedSet];
+        NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
+        return [string isEqualToString:filtered];
     }
     if (textField == _TXT_lastname)
     {
@@ -600,7 +613,9 @@
                 return NO;
             }
         }
-        return YES;
+        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "] invertedSet];
+        NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
+        return [string isEqualToString:filtered];
     }
     if (textField == _TXT_address1) {
         NSInteger inte = textField.text.length;
@@ -643,7 +658,9 @@
                 return NO;
             }
         }
-        return YES;
+        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "] invertedSet];
+        NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
+        return [string isEqualToString:filtered];
     }
     if (textField == _TXT_zip)
     {
@@ -658,7 +675,9 @@
                 return NO;
             }
         }
-        return YES;
+        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "] invertedSet];
+        NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
+        return [string isEqualToString:filtered];
     }
     return YES;
 }
@@ -1160,7 +1179,7 @@
     }*/
     
     
-    [self VIEWaddress];
+    
 //    NSString *text_to_compare=_TXT_phonenumber.text;
 //    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
     NSString *addr_line_two = _TXT_address2.text;
@@ -1184,6 +1203,7 @@
     }
     else if([_TXT_firstname.text isEqualToString:@""])
     {
+        [self VIEWaddress];
         [_TXT_firstname becomeFirstResponder];
         [_TXT_firstname showError];
         [_TXT_firstname showErrorWithText:@" Plese enter first name"];
@@ -1191,48 +1211,56 @@
 
        else if(_TXT_firstname.text.length < 2)
     {
+        [self VIEWaddress];
         [_TXT_firstname becomeFirstResponder];
         [_TXT_firstname showError];
         [_TXT_firstname showErrorWithText:@" First name minimum 2 characters"];
     }
     else if([_TXT_address1.text isEqualToString:@""])
     {
+        [self VIEWaddress];
         [_TXT_address1 becomeFirstResponder];
         [_TXT_address1 showError];
         [_TXT_address1 showErrorWithText:@" Please enter address line 1"];
     }
     else if (_TXT_address1.text.length < 2)
     {
+        [self VIEWaddress];
         [_TXT_address1 becomeFirstResponder];
         [_TXT_address1 showError];
         [_TXT_address1 showErrorWithText:@" Address line 1 minimum 2 characters"];
     }
     else  if(addr_line_two.length != 0 && _TXT_address2.text.length < 2)
     {
+        [self VIEWaddress];
         [_TXT_address2 becomeFirstResponder];
         [_TXT_address2 showError];
         [_TXT_address2 showErrorWithText:@" Address line 2 minimum 2 characters"];
     }
     else  if(lst_name.length != 0 && _TXT_lastname.text.length < 2)
     {
+        [self VIEWaddress];
         [_TXT_lastname becomeFirstResponder];
         [_TXT_lastname showError];
         [_TXT_lastname showErrorWithText:@" Last name minimum 2 characters"];
     }
     else if([_TXT_city.text isEqualToString:@""])
     {
+        [self VIEWaddress];
         [_TXT_city becomeFirstResponder];
         [_TXT_city showError];
         [_TXT_city showErrorWithText:@" Please enter city"];
     }
     else if(_TXT_city.text.length < 2)
     {
+        [self VIEWaddress];
         [_TXT_city becomeFirstResponder];
         [_TXT_city showError];
         [_TXT_city showErrorWithText:@" City minimum 2 characters"];
     }
     else if([_TXT_country.text isEqualToString:@""])
     {
+        [self VIEWaddress];
         [_TXT_country becomeFirstResponder];
         [_TXT_country showError];
         [_TXT_country showErrorWithText:@" Please Select country"];
@@ -1246,18 +1274,21 @@
 
     else if([_TXT_zip.text isEqualToString:@""])
     {
+        [self VIEWaddress];
         [_TXT_zip becomeFirstResponder];
         [_TXT_zip showError];
         [_TXT_zip showErrorWithText:@" Please enter zipcode"];
     }
     else if(_TXT_zip.text.length < 3)
     {
+        [self VIEWaddress];
         [_TXT_zip becomeFirstResponder];
         [_TXT_zip showError];
         [_TXT_zip showErrorWithText:@" Zipcode minimum 4 characters"];
     }
     else if([_TXT_phonenumber.text isEqualToString:@""])
     {
+        [self VIEWaddress];
         [_TXT_phonenumber becomeFirstResponder];
         [_TXT_phonenumber showError];
         [_TXT_phonenumber showErrorWithText:@" Please enter phone number"];
@@ -1265,6 +1296,7 @@
 
     else if (_TXT_phonenumber.text.length < 5)
     {
+        [self VIEWaddress];
         [_TXT_phonenumber becomeFirstResponder];
         [_TXT_phonenumber showError];
         [_TXT_phonenumber showErrorWithText:@" Phone number minimum 5 numbers"];

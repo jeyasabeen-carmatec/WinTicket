@@ -148,7 +148,7 @@
     
     [_img_event sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_dict valueForKey:@"avatar_url"]]]
                   placeholderImage:[UIImage imageNamed:@"Logo_WT.png"]];
-    _img_event.contentMode = UIViewContentModeScaleAspectFit;
+//    _img_event.contentMode = UIViewContentModeScaleAspectFit;
     
     float image_height = _img_event.frame.size.height;
     float lbl_event_name_ht = _lbl_eventname.frame.size.height;
@@ -185,7 +185,7 @@
         // Red text attributes
         //            UIColor *redColor = [UIColor redColor];
         NSRange cmp = [text rangeOfString:location];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:16.0]}
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:18.0]}
                                 range:cmp];
         
         

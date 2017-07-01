@@ -414,7 +414,9 @@
                 return NO;
             }
         }
-        return YES;
+        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "] invertedSet];
+        NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
+        return [string isEqualToString:filtered];
     }
     if(textField.tag==3)
     {
@@ -429,7 +431,9 @@
                 return NO;
             }
         }
-        return YES;
+        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "] invertedSet];
+        NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
+        return [string isEqualToString:filtered];
     }
     if(textField.tag==4)
     {
@@ -489,7 +493,9 @@
                 return NO;
             }
         }
-        return YES;
+        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "] invertedSet];
+        NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
+        return [string isEqualToString:filtered];
     }
     if(textField.tag==8)
     {
@@ -508,44 +514,52 @@
         NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
         return [string isEqualToString:filtered];
     }
-    if(textField.tag==9)
-    {
-        NSInteger inte = textField.text.length;
-        if(inte >= 30)
-        {
-            if ([string isEqualToString:@""]) {
-                return YES;
-            }
-            else
-            {
-                return NO;
-            }
-        }
-        return YES;
-    }
-    if(textField.tag==10)
-    {
-        NSInteger inte = textField.text.length;
-        if(inte >= 30)
-        {
-            if ([string isEqualToString:@""]) {
-                return YES;
-            }
-            else
-            {
-                return NO;
-            }
-        }
-        return YES;
-    }
+//    if(textField.tag==9)
+//    {
+//        NSInteger inte = textField.text.length;
+//        if(inte >= 30)
+//        {
+//            if ([string isEqualToString:@""]) {
+//                return YES;
+//            }
+//            else
+//            {
+//                return NO;
+//            }
+//        }
+//        return YES;
+//    }
+//    if(textField.tag==10)
+//    {
+//        NSInteger inte = textField.text.length;
+//        if(inte >= 30)
+//        {
+//            if ([string isEqualToString:@""]) {
+//                return YES;
+//            }
+//            else
+//            {
+//                return NO;
+//            }
+//        }
+//        return YES;
+//    }
     if(textField.tag == 11)
     {
         NSInteger inte = textField.text.length;
         if(inte >= 8)
         {
-            return NO;
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
         }
-        return YES;
+        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "] invertedSet];
+        NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
+        return [string isEqualToString:filtered];
     }
     return YES;
 }
@@ -629,7 +643,7 @@
     {
         [_TXT_addr1 becomeFirstResponder];
         [_TXT_addr1 showError];
-        [_TXT_addr1 showErrorWithText:@" Please enter address 1"];
+        [_TXT_addr1 showErrorWithText:@" Please enter address line 1"];
     }
     else  if(_TXT_addr1.text.length < 2)
     {
@@ -671,13 +685,13 @@
     {
         [_TXT_country becomeFirstResponder];
         [_TXT_country showError];
-        [_TXT_country showErrorWithText:@" Please Select country"];
+        [_TXT_country showErrorWithText:@" Please select country"];
     }
     else if([_TXT_zip.text isEqualToString:@""])
     {
         [_TXT_zip becomeFirstResponder];
         [_TXT_zip showError];
-        [_TXT_zip showErrorWithText:@" Please Select zipcode"];
+        [_TXT_zip showErrorWithText:@" Please enter zipcode"];
     }
     else if(_TXT_zip.text.length < 4)
     {
@@ -689,7 +703,7 @@
     {
         [_TXT_email becomeFirstResponder];
         [_TXT_email showError];
-        [_TXT_email showErrorWithText:@" Please Enter valid email"];
+        [_TXT_email showErrorWithText:@" Please enter valid email address"];
     }
     else
     {

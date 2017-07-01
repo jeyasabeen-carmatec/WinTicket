@@ -151,7 +151,7 @@
     _labelPlaceholder.text = placeHolderText;
     _labelPlaceholder.textAlignment = self.textAlignment;
     _labelPlaceholder.textColor = _placeHolderColor;
-    _labelPlaceholder.font = self.font;;
+    _labelPlaceholder.font = self.font;
     _labelPlaceholder.tag = 21;
     _labelPlaceholder.backgroundColor = [UIColor clearColor];
     [self addSubview:_labelPlaceholder];
@@ -165,7 +165,7 @@
     
     [_labelErrorPlaceholder removeFromSuperview];
     
-    _labelErrorPlaceholder = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, self.frame.size.width-5, CGRectGetHeight(self.frame))];
+    _labelErrorPlaceholder = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, self.frame.size.width-5, CGRectGetHeight(self.frame))];
     _labelErrorPlaceholder.text = self.errorText;
     _labelErrorPlaceholder.textAlignment = self.textAlignment;
     _labelErrorPlaceholder.textColor = _errorTextColor;
@@ -298,14 +298,29 @@
         }
         
         CGRect frame = _labelPlaceholder.frame;
-        frame.size.height = 13;
-        frame.origin.y = 5;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] ==UIUserInterfaceIdiomPad)
+        {
+            frame.origin.y = 3;
+            frame.size.height = 15;
+        }
+        else
+        {
+            frame.origin.y = 5;
+            frame.size.height = 13;
+        }
         
         //        CGRect bottmLineFrame = bottomLineView.frame;
         //        bottmLineFrame.origin.y = CGRectGetHeight(self.frame)-2;
         [UIView animateWithDuration:0.2 animations:^{
             _labelPlaceholder.frame = frame;
-            _labelPlaceholder.font = [UIFont fontWithName:self.font.fontName size:10];
+            if ([[UIDevice currentDevice] userInterfaceIdiom] ==UIUserInterfaceIdiomPad)
+            {
+                _labelPlaceholder.font = [UIFont fontWithName:self.font.fontName size:14];
+            }
+            else
+            {
+                _labelPlaceholder.font = [UIFont fontWithName:self.font.fontName size:12];
+            }
             _labelPlaceholder.textColor = _selectedPlaceHolderColor;
             //            bottomLineView.frame  =  bottmLineFrame;
             
@@ -334,13 +349,28 @@
         
         
         CGRect frame = _labelPlaceholder.frame;
-        frame.size.height = 13;
-        frame.origin.y = 5;
+        if ([[UIDevice currentDevice] userInterfaceIdiom] ==UIUserInterfaceIdiomPad)
+        {
+            frame.origin.y = 3;
+            frame.size.height = 15;
+        }
+        else
+        {
+            frame.origin.y = 5;
+            frame.size.height = 13;
+        }
         //        CGRect bottmLineFrame = bottomLineView.frame;
         //        bottmLineFrame.origin.y = CGRectGetHeight(self.frame)-1;
         [UIView animateWithDuration:0.2 animations:^{
             _labelPlaceholder.frame = frame;
-            _labelPlaceholder.font = [UIFont fontWithName:self.font.fontName size:10];
+            if ([[UIDevice currentDevice] userInterfaceIdiom] ==UIUserInterfaceIdiomPad)
+            {
+                _labelPlaceholder.font = [UIFont fontWithName:self.font.fontName size:14];
+            }
+            else
+            {
+                _labelPlaceholder.font = [UIFont fontWithName:self.font.fontName size:12];
+            }
             _labelPlaceholder.textColor = _placeHolderColor;
             //            bottomLineView.frame  =  bottmLineFrame;
             
