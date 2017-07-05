@@ -232,7 +232,7 @@
     [someButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:15.0]];
     [someButton addTarget:self action:@selector(BTN_filter)
          forControlEvents:UIControlEventTouchUpInside];
-    [someButton setShowsTouchWhenHighlighted:YES];
+//    [someButton setShowsTouchWhenHighlighted:YES];
     
     UIBarButtonItem *mailbutton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
     self.navigationItem.rightBarButtonItem =mailbutton;
@@ -593,7 +593,7 @@
     
     [someButton addTarget:self action:@selector(whenSearchClicked)
          forControlEvents:UIControlEventTouchUpInside];
-    [someButton setShowsTouchWhenHighlighted:YES];
+//    [someButton setShowsTouchWhenHighlighted:YES];
     
     UIBarButtonItem *mailbutton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
     self.navigationItem.rightBarButtonItem =mailbutton;
@@ -693,7 +693,7 @@
     [someButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Medium" size:15.0]];
     [someButton addTarget:self action:@selector(BTN_filter)
          forControlEvents:UIControlEventTouchUpInside];
-    [someButton setShowsTouchWhenHighlighted:YES];
+//    [someButton setShowsTouchWhenHighlighted:YES];
     
     UIBarButtonItem *mailbutton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
     self.navigationItem.rightBarButtonItem =mailbutton;
@@ -763,11 +763,11 @@
     
     [someButton addTarget:self action:@selector(whenSearchClicked)
          forControlEvents:UIControlEventTouchUpInside];
-    [someButton setShowsTouchWhenHighlighted:YES];
+//    [someButton setShowsTouchWhenHighlighted:YES];
     
     [someButton addTarget:self action:@selector(whenSearchClicked)
          forControlEvents:UIControlEventTouchUpInside];
-    [someButton setShowsTouchWhenHighlighted:YES];
+//    [someButton setShowsTouchWhenHighlighted:YES];
     
     UIBarButtonItem *mailbutton =[[UIBarButtonItem alloc] initWithCustomView:someButton];
     self.navigationItem.rightBarButtonItem =mailbutton;

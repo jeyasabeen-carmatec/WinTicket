@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *TXT_referal_phone;
 @property (weak, nonatomic) IBOutlet UITextField *TXT_referal_email;
 @property (weak, nonatomic) IBOutlet UITextField *TXT_referal_role;
+- (IBAction)cancelBTN:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIButton *BTN_addRefeerel;
 @property (weak, nonatomic) IBOutlet UIScrollView *scroll_view;

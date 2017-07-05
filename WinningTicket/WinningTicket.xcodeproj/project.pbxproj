@@ -32,7 +32,8 @@
 		BE4EEEC91ED2AAFC003C1C24 /* TADotView.m in Sources */ = {isa = PBXBuildFile; fileRef = BE4EEEC41ED2AAFC003C1C24 /* TADotView.m */; };
 		BE4EEECA1ED2AAFC003C1C24 /* TAPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = BE4EEEC61ED2AAFC003C1C24 /* TAPageControl.m */; };
 		BE4EEECD1ED2AB13003C1C24 /* TAExampleDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = BE4EEECC1ED2AB13003C1C24 /* TAExampleDotView.m */; };
-		BE4F351C1F06697B00FD9CE5 /* Main~ipad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE4F351B1F06697B00FD9CE5 /* Main~ipad.storyboard */; };
+		BE4F351E1F0A027400FD9CE5 /* Main~ipad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE4F351D1F0A027400FD9CE5 /* Main~ipad.storyboard */; };
+		BE4F35211F0B5C4700FD9CE5 /* TXT_float_BOLD.m in Sources */ = {isa = PBXBuildFile; fileRef = BE4F35201F0B5C4700FD9CE5 /* TXT_float_BOLD.m */; };
 		BE52DF491E9B3E3B0055E914 /* IMG_0002.PNG in Resources */ = {isa = PBXBuildFile; fileRef = BE52DF431E9B3E3B0055E914 /* IMG_0002.PNG */; };
 		BE52DF4A1E9B3E3B0055E914 /* IMG_0003.PNG in Resources */ = {isa = PBXBuildFile; fileRef = BE52DF441E9B3E3B0055E914 /* IMG_0003.PNG */; };
 		BE52DF4B1E9B3E3B0055E914 /* IMG_0004.PNG in Resources */ = {isa = PBXBuildFile; fileRef = BE52DF451E9B3E3B0055E914 /* IMG_0004.PNG */; };
@@ -277,7 +278,9 @@
 		BE4EEEC61ED2AAFC003C1C24 /* TAPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAPageControl.m; sourceTree = "<group>"; };
 		BE4EEECB1ED2AB13003C1C24 /* TAExampleDotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAExampleDotView.h; sourceTree = "<group>"; };
 		BE4EEECC1ED2AB13003C1C24 /* TAExampleDotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAExampleDotView.m; sourceTree = "<group>"; };
-		BE4F351B1F06697B00FD9CE5 /* Main~ipad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Main~ipad.storyboard"; sourceTree = "<group>"; };
+		BE4F351D1F0A027400FD9CE5 /* Main~ipad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Main~ipad.storyboard"; sourceTree = "<group>"; };
+		BE4F351F1F0B5C4700FD9CE5 /* TXT_float_BOLD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXT_float_BOLD.h; sourceTree = "<group>"; };
+		BE4F35201F0B5C4700FD9CE5 /* TXT_float_BOLD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TXT_float_BOLD.m; sourceTree = "<group>"; };
 		BE52DF431E9B3E3B0055E914 /* IMG_0002.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IMG_0002.PNG; sourceTree = "<group>"; };
 		BE52DF441E9B3E3B0055E914 /* IMG_0003.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IMG_0003.PNG; sourceTree = "<group>"; };
 		BE52DF451E9B3E3B0055E914 /* IMG_0004.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IMG_0004.PNG; sourceTree = "<group>"; };
@@ -855,6 +858,8 @@
 				BED71F841EEA875200492E97 /* FloatingTXT_white.m */,
 				BECD7CA41EF284320037A968 /* TXT_alighn_style.h */,
 				BECD7CA51EF284320037A968 /* TXT_alighn_style.m */,
+				BE4F351F1F0B5C4700FD9CE5 /* TXT_float_BOLD.h */,
+				BE4F35201F0B5C4700FD9CE5 /* TXT_float_BOLD.m */,
 			);
 			name = Custom_Text_field;
 			sourceTree = "<group>";
@@ -1299,7 +1304,7 @@
 				BE0055D11EC2DA1100E95941 /* ViewController.h */,
 				BE0055D21EC2DA1100E95941 /* ViewController.m */,
 				BECD7CBC1EF78C350037A968 /* Main.storyboard */,
-				BE4F351B1F06697B00FD9CE5 /* Main~ipad.storyboard */,
+				BE4F351D1F0A027400FD9CE5 /* Main~ipad.storyboard */,
 				BED71F2C1EE7CB4400492E97 /* Required_IMG */,
 				BEC548631EA719A100FF2114 /* Affiliate */,
 				BEE665A01E5EBDDC00DF9235 /* Sighn_UP */,
@@ -1627,7 +1632,7 @@
 				BE52DF4E1E9B3E3B0055E914 /* IMG_0011.PNG in Resources */,
 				BE888A271E926EF000656580 /* CELL_trans_hstry.xib in Resources */,
 				BEB49DD41E76B3A900209E63 /* Logo_WT.png in Resources */,
-				BE4F351C1F06697B00FD9CE5 /* Main~ipad.storyboard in Resources */,
+				BE4F351E1F0A027400FD9CE5 /* Main~ipad.storyboard in Resources */,
 				BEC3BDBE1EAA255700AD97E4 /* GothamBook Regular.otf in Resources */,
 				BEFC205E1F0619290067717D /* Montserrat-ExtraLight.ttf in Resources */,
 				BECD7C761EF1413D0037A968 /* cell_edit_referral.xib in Resources */,
@@ -1784,6 +1789,7 @@
 				BEA875F61E8E20C300EFBB7F /* TXT_left.m in Sources */,
 				BEB702DB1ECDC5FF004CB729 /* VC_checkoutdetail.m in Sources */,
 				BEFC20311EFD23860067717D /* VC_changePWD.m in Sources */,
+				BE4F35211F0B5C4700FD9CE5 /* TXT_float_BOLD.m in Sources */,
 				BE4EEEA51ED2AA88003C1C24 /* VC_item_deatail.m in Sources */,
 				BEB702C91ECDC289004CB729 /* VC_home.m in Sources */,
 				BEB702F91ECF0479004CB729 /* DGActivityIndicatorTriplePulseAnimation.m in Sources */,

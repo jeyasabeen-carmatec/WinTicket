@@ -11,7 +11,7 @@
 //#import "DGActivityIndicatorView.h"
 #import "UITableView+NewCategory.h"
 
-
+#import "WinningTicket_Universal-Swift.h"
 
 @class FrameObservingViewAffiliate_home;
 
@@ -44,6 +44,7 @@
     NSMutableDictionary *temp_dict;
     int k;
     UILabel *search_label;//*loadingLabel;
+    CGRect old_frame;
 }
 - (void)frameObservingViewFrameChanged:(FrameObservingViewAffiliate_home *)view
 {
@@ -83,12 +84,11 @@
     if(_search_bar.text.length != 0)
     {
         [self.search_bar becomeFirstResponder];
-        
         [self performSelector:@selector(searcH_API) withObject:activityIndicatorView afterDelay:0.01];
     }
     else
     {
-    [self performSelector:@selector(API_AffiliateHome) withObject:activityIndicatorView afterDelay:0.01];
+        [self performSelector:@selector(API_AffiliateHome) withObject:activityIndicatorView afterDelay:0.01];
     }
     
     [_tbl_referal setDragDelegate:self refreshDatePermanentKey:@"FriendList"];
@@ -96,9 +96,6 @@
     k = 0;
     
     [_tbl_referal reloadData];
-    
-
-
 }
 
 
@@ -106,6 +103,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [_BTN_logOUT addTarget:self action:@selector(logout_ACTION) forControlEvents:UIControlEventTouchUpInside];
+    old_frame = _search_bar.frame;
 }
 
 -(void) logout_ACTION
@@ -166,6 +164,9 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if ([_ARR_sec_one count] == 0) {
+        return 1;
+    }
     return _ARR_sec_one.count;
 
 }
@@ -175,39 +176,64 @@
 {
     
 //    referal_cell *cell=[tableView dequeueReusableCellWithIdentifier:c forIndexPath:indexPath];
-    
-    referal_cell *cell = (referal_cell *)[tableView dequeueReusableCellWithIdentifier:@"referal_cell"];
-    if (cell == nil)
-    {
-        NSArray *nib;
-        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-        {
-            nib = [[NSBundle mainBundle] loadNibNamed:@"referal_cell_ipad" owner:self options:nil];
-        }
-        else
-        {
-            nib = [[NSBundle mainBundle] loadNibNamed:@"referal_cell" owner:self options:nil];
-        }
-        cell = [nib objectAtIndex:0];
-    }
-    NSDictionary *dictdata=[_ARR_sec_one objectAtIndex:indexPath.row];
-    NSDictionary *role = [dictdata valueForKey:@"role"];
-    
-    cell.description_lbl.text = [[dictdata objectForKey:@"first_name"] capitalizedString];
-    cell.description_lbl.numberOfLines=0;
-    [cell.description_lbl sizeToFit];
-    
-    NSString *role_name = [NSString stringWithFormat:@"%@",[role valueForKey:@"name"]];
-    role_name = [role_name stringByReplacingOccurrencesOfString:@"organizer" withString:@"event organizer"];
-    role_name = [role_name stringByReplacingOccurrencesOfString:@"contributor" withString:@"participant"];
-    cell.date_time_lbl.text = [role_name capitalizedString];
-    cell.date_time_lbl.numberOfLines = 0;
-    [cell.date_time_lbl sizeToFit];
-    [cell.BTN_referalDETAIL setTag:indexPath.row];
-    [cell.BTN_referalDETAIL addTarget:self action:@selector(BTN_referalDETAIL:) forControlEvents:
-     UIControlEventTouchUpInside];
-    
-    return cell;
+   if ([_ARR_sec_one count] == 0)
+   {
+       cell_EMPTY_val *cell = (cell_EMPTY_val *)[tableView dequeueReusableCellWithIdentifier:@"cell_EMPTY_val"];
+       if (cell == nil)
+       {
+           NSArray *nib;
+           if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+           {
+               nib = [[NSBundle mainBundle] loadNibNamed:@"cell_EMPTY_val~iPad" owner:self options:nil];
+           }
+           else
+           {
+               nib = [[NSBundle mainBundle] loadNibNamed:@"cell_EMPTY_val" owner:self options:nil];
+           }
+           cell = [nib objectAtIndex:0];
+       }
+       
+       cell.lbl_emptycell.text = @"No records found";
+       cell.lbl_emptycell.numberOfLines = 0;
+       [cell.lbl_emptycell sizeToFit];
+       
+       return cell;
+   }
+   else
+   {
+       referal_cell *cell = (referal_cell *)[tableView dequeueReusableCellWithIdentifier:@"referal_cell"];
+       if (cell == nil)
+       {
+           NSArray *nib;
+           if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+           {
+               nib = [[NSBundle mainBundle] loadNibNamed:@"referal_cell_ipad" owner:self options:nil];
+           }
+           else
+           {
+               nib = [[NSBundle mainBundle] loadNibNamed:@"referal_cell" owner:self options:nil];
+           }
+           cell = [nib objectAtIndex:0];
+       }
+       NSDictionary *dictdata=[_ARR_sec_one objectAtIndex:indexPath.row];
+       NSDictionary *role = [dictdata valueForKey:@"role"];
+       
+       cell.description_lbl.text = [[dictdata objectForKey:@"first_name"] capitalizedString];
+       cell.description_lbl.numberOfLines=0;
+       [cell.description_lbl sizeToFit];
+       
+       NSString *role_name = [NSString stringWithFormat:@"%@",[role valueForKey:@"name"]];
+       role_name = [role_name stringByReplacingOccurrencesOfString:@"organizer" withString:@"event organizer"];
+       role_name = [role_name stringByReplacingOccurrencesOfString:@"contributor" withString:@"participant"];
+       cell.date_time_lbl.text = [role_name capitalizedString];
+       cell.date_time_lbl.numberOfLines = 0;
+       [cell.date_time_lbl sizeToFit];
+       [cell.BTN_referalDETAIL setTag:indexPath.row];
+       [cell.BTN_referalDETAIL addTarget:self action:@selector(BTN_referalDETAIL:) forControlEvents:
+        UIControlEventTouchUpInside];
+       
+       return cell;
+   }
 }
 
 /*- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -293,16 +319,14 @@
 -(void) BTN_referalDETAIL : (UIButton *) sender
 {
     NSIndexPath *buttonIndexPath = [NSIndexPath indexPathForRow:sender.tag inSection:0];
-    NSLog(@"From Delete Skill %ld",(long)buttonIndexPath.row);
     NSDictionary *ref_dict = [_ARR_sec_one objectAtIndex:buttonIndexPath.row];
+    
+    
+    NSLog(@"Affiliate home selected cell %@",ref_dict);
     
     [[NSUserDefaults standardUserDefaults] setObject:ref_dict forKey:@"referral_dict"];
     [[NSUserDefaults standardUserDefaults]synchronize];
-
     
-    NSString *index_str = [NSString stringWithFormat:@"%ld",(long)buttonIndexPath.row];
-    
-    NSLog(@"Index path of All Event %@",index_str);
     
     [self performSegueWithIdentifier:@"affliatehmetorefdetailidentifier" sender:self];
 }
@@ -380,10 +404,8 @@
     _navigation_titlebar.backgroundColor = [UIColor whiteColor];
     _title_lbl.hidden = YES;
 
+    _VW_hldBTN.hidden = YES;
     
-    _BTN_edit.hidden=YES;
-    _BTN_filter.hidden=YES;
-    _BTN_new_refral.hidden=YES;
    // [_search_bar setTranslucent:YES];
     _search_bar.barTintColor = [UIColor lightGrayColor];
     [UIView beginAnimations:@"" context:nil];
@@ -432,9 +454,10 @@
   
     _navigation_titlebar.backgroundColor = [UIColor blackColor];
     _title_lbl.hidden = NO;
-    _BTN_edit.hidden=NO;
-    _BTN_filter.hidden=NO;
-    _BTN_new_refral.hidden=NO;
+//    _BTN_edit.hidden=NO;
+//    _BTN_filter.hidden=NO;
+//    _BTN_new_refral.hidden=NO;
+    _VW_hldBTN.hidden = NO;
     _search_bar.text = @"";
     _vw_LINE.hidden = YES;
 
@@ -450,13 +473,13 @@
         search_label.text = @"";
         search_label.hidden = YES;
         [_search_bar resignFirstResponder];
-         _search_bar.frame =  CGRectMake(_search_bar.frame.origin.x, _BTN_edit.frame.origin.y + _BTN_edit.frame.size.height+5 , _VW_title.frame.size.width, _search_bar.frame.size.height);
+         _search_bar.frame =  old_frame;
         [searchBar setShowsCancelButton:NO animated:YES];
          [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-         [_search_bar setSearchBarStyle:UISearchBarStyleDefault];
+         [_search_bar setSearchBarStyle:UISearchBarStyleMinimal];
        
        
-        _VW_title.frame = CGRectMake(_VW_title.frame.origin.x, _search_bar.frame.origin.y + _search_bar.frame.size.height +5 , _VW_title.frame.size.width, _VW_title.frame.size.height);
+        _VW_title.frame = CGRectMake(_VW_title.frame.origin.x, _search_bar.frame.origin.y + _search_bar.frame.size.height, _VW_title.frame.size.width, _VW_title.frame.size.height);
         _tbl_referal.frame = CGRectMake(_tbl_referal.frame.origin.x, _VW_title.frame.origin.y + _VW_title.frame.size.height , _tbl_referal.frame.size.width, _tbl_referal.frame.size.height);
         [self API_AffiliateHome];
         
@@ -465,9 +488,7 @@
     [UIView commitAnimations];
     
     NSLog(@"the text is :%@",_search_bar.text);
-    
 
-  
 }
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText

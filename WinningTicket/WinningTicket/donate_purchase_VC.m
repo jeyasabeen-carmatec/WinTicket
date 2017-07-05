@@ -160,10 +160,124 @@
     
     
     
-    NSString *address_str = [NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone:%@",[address_dictin valueForKey:@"first_name"],[address_dictin valueForKey:@"last_name"],[address_dictin valueForKey:@"address_line1"],[address_dictin valueForKey:@"address_line2"],[address_dictin valueForKey:@"city"],state_name,cntry_name,zip_code,[address_dictin valueForKey:@"phone"]];
-    address_str = [address_str stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
+//    NSString *address_str = [NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone:%@",[address_dictin valueForKey:@"first_name"],[address_dictin valueForKey:@"last_name"],[address_dictin valueForKey:@"address_line1"],[address_dictin valueForKey:@"address_line2"],[address_dictin valueForKey:@"city"],state_name,cntry_name,zip_code,[address_dictin valueForKey:@"phone"]];
+//    address_str = [address_str stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
     
-    _lbl_address.text = [NSString stringWithFormat:@"%@",address_str];
+    NSString *STR_fname = [NSString stringWithFormat:@"%@",[address_dictin valueForKey:@"first_name"]];
+    STR_fname = [STR_fname stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_fname = [STR_fname stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    STR_fname = [STR_fname capitalizedString];
+    NSString *STR_lname = [NSString stringWithFormat:@"%@",[address_dictin valueForKey:@"last_name"]];
+    STR_lname = [STR_lname stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_lname = [STR_lname stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    STR_lname = [STR_lname capitalizedString];
+    NSString *STR_addr1 = [NSString stringWithFormat:@"%@",[address_dictin valueForKey:@"address_line1"]];
+    STR_addr1 = [STR_addr1 stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_addr1 = [STR_addr1 stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    STR_addr1 = [STR_addr1 capitalizedString];
+    NSString *STR_addr2 = [NSString stringWithFormat:@"%@",[address_dictin valueForKey:@"address_line2"]];
+    STR_addr2 = [STR_addr2 stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_addr2 = [STR_addr2 stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    STR_addr2 = [STR_addr2 capitalizedString];
+    NSString *STR_city = [NSString stringWithFormat:@"%@",[address_dictin valueForKey:@"city"]];
+    STR_city = [STR_city stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_city = [STR_city stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    STR_city = [STR_city capitalizedString];
+    NSString *STR_state = [NSString stringWithFormat:@"%@",state_name];
+    STR_state = [STR_state stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_state = [STR_state stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    STR_state = [STR_state capitalizedString];
+    NSString *STR_cntry = [NSString stringWithFormat:@"%@",cntry_name];
+    STR_cntry = [STR_cntry stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_cntry = [STR_cntry stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    STR_cntry = [STR_cntry capitalizedString];
+    NSString *STR_zip = [NSString stringWithFormat:@"%@",zip_code];
+    STR_zip = [STR_zip stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_zip = [STR_zip stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    STR_zip = [STR_zip capitalizedString];
+    NSString *STR_phone = [NSString stringWithFormat:@"%@",[address_dictin valueForKey:@"phone"]];
+    STR_phone = [STR_phone stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    STR_phone = [STR_phone stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    STR_phone = [STR_phone capitalizedString];
+    
+    NSString *name;
+    if (STR_lname.length == 0)
+    {
+        name = [NSString stringWithFormat:@"%@,\n",STR_fname];
+    }
+    else
+    {
+        name = [NSString stringWithFormat:@"%@ %@,\n",STR_fname,STR_lname];
+    }
+    
+    NSString *addr;
+    if (STR_addr2.length == 0)
+    {
+        addr = [NSString stringWithFormat:@"%@,\n",STR_addr1];
+    }
+    else
+    {
+        addr = [NSString stringWithFormat:@"%@, %@,\n",STR_addr1,STR_addr2];
+    }
+    
+    NSString *city = [NSString stringWithFormat:@"%@",STR_city];
+    NSString *state = [NSString stringWithFormat:@"%@",STR_state];
+    NSString *zip = [NSString stringWithFormat:@"%@",STR_zip];
+    NSString *cntry;
+    if (STR_zip.length == 0)
+    {
+        cntry = [NSString stringWithFormat:@"%@, %@, \n",city,state];
+    }
+    else
+    {
+        if (STR_state.length == 0)
+        {
+            cntry = [NSString stringWithFormat:@"%@, %@,\n",city,zip];
+        }
+        else
+        {
+            cntry = [NSString stringWithFormat:@"%@, %@, %@,\n",city,state,zip];
+        }
+    }
+    NSString *country;
+    if(STR_cntry.length == 0)
+    {
+        country = [NSString stringWithFormat:@"Phone : %@.",STR_phone];
+    }
+    else
+    {
+        country = [NSString stringWithFormat:@"%@ \nPhone : %@.",STR_cntry,STR_phone];
+        
+    }
+    NSMutableArray *final_ADDR = [[NSMutableArray alloc] init];
+    if (name.length != 0) {
+        [final_ADDR addObject:[name capitalizedString]];
+    }
+    
+    if (addr.length != 0) {
+        [final_ADDR addObject:addr];
+    }
+    
+    if (city.length != 0 && state.length != 0 && zip.length != 0) {
+        [final_ADDR addObject:cntry];
+    }
+    
+    
+    if (country.length != 0){
+        [final_ADDR addObject:country];
+    }
+    
+    
+    //    NSString *address_str=[NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone : %@",,,,,,,,,];
+    
+    NSMutableString *str_TST = [[NSMutableString alloc]init];
+    for (int i = 0; i<[final_ADDR count]; i++) {
+        [str_TST appendString:[final_ADDR objectAtIndex:i]];
+    }
+    
+    NSLog(@"Testing Addr = \n%@",str_TST);
+    
+    _lbl_address.text = [NSString stringWithFormat:@"%@",str_TST];
     _lbl_address.numberOfLines = 0;
     [_lbl_address sizeToFit];
     
@@ -186,7 +300,7 @@
     frame_rect.origin.y = _lbl_data_payment_info.frame.origin.y + _lbl_data_payment_info.frame.size.height + 10;
     _VW_line1.frame = frame_rect;
     
-    NSString *show = @"Winning Ticket";
+    NSString *show = [NSString stringWithFormat:@"$%.2f",[[temp_resp valueForKey:@"price"] floatValue]];
     //    NSString *place = @"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
     NSString *ticketnumber = [temp_resp valueForKey:@"code"];
     NSString *club_name = [temp_resp valueForKey:@"event_name"];
@@ -221,11 +335,11 @@
         
         
         NSRange qt = [text rangeOfString:club_name];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:14.0]}
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:15.0]}
                                 range:qt];
         
         NSRange tkt_num = [text rangeOfString:ticketnumber];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:14.0]}
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:15.0]}
                                 range:tkt_num];
         
         self.lbl_ticketDetail.attributedText = attributedText;

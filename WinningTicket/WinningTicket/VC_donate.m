@@ -1463,9 +1463,9 @@
                     NSLog(@"CANCELLED");
                     [self dismissViewControllerAnimated:YES completion:NULL];
                 } else {
-                    [self performSelector:@selector(dismiss_BT)
-                               withObject:nil
-                               afterDelay:0.0];
+//                    [self performSelector:@selector(dismiss_BT)
+//                               withObject:nil
+//                               afterDelay:1.0];
                     [self postNonceToServer:result.paymentMethod.nonce];
                 }
             }];
@@ -1527,6 +1527,7 @@
 -(void) create_payment
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+    
     NSError *error;
     NSHTTPURLResponse *response = nil;
     NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];

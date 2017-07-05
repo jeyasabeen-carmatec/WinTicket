@@ -850,9 +850,9 @@
                 NSLog(@"CANCELLED");
                 [self dismissViewControllerAnimated:YES completion:NULL];
             } else {
-                [self performSelector:@selector(dismiss_BT)
-                           withObject:nil
-                           afterDelay:0.0];
+//                [self performSelector:@selector(dismiss_BT)
+//                           withObject:nil
+//                           afterDelay:0.0];
                 [self postNonceToServer:result.paymentMethod.nonce];
             }
         }];
@@ -863,8 +863,6 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
     }
-    
-    
 }
 
 
@@ -1293,6 +1291,8 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
 
 -(void) billing_Address
 {
+    [self dismissViewControllerAnimated:YES completion:NULL];
+    
     NSError *error;
     NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"QUANTITY"] options:NSASCIIStringEncoding error:&error];
     

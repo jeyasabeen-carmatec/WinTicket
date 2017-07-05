@@ -11,6 +11,7 @@
 //#import "DejalActivityView.h"
 //#import "DGActivityIndicatorView.h"
 #import "UITableView+NewCategory.h"
+#import "WinningTicket_Universal-Swift.h"
 
 @class FrameObservingViewAffiliate_filter;
 
@@ -176,62 +177,88 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - UITableview Deligates
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if ([_sec_one_ARR count] == 0) {
+        return 1;
+    }
     return _sec_one_ARR.count;
     
 }
-
-
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    filter_cell *cell=(filter_cell *)[tableView dequeueReusableCellWithIdentifier:@"refcell"];
-    
-    if (cell == nil)
+    if ([_sec_one_ARR count] == 0)
     {
-        NSArray *nib;
-        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+        cell_EMPTY_val *cell = (cell_EMPTY_val *)[tableView dequeueReusableCellWithIdentifier:@"cell_EMPTY_val"];
+        if (cell == nil)
         {
-            nib = [[NSBundle mainBundle] loadNibNamed:@"affiliate_filter_cell_ipad" owner:self options:nil];
+            NSArray *nib;
+            if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+            {
+                nib = [[NSBundle mainBundle] loadNibNamed:@"cell_EMPTY_val~iPad" owner:self options:nil];
+            }
+            else
+            {
+                nib = [[NSBundle mainBundle] loadNibNamed:@"cell_EMPTY_val" owner:self options:nil];
+            }
+            cell = [nib objectAtIndex:0];
         }
-        else
-        {
-            nib = [[NSBundle mainBundle] loadNibNamed:@"affiliate_filter_cell" owner:self options:nil];
-        }
-        cell = [nib objectAtIndex:0];
+        
+        cell.lbl_emptycell.text = @"No records found";
+        cell.lbl_emptycell.numberOfLines = 0;
+        [cell.lbl_emptycell sizeToFit];
+        
+        return cell;
     }
-    NSDictionary *dictdata=[_sec_one_ARR objectAtIndex:indexPath.row];
-    NSDictionary *role = [dictdata valueForKey:@"role"];
-    
-    cell.description_lbl.text = [[dictdata objectForKey:@"first_name"] capitalizedString];
-    cell.description_lbl.numberOfLines=0;
-    [cell.description_lbl sizeToFit];
-    
-    
-    NSString *role_name = [NSString stringWithFormat:@"%@",[role valueForKey:@"name"]];
-    role_name = [role_name stringByReplacingOccurrencesOfString:@"organizer" withString:@"event organizer"];
-    role_name = [role_name stringByReplacingOccurrencesOfString:@"contributor" withString:@"participant"];
-    cell.date_time_lbl.text = [role_name capitalizedString];
-    cell.date_time_lbl.numberOfLines=0;
-    [cell.date_time_lbl sizeToFit];
-    [cell.BTN_view setTag:indexPath.row];
-//    [cell.BTN_view addTarget:self action:@selector(BTN_referalDETAIL:) forControlEvents:
-//     UIControlEventTouchUpInside];
-
-    
-
-    
-    if(indexPath.row % 2 == 0){
-        cell.contentView.backgroundColor = [UIColor colorWithRed:0.88 green:0.88 blue:0.88 alpha:1.0];
+    else
+    {
+        filter_cell *cell=(filter_cell *)[tableView dequeueReusableCellWithIdentifier:@"refcell"];
+        if (cell == nil)
+        {
+            NSArray *nib;
+            if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+            {
+                nib = [[NSBundle mainBundle] loadNibNamed:@"affiliate_filter_cell_ipad" owner:self options:nil];
+            }
+            else
+            {
+                nib = [[NSBundle mainBundle] loadNibNamed:@"affiliate_filter_cell" owner:self options:nil];
+            }
+            cell = [nib objectAtIndex:0];
+        }
+        NSDictionary *dictdata=[_sec_one_ARR objectAtIndex:indexPath.row];
+        NSDictionary *role = [dictdata valueForKey:@"role"];
+        
+        cell.description_lbl.text = [[dictdata objectForKey:@"first_name"] capitalizedString];
+        cell.description_lbl.numberOfLines=0;
+        [cell.description_lbl sizeToFit];
         
         
-    }else{
-        cell.contentView.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.95 alpha:1.0];
+        NSString *role_name = [NSString stringWithFormat:@"%@",[role valueForKey:@"name"]];
+        role_name = [role_name stringByReplacingOccurrencesOfString:@"organizer" withString:@"event organizer"];
+        role_name = [role_name stringByReplacingOccurrencesOfString:@"contributor" withString:@"participant"];
+        cell.date_time_lbl.text = [role_name capitalizedString];
+        cell.date_time_lbl.numberOfLines=0;
+        [cell.date_time_lbl sizeToFit];
+        [cell.BTN_view setTag:indexPath.row];
+        //    [cell.BTN_view addTarget:self action:@selector(BTN_referalDETAIL:) forControlEvents:
+        //     UIControlEventTouchUpInside];
+        
+        
+        
+        
+        if(indexPath.row % 2 == 0){
+            cell.contentView.backgroundColor = [UIColor colorWithRed:0.88 green:0.88 blue:0.88 alpha:1.0];
+            
+            
+        }else{
+            cell.contentView.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.95 alpha:1.0];
+        }
+        
+        return cell;
     }
-
-    return cell;
-
 }
 
 #pragma mark PickerView DataSource

@@ -12,6 +12,8 @@
 //#import "DGActivityIndicatorView.h"
 #import "UITableView+NewCategory.h"
 
+#import "WinningTicket_Universal-Swift.h"
+
 
 
 @class FrameObservingViewAffiliate_edit_referal;
@@ -220,52 +222,75 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
-   return _ARR_sec_one.count;
-    
-    
-    
+    if ([_ARR_sec_one count] == 0) {
+        return 1;
+    }
+    return _ARR_sec_one.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    edit_referal_Cell *cell = (edit_referal_Cell *)[tableView dequeueReusableCellWithIdentifier:@"eidtrefcell"];
-    if (cell == nil)
+    if ([_ARR_sec_one count] == 0)
     {
-        NSArray *nib;
-        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+        cell_EMPTY_val *cell = (cell_EMPTY_val *)[tableView dequeueReusableCellWithIdentifier:@"cell_EMPTY_val"];
+        if (cell == nil)
         {
-            nib = [[NSBundle mainBundle] loadNibNamed:@"cell_edit_referral~ipad" owner:self options:nil];
+            NSArray *nib;
+            if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+            {
+                nib = [[NSBundle mainBundle] loadNibNamed:@"cell_EMPTY_val~iPad" owner:self options:nil];
+            }
+            else
+            {
+                nib = [[NSBundle mainBundle] loadNibNamed:@"cell_EMPTY_val" owner:self options:nil];
+            }
+            cell = [nib objectAtIndex:0];
         }
-        else
-        {
-            nib = [[NSBundle mainBundle] loadNibNamed:@"cell_edit_referral" owner:self options:nil];
-        }
-        cell = [nib objectAtIndex:0];
+        
+        cell.lbl_emptycell.text = @"No records found";
+        cell.lbl_emptycell.numberOfLines = 0;
+        [cell.lbl_emptycell sizeToFit];
+        
+        return cell;
     }
-    
-    NSDictionary *dictdata=[_ARR_sec_one objectAtIndex:indexPath.row];
-    NSDictionary *role = [dictdata valueForKey:@"role"];
-    
-    cell.description_lbl.text = [[dictdata objectForKey:@"first_name"] capitalizedString];
-    cell.description_lbl.numberOfLines=0;
-    [cell.description_lbl sizeToFit];
-    
-    
-    NSString *role_name = [NSString stringWithFormat:@"%@",[role valueForKey:@"name"]];
-    role_name = [role_name stringByReplacingOccurrencesOfString:@"organizer" withString:@"event organizer"];
-    role_name = [role_name stringByReplacingOccurrencesOfString:@"contributor" withString:@"participant"];
-    cell.dete_time_lbl.text = [role_name capitalizedString];
-    cell.dete_time_lbl.numberOfLines=0;
-    [cell.dete_time_lbl sizeToFit];
-    [cell.delete_button setTag:indexPath.row];
-    [cell.delete_button addTarget:self action:@selector(BTN_referalDETAIL:) forControlEvents:
-     UIControlEventTouchUpInside];
-    
-    return cell;
-    
+    else
+    {
+        edit_referal_Cell *cell = (edit_referal_Cell *)[tableView dequeueReusableCellWithIdentifier:@"eidtrefcell"];
+        if (cell == nil)
+        {
+            NSArray *nib;
+            if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+            {
+                nib = [[NSBundle mainBundle] loadNibNamed:@"cell_edit_referral~ipad" owner:self options:nil];
+            }
+            else
+            {
+                nib = [[NSBundle mainBundle] loadNibNamed:@"cell_edit_referral" owner:self options:nil];
+            }
+            cell = [nib objectAtIndex:0];
+        }
+        
+        NSDictionary *dictdata=[_ARR_sec_one objectAtIndex:indexPath.row];
+        NSDictionary *role = [dictdata valueForKey:@"role"];
+        
+        cell.description_lbl.text = [[dictdata objectForKey:@"first_name"] capitalizedString];
+        cell.description_lbl.numberOfLines=0;
+        [cell.description_lbl sizeToFit];
+        
+        
+        NSString *role_name = [NSString stringWithFormat:@"%@",[role valueForKey:@"name"]];
+        role_name = [role_name stringByReplacingOccurrencesOfString:@"organizer" withString:@"event organizer"];
+        role_name = [role_name stringByReplacingOccurrencesOfString:@"contributor" withString:@"participant"];
+        cell.dete_time_lbl.text = [role_name capitalizedString];
+        cell.dete_time_lbl.numberOfLines=0;
+        [cell.dete_time_lbl sizeToFit];
+        [cell.delete_button setTag:indexPath.row];
+        [cell.delete_button addTarget:self action:@selector(BTN_referalDETAIL:) forControlEvents:
+         UIControlEventTouchUpInside];
+        
+        return cell;
+    }
 }
 /*- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

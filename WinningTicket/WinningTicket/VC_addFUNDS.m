@@ -846,9 +846,9 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
                     NSLog(@"CANCELLED");
                     [self dismissViewControllerAnimated:YES completion:NULL];
                 } else {
-                    [self performSelector:@selector(dismiss_BT)
-                               withObject:nil
-                               afterDelay:0.0];
+//                    [self performSelector:@selector(dismiss_BT)
+//                               withObject:nil
+//                               afterDelay:0.0];
                     [self postNonceToServer:result.paymentMethod.nonce];
                 }
             }];
@@ -871,6 +871,8 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
 
 -(void) create_payment
 {
+    [self dismissViewControllerAnimated:YES completion:NULL];
+    
     NSString  *temp_str;
     NSError *error;
     NSHTTPURLResponse *response = nil;

@@ -26,5 +26,6 @@
 
 @property(nonatomic,weak) IBOutlet UIButton *BTN_logOUT;
 
+@property(nonatomic,weak) IBOutlet UIView *VW_hldBTN;
 
 @end

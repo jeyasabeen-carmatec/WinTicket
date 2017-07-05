@@ -12,7 +12,7 @@
 //#import "DGActivityIndicatorView.h"
 #import "UITableView+NewCategory.h"
 
-
+#import "WinningTicket_Universal-Swift.h"
 
 @class FrameObservingViewAffiliate_referal_detail;
 
@@ -172,7 +172,7 @@
 //     _TXT_detils.text = role;
 //    _TXT_detils.textColor = [UIColor grayColor];
 //    _TXT_detils.placeholder = des;
-    NSString *text = [NSString stringWithFormat:@"%@,\n%@",des,role];
+    NSString *text = [NSString stringWithFormat:@"%@\n%@",des,role];
     // Define general attributes for the entire text
     NSDictionary *attribs = @{
                               NSForegroundColorAttributeName:[UIColor blackColor],
@@ -185,8 +185,9 @@
     NSRange range = [text rangeOfString:des];
     [attributedText setAttributes:@{NSForegroundColorAttributeName: [UIColor blackColor],
                                     NSFontAttributeName:boldFont} range:range];
+
     
-   UIFont *unboldFont = [UIFont fontWithName:@"Gotham-LightItalic" size:18];
+   UIFont *unboldFont = _lbl_title.font;
     NSRange greenTextRange = [text rangeOfString:role];
     [attributedText setAttributes:@{NSForegroundColorAttributeName: [UIColor blackColor],NSFontAttributeName:unboldFont}range:greenTextRange];
     
@@ -196,68 +197,93 @@
 #pragma mark - UITableviewDatasource/Deligate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if ([_ARR_sec_one count] == 0) {
+        return 1;
+    }
     return _ARR_sec_one.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
-    add_referal_detail_cell *cell = (add_referal_detail_cell *)[tableView dequeueReusableCellWithIdentifier:@"addrefcell"];
-
-    
-    if (cell == nil)
-    {
-        NSArray *nib;
-        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+    if ([_ARR_sec_one count] == 0) {
+        cell_EMPTY_val *cell = (cell_EMPTY_val *)[tableView dequeueReusableCellWithIdentifier:@"cell_EMPTY_val"];
+        if (cell == nil)
         {
-            nib = [[NSBundle mainBundle] loadNibNamed:@"cell_add_referral~ipad" owner:self options:nil];
+            NSArray *nib;
+            if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+            {
+                nib = [[NSBundle mainBundle] loadNibNamed:@"cell_EMPTY_val~iPad" owner:self options:nil];
+            }
+            else
+            {
+                nib = [[NSBundle mainBundle] loadNibNamed:@"cell_EMPTY_val" owner:self options:nil];
+            }
+            cell = [nib objectAtIndex:0];
         }
-        else
-        {
-            nib = [[NSBundle mainBundle] loadNibNamed:@"cell_add_referral" owner:self options:nil];
-        }
-        cell = [nib objectAtIndex:0];
-    }
-    
-
-    
-    
-    NSDictionary *dictdata=[_ARR_sec_one objectAtIndex:indexPath.row];
-    if(!dictdata)
-    {
-        cell.description_lbl.text = @"NO data Found";
+        
+        cell.lbl_emptycell.text = @"No records found";
+        cell.lbl_emptycell.numberOfLines = 0;
+        [cell.lbl_emptycell sizeToFit];
+        
+        return cell;
     }
     else
     {
-    
-    cell.description_lbl.text = [dictdata valueForKey:@"name"];
-    cell.description_lbl.numberOfLines=0;
-    [cell.description_lbl sizeToFit];
-    
-    cell.date_time_lbl.text = [self getLocalDateTimeFromUTC:[dictdata valueForKey:@"start_date"]];
-    cell.date_time_lbl.numberOfLines=0;
-    [cell.date_time_lbl sizeToFit];
-    [cell.BTN_referalDETAIL setTag:indexPath.row];
-    [cell.BTN_referalDETAIL addTarget:self action:@selector(BTN_referalDETAIL:) forControlEvents:
-     UIControlEventTouchUpInside];
-    }
-    
-
-    
-    
-    
-    
-    if(indexPath.row % 2 == 0){
-        cell.contentView.backgroundColor = [UIColor colorWithRed:0.88 green:0.88 blue:0.88 alpha:1.0];
+        add_referal_detail_cell *cell = (add_referal_detail_cell *)[tableView dequeueReusableCellWithIdentifier:@"addrefcell"];
         
         
-    }else{
-        cell.contentView.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.95 alpha:1.0];
+        if (cell == nil)
+        {
+            NSArray *nib;
+            if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+            {
+                nib = [[NSBundle mainBundle] loadNibNamed:@"cell_add_referral~ipad" owner:self options:nil];
+            }
+            else
+            {
+                nib = [[NSBundle mainBundle] loadNibNamed:@"cell_add_referral" owner:self options:nil];
+            }
+            cell = [nib objectAtIndex:0];
+        }
+        
+        
+        
+        
+        NSDictionary *dictdata=[_ARR_sec_one objectAtIndex:indexPath.row];
+        if(!dictdata)
+        {
+            cell.description_lbl.text = @"NO data Found";
+        }
+        else
+        {
+            
+            cell.description_lbl.text = [dictdata valueForKey:@"name"];
+            cell.description_lbl.numberOfLines=0;
+            [cell.description_lbl sizeToFit];
+            
+            cell.date_time_lbl.text = [self getLocalDateTimeFromUTC:[dictdata valueForKey:@"start_date"]];
+            cell.date_time_lbl.numberOfLines=0;
+            [cell.date_time_lbl sizeToFit];
+            [cell.BTN_referalDETAIL setTag:indexPath.row];
+            [cell.BTN_referalDETAIL addTarget:self action:@selector(BTN_referalDETAIL:) forControlEvents:
+             UIControlEventTouchUpInside];
+        }
+        
+        
+        
+        
+        
+        
+        if(indexPath.row % 2 == 0){
+            cell.contentView.backgroundColor = [UIColor colorWithRed:0.88 green:0.88 blue:0.88 alpha:1.0];
+            
+            
+        }else{
+            cell.contentView.backgroundColor = [UIColor colorWithRed:0.96 green:0.95 blue:0.95 alpha:1.0];
+        }
+        return cell;
     }
-    return cell;
-    
 }
 
 #pragma mark - Button Action
