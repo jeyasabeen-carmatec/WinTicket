@@ -159,20 +159,23 @@
     
     referal_detail_dict=[[NSUserDefaults standardUserDefaults] valueForKey:@"referral_dict"];
     
-    NSString *des = [referal_detail_dict valueForKey:@"first_name"];
+    NSString *des = [[referal_detail_dict valueForKey:@"first_name"] capitalizedString];
 
     NSDictionary *temp_dictin = [referal_detail_dict valueForKey:@"role"];
     _TXT_phone.text = [referal_detail_dict valueForKey:@"phone"];
-   
     _TXT_email.text = [referal_detail_dict valueForKey:@"email"];
     
    
-    
-    NSString *role =  [temp_dictin valueForKey:@"name"];;
+    NSString *role =  [temp_dictin valueForKey:@"name"];
+    role = [role stringByReplacingOccurrencesOfString:@"organizer" withString:@"event organizer"];
+    role = [role stringByReplacingOccurrencesOfString:@"contributor" withString:@"participant"];
 //     _TXT_detils.text = role;
 //    _TXT_detils.textColor = [UIColor grayColor];
 //    _TXT_detils.placeholder = des;
-    NSString *text = [NSString stringWithFormat:@"%@\n%@",des,role];
+    
+    _lbl_sub_TITL.text = [NSString stringWithFormat:@"All %@ Donations",[role capitalizedString]];
+    
+    NSString *text = [NSString stringWithFormat:@"%@\n%@",des,[role capitalizedString]];
     // Define general attributes for the entire text
     NSDictionary *attribs = @{
                               NSForegroundColorAttributeName:[UIColor blackColor],
@@ -258,7 +261,7 @@
         else
         {
             
-            cell.description_lbl.text = [dictdata valueForKey:@"name"];
+            cell.description_lbl.text = [[dictdata valueForKey:@"name"] capitalizedString];
             cell.description_lbl.numberOfLines=0;
             [cell.description_lbl sizeToFit];
             
@@ -269,10 +272,6 @@
             [cell.BTN_referalDETAIL addTarget:self action:@selector(BTN_referalDETAIL:) forControlEvents:
              UIControlEventTouchUpInside];
         }
-        
-        
-        
-        
         
         
         if(indexPath.row % 2 == 0){
@@ -312,8 +311,8 @@
     _ARR_sec_one = [temp_dict valueForKey:@"events"];
     if(!_ARR_sec_one)
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"No data Found" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-        [alert show];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"No data Found" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+//        [alert show];
         [_TBL_referal reloadData];
     }
     [_TBL_referal reloadData];

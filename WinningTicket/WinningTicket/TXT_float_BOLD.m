@@ -42,18 +42,18 @@
 - (CGRect)textRectForBounds:(CGRect)bounds {
     if (showingError) {
         //        return CGRectMake(10, 0, bounds.size.width, bounds.size.height);
-        return CGRectMake(10, 4, bounds.size.width, bounds.size.height);
+        return CGRectMake(10, 6, bounds.size.width, bounds.size.height);
     }else{
-        return CGRectMake(10, 4, bounds.size.width, bounds.size.height);
+        return CGRectMake(10, 6, bounds.size.width, bounds.size.height);
     }
 }
 
 - (CGRect)editingRectForBounds:(CGRect)bounds {
     if (showingError) {
         //        return CGRectMake(10, 0, bounds.size.width, bounds.size.height);
-        return CGRectMake(10, 4, bounds.size.width, bounds.size.height);
+        return CGRectMake(10, 6, bounds.size.width, bounds.size.height);
     }else{
-        return CGRectMake(10, 4, bounds.size.width, bounds.size.height);
+        return CGRectMake(10, 6, bounds.size.width, bounds.size.height);
     }
 }
 
@@ -315,11 +315,11 @@
             _labelPlaceholder.frame = frame;
             if ([[UIDevice currentDevice] userInterfaceIdiom] ==UIUserInterfaceIdiomPad)
             {
-                _labelPlaceholder.font = [UIFont fontWithName:@"GothamBold" size:14.0];
+                _labelPlaceholder.font = [UIFont fontWithName:@"GothamBold" size:12.0];
             }
             else
             {
-                _labelPlaceholder.font = [UIFont fontWithName:@"GothamBold" size:12.0];
+                _labelPlaceholder.font = [UIFont fontWithName:@"GothamBold" size:10.0];
             }
             _labelPlaceholder.textColor = _selectedPlaceHolderColor;
             //            bottomLineView.frame  =  bottmLineFrame;
@@ -365,11 +365,11 @@
             _labelPlaceholder.frame = frame;
             if ([[UIDevice currentDevice] userInterfaceIdiom] ==UIUserInterfaceIdiomPad)
             {
-                _labelPlaceholder.font = [UIFont fontWithName:@"GothamBold" size:14.0];
+                _labelPlaceholder.font = [UIFont fontWithName:@"GothamBold" size:12.0];
             }
             else
             {
-                _labelPlaceholder.font = [UIFont fontWithName:@"GothamBold" size:12.0];
+                _labelPlaceholder.font = [UIFont fontWithName:@"GothamBold" size:10.0];
             }
             _labelPlaceholder.textColor = _placeHolderColor;
             //            bottomLineView.frame  =  bottmLineFrame;

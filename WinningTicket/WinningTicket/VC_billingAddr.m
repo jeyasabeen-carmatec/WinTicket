@@ -717,7 +717,7 @@
         [self showViewAddress];
         [_TXT_country becomeFirstResponder];
         [_TXT_country showError];
-        [_TXT_country showErrorWithText:@" Please Select country"];
+        [_TXT_country showErrorWithText:@" Please select country"];
         
     }
 //    else if([_TXT_state.text isEqualToString:@""])
@@ -732,7 +732,7 @@
         [self showViewAddress];
         [_TXT_zip becomeFirstResponder];
         [_TXT_zip showError];
-        [_TXT_zip showErrorWithText:@" Please Enter Zipcode code"];
+        [_TXT_zip showErrorWithText:@" Please enter zipcode code"];
     }
     else if (_TXT_zip.text.length < 4)
     {
@@ -746,7 +746,7 @@
         [self showViewAddress];
         [_TXT_phonenumber becomeFirstResponder];
         [_TXT_phonenumber showError];
-        [_TXT_phonenumber showErrorWithText:@" Please enter More than 5 numbers"];
+        [_TXT_phonenumber showErrorWithText:@" Please enter more than 5 numbers"];
     }
     
 

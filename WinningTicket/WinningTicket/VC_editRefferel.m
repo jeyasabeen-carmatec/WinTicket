@@ -36,9 +36,7 @@
         NSMutableDictionary *temp_dict;
         int k;
     UILabel *search_label;//,*loadingLabel;
-
-    
-    
+    CGRect old_frame;
 }
 @property(nonatomic,strong)NSMutableArray *ARR_sec_one;
 @property(nonatomic,strong)NSArray *ARR_search_arr;
@@ -169,6 +167,7 @@
     self.search_bar.delegate=self;
     [_search_bar setBarStyle:UIBarStyleBlack];
 
+    old_frame = _search_bar.frame;
     
     _search_bar.delegate=self;
     search_label = [[UILabel alloc]init];
@@ -402,7 +401,7 @@
         [_search_bar setTintColor:[UIColor blackColor]];
         
         search_label.hidden = NO;
-        search_label.frame = CGRectMake(_search_bar.frame.origin.x,_search_bar.frame.size.height+_search_bar.frame.origin.y , _search_bar.frame.size.width, _VW_title.frame.size.height);
+        search_label.frame = CGRectMake(6,_search_bar.frame.size.height+_search_bar.frame.origin.y + 3, _search_bar.frame.size.width - 6, _VW_title.frame.size.height);
         [self.view addSubview:search_label];
         search_label.textColor = [UIColor blackColor];
         
@@ -442,12 +441,12 @@
         search_label.text = @"";
         search_label.hidden = YES;
         [_search_bar resignFirstResponder];
-        _search_bar.frame =  CGRectMake(_search_bar.frame.origin.x, _VW_nav_top.frame.origin.y + _VW_nav_top.frame.size.height+5 , _VW_title.frame.size.width, _search_bar.frame.size.height);
+        _search_bar.frame =  old_frame;
         [searchBar setShowsCancelButton:NO animated:YES];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
         [_search_bar setSearchBarStyle:UISearchBarStyleMinimal];        
         
-        _VW_title.frame = CGRectMake(_VW_title.frame.origin.x, _search_bar.frame.origin.y + _search_bar.frame.size.height + 5 , _VW_title.frame.size.width, _VW_title.frame.size.height);
+        _VW_title.frame = CGRectMake(_VW_title.frame.origin.x, _search_bar.frame.origin.y + _search_bar.frame.size.height, _VW_title.frame.size.width, _VW_title.frame.size.height);
         _tbl_edit_referral.frame = CGRectMake(_tbl_edit_referral.frame.origin.x, _VW_title.frame.origin.y + _VW_title.frame.size.height , _tbl_edit_referral.frame.size.width, _tbl_edit_referral.frame.size.height);
         [self getdata];
         

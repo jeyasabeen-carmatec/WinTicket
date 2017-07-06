@@ -100,9 +100,9 @@
     _BTN_sponsor.layer.borderWidth=1;
     _BTN_sponsor.backgroundColor = [UIColor clearColor];
     
-//    _BTN_affiliate.layer.cornerRadius=5;
-//    _BTN_affiliate.layer.borderWidth=1;
-//    _BTN_affiliate.backgroundColor = [UIColor clearColor];
+    _BTN_affiliate.layer.cornerRadius=5;
+    _BTN_affiliate.layer.borderWidth=1;
+    _BTN_affiliate.backgroundColor = [UIColor clearColor];
     
     _BTN_organizer.layer.cornerRadius=5;
     _BTN_organizer.layer.borderWidth=1;
@@ -113,7 +113,7 @@
     _BTN_contributer.backgroundColor = [UIColor clearColor];
     
     [_BTN_sponsor addTarget:self action:@selector(changeButtonBackGroundColor:) forControlEvents:UIControlEventTouchUpInside];
-//    [_BTN_affiliate addTarget:self action:@selector(changeButtonBackGroundColor:) forControlEvents:UIControlEventTouchUpInside];
+    [_BTN_affiliate addTarget:self action:@selector(changeButtonBackGroundColor:) forControlEvents:UIControlEventTouchUpInside];
     [_BTN_organizer addTarget:self action:@selector(changeButtonBackGroundColor:) forControlEvents:UIControlEventTouchUpInside];
     [_BTN_contributer addTarget:self action:@selector(changeButtonBackGroundColor:) forControlEvents:UIControlEventTouchUpInside];
     [_BTN_addRefeerel addTarget:self action:@selector(add_referel_TAP) forControlEvents:UIControlEventTouchUpInside];
@@ -127,7 +127,7 @@
         
         [_BTN_contributer setBackgroundColor:[UIColor clearColor]];
         [_BTN_organizer setBackgroundColor:[UIColor clearColor]];
-//        [_BTN_affiliate setBackgroundColor:[UIColor clearColor]];
+        [_BTN_affiliate setBackgroundColor:[UIColor clearColor]];
         
     }
     if(sender.tag == 2)
@@ -136,7 +136,7 @@
         
         [_BTN_sponsor setBackgroundColor:[UIColor clearColor]];
         [_BTN_organizer setBackgroundColor:[UIColor clearColor]];
-//        [_BTN_affiliate setBackgroundColor:[UIColor clearColor]];
+        [_BTN_affiliate setBackgroundColor:[UIColor clearColor]];
         
     }
     if(sender.tag == 3)
@@ -145,22 +145,61 @@
         
         [_BTN_sponsor setBackgroundColor:[UIColor clearColor]];
         [_BTN_contributer setBackgroundColor:[UIColor clearColor]];
-//        [_BTN_affiliate setBackgroundColor:[UIColor clearColor]];
+        [_BTN_affiliate setBackgroundColor:[UIColor clearColor]];
     }
-   /* if (sender.tag == 4)
+    if (sender.tag == 4)
     {
         [_BTN_affiliate setBackgroundColor:[UIColor lightGrayColor]];
         
         [_BTN_sponsor setBackgroundColor:[UIColor clearColor]];
         [_BTN_contributer setBackgroundColor:[UIColor clearColor]];
         [_BTN_organizer setBackgroundColor:[UIColor clearColor]];
-    }*/
+    }
 }
 
 #pragma mark - UItextfield Deligate
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
+    return YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField == _TXT_referal_name)
+    {
+        NSInteger inte = textField.text.length;
+        if(inte >= 30)
+        {
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+        }
+        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "] invertedSet];
+        NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
+        return [string isEqualToString:filtered];
+    }
+    if (textField == _TXT_referal_phone)
+    {
+        NSInteger inte = textField.text.length;
+        if(inte >= 15)
+        {
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+        }
+        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789()+- "] invertedSet];
+        NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
+        return [string isEqualToString:filtered];
+    }
     return YES;
 }
 
@@ -178,18 +217,24 @@
     if (_TXT_referal_name.text.length < 2)
     {
         [_TXT_referal_name becomeFirstResponder];
+        [_TXT_referal_name showError];
+        [_TXT_referal_name showErrorWithText:@" Referral name minimum 2 characters"];
     }
     else if ([emailTest evaluateWithObject:text_to_compare] == NO)
     {
-        [_TXT_referal_email becomeFirstResponder];
+        [_TXT_referal_email becomeFirstResponder]; //Please enter valid email address
+        [_TXT_referal_email showError];
+        [_TXT_referal_email showErrorWithText:@" Please enter valid email address"];
     }
-    else if (_TXT_referal_phone.text.length < 12)
+    else if (_TXT_referal_phone.text.length < 5)
     {
         [_TXT_referal_phone becomeFirstResponder];
+        [_TXT_referal_phone showError];
+        [_TXT_referal_phone showErrorWithText:@" Please enter More than 5 numbers"];
     }
-    else if (_BTN_sponsor.backgroundColor == [UIColor clearColor] && _BTN_contributer.backgroundColor == [UIColor clearColor] && _BTN_organizer.backgroundColor == [UIColor clearColor])
+    else if (_BTN_sponsor.backgroundColor == [UIColor clearColor] && _BTN_contributer.backgroundColor == [UIColor clearColor] && _BTN_organizer.backgroundColor == [UIColor clearColor] && _BTN_affiliate.backgroundColor == [UIColor clearColor])
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please Select a Role" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please select any role" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
     }
     else
@@ -221,10 +266,10 @@
     {
         role = @"organizer";
     }
-//    else if (_BTN_affiliate.backgroundColor != [UIColor clearColor])
-//    {
-//        role = @"affiliate";
-//    }
+    else if (_BTN_affiliate.backgroundColor != [UIColor clearColor])
+    {
+        role = @"affiliate";
+    }
     
     NSError *error;
     NSError *err;
@@ -282,7 +327,7 @@
         }
         if(!json_DATA)
            {
-               UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+               UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
                [alert show];
            }
         
@@ -292,7 +337,7 @@
         [activityIndicatorView stopAnimating];
         VW_overlay.hidden = YES;
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
     }
 }

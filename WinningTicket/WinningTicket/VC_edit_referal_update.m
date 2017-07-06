@@ -56,9 +56,14 @@
     
     
     referal_dict=[[NSUserDefaults standardUserDefaults] valueForKey:@"referral_dict"];
-    _TXT_referal_name.text = [referal_dict valueForKey:@"first_name"];
+    _TXT_referal_name.text = [[referal_dict valueForKey:@"first_name"] capitalizedString];
     NSDictionary *temp_dict = [referal_dict valueForKey:@"role"];
-    _TXT_referal_role.text = [temp_dict valueForKey:@"name"];
+    
+    NSString *role_name = [temp_dict valueForKey:@"name"];
+    role_name = [role_name stringByReplacingOccurrencesOfString:@"organizer" withString:@"event organizer"];
+    role_name = [role_name stringByReplacingOccurrencesOfString:@"contributor" withString:@"participant"];
+    
+    _TXT_referal_role.text = [role_name capitalizedString];
     _TXT_referal_email.text = [referal_dict valueForKey:@"email"];
     _TXT_referal_phone.text = [referal_dict valueForKey:@"phone"];
     
@@ -107,6 +112,44 @@
     [textField resignFirstResponder];
     return YES;
 }
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField == _TXT_referal_name)
+    {
+        NSInteger inte = textField.text.length;
+        if(inte >= 30)
+        {
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+        }
+        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "] invertedSet];
+        NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
+        return [string isEqualToString:filtered];
+    }
+    if (textField == _TXT_referal_phone)
+    {
+        NSInteger inte = textField.text.length;
+        if(inte >= 15)
+        {
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+        }
+        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789()+- "] invertedSet];
+        NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
+        return [string isEqualToString:filtered];
+    }
+    return YES;
+}
 
 #pragma mark - IBActions
 - (IBAction)BTN_back:(id)sender
@@ -115,23 +158,27 @@
 }
 -(void) add_referel_TAP
 {
-    NSString *text_to_compare = _TXT_referal_email.text;
-    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegEx];
+//    NSString *text_to_compare = _TXT_referal_email.text;
+//    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegEx];
     
     
     if (_TXT_referal_name.text.length < 2)
     {
         [_TXT_referal_name becomeFirstResponder];
+        [_TXT_referal_name showError];
+        [_TXT_referal_name showErrorWithText:@" Referral name minimum 2 characters"];
     }
-    else if ([emailTest evaluateWithObject:text_to_compare] == NO)
-    {
-        [_TXT_referal_email becomeFirstResponder];
-    }
-    else if (_TXT_referal_phone.text.length < 6)
+//    else if ([emailTest evaluateWithObject:text_to_compare] == NO)
+//    {
+//        [_TXT_referal_email becomeFirstResponder];
+//    }
+    else if (_TXT_referal_phone.text.length < 5)
     {
         [_TXT_referal_phone becomeFirstResponder];
+        [_TXT_referal_phone showError];
+        [_TXT_referal_phone showErrorWithText:@" Please enter More than 5 numbers"];
     }
-       else
+    else
     {
         VW_overlay.hidden = NO;
         [activityIndicatorView startAnimating];
