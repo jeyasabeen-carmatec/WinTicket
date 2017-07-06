@@ -4,4 +4,5 @@
 target 'WinningTicket_Universal' do
   pod 'BraintreeDropIn'
   pod 'Braintree/PayPal'
+  pod 'GoogleMaps'
 end

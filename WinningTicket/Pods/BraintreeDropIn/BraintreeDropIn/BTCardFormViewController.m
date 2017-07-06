@@ -58,6 +58,7 @@
 + (BOOL)canReadCardWithCamera;
 @property (nonatomic, strong) NSString *cardNumber;
 @property (nonatomic, assign, readwrite) BOOL hideCardIOLogo;
+@property (nonatomic, retain, readwrite) UIColor *navigationBarTintColor;
 @property (nonatomic, assign, readwrite) BOOL collectExpiry;
 @property (nonatomic, assign, readwrite) BOOL collectCVV;
 @end
@@ -315,6 +316,7 @@
 - (void)presentCardIO {
     Class kCardIOPaymentViewController = NSClassFromString(@"CardIOPaymentViewController");
     id scanViewController = [[kCardIOPaymentViewController alloc] initWithPaymentDelegate:self];
+    [scanViewController setNavigationBarTintColor:[[UINavigationBar appearance] barTintColor]];
     [scanViewController setHideCardIOLogo:YES];
     [scanViewController setCollectCVV:NO];
     [scanViewController setCollectExpiry:NO];
@@ -399,7 +401,7 @@
 - (void)resetForm {
     self.navigationItem.leftBarButtonItem = [[BTUIKBarButtonItem alloc] initWithTitle:BTUIKLocalizedString(CANCEL_ACTION) style:UIBarButtonItemStylePlain target:self action:@selector(cancelTapped)];
     BTUIKBarButtonItem *addButton = [[BTUIKBarButtonItem alloc] initWithTitle:BTUIKLocalizedString(ADD_CARD_ACTION) style:UIBarButtonItemStylePlain target:self action:@selector(tokenizeCard)];
-    addButton.bold = true;
+    addButton.bold = YES;
     self.navigationItem.rightBarButtonItem = addButton;
     
     self.navigationItem.rightBarButtonItem.enabled = NO;

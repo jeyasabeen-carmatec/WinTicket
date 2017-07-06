@@ -286,10 +286,12 @@
     UILabel *titleLabel = [BTUIKAppearance styledNavigationTitleLabel];
     titleLabel.text = viewController.title ? viewController.title : @"";
     titleLabel.textAlignment = NSTextAlignmentCenter;
+    [titleLabel setContentCompressionResistancePriority:UILayoutPriorityFittingSizeLevel forAxis:UILayoutConstraintAxisHorizontal];
     [titleLabel sizeToFit];
     UIBarButtonItem *barTitle = [[UIBarButtonItem alloc] initWithCustomView:titleLabel];
     UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     UIBarButtonItem *fixed = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    fixed.width = 1.0;
     UIBarButtonItem *leftItem = viewController.navigationItem.leftBarButtonItem ? viewController.navigationItem.leftBarButtonItem : fixed;
     UIBarButtonItem *rightItem = viewController.navigationItem.rightBarButtonItem ? viewController.navigationItem.rightBarButtonItem : fixed;
     [self.btToolbar setItems:@[leftItem, flex, barTitle, flex, rightItem] animated:YES];
@@ -299,9 +301,11 @@
     BTCardFormViewController* vd = [[BTCardFormViewController alloc] initWithAPIClient:self.apiClient request:self.dropInRequest];
     vd.supportedCardTypes = self.displayCardTypes;
     vd.delegate = self;
-      UINavigationController* navController = [[UINavigationController alloc] initWithRootViewController:vd];
+    UINavigationController* navController = [[UINavigationController alloc] initWithRootViewController:vd];
     if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
         navController.modalPresentationStyle = UIModalPresentationPageSheet;
+    } else {
+        navController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     }
     [self presentViewController:navController animated:YES completion:nil];
 }
