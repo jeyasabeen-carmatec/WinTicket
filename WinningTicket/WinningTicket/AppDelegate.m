@@ -10,6 +10,7 @@
 //#import <Braintree/Braintree.h>
 #import "BraintreeCore.h"
 #import <UserNotifications/UserNotifications.h>
+@import GoogleMaps;
 
 //@interface AppDelegate : UIResponder   <UIApplicationDelegate,UNUserNotificationCenterDelegate>
 
@@ -64,6 +65,7 @@
     [lagFreeField removeFromSuperview];
     
     [BTAppSwitch setReturnURLScheme:@"com.carmatec.WinningTicket.payments"];
+    [GMSServices provideAPIKey:@"AIzaSyBZeXhmDv-aXK7fZGZFpECx1NOC7cZFR_Q"];
     
     return YES;
 }
