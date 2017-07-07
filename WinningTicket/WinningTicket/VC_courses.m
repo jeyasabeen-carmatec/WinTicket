@@ -7,11 +7,14 @@
 //
 
 #import "VC_courses.h"
+#import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
-@interface VC_courses ()
+@interface VC_courses ()<CLLocationManagerDelegate>
 {
     UIView *VW_overlay;
     UIActivityIndicatorView *activityIndicatorView;
+    CLLocationManager *locationManager;
 }
 
 @end
@@ -86,6 +89,9 @@
     [self.view addSubview:VW_overlay];
     
     VW_overlay.hidden = YES;
+    
+    //Add google map in current controller
+    [self add_GMAP];
 }
 
 #pragma mark - Tabbar deligate
@@ -192,4 +198,33 @@
     }
 }
 
+#pragma mark - Google Maps
+-(void) add_GMAP
+{
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    locationManager.distanceFilter = kCLDistanceFilterNone;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+    {
+        [locationManager requestWhenInUseAuthorization];
+    }
+    [locationManager startUpdatingLocation];
+}
+
+#pragma mark - Location Manager
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    NSLog(@"OldLocation %f %f", oldLocation.coordinate.latitude, oldLocation.coordinate.longitude);
+    NSLog(@"NewLocation %f %f", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
+    
+    [locationManager stopUpdatingLocation];
+    
+    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:newLocation.coordinate.latitude
+                                                            longitude:newLocation.coordinate.longitude
+                                                                 zoom:6];
+//    _mapView = [GMSMapView mapWithFrame:CGRectZero camera:camera];
+    [self.mapView animateToCameraPosition:camera];
+}
 @end

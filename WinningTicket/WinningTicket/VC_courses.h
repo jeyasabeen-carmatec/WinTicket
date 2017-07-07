@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <GoogleMaps/GoogleMaps.h>
 
 @interface VC_courses : UIViewController <UITabBarDelegate>
 
-@property (weak, nonatomic) IBOutlet UITabBar *tab_HOME;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *segment_bottom;
+@property (strong, nonatomic) IBOutlet UITabBar *tab_HOME;
+@property (strong, nonatomic) IBOutlet UISegmentedControl *segment_bottom;
+
+#pragma mark - Google MAP
+@property (strong, nonatomic) IBOutlet GMSMapView *mapView;
 
 @end

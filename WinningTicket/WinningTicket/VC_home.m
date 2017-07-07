@@ -13,12 +13,15 @@
 
 #import "WinningTicket_Universal-Swift.h"
 
-@interface VC_home ()
+@interface VC_home ()<UIGestureRecognizerDelegate>
 {
     NSArray *ARR_allevent,*ARR_upcommingevent;
     UIView *VW_overlay;
     UIActivityIndicatorView *activityIndicatorView;
 //    UILabel *loadingLabel;
+    
+    CGRect frame_IMAGE,frame_VIEW;
+    float diff;
 }
 
 @end
@@ -28,6 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _scroll_content.delegate = self;
     
 }
 
@@ -128,8 +132,6 @@
     [_BTN_cancel addTarget:self action:@selector(BTN_cancel:) forControlEvents:UIControlEventTouchUpInside];
     [_BTN_enter_event_code addTarget:self action:@selector(BTN_enter_code:) forControlEvents:UIControlEventTouchUpInside];
     
-    
-    
     _TXT_0.tag = 0;
     _TXT_1.tag = 1;
     _TXT_2.tag = 2;
@@ -222,6 +224,14 @@
     
     [[NSUserDefaults standardUserDefaults] setValue:@"contributor" forKey:@"LoginSTAT"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc]  initWithTarget:self action:@selector(didSwipe:)];
+    swipeUp.direction = UISwipeGestureRecognizerDirectionUp;
+    [self.view addGestureRecognizer:swipeUp];
+    
+    UISwipeGestureRecognizer *swipeDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipe:)];
+    swipeDown.direction = UISwipeGestureRecognizerDirectionDown;
+    [self.view addGestureRecognizer:swipeDown];
 }
 
 #pragma mark - Tabbar deligate
@@ -933,7 +943,138 @@
     }
 }
 
-
-
+#pragma mark - Scroll view deligate
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{    
+    NSLog(@"Scroll view called");
+    CGFloat yVelocity = [scrollView.panGestureRecognizer velocityInView:scrollView].y;
+    if (yVelocity < 0)
+    {
+        NSLog(@"Up");
+        if (_VW_IMG_BG.frame.size.height > 80)
+        {
+            frame_VIEW = _VW_IMG_BG.frame;
+            frame_IMAGE = _IMG_logo_WT.frame;
+            
+            diff = _VW_IMG_BG.frame.size.height - 80;
+            
+            CGRect frame_VW;
+            frame_VW = _VW_IMG_BG.frame;
+            frame_VW.size.height = 80;
+            
+            CGRect frame_IMG = _IMG_logo_WT.frame;
+            frame_IMG.origin.x = _VW_IMG_BG.frame.size.width/2 - 70/2;
+            frame_IMG.origin.y = 20;
+            frame_IMG.size.height = 55;
+            frame_IMG.size.width = 70;
+            
+            CGRect frame_hold_VW = _VW_hold_BTN.frame;
+            frame_hold_VW.origin.y = frame_VW.size.height;
+            
+            CGRect frame_scroll = _scroll_content.frame;
+            frame_scroll.origin.y = _scroll_content.frame.origin.y - diff;
+            frame_scroll.size.height = _scroll_content.frame.size.height + diff;
+            
+            //            [UIView beginAnimations:@"bucketsOff" context:nil];
+            [UIView beginAnimations:@"bucketsOff" context:NULL];
+            // [UIView setAnimationDuration:0.25];
+            _VW_IMG_BG.frame = frame_VW;
+            _IMG_logo_WT.frame = frame_IMG;
+            _VW_hold_BTN.frame = frame_hold_VW;
+            _scroll_content.frame = frame_scroll;
+            [UIView commitAnimations];
+        }
+    }
+    else if (yVelocity > 0)
+    {
+        NSLog(@"Down");
+        if (_VW_IMG_BG.frame.size.height <= 80)
+        {
+            //            diff = diff + 80;
+            
+            CGRect frame_hold_VW = _VW_hold_BTN.frame;
+            frame_hold_VW.origin.y = frame_VIEW.origin.y + frame_VIEW.size.height;
+            
+            CGRect frame_scroll = _scroll_content.frame;
+            frame_scroll.origin.y = _scroll_content.frame.origin.y + diff;
+            frame_scroll.size.height = _scroll_content.frame.size.height - diff;
+            
+            //            [UIView beginAnimations:@"bucketsOff" context:nil];
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationDuration:0.25];
+            // [UIView setAnimationDuration:0.25];
+            _VW_IMG_BG.frame = frame_VIEW;
+            _IMG_logo_WT.frame = frame_IMAGE;
+            _VW_hold_BTN.frame = frame_hold_VW;
+            _scroll_content.frame = frame_scroll;
+            [UIView commitAnimations];
+        }
+    }
+}
+- (void)didSwipe:(UISwipeGestureRecognizer*)swipe
+{
+    if (swipe.direction == UISwipeGestureRecognizerDirectionUp)
+    {
+        NSLog(@"Swipe Up");
+        if (_VW_IMG_BG.frame.size.height > 80)
+        {
+            frame_VIEW = _VW_IMG_BG.frame;
+            frame_IMAGE = _IMG_logo_WT.frame;
+            
+            diff = _VW_IMG_BG.frame.size.height - 80;
+            
+            CGRect frame_VW;
+            frame_VW = _VW_IMG_BG.frame;
+            frame_VW.size.height = 80;
+            
+            CGRect frame_IMG = _IMG_logo_WT.frame;
+            frame_IMG.origin.x = _VW_IMG_BG.frame.size.width/2 - 70/2;
+            frame_IMG.origin.y = 20;
+            frame_IMG.size.height = 55;
+            frame_IMG.size.width = 70;
+            
+            CGRect frame_hold_VW = _VW_hold_BTN.frame;
+            frame_hold_VW.origin.y = frame_VW.size.height;
+            
+            CGRect frame_scroll = _scroll_content.frame;
+            frame_scroll.origin.y = _scroll_content.frame.origin.y - diff;
+            frame_scroll.size.height = _scroll_content.frame.size.height + diff;
+            
+//            [UIView beginAnimations:@"bucketsOff" context:nil];
+            [UIView beginAnimations:@"bucketsOff" context:NULL];
+            // [UIView setAnimationDuration:0.25];
+            _VW_IMG_BG.frame = frame_VW;
+            _IMG_logo_WT.frame = frame_IMG;
+            _VW_hold_BTN.frame = frame_hold_VW;
+            _scroll_content.frame = frame_scroll;
+            [UIView commitAnimations];
+        }
+    }
+    else if (swipe.direction == UISwipeGestureRecognizerDirectionDown)
+    {
+        NSLog(@"Swipe Down");
+        if (_VW_IMG_BG.frame.size.height <= 80)
+        {
+//            diff = diff + 80;
+            
+            CGRect frame_hold_VW = _VW_hold_BTN.frame;
+            frame_hold_VW.origin.y = frame_VIEW.origin.y + frame_VIEW.size.height;
+            
+            CGRect frame_scroll = _scroll_content.frame;
+            frame_scroll.origin.y = _scroll_content.frame.origin.y + diff;
+            frame_scroll.size.height = _scroll_content.frame.size.height - diff;
+            
+            //            [UIView beginAnimations:@"bucketsOff" context:nil];
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationDuration:0.25];
+            // [UIView setAnimationDuration:0.25];
+            _VW_IMG_BG.frame = frame_VIEW;
+            _IMG_logo_WT.frame = frame_IMAGE;
+             _VW_hold_BTN.frame = frame_hold_VW;
+            _scroll_content.frame = frame_scroll;
+            [UIView commitAnimations];
+        }
+    }
+}
 
 @end

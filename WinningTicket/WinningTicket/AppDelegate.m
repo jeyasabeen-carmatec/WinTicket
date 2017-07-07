@@ -11,6 +11,7 @@
 #import "BraintreeCore.h"
 #import <UserNotifications/UserNotifications.h>
 @import GoogleMaps;
+@import GooglePlaces;
 
 //@interface AppDelegate : UIResponder   <UIApplicationDelegate,UNUserNotificationCenterDelegate>
 
@@ -66,6 +67,7 @@
     
     [BTAppSwitch setReturnURLScheme:@"com.carmatec.WinningTicket.payments"];
     [GMSServices provideAPIKey:@"AIzaSyBZeXhmDv-aXK7fZGZFpECx1NOC7cZFR_Q"];
+    [GMSPlacesClient provideAPIKey:@"AIzaSyBZeXhmDv-aXK7fZGZFpECx1NOC7cZFR_Q"];
     
     return YES;
 }

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface VC_home : UIViewController <UITabBarDelegate,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
+@interface VC_home : UIViewController <UITabBarDelegate ,UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITabBar *tab_HOME;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segment_bottom;
@@ -38,5 +38,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *TXT_5;
 
 @property (weak, nonatomic) IBOutlet UIButton *BTN_all_event;
+
+@property (weak, nonatomic) IBOutlet UIView *VW_IMG_BG;
+@property (weak, nonatomic) IBOutlet UIImageView *IMG_logo_WT;
 
 @end

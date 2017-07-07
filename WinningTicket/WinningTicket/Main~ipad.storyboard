@@ -240,11 +240,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" id="Bo7-RG-1CR">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </imageView>
+                            <view contentMode="scaleToFill" misplaced="YES" id="K1X-RC-wo9">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="294"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Logo_WT.png" id="dS8-Xz-sse">
+                                        <rect key="frame" x="225" y="83" width="318" height="181"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <view contentMode="scaleToFill" misplaced="YES" id="FsG-eD-pXC">
                                 <rect key="frame" x="0.0" y="294" width="768" height="133"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -392,10 +398,6 @@
                                     <outlet property="delegate" destination="kml-eO-yxj" id="1DM-9d-wr4"/>
                                 </connections>
                             </tabBar>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Logo_WT.png" id="dS8-Xz-sse">
-                                <rect key="frame" x="225" y="83" width="318" height="181"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -405,12 +407,14 @@
                         <outlet property="BTN_cancel" destination="9vo-VX-HHS" id="XFy-jW-Wv5"/>
                         <outlet property="BTN_enter_event_code" destination="8Kw-fa-sYO" id="mTy-os-ggG"/>
                         <outlet property="BTN_view_all_event" destination="kRc-vJ-SBE" id="SIA-iJ-XGs"/>
+                        <outlet property="IMG_logo_WT" destination="dS8-Xz-sse" id="Esh-wg-hWv"/>
                         <outlet property="TXT_0" destination="WDm-I8-leN" id="R81-8K-qXq"/>
                         <outlet property="TXT_1" destination="1EU-MB-2lc" id="PIv-tk-ZXt"/>
                         <outlet property="TXT_2" destination="qlo-MO-aKQ" id="vC8-e8-LvT"/>
                         <outlet property="TXT_3" destination="J0P-BJ-cjJ" id="sXH-Pt-eGm"/>
                         <outlet property="TXT_4" destination="OS7-MQ-o0G" id="8Xo-cc-fRq"/>
                         <outlet property="TXT_5" destination="KLw-qC-nud" id="zbW-Ci-gxq"/>
+                        <outlet property="VW_IMG_BG" destination="K1X-RC-wo9" id="3TD-7U-vB6"/>
                         <outlet property="VW_Scroll_CONTENT" destination="vfP-jY-OKd" id="Wcw-Fn-Ees"/>
                         <outlet property="VW_allevent_HEAD" destination="SqG-k0-edw" id="adf-IJ-hDX"/>
                         <outlet property="VW_hold_BTN" destination="FsG-eD-pXC" id="Lxa-lm-zpk"/>
@@ -4236,10 +4240,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" id="u93-nA-dhB">
-                                <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                            <view contentMode="scaleToFill" misplaced="YES" id="8oh-ji-XcJ">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="64"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" misplaced="YES" id="ELS-BO-eE9" customClass="GMSMapView">
+                                <rect key="frame" x="0.0" y="60" width="768" height="907"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            </imageView>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="u5O-rl-f9p">
                                 <rect key="frame" x="0.0" y="996" width="768" height="29"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -4266,10 +4276,11 @@
                                 </connections>
                             </tabBar>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="lm5-6s-dXT"/>
                     <connections>
+                        <outlet property="mapView" destination="ELS-BO-eE9" id="RVs-kR-TNv"/>
                         <outlet property="segment_bottom" destination="u5O-rl-f9p" id="p2s-wS-S6c"/>
                         <outlet property="tab_HOME" destination="1j9-hq-iTc" id="KQe-VH-s2p"/>
                         <segue destination="kml-eO-yxj" kind="modal" identifier="eventssegueidentifier" animates="NO" id="Ihv-Af-Gmp"/>
@@ -5639,15 +5650,15 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="cbC-uE-OEU"/>
-        <segue reference="nOz-Ar-hxz"/>
-        <segue reference="RzG-Pg-A7n"/>
-        <segue reference="qIB-vq-Bf6"/>
-        <segue reference="wUk-OB-Ft8"/>
-        <segue reference="al3-eI-ip9"/>
+        <segue reference="F3l-cw-bxd"/>
+        <segue reference="Ihv-Af-Gmp"/>
+        <segue reference="QvG-ex-gHc"/>
+        <segue reference="XW0-8d-7Pi"/>
+        <segue reference="PfX-7b-7Ai"/>
         <segue reference="FNW-jD-ovm"/>
-        <segue reference="0ik-bb-uAM"/>
+        <segue reference="qIB-vq-Bf6"/>
         <segue reference="yaZ-kM-dL8"/>
+        <segue reference="0ik-bb-uAM"/>
         <segue reference="2yE-Jf-Xnt"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.01176470588" green="0.69019607839999997" blue="0.87843137250000003" alpha="1" colorSpace="calibratedRGB"/>
