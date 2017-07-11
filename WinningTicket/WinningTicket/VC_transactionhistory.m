@@ -199,7 +199,7 @@
     }
     else
     {
-        cell.lbl_amount.textColor = [UIColor greenColor];
+        cell.lbl_amount.textColor = [UIColor colorWithRed:0.00 green:0.65 blue:0.32 alpha:1.0];
         cell.lbl_amount.text = [NSString stringWithFormat:@"$%@",amount];
     }
     

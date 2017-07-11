@@ -946,8 +946,8 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
         temp_str = [temp_str stringByReplacingOccurrencesOfString:@"," withString:@""];
         int i=[temp_str intValue];
         NSLog(@"Temporoary string:%i",i);
-        if(i < [[asc_denomarr valueForKeyPath:@"@max.intValue"] intValue])
-        {
+//        if(i < [[asc_denomarr valueForKeyPath:@"@max.intValue"] intValue])
+//        {
             _TXT_amount.placeholder=@"0.00";
             //        UIAlertController  *alertControllerAction = [UIAlertController alertControllerWithTitle:@"" message:@"Amount Should be Grater than Maximum." preferredStyle:UIAlertControllerStyleAlert];
             //        UIAlertAction *okaction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -957,18 +957,18 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
             //        [alertControllerAction addAction:okaction];
             //
             //        [self presentViewController:alertControllerAction animated:YES completion:nil];
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"Please enter an amount greater than %d",[[asc_denomarr valueForKeyPath:@"@max.intValue"] intValue]] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-            [alert show];
-        }
-        else
-        {
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"Please enter an amount greater than %d",[[asc_denomarr valueForKeyPath:@"@max.intValue"] intValue]] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+//            [alert show];
+//        }
+//        else
+//        {
             VW_overlay.hidden=NO;
             [activityIndicatorView startAnimating];
             [self performSelector:@selector(get_client_TOKEN) withObject:activityIndicatorView afterDelay:0.01];
             
-        }
+//        }
     }
-    else if(amount_str.length > 0  && ([_TXT_amount.text isEqualToString:@"0.00"] || [_TXT_amount.text isEqualToString:@" 0.00"]))
+    else if(amount_str.length > 0  && [_TXT_amount.text isEqualToString:@"0.00"])
     {
         
         // temp_str=amount_str;

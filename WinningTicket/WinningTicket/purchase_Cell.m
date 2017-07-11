@@ -22,4 +22,16 @@
     // Configure the view for the selected state
 }
 
+
+- (void) dealloc
+{
+    [_fname release];
+    [_lname release];
+    [_email release];
+    [_stat_lbl release];
+    [_VW_contentcell release];
+    
+    [super dealloc];
+}
+
 @end

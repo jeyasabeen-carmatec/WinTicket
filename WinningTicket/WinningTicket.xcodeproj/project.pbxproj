@@ -137,7 +137,7 @@
 		BEC3BDBE1EAA255700AD97E4 /* GothamBook Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = BEC3BDBD1EAA255700AD97E4 /* GothamBook Regular.otf */; };
 		BEC548621EA4D9A500FF2114 /* auction_CellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BEC548611EA4D9A500FF2114 /* auction_CellTableViewCell.m */; };
 		BEC5486B1EA72C8500FF2114 /* VC_qty_detail.m in Sources */ = {isa = PBXBuildFile; fileRef = BEC5486A1EA72C8500FF2114 /* VC_qty_detail.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		BEC5486E1EA78EA100FF2114 /* purchase_Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = BEC5486D1EA78EA100FF2114 /* purchase_Cell.m */; };
+		BEC5486E1EA78EA100FF2114 /* purchase_Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = BEC5486D1EA78EA100FF2114 /* purchase_Cell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		BECD7C5D1EF017350037A968 /* lbl_lineSPACE.m in Sources */ = {isa = PBXBuildFile; fileRef = BECD7C5C1EF017350037A968 /* lbl_lineSPACE.m */; };
 		BECD7C641EF1401C0037A968 /* VC_affiliate_HOME.m in Sources */ = {isa = PBXBuildFile; fileRef = BECD7C631EF1401C0037A968 /* VC_affiliate_HOME.m */; };
 		BECD7C6A1EF1404E0037A968 /* referal_cell.m in Sources */ = {isa = PBXBuildFile; fileRef = BECD7C671EF1404E0037A968 /* referal_cell.m */; };

@@ -18,4 +18,9 @@
 @property(nonatomic,weak)IBOutlet UIButton *done_Btn;
 @property(nonatomic,weak)IBOutlet UIView *actview;
 @property(nonatomic,weak)IBOutlet UIActivityIndicatorView *actviewone;
+
+@property(nonatomic,weak)IBOutlet UILabel *lbl_icon1;
+@property(nonatomic,weak)IBOutlet UILabel *lbl_icon2;
+@property(nonatomic,weak)IBOutlet UILabel *lbl_icon3;
+
 @end

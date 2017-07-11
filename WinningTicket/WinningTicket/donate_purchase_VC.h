@@ -12,7 +12,7 @@
 @property (weak, nonatomic) IBOutlet UIView *VW_contents;
 @property (weak, nonatomic) IBOutlet UIScrollView *scroll_contents;
 
-@property (weak, nonatomic) IBOutlet UILabel *lbl_email;
+
 @property (weak, nonatomic) IBOutlet UILabel *lbl_address;
 //@property (weak, nonatomic) IBOutlet UILabel *lbl_titlepaymentInfo;
 //@property (weak, nonatomic) IBOutlet UILabel *lbl_paymentInfo;
@@ -28,6 +28,9 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *lbl_norms;
 
+@property (weak, nonatomic) IBOutlet UILabel *lbl_email;
+@property (weak, nonatomic) IBOutlet UILabel *lbl_titlBillingADDR;
+@property (weak, nonatomic) IBOutlet UIView *VW_line0;
 @property (weak, nonatomic) IBOutlet UIView *VW_line1;
 @property (weak, nonatomic) IBOutlet UIView *VW_line2;
 @property (weak, nonatomic) IBOutlet UIView *VW_line3;

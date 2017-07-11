@@ -38,6 +38,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    
+}
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
@@ -426,7 +431,6 @@
 {
     
     static NSString *simpleTableIdentifier = @"SimpleTableItem";
-    
     purchase_Cell *pu_cell = (purchase_Cell *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
     if (pu_cell == nil)
     {
@@ -732,5 +736,15 @@
     }
     
 }
+
+- (void) dealloc
+{
+//    [_tbl_content release];
+    [self.tbl_content setDelegate:nil];
+    [self.tbl_content setDataSource:nil];
+    [super dealloc];
+}
+
+
 
 @end

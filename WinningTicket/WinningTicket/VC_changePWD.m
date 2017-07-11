@@ -15,6 +15,7 @@
     UIView *VW_overlay;
     UIActivityIndicatorView *activityIndicatorView;
 //    UILabel *loadingLabel;
+    CGRect old_frame_lbl;
 }
 
 @end
@@ -60,7 +61,6 @@
     _TXT_newPWD.tag=2;
     _TXT_newPWD.delegate=self;
     
-    
     _TXT_confirmnewPWD.layer.cornerRadius = 5.0f;
     _TXT_confirmnewPWD.layer.masksToBounds = YES;
     _TXT_confirmnewPWD.layer.borderWidth = 2.0f;
@@ -68,15 +68,46 @@
     _TXT_confirmnewPWD.tag=3;
     _TXT_confirmnewPWD.delegate=self;
     
-    
     [self.actviewone stopAnimating];
     
-    _Stat_label.hidden=YES;
+    old_frame_lbl = _Stat_label.frame;
+    _Stat_label.hidden = YES;
+    
+    CGRect frame_TMP = _lbl_icon1.frame;
+    frame_TMP.origin.y = old_frame_lbl.origin.y + 15;
+    _lbl_icon1.frame = frame_TMP;
+    
+    frame_TMP = _TXT_currentPWD.frame;
+    frame_TMP.origin.y = old_frame_lbl.origin.y + 15;
+    _TXT_currentPWD.frame = frame_TMP;
+    
+    frame_TMP = _lbl_icon2.frame;
+    frame_TMP.origin.y = _lbl_icon1.frame.origin.y + _lbl_icon1.frame.size.height + 10;
+    _lbl_icon2.frame = frame_TMP;
+    
+    frame_TMP = _TXT_newPWD.frame;
+    frame_TMP.origin.y = _lbl_icon2.frame.origin.y;
+    _TXT_newPWD.frame = frame_TMP;
+    
+    frame_TMP = _lbl_icon3.frame;
+    frame_TMP.origin.y = _lbl_icon2.frame.origin.y + _lbl_icon2.frame.size.height + 10;
+    _lbl_icon3.frame = frame_TMP;
+    
+    frame_TMP = _TXT_confirmnewPWD.frame;
+    frame_TMP.origin.y = _lbl_icon3.frame.origin.y;
+    _TXT_confirmnewPWD.frame = frame_TMP;
+    
+    frame_TMP = _done_Btn.frame;
+    frame_TMP.origin.y = _TXT_confirmnewPWD.frame.origin.y + _TXT_confirmnewPWD.frame.size.height + 15;
+    _done_Btn.frame = frame_TMP;
+    
+//    _done_Btn.backgroundColor = [UIColor colorWithRed:0.08 green:0.63 blue:0.85 alpha:1.0];
+    
     [_TXT_currentPWD addTarget:self action:@selector(textlength_Chnaged) forControlEvents:UIControlEventAllEvents];
     [_TXT_newPWD addTarget:self action:@selector(textlength_Chnaged) forControlEvents:UIControlEventAllEvents];
     [_TXT_confirmnewPWD addTarget:self action:@selector(textlength_Chnaged) forControlEvents:UIControlEventAllEvents];
 
-[_done_Btn addTarget:self action:@selector(done_btnclicked) forControlEvents:UIControlEventTouchUpInside];
+    [_done_Btn addTarget:self action:@selector(done_btnclicked) forControlEvents:UIControlEventTouchUpInside];
     
     VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
@@ -92,16 +123,16 @@
 //    loadingLabel.adjustsFontSizeToFitWidth = YES;
 //    loadingLabel.textAlignment = NSTextAlignmentCenter;
 //    loadingLabel.text = @"Loading...";
-//    
 //    [VW_overlay addSubview:loadingLabel];
+    
     activityIndicatorView.center = VW_overlay.center;
     [VW_overlay addSubview:activityIndicatorView];
     VW_overlay.center = self.view.center;
     [self.view addSubview:VW_overlay];
     
     VW_overlay.hidden = YES;
-
 }
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
@@ -109,16 +140,11 @@
 }
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-   
-    
-
     if (textField == _TXT_currentPWD)
     {
-        
         NSInteger inte = textField.text.length;
         if(inte >= 64)
         {
-           
             if ([string isEqualToString:@""]) {
                 return YES;
             }
@@ -127,7 +153,6 @@
                 return NO;
             }
         }
-       
         return YES;
     }
     if (textField == _TXT_newPWD)
@@ -174,18 +199,17 @@
 #pragma mark - BTN Actions
 -(void)textlength_Chnaged
 {
-    NSLog(@"currendpwd:%lu,%lu,%lu",_TXT_currentPWD.text.length,_TXT_newPWD.text.length,_TXT_confirmnewPWD.text.length);
+//    NSLog(@"currendpwd:%lu,%lu,%lu",_TXT_currentPWD.text.length,_TXT_newPWD.text.length,_TXT_confirmnewPWD.text.length);
 
-    if(_TXT_currentPWD.text.length  >= 8 && _TXT_newPWD.text.length  >= 8 && _TXT_confirmnewPWD.text.length  >= 8)
-    {
-        _done_Btn.enabled = YES;
-        _done_Btn.backgroundColor = [UIColor colorWithRed:0.08 green:0.63 blue:0.85 alpha:1.0];
-    }
-    else
-    {
-        _done_Btn.backgroundColor = [UIColor lightGrayColor];
-        
-    }
+//    if(_TXT_currentPWD.text.length  >= 8 && _TXT_newPWD.text.length  >= 8 && _TXT_confirmnewPWD.text.length  >= 8)
+//    {
+//        _done_Btn.enabled = YES;
+//    }
+//    else
+//    {
+//        _done_Btn.backgroundColor = [UIColor lightGrayColor];
+//        
+//    }
 
 }
 -(IBAction)BTN_close:(id)sender
@@ -295,8 +319,43 @@
 //            [[NSUserDefaults standardUserDefaults] synchronize];
 //        }
         
-    _Stat_label.hidden=NO;
+        _Stat_label.hidden=NO;
         _Stat_label.backgroundColor=[UIColor greenColor];
+        
+        CGRect frame_TMP = old_frame_lbl;
+        _Stat_label.frame = frame_TMP;
+        
+        old_frame_lbl = _Stat_label.frame;
+        
+        frame_TMP = _lbl_icon1.frame;
+        frame_TMP.origin.y = _Stat_label.frame.origin.y + _Stat_label.frame.size.height + 15;
+        _lbl_icon1.frame = frame_TMP;
+        
+        frame_TMP = _TXT_currentPWD.frame;
+        frame_TMP.origin.y = _Stat_label.frame.origin.y + _Stat_label.frame.size.height + 15;
+        _TXT_currentPWD.frame = frame_TMP;
+        
+        frame_TMP = _lbl_icon2.frame;
+        frame_TMP.origin.y = _lbl_icon1.frame.origin.y + _lbl_icon1.frame.size.height + 10;
+        _lbl_icon2.frame = frame_TMP;
+        
+        frame_TMP = _TXT_newPWD.frame;
+        frame_TMP.origin.y = _lbl_icon2.frame.origin.y;
+        _TXT_newPWD.frame = frame_TMP;
+        
+        frame_TMP = _lbl_icon3.frame;
+        frame_TMP.origin.y = _lbl_icon2.frame.origin.y + _lbl_icon2.frame.size.height + 10;
+        _lbl_icon3.frame = frame_TMP;
+        
+        frame_TMP = _TXT_confirmnewPWD.frame;
+        frame_TMP.origin.y = _lbl_icon3.frame.origin.y;
+        _TXT_confirmnewPWD.frame = frame_TMP;
+        
+        frame_TMP = _done_Btn.frame;
+        frame_TMP.origin.y = _TXT_confirmnewPWD.frame.origin.y + _TXT_confirmnewPWD.frame.size.height + 15;
+        _done_Btn.frame = frame_TMP;
+        
+        
     [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];
     _Stat_label.text=[json_DATA valueForKey:@"message"];
         
@@ -312,6 +371,40 @@
     VW_overlay.hidden = YES;
     _Stat_label.hidden=NO;
     [self performSelector:@selector(hiddenLabel_other) withObject:nil afterDelay:3];
+        
+        CGRect frame_TMP = old_frame_lbl;
+        _Stat_label.frame = frame_TMP;
+        
+        old_frame_lbl = _Stat_label.frame;
+        
+        frame_TMP = _lbl_icon1.frame;
+        frame_TMP.origin.y = _Stat_label.frame.origin.y + _Stat_label.frame.size.height + 15;
+        _lbl_icon1.frame = frame_TMP;
+        
+        frame_TMP = _TXT_currentPWD.frame;
+        frame_TMP.origin.y = _Stat_label.frame.origin.y + _Stat_label.frame.size.height + 15;
+        _TXT_currentPWD.frame = frame_TMP;
+        
+        frame_TMP = _lbl_icon2.frame;
+        frame_TMP.origin.y = _lbl_icon1.frame.origin.y + _lbl_icon1.frame.size.height + 10;
+        _lbl_icon2.frame = frame_TMP;
+        
+        frame_TMP = _TXT_newPWD.frame;
+        frame_TMP.origin.y = _lbl_icon2.frame.origin.y;
+        _TXT_newPWD.frame = frame_TMP;
+        
+        frame_TMP = _lbl_icon3.frame;
+        frame_TMP.origin.y = _lbl_icon2.frame.origin.y + _lbl_icon2.frame.size.height + 10;
+        _lbl_icon3.frame = frame_TMP;
+        
+        frame_TMP = _TXT_confirmnewPWD.frame;
+        frame_TMP.origin.y = _lbl_icon3.frame.origin.y;
+        _TXT_confirmnewPWD.frame = frame_TMP;
+        
+        frame_TMP = _done_Btn.frame;
+        frame_TMP.origin.y = _TXT_confirmnewPWD.frame.origin.y + _TXT_confirmnewPWD.frame.size.height + 15;
+        _done_Btn.frame = frame_TMP;
+        
     _Stat_label.text=[json_DATA valueForKey:@"message"];
     _Stat_label.backgroundColor=[UIColor redColor];
      
@@ -324,10 +417,65 @@
 }
 - (void)hiddenLabel{
     _Stat_label.hidden = YES;
+    CGRect frame_TMP = _lbl_icon1.frame;
+    frame_TMP.origin.y = old_frame_lbl.origin.y + 15;
+    _lbl_icon1.frame = frame_TMP;
+    
+    frame_TMP = _TXT_currentPWD.frame;
+    frame_TMP.origin.y = old_frame_lbl.origin.y + 15;
+    _TXT_currentPWD.frame = frame_TMP;
+    
+    frame_TMP = _lbl_icon2.frame;
+    frame_TMP.origin.y = _lbl_icon1.frame.origin.y + _lbl_icon1.frame.size.height + 10;
+    _lbl_icon2.frame = frame_TMP;
+    
+    frame_TMP = _TXT_newPWD.frame;
+    frame_TMP.origin.y = _lbl_icon2.frame.origin.y;
+    _TXT_newPWD.frame = frame_TMP;
+    
+    frame_TMP = _lbl_icon3.frame;
+    frame_TMP.origin.y = _lbl_icon2.frame.origin.y + _lbl_icon2.frame.size.height + 10;
+    _lbl_icon3.frame = frame_TMP;
+    
+    frame_TMP = _TXT_confirmnewPWD.frame;
+    frame_TMP.origin.y = _lbl_icon3.frame.origin.y;
+    _TXT_confirmnewPWD.frame = frame_TMP;
+    
+    frame_TMP = _done_Btn.frame;
+    frame_TMP.origin.y = _TXT_confirmnewPWD.frame.origin.y + _TXT_confirmnewPWD.frame.size.height + 15;
+    _done_Btn.frame = frame_TMP;
      [self performSegueWithIdentifier:@"changepwdtoviewcontroller" sender:self];
 }
 -(void) hiddenLabel_other
 {
+    CGRect frame_TMP = _lbl_icon1.frame;
+    frame_TMP.origin.y = old_frame_lbl.origin.y + 15;
+    _lbl_icon1.frame = frame_TMP;
+    
+    frame_TMP = _TXT_currentPWD.frame;
+    frame_TMP.origin.y = old_frame_lbl.origin.y + 15;
+    _TXT_currentPWD.frame = frame_TMP;
+    
+    frame_TMP = _lbl_icon2.frame;
+    frame_TMP.origin.y = _lbl_icon1.frame.origin.y + _lbl_icon1.frame.size.height + 10;
+    _lbl_icon2.frame = frame_TMP;
+    
+    frame_TMP = _TXT_newPWD.frame;
+    frame_TMP.origin.y = _lbl_icon2.frame.origin.y;
+    _TXT_newPWD.frame = frame_TMP;
+    
+    frame_TMP = _lbl_icon3.frame;
+    frame_TMP.origin.y = _lbl_icon2.frame.origin.y + _lbl_icon2.frame.size.height + 10;
+    _lbl_icon3.frame = frame_TMP;
+    
+    frame_TMP = _TXT_confirmnewPWD.frame;
+    frame_TMP.origin.y = _lbl_icon3.frame.origin.y;
+    _TXT_confirmnewPWD.frame = frame_TMP;
+    
+    frame_TMP = _done_Btn.frame;
+    frame_TMP.origin.y = _TXT_confirmnewPWD.frame.origin.y + _TXT_confirmnewPWD.frame.size.height + 15;
+    _done_Btn.frame = frame_TMP;
+    
     _Stat_label.hidden = YES;
 }
 @end

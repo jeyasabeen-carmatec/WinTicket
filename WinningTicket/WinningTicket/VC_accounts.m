@@ -686,7 +686,11 @@
         NSLog(@"the user data is:%@",account_data);
         
         NSDictionary *temp_dict=[account_data valueForKey:@"user"];
-        self.first_name.text=[temp_dict valueForKey:@"first_name"];
+        NSString *name_STR = [NSString stringWithFormat:@"%@ %@",[temp_dict valueForKey:@"first_name"],[temp_dict valueForKey:@"last_name"]];
+        name_STR = [name_STR stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+        name_STR = [name_STR stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+        
+        self.first_name.text = name_STR;
         [self.first_name sizeToFit];
         self.last_name.text=[temp_dict valueForKey:@"email"];
         [self.last_name sizeToFit];

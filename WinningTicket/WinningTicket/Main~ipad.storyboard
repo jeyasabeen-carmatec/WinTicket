@@ -1381,7 +1381,7 @@
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Subtotal" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VeO-Mo-X47">
                             <rect key="frame" x="8" y="85" width="87" height="29"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="20"/>
+                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="18"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -1407,7 +1407,7 @@
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="$180.00" textAlignment="right" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="10" id="mpK-14-HMM">
                             <rect key="frame" x="115" y="89" width="637" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="20"/>
+                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="18"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -3048,6 +3048,7 @@
                     <connections>
                         <outlet property="BTN_order2" destination="Y3z-iP-CN4" id="mFP-YW-Bgt"/>
                         <outlet property="VW_contents" destination="x6o-dA-A3V" id="RsH-HE-rAM"/>
+                        <outlet property="VW_line0" destination="Mb3-k6-PhZ" id="hOk-sn-FHo"/>
                         <outlet property="VW_line1" destination="92G-qq-0LB" id="Sxu-vP-d14"/>
                         <outlet property="VW_line2" destination="C2A-uA-1Gl" id="hqo-1r-5eH"/>
                         <outlet property="VW_line3" destination="BzP-bz-77i" id="Edc-rm-PGC"/>
@@ -3060,6 +3061,7 @@
                         <outlet property="lbl_email" destination="qlh-tw-ufe" id="8MV-kC-Rke"/>
                         <outlet property="lbl_norms" destination="TIk-qR-ExR" id="3eM-2m-mkh"/>
                         <outlet property="lbl_ticketDetail" destination="9gN-7I-4nJ" id="wel-hh-YrL"/>
+                        <outlet property="lbl_titlBillingADDR" destination="1XJ-vC-cXw" id="NEq-Vh-2sr"/>
                         <outlet property="lbl_titl_payment_info" destination="d15-1s-fv7" id="nVc-WO-7La"/>
                         <outlet property="lbl_titleSubtotal" destination="vkf-4m-DaE" id="TA8-Hn-WYC"/>
                         <outlet property="lbl_titletotal" destination="I3c-qc-baI" id="PdI-Cm-sP1"/>
@@ -4225,6 +4227,9 @@
                         <outlet property="TXT_currentPWD" destination="zYm-mJ-Pwc" id="uW7-6H-e88"/>
                         <outlet property="TXT_newPWD" destination="ycZ-Aa-m5x" id="hCR-27-9Nl"/>
                         <outlet property="done_Btn" destination="LVy-50-6lR" id="ouf-p8-J2h"/>
+                        <outlet property="lbl_icon1" destination="j6o-L8-PJt" id="npU-Zv-Ov6"/>
+                        <outlet property="lbl_icon2" destination="dIu-lH-pDc" id="ycw-81-HTp"/>
+                        <outlet property="lbl_icon3" destination="wOA-Ni-NK5" id="TEI-cp-hBg"/>
                         <segue destination="66l-Ms-BQJ" kind="modal" identifier="changepwdtoviewcontroller" animates="NO" id="qIB-vq-Bf6"/>
                     </connections>
                 </viewController>
@@ -5422,7 +5427,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="64"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Referal Detail" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dUn-pj-Nsb">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Referral Detail" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dUn-pj-Nsb">
                                         <rect key="frame" x="302" y="30" width="164" height="19"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
