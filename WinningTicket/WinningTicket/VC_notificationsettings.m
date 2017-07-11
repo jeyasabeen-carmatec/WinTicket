@@ -87,7 +87,7 @@
     
     label.backgroundColor = [UIColor colorWithRed:0.93 green:0.94 blue:0.96 alpha:1.0];
     
-    label.text = [NSString stringWithFormat:@"    %@",[ARR_title objectAtIndex:section]];
+    label.text = [NSString stringWithFormat:@"    %@",[[ARR_title objectAtIndex:section] uppercaseString]];
     
     return label;
 }

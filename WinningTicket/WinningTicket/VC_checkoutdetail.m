@@ -218,6 +218,9 @@
     {
         addr = [NSString stringWithFormat:@"%@, %@,\n",STR_addr1,STR_addr2];
     }
+    if ([addr isEqualToString:@",\n"]) {
+        addr = @"";
+    }
     
     NSString *city = [NSString stringWithFormat:@"%@",STR_city];
     NSString *state = [NSString stringWithFormat:@"%@",STR_state];
@@ -328,11 +331,11 @@
         // Red text attributes
         //            UIColor *redColor = [UIColor redColor];
         NSRange cmp = [text rangeOfString:show];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:18.0]}
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:17.0]}
                                 range:cmp];
         
         NSRange org = [text rangeOfString:org_name];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:14.0]}
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:15.0]}
                                 range:org];
         
         NSRange qt = [text rangeOfString:club_name];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
@@ -344,7 +347,7 @@
                                 range:tkt_num];
         
         NSRange qty_range = [text rangeOfString:qty];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:16.0]}
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:15.0]}
                                 range:qty_range];
         
         self.lbl_ticketDetail.attributedText = attributedText;

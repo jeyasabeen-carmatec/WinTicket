@@ -193,19 +193,19 @@
             // Red text attributes
             //            UIColor *redColor = [UIColor redColor];
             NSRange cmp = [text rangeOfString:show];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:22],NSParagraphStyleAttributeName:paragraphStyle1}
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:17],NSParagraphStyleAttributeName:paragraphStyle1}
                                     range:cmp];
             
             NSMutableParagraphStyle *paragraphStyle2  = [[NSMutableParagraphStyle alloc] init];
             paragraphStyle2.lineSpacing = 2;
             NSRange plce = [text rangeOfString:org_name];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:18.0],NSParagraphStyleAttributeName:paragraphStyle2}
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:15.0],NSParagraphStyleAttributeName:paragraphStyle2}
                                     range:plce];
         
             NSMutableParagraphStyle *paragraphStyle3  = [[NSMutableParagraphStyle alloc] init];
             paragraphStyle3.lineSpacing = 0;
             NSRange tkt_num_range = [text rangeOfString:STR_tkt_num_club];
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:17.0],NSParagraphStyleAttributeName:paragraphStyle} range:tkt_num_range];
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:15.0],NSParagraphStyleAttributeName:paragraphStyle} range:tkt_num_range];
         }
         else
         {
@@ -214,13 +214,13 @@
             // Red text attributes
             //            UIColor *redColor = [UIColor redColor];
             NSRange cmp = [text rangeOfString:show];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:20.0],NSParagraphStyleAttributeName:paragraphStyle1}
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:17.0],NSParagraphStyleAttributeName:paragraphStyle1}
                                     range:cmp];
             
             NSMutableParagraphStyle *paragraphStyle2  = [[NSMutableParagraphStyle alloc] init];
             paragraphStyle2.lineSpacing = 2;
             NSRange plce = [text rangeOfString:org_name];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:16.0],NSParagraphStyleAttributeName:paragraphStyle2}
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:15.0],NSParagraphStyleAttributeName:paragraphStyle2}
                                     range:plce];
             
             NSMutableParagraphStyle *paragraphStyle3  = [[NSMutableParagraphStyle alloc] init];
@@ -285,9 +285,19 @@
     
     [_BTN_checkout addTarget:self action:@selector(decide_VC) forControlEvents:UIControlEventTouchUpInside];
     
-    frame_ST = _BTN_checkout.frame;
-    frame_ST.origin.y = _lbl_titleTotal.frame.origin.y + _lbl_titleTotal.frame.size.height + 10;
-    _BTN_checkout.frame = frame_ST;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+        frame_ST = _BTN_checkout.frame;
+        frame_ST.origin.y = _lbl_titleTotal.frame.origin.y + _lbl_titleTotal.frame.size.height + 20;
+        _BTN_checkout.frame = frame_ST;
+    }
+    else
+    {
+        frame_ST = _BTN_checkout.frame;
+        frame_ST.origin.y = _lbl_titleTotal.frame.origin.y + _lbl_titleTotal.frame.size.height + 10;
+        _BTN_checkout.frame = frame_ST;
+    }
+    
     
 //    _VW_promo.layer.borderWidth = 2.0f;
 //    _VW_promo.layer.borderColor = [UIColor colorWithRed:0.56 green:0.56 blue:0.57 alpha:1.0].CGColor;

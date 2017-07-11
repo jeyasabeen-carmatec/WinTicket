@@ -555,6 +555,7 @@
     }
     else
     {
+        [self.view endEditing:TRUE];
         VW_overlay.hidden = NO;
         [activityIndicatorView startAnimating];
         [self performSelector:@selector(api_integration) withObject:activityIndicatorView afterDelay:0.01];

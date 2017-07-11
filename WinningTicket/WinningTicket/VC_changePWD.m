@@ -194,12 +194,26 @@
 }
 -(void)done_btnclicked
 {
-    if(_TXT_currentPWD.text.length < 8)
+    if([_TXT_currentPWD.text isEqualToString:@""])
     {
         [_TXT_currentPWD becomeFirstResponder];
         [_TXT_currentPWD showError];
-        [_TXT_currentPWD showErrorWithText:@" Current Password should have minimum 8 chraters"];
+        [_TXT_currentPWD showErrorWithText:@" Please enter current password"];
+        
+    }
+    else if(_TXT_currentPWD.text.length < 8)
+    {
+        [_TXT_currentPWD becomeFirstResponder];
+        [_TXT_currentPWD showError];
+        [_TXT_currentPWD showErrorWithText:@" Current password should have minimum 8 characters"];
 
+    }
+    else  if([_TXT_newPWD.text isEqualToString:@""])
+    {
+        [_TXT_newPWD becomeFirstResponder];
+        [_TXT_newPWD showError];
+        [_TXT_newPWD showErrorWithText:@" Please enter new password"];
+        
     }
     else  if(_TXT_newPWD.text.length < 8)
     {
@@ -207,6 +221,12 @@
         [_TXT_newPWD showError];
         [_TXT_newPWD showErrorWithText:@" New Password should have minimum 8 chraters"];
         
+    }
+    else  if([_TXT_confirmnewPWD.text isEqualToString:@""])
+    {
+        [_TXT_confirmnewPWD becomeFirstResponder];
+        [_TXT_confirmnewPWD showError];
+        [_TXT_confirmnewPWD showErrorWithText:@" Please enter confirm Password"];
     }
     else  if(_TXT_confirmnewPWD.text.length < 8)
     {
@@ -217,6 +237,8 @@
 
     else
     {
+        [self.view endEditing:TRUE];
+        
         [activityIndicatorView startAnimating];
         VW_overlay.hidden=NO;
         [self performSelector:@selector(forgotapi) withObject:activityIndicatorView afterDelay:0.01];

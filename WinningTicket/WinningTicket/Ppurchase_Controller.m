@@ -159,7 +159,7 @@
         frame_rect = _confirm_mail.frame;
         orginal_width = _confirm_mail.frame.size.width;
 
-        self.confirm_mail.text = [NSString stringWithFormat:@"A Confirmation mail Has been Sent to your Mail %@",[dict valueForKey:@"email"]];
+        self.confirm_mail.text = [NSString stringWithFormat:@"A confirmation email has been sent to %@",[dict valueForKey:@"email"]];
         [self.confirm_mail sizeToFit];
         
         frame_rect.origin.y = _status_Label.frame.origin.y + _status_Label.frame.size.height + 2;

@@ -406,8 +406,8 @@
         search_label.textColor = [UIColor blackColor];
         
         
-        NSString *str = _search_bar.text;
-        search_label.text = [NSString stringWithFormat:@" %lu Results for' %@ '",(unsigned long)[_ARR_sec_one count],str];
+//        NSString *str = _search_bar.text;
+        search_label.text = @"Searching ' '";//[NSString stringWithFormat:@" %lu Results for' %@ '",(unsigned long)[_ARR_sec_one count],str];
         
         _VW_title.frame = CGRectMake(_VW_title.frame.origin.x, search_label.frame.origin.y + search_label.frame.size.height + 5, _VW_title.frame.size.width, _VW_title.frame.size.height);
         _tbl_edit_referral.frame = CGRectMake(_tbl_edit_referral.frame.origin.x, _VW_title.frame.origin.y + _VW_title.frame.size.height , _tbl_edit_referral.frame.size.width, _tbl_edit_referral.frame.size.height);
@@ -462,8 +462,8 @@
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    NSString *search_text = _search_bar.text;
-    search_label.text = [NSString stringWithFormat:@"%@",search_text];
+//    NSString *search_text = _search_bar.text;
+    search_label.text = @"";//[NSString stringWithFormat:@"%@",search_text];
     
     UITextField *searchBarTextField = [self findTextFieldFromControl:_search_bar];
     [searchBarTextField addTarget:self action:@selector(getSearch_TXT) forControlEvents:UIControlEventEditingChanged];

@@ -405,6 +405,9 @@
     {
         addr = [NSString stringWithFormat:@"%@, %@,\n",STR_addr1,STR_addr2];
     }
+    if ([addr isEqualToString:@",\n"]) {
+        addr = @"";
+    }
     
     NSString *city = [NSString stringWithFormat:@"%@",STR_city];
     NSString *state = [NSString stringWithFormat:@"%@",STR_state];
@@ -758,9 +761,12 @@
 //    }
     else
     {
-    VW_overlay.hidden = NO;
-    [activityIndicatorView startAnimating];
-    [self performSelector:@selector(get_client_TOKEN) withObject:activityIndicatorView afterDelay:0.01];
+        [self.view endEditing:TRUE];
+        
+        
+      VW_overlay.hidden = NO;
+      [activityIndicatorView startAnimating];
+      [self performSelector:@selector(get_client_TOKEN) withObject:activityIndicatorView afterDelay:0.01];
     }
 }
 

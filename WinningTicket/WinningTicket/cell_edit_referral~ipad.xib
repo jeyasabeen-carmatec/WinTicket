@@ -28,7 +28,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Test testTest testTest testTest testTest test" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IPj-kK-kTC" customClass="CSTM_cell_LBL">
-                        <rect key="frame" x="8" y="8" width="308" height="50"/>
+                        <rect key="frame" x="8" y="8" width="380" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="380" id="kBy-bE-HaZ"/>
+                        </constraints>
                         <fontDescription key="fontDescription" name="GothamPro-Medium" family="Gotham Pro" pointSize="19"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -39,9 +42,9 @@
                         </userDefinedRuntimeAttributes>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mar 31,2017 11:00AM EST" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cA1-Fz-m8i" customClass="CSTM_cell_LBL">
-                        <rect key="frame" x="428" y="11" width="117" height="36"/>
+                        <rect key="frame" x="428" y="11" width="188" height="36"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="117" id="gN5-wd-LLn"/>
+                            <constraint firstAttribute="width" constant="188" id="RnZ-tG-166"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="GothamPro-Medium" family="Gotham Pro" pointSize="19"/>
                         <nil key="textColor"/>
@@ -52,13 +55,13 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pvJ-iE-Ld4" customClass="BTN_Winnig_TKT">
-                        <rect key="frame" x="643" y="0.0" width="117" height="67"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pvJ-iE-Ld4" customClass="BTN_Winnig_TKT">
+                        <rect key="frame" x="643" y="7" width="117" height="50"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="117" id="aqz-gb-KM5"/>
+                            <constraint firstAttribute="width" constant="117" id="RIW-zn-eev"/>
                         </constraints>
-                        <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="53"/>
+                        <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="37"/>
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <state key="normal" title="">
                             <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -66,15 +69,14 @@
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="cA1-Fz-m8i" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="3" id="0mQ-gX-GkX"/>
-                    <constraint firstItem="pvJ-iE-Ld4" firstAttribute="leading" secondItem="cA1-Fz-m8i" secondAttribute="trailing" constant="98" id="6T8-lm-ZfS"/>
-                    <constraint firstItem="IPj-kK-kTC" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="7dW-P4-ysS"/>
-                    <constraint firstItem="cA1-Fz-m8i" firstAttribute="leading" secondItem="IPj-kK-kTC" secondAttribute="trailing" constant="112" id="OmD-Gk-LV2"/>
-                    <constraint firstItem="cA1-Fz-m8i" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" constant="-3.75" id="WTy-cF-KbS"/>
-                    <constraint firstItem="pvJ-iE-Ld4" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="hfL-t9-PSW"/>
-                    <constraint firstItem="cA1-Fz-m8i" firstAttribute="top" secondItem="pvJ-iE-Ld4" secondAttribute="top" constant="11" id="kMv-NI-FEh"/>
-                    <constraint firstItem="IPj-kK-kTC" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ngF-zS-cjU"/>
-                    <constraint firstItem="IPj-kK-kTC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="o5e-Tq-e9g"/>
+                    <constraint firstItem="IPj-kK-kTC" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="J4o-WL-X2o"/>
+                    <constraint firstItem="pvJ-iE-Ld4" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="NrH-pn-Pca"/>
+                    <constraint firstItem="IPj-kK-kTC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="QrP-Lz-1va"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="cA1-Fz-m8i" secondAttribute="bottom" constant="10.5" id="SvC-8m-yps"/>
+                    <constraint firstItem="pvJ-iE-Ld4" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="Xb4-Rf-Mvc"/>
+                    <constraint firstItem="IPj-kK-kTC" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="hTR-BF-kHs"/>
+                    <constraint firstItem="pvJ-iE-Ld4" firstAttribute="leading" secondItem="cA1-Fz-m8i" secondAttribute="trailing" constant="27" id="kw0-gb-0yb"/>
+                    <constraint firstItem="cA1-Fz-m8i" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="3" id="wx9-AJ-XAO"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

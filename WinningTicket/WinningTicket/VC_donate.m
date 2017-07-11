@@ -193,6 +193,9 @@
         {
             addr = [NSString stringWithFormat:@"%@, %@,\n",STR_addr1,STR_addr2];
         }
+        if ([addr isEqualToString:@",\n"]) {
+            addr = @"";
+        }
         
         NSString *city = [NSString stringWithFormat:@"%@",STR_city];
         NSString *state = [NSString stringWithFormat:@"%@",STR_state];
@@ -1303,6 +1306,8 @@
     }
       else
     {
+        [self.view endEditing:TRUE];
+        
         VW_overlay.hidden=NO;
         [activityIndicatorView startAnimating];
         [self performSelector:@selector(donatio_API) withObject:activityIndicatorView afterDelay:0.01];
@@ -1406,6 +1411,8 @@
 
 -(void) get_EVENTS
 {
+//    NSArray *arr_TEMP = [[NSArray alloc] initWithArray:[[[NSUserDefaults standardUserDefaults] valueForKey:@"eventsStored"] valueForKey:@"events"]];
+//    NSArray *sorted_org = [arr_TEMP sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     _oraganisationpicker = [[[NSUserDefaults standardUserDefaults] valueForKey:@"eventsStored"] valueForKey:@"events"];
 }
 

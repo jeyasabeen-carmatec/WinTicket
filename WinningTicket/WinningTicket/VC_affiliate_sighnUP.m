@@ -707,6 +707,7 @@
     }
     else
     {
+        [self.view endEditing:TRUE];
         NSLog(@"Validation are aperfect:");
         VW_overlay.hidden = NO;
         [activityIndicatorView startAnimating];

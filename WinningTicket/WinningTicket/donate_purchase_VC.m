@@ -144,7 +144,11 @@
     rect_content.size.width = self.View_Nav_Top.frame.size.width;
     NSString *email = [temp_resp valueForKey:@"email"];
     email = [email stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
-    _lbl_email.text = [temp_resp valueForKey:@"email"];
+    
+    
+    _lbl_email.text = [NSString stringWithFormat:@"A confirmation email has been sent to %@",[temp_resp valueForKey:@"email"]];
+    _lbl_email.numberOfLines = 0;
+    [_lbl_email sizeToFit];
     
     [self Country_api];
     conty_code  = [address_dictin valueForKey:@"country"];
@@ -218,6 +222,9 @@
     else
     {
         addr = [NSString stringWithFormat:@"%@, %@,\n",STR_addr1,STR_addr2];
+    }
+    if ([addr isEqualToString:@",\n"]) {
+        addr = @"";
     }
     
     NSString *city = [NSString stringWithFormat:@"%@",STR_city];

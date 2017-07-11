@@ -53,13 +53,13 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    _tbl_referal.estimatedRowHeight = 10.0;
+    _tbl_referal.estimatedRowHeight = 50.0;
     _tbl_referal.rowHeight = UITableViewAutomaticDimension;
     
     VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     VW_overlay.clipsToBounds = YES;
-    VW_overlay.layer.cornerRadius = 10.0;
+    VW_overlay.layer.cornerRadius = 50.0;
     
     activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
@@ -405,6 +405,7 @@
     _title_lbl.hidden = YES;
 
     _VW_hldBTN.hidden = YES;
+    _BTN_logOUT.hidden = YES;
     
    // [_search_bar setTranslucent:YES];
     _search_bar.barTintColor = [UIColor lightGrayColor];
@@ -436,8 +437,8 @@
         search_label.textColor = [UIColor blackColor];
 
 
-        NSString *str = _search_bar.text;
-        search_label.text = [NSString stringWithFormat:@" %lu Results for' %@ '",(unsigned long)[_ARR_sec_one count],str];
+//        NSString *str = _search_bar.text;
+        search_label.text = @"Searching ' '";//[NSString stringWithFormat:@" %lu Results for' %@ '",(unsigned long)[_ARR_sec_one count],str];
         
         _VW_title.frame = CGRectMake(_VW_title.frame.origin.x, search_label.frame.origin.y + search_label.frame.size.height + 5 , _VW_title.frame.size.width, _VW_title.frame.size.height);
         _tbl_referal.frame = CGRectMake(_tbl_referal.frame.origin.x, _VW_title.frame.origin.y + _VW_title.frame.size.height , _tbl_referal.frame.size.width, _tbl_referal.frame.size.height);
@@ -457,6 +458,7 @@
 //    _BTN_edit.hidden=NO;
 //    _BTN_filter.hidden=NO;
 //    _BTN_new_refral.hidden=NO;
+    _BTN_logOUT.hidden = NO;
     _VW_hldBTN.hidden = NO;
     _search_bar.text = @"";
     _vw_LINE.hidden = YES;
@@ -493,8 +495,8 @@
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    NSString *search_text = _search_bar.text;
-    search_label.text = [NSString stringWithFormat:@"%@",search_text];
+//    NSString *search_text = _search_bar.text;
+    search_label.text = @"";//[NSString stringWithFormat:@"%@",search_text];
     
     UITextField *searchBarTextField = [self findTextFieldFromControl:_search_bar];
     [searchBarTextField addTarget:self action:@selector(getSearch_TXT) forControlEvents:UIControlEventEditingChanged];

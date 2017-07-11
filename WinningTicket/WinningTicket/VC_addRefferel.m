@@ -213,8 +213,13 @@
     NSString *text_to_compare = _TXT_referal_email.text;
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegEx];
     
-    
-    if (_TXT_referal_name.text.length < 2)
+    if ([_TXT_referal_name.text isEqualToString:@""])
+    {
+        [_TXT_referal_name becomeFirstResponder];
+        [_TXT_referal_name showError];
+        [_TXT_referal_name showErrorWithText:@" Please enter referral name"];
+    }
+    else if (_TXT_referal_name.text.length < 2)
     {
         [_TXT_referal_name becomeFirstResponder];
         [_TXT_referal_name showError];
@@ -226,11 +231,17 @@
         [_TXT_referal_email showError];
         [_TXT_referal_email showErrorWithText:@" Please enter valid email address"];
     }
+    else if ([_TXT_referal_phone.text isEqualToString:@""])
+    {
+        [_TXT_referal_phone becomeFirstResponder];
+        [_TXT_referal_phone showError];
+        [_TXT_referal_phone showErrorWithText:@" Please enter phone number"];
+    }
     else if (_TXT_referal_phone.text.length < 5)
     {
         [_TXT_referal_phone becomeFirstResponder];
         [_TXT_referal_phone showError];
-        [_TXT_referal_phone showErrorWithText:@" Please enter More than 5 numbers"];
+        [_TXT_referal_phone showErrorWithText:@" Phone number minimum 5 numbers"];
     }
     else if (_BTN_sponsor.backgroundColor == [UIColor clearColor] && _BTN_contributer.backgroundColor == [UIColor clearColor] && _BTN_organizer.backgroundColor == [UIColor clearColor] && _BTN_affiliate.backgroundColor == [UIColor clearColor])
     {
