@@ -10,6 +10,8 @@
 //#import "DejalActivityView.h"
 //#import "DGActivityIndicatorView.h"
 
+#import "ViewController.h"
+
 #import "BraintreeCore.h"
 #import "BraintreeDropIn.h"
 
@@ -104,7 +106,7 @@
     VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     VW_overlay.clipsToBounds = YES;
-    VW_overlay.layer.cornerRadius = 10.0;
+//    VW_overlay.layer.cornerRadius = 10.0;
     
     activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
@@ -206,374 +208,389 @@
 
     NSError *error;
     NSMutableDictionary *dict = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
-    NSMutableDictionary *temp_dictin = [dict valueForKey:@"event"];
-    _lbl_amount_des.text = [NSString stringWithFormat:@"$%.2f",[[dict valueForKey:@"price"] floatValue]];
-    _lbl_sub_amount.text = [NSString stringWithFormat:@"$%.2f",[[dict valueForKey:@"price"] floatValue] * [[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"] intValue]];
-    _lbl_total_amount.text = _lbl_sub_amount.text;
     
-    NSMutableDictionary *user=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"User_data"] options:NSASCIIStringEncoding error:&error];
-    NSLog(@"the user data is:%@",user);
-    
-    NSDictionary *user_data = [user valueForKey:@"user"];
-    
-    [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:
-     @{NSForegroundColorAttributeName:[UIColor whiteColor],
-       NSFontAttributeName:[UIFont fontWithName:@"FontAwesome" size:32.0f]
-       } forState:UIControlStateNormal];
-    
-    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain
-                                                                     target:self action:@selector(backAction)];
-    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    @try
     {
-        CGSize result = [[UIScreen mainScreen] bounds].size;
-        if(result.height <= 480)
+        NSString *STR_error = [dict valueForKey:@"error"];
+        if (STR_error)
         {
-            // iPhone Classic
-            negativeSpacer.width = 0;
-        }
-        else if(result.height <= 568)
-        {
-            // iPhone 5
-            negativeSpacer.width = -12;
+            [self sessionOUT];
         }
         else
         {
-            negativeSpacer.width = -16;
+            NSMutableDictionary *temp_dictin = [dict valueForKey:@"event"];
+            _lbl_amount_des.text = [NSString stringWithFormat:@"$%.2f",[[dict valueForKey:@"price"] floatValue]];
+            _lbl_sub_amount.text = [NSString stringWithFormat:@"$%.2f",[[dict valueForKey:@"price"] floatValue] * [[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"] intValue]];
+            _lbl_total_amount.text = _lbl_sub_amount.text;
+            
+            NSMutableDictionary *user=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"User_data"] options:NSASCIIStringEncoding error:&error];
+            NSLog(@"the user data is:%@",user);
+            
+            NSDictionary *user_data = [user valueForKey:@"user"];
+            
+            [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:
+             @{NSForegroundColorAttributeName:[UIColor whiteColor],
+               NSFontAttributeName:[UIFont fontWithName:@"FontAwesome" size:32.0f]
+               } forState:UIControlStateNormal];
+            
+            UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain
+                                                                             target:self action:@selector(backAction)];
+            UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+            
+            if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            {
+                CGSize result = [[UIScreen mainScreen] bounds].size;
+                if(result.height <= 480)
+                {
+                    // iPhone Classic
+                    negativeSpacer.width = 0;
+                }
+                else if(result.height <= 568)
+                {
+                    // iPhone 5
+                    negativeSpacer.width = -12;
+                }
+                else
+                {
+                    negativeSpacer.width = -16;
+                }
+            }
+            else
+            {
+                negativeSpacer.width = -12;
+            }
+            
+            [self.navigationItem setLeftBarButtonItems:@[negativeSpacer, anotherButton ] animated:NO];
+            
+            [self.navigationController.navigationBar setTitleTextAttributes:
+             @{NSForegroundColorAttributeName:[UIColor whiteColor],
+               NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:22.0f]}];
+            self.navigationItem.title = @"Billing Address";
+            
+            self.lbl_name_ticket.text=@"Winning Ticket";
+            int qtynum = [[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"]intValue];
+            self.lbl_qty.text=[NSString stringWithFormat:@"Qty:%d",qtynum];
+            
+            
+            NSString *ticketnumber = [temp_dictin valueForKey:@"code"];
+            NSString *club_name = [[temp_dictin valueForKey:@"name"] capitalizedString];
+            NSString *org_name = [[temp_dictin valueForKey:@"organization_name"] capitalizedString];
+            
+            NSString *text = [NSString stringWithFormat:@"%@\n%@ - %@",org_name,ticketnumber,club_name];
+            
+            text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
+            
+            
+            if ([self.lbl_des_cription respondsToSelector:@selector(setAttributedText:)])
+            {
+                NSDictionary *attribs = @{
+                                          NSForegroundColorAttributeName: self.lbl_des_cription.textColor,
+                                          NSFontAttributeName: self.lbl_des_cription.font
+                                          };
+                NSMutableAttributedString *attributedText =
+                [[NSMutableAttributedString alloc] initWithString:text
+                                                       attributes:attribs];
+                
+                NSRange org = [text rangeOfString:org_name];
+                [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:17.0]}range:org];
+                
+                NSRange plce = [text rangeOfString:club_name];
+                [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:15.0]}range:plce];
+                
+                NSRange codeR = [text rangeOfString:ticketnumber];
+                [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:15.0]}range:codeR];
+                
+                self.lbl_des_cription.attributedText = attributedText;
+            }
+            else
+            {
+                self.lbl_des_cription.text = [text capitalizedString];
+            }
+            
+            _lbl_des_cription.numberOfLines = 0;
+            [_lbl_des_cription sizeToFit];
+            CGRect frame_NEW;
+            //    frame_NEW=_lbl_amount_des.frame;
+            //    frame_NEW.origin.y=_lbl_des_cription.frame.origin.y;
+            //    _lbl_amount_des.frame=frame_NEW;
+            
+            frame_NEW = _VW_line1.frame;
+            frame_NEW.origin.y = _lbl_des_cription.frame.origin.y + _lbl_des_cription.frame.size.height + 10;
+            _VW_line1.frame = frame_NEW;
+            
+            frame_NEW = _lbl_sub_total.frame;
+            frame_NEW.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
+            _lbl_sub_total.frame = frame_NEW;
+            
+            frame_NEW = _lbl_sub_amount.frame;
+            frame_NEW.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
+            _lbl_sub_amount.frame = frame_NEW;
+            
+            frame_NEW = _VW_line2.frame;
+            frame_NEW.origin.y = _lbl_sub_total.frame.origin.y + _lbl_sub_total.frame.size.height + 10;
+            _VW_line2.frame = frame_NEW;
+            
+            frame_NEW = _lbl_total.frame;
+            frame_NEW.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
+            _lbl_total.frame = frame_NEW;
+            
+            frame_NEW = _lbl_total_amount.frame;
+            frame_NEW.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
+            _lbl_total_amount.frame = frame_NEW;
+            
+            frame_NEW = _VW_main.frame;
+            frame_NEW.size.height = _lbl_total.frame.origin.y + _VW_line2.frame.size.height + 15;
+            _VW_main.frame = frame_NEW;
+            
+            float heiht1 = _VW_main.frame.size.height;
+            
+            self.VW_main.frame = CGRectMake(0,0,
+                                            self.scroll_contents.bounds.size.width,_lbl_des_cription.frame.size.height);
+            [self.scroll_contents addSubview:self.VW_main];
+            
+            _lbl_agree.text = @"You will not be charged until you confirm your order";
+            _lbl_agree.numberOfLines = 0;
+            [_lbl_agree sizeToFit];
+            
+            
+            [_BTN_edit addTarget:self action:@selector(edit_BTN_action:) forControlEvents:UIControlEventTouchUpInside];
+            
+            frame_NEW = _VW_titladdress.frame;
+            frame_NEW.origin.y = _scroll_contents.frame.origin.y + heiht1-50;
+            frame_NEW.size.width = _scroll_contents.frame.size.width;
+            _VW_titladdress.frame = frame_NEW;
+            [self.scroll_contents addSubview:self.VW_titladdress];
+            
+            NSString *STR_fname = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"first_name"]];
+            STR_fname = [STR_fname stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+            STR_fname = [STR_fname stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+            STR_fname = [STR_fname capitalizedString];
+            NSString *STR_lname = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"last_name"]];
+            STR_lname = [STR_lname stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+            STR_lname = [STR_lname stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+            STR_lname = [STR_lname capitalizedString];
+            NSString *STR_addr1 = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"address1"]];
+            STR_addr1 = [STR_addr1 stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+            STR_addr1 = [STR_addr1 stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+            STR_addr1 = [STR_addr1 capitalizedString];
+            NSString *STR_addr2 = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"address2"]];
+            STR_addr2 = [STR_addr2 stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+            STR_addr2 = [STR_addr2 stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+            STR_addr2 = [STR_addr2 capitalizedString];
+            NSString *STR_city = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"city"]];
+            STR_city = [STR_city stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+            STR_city = [STR_city stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+            STR_city = [STR_city capitalizedString];
+            NSString *STR_state = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"state"]];
+            STR_state = [STR_state stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+            STR_state = [STR_state stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+            STR_state = [STR_state capitalizedString];
+            NSString *STR_cntry = [NSString stringWithFormat:@"%@",[user valueForKey:@"country"]];
+            STR_cntry = [STR_cntry stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+            STR_cntry = [STR_cntry stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+            STR_cntry = [STR_cntry capitalizedString];
+            NSString *STR_zip = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"zipcode"]];
+            STR_zip = [STR_zip stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+            STR_zip = [STR_zip stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+            STR_zip = [STR_zip capitalizedString];
+            NSString *STR_phone = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"phone"]];
+            STR_phone = [STR_phone stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+            STR_phone = [STR_phone stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+            STR_phone = [STR_phone capitalizedString];
+            
+            NSString *name;
+            if (STR_lname.length == 0)
+            {
+                name = [NSString stringWithFormat:@"%@,\n",STR_fname];
+            }
+            else
+            {
+                name = [NSString stringWithFormat:@"%@ %@,\n",STR_fname,STR_lname];
+            }
+            
+            NSString *addr;
+            if (STR_addr2.length == 0)
+            {
+                addr = [NSString stringWithFormat:@"%@,\n",STR_addr1];
+            }
+            else
+            {
+                addr = [NSString stringWithFormat:@"%@, %@,\n",STR_addr1,STR_addr2];
+            }
+            if ([addr isEqualToString:@",\n"]) {
+                addr = @"";
+            }
+            
+            NSString *city = [NSString stringWithFormat:@"%@",STR_city];
+            NSString *state = [NSString stringWithFormat:@"%@",STR_state];
+            NSString *zip = [NSString stringWithFormat:@"%@",STR_zip];
+            NSString *cntry;
+            if (STR_zip.length == 0)
+            {
+                cntry = [NSString stringWithFormat:@"%@, %@, \n",city,state];
+            }
+            else
+            {
+                if (STR_state.length == 0)
+                {
+                    cntry = [NSString stringWithFormat:@"%@, %@,\n",city,zip];
+                }
+                else
+                {
+                    cntry = [NSString stringWithFormat:@"%@, %@, %@,\n",city,state,zip];
+                }
+            }
+            NSString *country;
+            if(STR_cntry.length == 0)
+            {
+                country = [NSString stringWithFormat:@"Phone : %@.",STR_phone];
+            }
+            else
+            {
+                country = [NSString stringWithFormat:@"%@ \nPhone : %@.",STR_cntry,STR_phone];
+                
+            }
+            NSMutableArray *final_ADDR = [[NSMutableArray alloc] init];
+            if (name.length != 0) {
+                [final_ADDR addObject:[name capitalizedString]];
+            }
+            
+            if (addr.length != 0) {
+                [final_ADDR addObject:addr];
+            }
+            
+            if (city.length != 0 && state.length != 0 && zip.length != 0) {
+                [final_ADDR addObject:cntry];
+            }
+            
+            
+            if (country.length != 0){
+                [final_ADDR addObject:country];
+            }
+            
+            
+            //    NSString *address_str=[NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone : %@",,,,,,,,,];
+            
+            NSMutableString *str_TST = [[NSMutableString alloc]init];
+            for (int i = 0; i<[final_ADDR count]; i++) {
+                [str_TST appendString:[final_ADDR objectAtIndex:i]];
+            }
+            
+            NSLog(@"Testing Addr = \n%@",str_TST);
+            
+            _TXT_firstname.text = STR_fname;// [user_data valueForKey:@"first_name"];
+            _TXT_lastname.text = STR_lname;//[user_data valueForKey:@"last_name"];
+            _TXT_address1.text = STR_addr1;//[user_data valueForKey:@"address1"];
+            _TXT_address2.text = STR_addr2;//[user_data valueForKey:@"address2"];
+            _TXT_city.text = STR_city;//[user_data valueForKey:@"city"];
+            _TXT_country.text = STR_cntry;//[user valueForKey:@"country"];
+            _TXT_zip.text = STR_zip;//[user_data valueForKey:@"zipcode"];
+            _TXT_state.text = STR_state;//[user valueForKey:@"state"];
+            _TXT_phonenumber.text = STR_phone;//[user_data valueForKey:@"phone"];
+            
+            _lbl_address.text = str_TST;
+            [_lbl_address sizeToFit];
+            
+            frame_NEW=_lbl_address.frame;
+            frame_NEW.origin.x=_VW_titladdress.frame.origin.x+10;
+            frame_NEW.origin.y=_VW_titladdress.frame.origin.y+_VW_titladdress.frame.size.height+10;
+            _lbl_address.frame=frame_NEW;
+            
+            [_BTN_checkout addTarget:self action:@selector(chckout_ACtin:) forControlEvents:UIControlEventTouchUpInside];
+            
+            
+            //    frame_NEW=_proceed_TOPAY.frame;
+            //    frame_NEW.origin.y=_lbl_address.frame.origin.y+_lbl_address.frame.size.height+30;
+            //    _proceed_TOPAY.frame=frame_NEW;
+            
+            frame_NEW = _BTN_checkout.frame;
+            frame_NEW.origin.y = _lbl_address.frame.origin.y + _lbl_address.frame.size.height + 10;
+            _BTN_checkout.frame = frame_NEW;
+            
+            
+            
+            frame_NEW = _lbl_agree.frame;
+            frame_NEW.size.width = lbl_origin_FRAME.size.width;
+            _lbl_agree.frame = frame_NEW;
+            
+            //    frame_NEW = _lbl_agree.frame;
+            
+            frame_NEW.origin.y = _BTN_checkout.frame.origin.y + _BTN_checkout.frame.size.height + 10;
+            _lbl_agree.frame = frame_NEW;
+            
+            original_height= _lbl_agree.frame.origin.y + _lbl_agree.frame.size.height;
+            
+            _VW_address.frame=CGRectMake(_VW_titladdress.frame.origin.x,_VW_titladdress.frame.origin.y+_VW_titladdress.frame.size.height,self.scroll_contents.frame.size.width,_VW_address.frame.size.height);
+            [self.scroll_contents addSubview:_VW_address];
+            _VW_address.hidden=YES;
+            
+            _contry_pickerView = [[UIPickerView alloc] init];
+            _contry_pickerView.delegate = self;
+            _contry_pickerView.dataSource = self;
+            
+            _state_pickerView=[[UIPickerView alloc]init];
+            _state_pickerView.dataSource=self;
+            _state_pickerView.delegate=self;
+            
+            
+            
+            UITapGestureRecognizer *tapToSelect = [[UITapGestureRecognizer alloc]initWithTarget:self
+                                                                                         action:@selector(tappedToSelectRow:)];
+            tapToSelect.delegate = self;
+            [_contry_pickerView addGestureRecognizer:tapToSelect];
+            
+            _TXT_country.inputView=_contry_pickerView;
+            
+            UITapGestureRecognizer *satetap = [[UITapGestureRecognizer alloc]initWithTarget:self
+                                                                                     action:@selector(tappedToSelectRowstate:)];
+            satetap.delegate = self;
+            [_state_pickerView addGestureRecognizer:satetap];
+            
+            
+            
+            
+            UIToolbar* conutry_close = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+            conutry_close.barStyle = UIBarStyleBlackTranslucent;
+            [conutry_close sizeToFit];
+            
+            UIButton *btn=[[UIButton alloc]init];
+            btn.frame=CGRectMake(conutry_close.frame.size.width - 100, 0, 100, conutry_close.frame.size.height);
+            [btn setTitle:@"close" forState:UIControlStateNormal];
+            [btn addTarget:self action:@selector(closebuttonClick) forControlEvents:UIControlEventTouchUpInside];
+            //    [numberToolbar setItems:[NSArray arrayWithObjects:close, nil]];
+            [conutry_close addSubview:btn];
+            _TXT_country.inputAccessoryView=conutry_close;
+            
+            
+            
+            
+            
+            UIToolbar* state_close = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+            state_close.barStyle = UIBarStyleBlackTranslucent;
+            [state_close sizeToFit];
+            //    UILabel *statelbl=[[UILabel alloc]initWithFrame:CGRectMake(state_close.frame.size.width-250, 0, 100, state_close.frame.size.height)];
+            //    [state_close addSubview:statelbl];
+            //    statelbl.text=@"Select State";
+            //    statelbl.textColor=[UIColor redColor];
+            //    statelbl.backgroundColor=[UIColor clearColor];
+            
+            UIButton *close=[[UIButton alloc]init];
+            close.frame=CGRectMake(state_close.frame.size.width - 100, 0, 100, state_close.frame.size.height);
+            [close setTitle:@"close" forState:UIControlStateNormal];
+            [close addTarget:self action:@selector(closebuttonClick) forControlEvents:UIControlEventTouchUpInside];
+            //    [numberToolbar setItems:[NSArray arrayWithObjects:close, nil]];
+            [state_close addSubview:close];
+            _TXT_state.inputView=_state_pickerView;
+            _TXT_state.inputAccessoryView=state_close;
+            
+            [self Country_api];
+            [self State_api];
         }
     }
-    else
+    @catch (NSException *exception)
     {
-        negativeSpacer.width = -12;
+        [self sessionOUT];
     }
-    
-    [self.navigationItem setLeftBarButtonItems:@[negativeSpacer, anotherButton ] animated:NO];
-    
-    [self.navigationController.navigationBar setTitleTextAttributes:
-     @{NSForegroundColorAttributeName:[UIColor whiteColor],
-       NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:22.0f]}];
-    self.navigationItem.title = @"Billing Address";
-    
-    self.lbl_name_ticket.text=@"Winning Ticket";
-    int qtynum = [[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"]intValue];
-    self.lbl_qty.text=[NSString stringWithFormat:@"Qty:%d",qtynum];
-    
-
-    NSString *ticketnumber = [temp_dictin valueForKey:@"code"];
-    NSString *club_name = [[temp_dictin valueForKey:@"name"] capitalizedString];
-    NSString *org_name = [[temp_dictin valueForKey:@"organization_name"] capitalizedString];
-    
-    NSString *text = [NSString stringWithFormat:@"%@\n%@ - %@",org_name,ticketnumber,club_name];
-    
-    text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
-    
-    
-    if ([self.lbl_des_cription respondsToSelector:@selector(setAttributedText:)])
-    {
-        NSDictionary *attribs = @{
-                                  NSForegroundColorAttributeName: self.lbl_des_cription.textColor,
-                                  NSFontAttributeName: self.lbl_des_cription.font
-                                  };
-        NSMutableAttributedString *attributedText =
-        [[NSMutableAttributedString alloc] initWithString:text
-                                               attributes:attribs];
-        
-        NSRange org = [text rangeOfString:org_name];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:17.0]}range:org];
-        
-        NSRange plce = [text rangeOfString:club_name];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:15.0]}range:plce];
-        
-        NSRange codeR = [text rangeOfString:ticketnumber];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:15.0]}range:codeR];
-        
-        self.lbl_des_cription.attributedText = attributedText;
-    }
-    else
-    {
-        self.lbl_des_cription.text = [text capitalizedString];
-    }
-   
-    _lbl_des_cription.numberOfLines = 0;
-    [_lbl_des_cription sizeToFit];
-    CGRect frame_NEW;
-//    frame_NEW=_lbl_amount_des.frame;
-//    frame_NEW.origin.y=_lbl_des_cription.frame.origin.y;
-//    _lbl_amount_des.frame=frame_NEW;
-    
-    frame_NEW = _VW_line1.frame;
-    frame_NEW.origin.y = _lbl_des_cription.frame.origin.y + _lbl_des_cription.frame.size.height + 10;
-    _VW_line1.frame = frame_NEW;
-    
-    frame_NEW = _lbl_sub_total.frame;
-    frame_NEW.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
-    _lbl_sub_total.frame = frame_NEW;
-    
-    frame_NEW = _lbl_sub_amount.frame;
-    frame_NEW.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
-    _lbl_sub_amount.frame = frame_NEW;
-    
-    frame_NEW = _VW_line2.frame;
-    frame_NEW.origin.y = _lbl_sub_total.frame.origin.y + _lbl_sub_total.frame.size.height + 10;
-    _VW_line2.frame = frame_NEW;
-    
-    frame_NEW = _lbl_total.frame;
-    frame_NEW.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
-    _lbl_total.frame = frame_NEW;
-    
-    frame_NEW = _lbl_total_amount.frame;
-    frame_NEW.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
-    _lbl_total_amount.frame = frame_NEW;
-    
-    frame_NEW = _VW_main.frame;
-    frame_NEW.size.height = _lbl_total.frame.origin.y + _VW_line2.frame.size.height + 15;
-    _VW_main.frame = frame_NEW;
-    
-    float heiht1 = _VW_main.frame.size.height;
-    
-    self.VW_main.frame = CGRectMake(0,0,
-                                    self.scroll_contents.bounds.size.width,_lbl_des_cription.frame.size.height);
-    [self.scroll_contents addSubview:self.VW_main];
-    
-    _lbl_agree.text = @"You will not be charged until you confirm your order";
-    _lbl_agree.numberOfLines = 0;
-    [_lbl_agree sizeToFit];
-
-    
-    [_BTN_edit addTarget:self action:@selector(edit_BTN_action:) forControlEvents:UIControlEventTouchUpInside];
-    
-    frame_NEW = _VW_titladdress.frame;
-    frame_NEW.origin.y = _scroll_contents.frame.origin.y + heiht1-50;
-    frame_NEW.size.width = _scroll_contents.frame.size.width;
-    _VW_titladdress.frame = frame_NEW;
-    [self.scroll_contents addSubview:self.VW_titladdress];
-    
-    NSString *STR_fname = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"first_name"]];
-    STR_fname = [STR_fname stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-    STR_fname = [STR_fname stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-    STR_fname = [STR_fname capitalizedString];
-    NSString *STR_lname = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"last_name"]];
-    STR_lname = [STR_lname stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-    STR_lname = [STR_lname stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-    STR_lname = [STR_lname capitalizedString];
-    NSString *STR_addr1 = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"address1"]];
-    STR_addr1 = [STR_addr1 stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-    STR_addr1 = [STR_addr1 stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-    STR_addr1 = [STR_addr1 capitalizedString];
-    NSString *STR_addr2 = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"address2"]];
-    STR_addr2 = [STR_addr2 stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-    STR_addr2 = [STR_addr2 stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-    STR_addr2 = [STR_addr2 capitalizedString];
-    NSString *STR_city = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"city"]];
-    STR_city = [STR_city stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-    STR_city = [STR_city stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-    STR_city = [STR_city capitalizedString];
-    NSString *STR_state = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"state"]];
-    STR_state = [STR_state stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-    STR_state = [STR_state stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-    STR_state = [STR_state capitalizedString];
-    NSString *STR_cntry = [NSString stringWithFormat:@"%@",[user valueForKey:@"country"]];
-    STR_cntry = [STR_cntry stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-    STR_cntry = [STR_cntry stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-    STR_cntry = [STR_cntry capitalizedString];
-    NSString *STR_zip = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"zipcode"]];
-    STR_zip = [STR_zip stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-    STR_zip = [STR_zip stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-    STR_zip = [STR_zip capitalizedString];
-    NSString *STR_phone = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"phone"]];
-    STR_phone = [STR_phone stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-    STR_phone = [STR_phone stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-    STR_phone = [STR_phone capitalizedString];
-    
-    NSString *name;
-    if (STR_lname.length == 0)
-    {
-        name = [NSString stringWithFormat:@"%@,\n",STR_fname];
-    }
-    else
-    {
-        name = [NSString stringWithFormat:@"%@ %@,\n",STR_fname,STR_lname];
-    }
-    
-    NSString *addr;
-    if (STR_addr2.length == 0)
-    {
-        addr = [NSString stringWithFormat:@"%@,\n",STR_addr1];
-    }
-    else
-    {
-        addr = [NSString stringWithFormat:@"%@, %@,\n",STR_addr1,STR_addr2];
-    }
-    if ([addr isEqualToString:@",\n"]) {
-        addr = @"";
-    }
-    
-    NSString *city = [NSString stringWithFormat:@"%@",STR_city];
-    NSString *state = [NSString stringWithFormat:@"%@",STR_state];
-    NSString *zip = [NSString stringWithFormat:@"%@",STR_zip];
-    NSString *cntry;
-    if (STR_zip.length == 0)
-    {
-        cntry = [NSString stringWithFormat:@"%@, %@, \n",city,state];
-    }
-    else
-    {
-        if (STR_state.length == 0)
-        {
-            cntry = [NSString stringWithFormat:@"%@, %@,\n",city,zip];
-        }
-        else
-        {
-            cntry = [NSString stringWithFormat:@"%@, %@, %@,\n",city,state,zip];
-        }
-    }
-    NSString *country;
-    if(STR_cntry.length == 0)
-    {
-        country = [NSString stringWithFormat:@"Phone : %@.",STR_phone];
-    }
-    else
-    {
-        country = [NSString stringWithFormat:@"%@ \nPhone : %@.",STR_cntry,STR_phone];
-        
-    }
-    NSMutableArray *final_ADDR = [[NSMutableArray alloc] init];
-    if (name.length != 0) {
-        [final_ADDR addObject:[name capitalizedString]];
-    }
-    
-    if (addr.length != 0) {
-        [final_ADDR addObject:addr];
-    }
-    
-    if (city.length != 0 && state.length != 0 && zip.length != 0) {
-        [final_ADDR addObject:cntry];
-    }
-    
-    
-    if (country.length != 0){
-        [final_ADDR addObject:country];
-    }
-    
-    
-//    NSString *address_str=[NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone : %@",,,,,,,,,];
-    
-    NSMutableString *str_TST = [[NSMutableString alloc]init];
-    for (int i = 0; i<[final_ADDR count]; i++) {
-        [str_TST appendString:[final_ADDR objectAtIndex:i]];
-    }
-    
-    NSLog(@"Testing Addr = \n%@",str_TST);
-    
-    _TXT_firstname.text = STR_fname;// [user_data valueForKey:@"first_name"];
-    _TXT_lastname.text = STR_lname;//[user_data valueForKey:@"last_name"];
-    _TXT_address1.text = STR_addr1;//[user_data valueForKey:@"address1"];
-    _TXT_address2.text = STR_addr2;//[user_data valueForKey:@"address2"];
-    _TXT_city.text = STR_city;//[user_data valueForKey:@"city"];
-    _TXT_country.text = STR_cntry;//[user valueForKey:@"country"];
-    _TXT_zip.text = STR_zip;//[user_data valueForKey:@"zipcode"];
-    _TXT_state.text = STR_state;//[user valueForKey:@"state"];
-    _TXT_phonenumber.text = STR_phone;//[user_data valueForKey:@"phone"];
-    
-    _lbl_address.text = str_TST;
-    [_lbl_address sizeToFit];
-    
-    frame_NEW=_lbl_address.frame;
-    frame_NEW.origin.x=_VW_titladdress.frame.origin.x+10;
-    frame_NEW.origin.y=_VW_titladdress.frame.origin.y+_VW_titladdress.frame.size.height+10;
-    _lbl_address.frame=frame_NEW;
-    
-    [_BTN_checkout addTarget:self action:@selector(chckout_ACtin:) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-//    frame_NEW=_proceed_TOPAY.frame;
-//    frame_NEW.origin.y=_lbl_address.frame.origin.y+_lbl_address.frame.size.height+30;
-//    _proceed_TOPAY.frame=frame_NEW;
-    
-    frame_NEW = _BTN_checkout.frame;
-    frame_NEW.origin.y = _lbl_address.frame.origin.y + _lbl_address.frame.size.height + 10;
-    _BTN_checkout.frame = frame_NEW;
-    
-    
-    
-    frame_NEW = _lbl_agree.frame;
-    frame_NEW.size.width = lbl_origin_FRAME.size.width;
-    _lbl_agree.frame = frame_NEW;
-    
-//    frame_NEW = _lbl_agree.frame;
-    
-    frame_NEW.origin.y = _BTN_checkout.frame.origin.y + _BTN_checkout.frame.size.height + 10;
-    _lbl_agree.frame = frame_NEW;
-    
-    original_height= _lbl_agree.frame.origin.y + _lbl_agree.frame.size.height;
-
-    _VW_address.frame=CGRectMake(_VW_titladdress.frame.origin.x,_VW_titladdress.frame.origin.y+_VW_titladdress.frame.size.height,self.scroll_contents.frame.size.width,_VW_address.frame.size.height);
-    [self.scroll_contents addSubview:_VW_address];
-    _VW_address.hidden=YES;
-    
-    _contry_pickerView = [[UIPickerView alloc] init];
-    _contry_pickerView.delegate = self;
-    _contry_pickerView.dataSource = self;
-
-    _state_pickerView=[[UIPickerView alloc]init];
-    _state_pickerView.dataSource=self;
-    _state_pickerView.delegate=self;
-    
-    
-    
-    UITapGestureRecognizer *tapToSelect = [[UITapGestureRecognizer alloc]initWithTarget:self
-                                                                                 action:@selector(tappedToSelectRow:)];
-    tapToSelect.delegate = self;
-    [_contry_pickerView addGestureRecognizer:tapToSelect];
-    
-    _TXT_country.inputView=_contry_pickerView;
-    
-    UITapGestureRecognizer *satetap = [[UITapGestureRecognizer alloc]initWithTarget:self
-                                                                             action:@selector(tappedToSelectRowstate:)];
-    satetap.delegate = self;
-    [_state_pickerView addGestureRecognizer:satetap];
-
-    
-    
-    
-    UIToolbar* conutry_close = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
-    conutry_close.barStyle = UIBarStyleBlackTranslucent;
-    [conutry_close sizeToFit];
-    
-    UIButton *btn=[[UIButton alloc]init];
-    btn.frame=CGRectMake(conutry_close.frame.size.width - 100, 0, 100, conutry_close.frame.size.height);
-    [btn setTitle:@"close" forState:UIControlStateNormal];
-    [btn addTarget:self action:@selector(closebuttonClick) forControlEvents:UIControlEventTouchUpInside];
-    //    [numberToolbar setItems:[NSArray arrayWithObjects:close, nil]];
-    [conutry_close addSubview:btn];
-    _TXT_country.inputAccessoryView=conutry_close;
-    
-
-    
-    
-    
-    UIToolbar* state_close = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
-    state_close.barStyle = UIBarStyleBlackTranslucent;
-    [state_close sizeToFit];
-//    UILabel *statelbl=[[UILabel alloc]initWithFrame:CGRectMake(state_close.frame.size.width-250, 0, 100, state_close.frame.size.height)];
-//    [state_close addSubview:statelbl];
-//    statelbl.text=@"Select State";
-//    statelbl.textColor=[UIColor redColor];
-//    statelbl.backgroundColor=[UIColor clearColor];
-    
-    UIButton *close=[[UIButton alloc]init];
-    close.frame=CGRectMake(state_close.frame.size.width - 100, 0, 100, state_close.frame.size.height);
-    [close setTitle:@"close" forState:UIControlStateNormal];
-    [close addTarget:self action:@selector(closebuttonClick) forControlEvents:UIControlEventTouchUpInside];
-    //    [numberToolbar setItems:[NSArray arrayWithObjects:close, nil]];
-    [state_close addSubview:close];
-    _TXT_state.inputView=_state_pickerView;
-    _TXT_state.inputAccessoryView=state_close;
-    
-    [self Country_api];
-    [self State_api];
-
     
 }
 -(void)closebuttonClick
@@ -793,14 +810,23 @@
         
         NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         
-        NSLog(@"Client Token = %@",[dict valueForKey:@"client_token"]);
-        
-        [self braintree_Dropin_UI:[dict valueForKey:@"client_token"]];
-        
-//        self.braintree = [Braintree braintreeWithClientToken:[dict valueForKey:@"client_token"]];
-//        NSLog(@"dddd = %@",self.braintree);
-        
-        
+        @try
+        {
+            NSString *STR_error = [dict valueForKey:@"error"];
+            if (STR_error)
+            {
+                [self sessionOUT];
+            }
+            else
+            {
+                NSLog(@"Client Token = %@",[dict valueForKey:@"client_token"]);
+                [self braintree_Dropin_UI:[dict valueForKey:@"client_token"]];
+            }
+        }
+        @catch (NSException *exception)
+        {
+            [self sessionOUT];
+        }
     }
     else
     {
@@ -1302,60 +1328,92 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
     NSError *error;
     NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"QUANTITY"] options:NSASCIIStringEncoding error:&error];
     
-    NSString *order_ID = [dict valueForKey:@"order_id"];
-    NSString *first_name = _TXT_firstname.text;
-    NSString *last_name = _TXT_lastname.text;
-    NSString *address_line1 = _TXT_address1.text;
-    NSString *address_line2 = _TXT_address2.text;
-    NSString *city = _TXT_city.text;
-    NSString *country = _TXT_country.text;
-    NSString *zip_code = _TXT_zip.text;
-    NSString *state = _TXT_state.text;
-    NSString *phone = _TXT_phonenumber.text;
-    
-    NSString *contry_Code = [countryS valueForKey:country];
-    NSString *state_code = [states valueForKey:state];
-    if (!state_code) {
-        state_code = @"";
-    }
-    
-    NSHTTPURLResponse *response = nil;
-
-    
-    NSDictionary *parameters = @{@"billing_address":@{ @"first_name": first_name,@"last_name": last_name,@"address_line1": address_line1,@"address_line2": address_line2,@"city": city,@"country": contry_Code,@"zip_code": zip_code,@"state": state_code,@"order_id": order_ID,@"phone": phone }};
-    
-    NSLog(@"Post contents VC Billing Address %@",parameters);
-    
-    NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&error];
-    NSString *urlGetuser =[NSString stringWithFormat:@"%@events/billing_address",SERVER_URL];
-    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
-    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:urlProducts];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
-    [request setHTTPBody:postData];
-    [request setHTTPShouldHandleCookies:NO];
-    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    if (aData)
+    @try
     {
-        [activityIndicatorView stopAnimating];
-        VW_overlay.hidden = YES;
-        
-        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"CHKOUTDETAIL"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        [self performSegueWithIdentifier:@"billaddretocheckoutdetail" sender:self];
-        [self  parse_listEvents_api];
+        NSString *STR_error = [dict valueForKey:@"error"];
+        if (STR_error)
+        {
+            [self sessionOUT];
+        }
+        else
+        {
+            NSString *order_ID = [dict valueForKey:@"order_id"];
+            NSString *first_name = _TXT_firstname.text;
+            NSString *last_name = _TXT_lastname.text;
+            NSString *address_line1 = _TXT_address1.text;
+            NSString *address_line2 = _TXT_address2.text;
+            NSString *city = _TXT_city.text;
+            NSString *country = _TXT_country.text;
+            NSString *zip_code = _TXT_zip.text;
+            NSString *state = _TXT_state.text;
+            NSString *phone = _TXT_phonenumber.text;
+            
+            NSString *contry_Code = [countryS valueForKey:country];
+            NSString *state_code = [states valueForKey:state];
+            if (!state_code) {
+                state_code = @"";
+            }
+            
+            NSHTTPURLResponse *response = nil;
+            
+            
+            NSDictionary *parameters = @{@"billing_address":@{ @"first_name": first_name,@"last_name": last_name,@"address_line1": address_line1,@"address_line2": address_line2,@"city": city,@"country": contry_Code,@"zip_code": zip_code,@"state": state_code,@"order_id": order_ID,@"phone": phone }};
+            
+            NSLog(@"Post contents VC Billing Address %@",parameters);
+            
+            NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&error];
+            NSString *urlGetuser =[NSString stringWithFormat:@"%@events/billing_address",SERVER_URL];
+            NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+            NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+            NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+            [request setURL:urlProducts];
+            [request setHTTPMethod:@"POST"];
+            [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+            [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
+            [request setHTTPBody:postData];
+            [request setHTTPShouldHandleCookies:NO];
+            NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+            if (aData)
+            {
+                [activityIndicatorView stopAnimating];
+                VW_overlay.hidden = YES;
+                
+//                @try
+//                {
+//                    NSString *STR_error1 = [aData valueForKey:@"error"];
+//                    if (STR_error1)
+//                    {
+//                        [self sessionOUT];
+//                    }
+//                    else
+//                    {
+                        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"CHKOUTDETAIL"];
+                        [[NSUserDefaults standardUserDefaults] synchronize];
+                        
+                        [self performSegueWithIdentifier:@"billaddretocheckoutdetail" sender:self];
+                        [self  parse_listEvents_api];
+//                    }
+//                }
+//                @catch (NSException *exception)
+//                {
+//                    [self sessionOUT];
+//                }
+            }
+            else
+            {
+                [activityIndicatorView stopAnimating];
+                VW_overlay.hidden = YES;
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                [alert show];
+            }
+        }
     }
-    else
+    @catch (NSException *exception)
     {
-        [activityIndicatorView stopAnimating];
-        VW_overlay.hidden = YES;
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-        [alert show];
+        [self sessionOUT];
     }
+    
+    
     
 }
 -(void) parse_listEvents_api
@@ -1394,5 +1452,15 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
     }
 }
 
+#pragma mark - Session OUT
+- (void) sessionOUT
+{
+    ViewController *tncView = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
+    [tncView setModalInPopover:YES];
+    [tncView setModalPresentationStyle:UIModalPresentationFormSheet];
+    [tncView setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    
+    [self presentViewController:tncView animated:YES completion:NULL];
+}
 
 @end

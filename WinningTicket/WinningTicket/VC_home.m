@@ -11,6 +11,8 @@
 //#import "DejalActivityView.h"
 //#import "DGActivityIndicatorView.h"
 
+#import "ViewController.h"
+
 #import "WinningTicket_Universal-Swift.h"
 
 @interface VC_home ()<UIGestureRecognizerDelegate>
@@ -72,8 +74,8 @@
     
     VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
-    VW_overlay.clipsToBounds = YES;
-    VW_overlay.layer.cornerRadius = 10.0;
+//    VW_overlay.clipsToBounds = YES;
+//    VW_overlay.layer.cornerRadius = 10.0;
     
     activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
@@ -607,6 +609,7 @@
                     animations:NULL
                     completion:NULL];
     [self.BTN_enter_event_code  setHidden:YES];
+//    [self sessionOUT];
 }
 -(void)BTN_enter_code:(id)sender
 {
@@ -763,10 +766,23 @@
     NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
     NSLog(@"The response VC Home dsfdf %@",json_DATA);
     
-    ARR_allevent = [json_DATA valueForKey:@"all_events"];
-    ARR_upcommingevent = [json_DATA valueForKey:@"upcoming_events"];
-    
-    
+    @try
+    {
+        NSString *STR_error = [json_DATA valueForKey:@"error"];
+        if (STR_error)
+        {
+            [self sessionOUT];
+        }
+        else
+        {
+            ARR_allevent = [json_DATA valueForKey:@"all_events"];
+            ARR_upcommingevent = [json_DATA valueForKey:@"upcoming_events"];
+        }
+    }
+    @catch (NSException *exception)
+    {
+        [self sessionOUT];
+    }
 }
 
 #pragma mark - Date Convert
@@ -806,8 +822,9 @@
     {
         [activityIndicatorView stopAnimating];
         VW_overlay.hidden = YES;
-            [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"upcoming_events"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"upcoming_events"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
             
 //            [self performSegueWithIdentifier:@"hometoeventdetail" sender:self];
         [self performSegueWithIdentifier:@"hometoEvent_detail" sender:self];
@@ -912,27 +929,41 @@
         NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"VC home enter event code :%@",dict);
         
-        
-        if (![[dict valueForKey:@"status"] isEqualToString:@"Success"])
+        @try
         {
-            [_TXT_0 becomeFirstResponder];
-            _TXT_0.text = @"";
-            _TXT_1.text = @"";
-            _TXT_2.text = @"";
-            _TXT_3.text = @"";
-            _TXT_4.text = @"";
-            _TXT_5.text = @"";
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[dict valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-            [alert show];
+            NSString *STR_error = [dict valueForKey:@"error"];
+            if (STR_error)
+            {
+                [self sessionOUT];
+            }
+            else
+            {
+                if (![[dict valueForKey:@"status"] isEqualToString:@"Success"])
+                {
+                    [_TXT_0 becomeFirstResponder];
+                    _TXT_0.text = @"";
+                    _TXT_1.text = @"";
+                    _TXT_2.text = @"";
+                    _TXT_3.text = @"";
+                    _TXT_4.text = @"";
+                    _TXT_5.text = @"";
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[dict valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                    [alert show];
+                }
+                else
+                {
+                    [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"upcoming_events"];
+                    [[NSUserDefaults standardUserDefaults] setValue:@"from enter code" forKey:@"VCSTAT"];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                    
+                    [self performSegueWithIdentifier:@"hometoeventdetail" sender:self];
+                    //            [self performSegueWithIdentifier:@"hometoEvent_detail" sender:self];
+                }
+            }
         }
-        else
+        @catch (NSException *exception)
         {
-            [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"upcoming_events"];
-            [[NSUserDefaults standardUserDefaults] setValue:@"from enter code" forKey:@"VCSTAT"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            [self performSegueWithIdentifier:@"hometoeventdetail" sender:self];
-//            [self performSegueWithIdentifier:@"hometoEvent_detail" sender:self];
+            [self sessionOUT];
         }
     }
     else
@@ -1077,6 +1108,17 @@
             [UIView commitAnimations];
         }
     }
+}
+
+#pragma mark - MAnage session
+- (void) sessionOUT
+{
+    ViewController *tncView = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
+    [tncView setModalInPopover:YES];
+    [tncView setModalPresentationStyle:UIModalPresentationFormSheet];
+    [tncView setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    
+    [self presentViewController:tncView animated:YES completion:NULL];
 }
 
 @end

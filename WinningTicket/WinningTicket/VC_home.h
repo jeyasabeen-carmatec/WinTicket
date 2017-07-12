@@ -10,6 +10,8 @@
 
 @interface VC_home : UIViewController <UITabBarDelegate ,UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIScrollViewDelegate>
 
+@property (strong, nonatomic) UIWindow *window;
+
 @property (weak, nonatomic) IBOutlet UITabBar *tab_HOME;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segment_bottom;
 

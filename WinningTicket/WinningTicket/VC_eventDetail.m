@@ -7,6 +7,7 @@
 //
 
 #import "VC_eventDetail.h"
+#import "ViewController.h"
 
 #pragma mark - Image Cache
 #import "SDWebImage/UIImageView+WebCache.h"
@@ -131,155 +132,169 @@
 {
     NSError *error;
     NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
-    NSLog(@"thedata VC Event Detail Upcoming:%@",dict);
     
-    NSDictionary *temp_dict = [dict valueForKey:@"event"];
-    
-    CGRect old_frame = _lbl_eventname.frame;
-    
-    _lbl_eventname.text = [[temp_dict valueForKey:@"name"] capitalizedString];
-    _lbl_eventname.numberOfLines = 0;
-    [_lbl_eventname sizeToFit];
-    
-    NSLog(@"Image Url is %@",[NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_dict valueForKey:@"avatar_url"]]);
-    
-    [_img_event sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_dict valueForKey:@"avatar_url"]]]
-                      placeholderImage:[UIImage imageNamed:@"Logo_WT.png"]];
-//    _img_event.contentMode = UIViewContentModeScaleAspectFit;
-    
-    float image_height = _img_event.frame.size.height;
-    float lbl_event_name_ht = _lbl_eventname.frame.size.height;
-    
-    _lbl_code.text=[temp_dict valueForKey:@"code"];
-    NSString *location = @"Grand Cypress Country Club";//[NSString stringWithFormat:@"%@",[temp_dict valueForKey:@"location"]];
-    NSString *address = @"1 N Jacaranda ST, Orlando, FL 32836";
-    NSString *date = [self getLocalDateFromUTC:[temp_dict valueForKey:@"start_date"]];
-    NSString *time = [self getLocalTimeFromUTC:[temp_dict valueForKey:@"start_date"]];
-    
-    NSLog(@"Date format %@",date);
-    NSLog(@"Time format %@",time);
-    
-    _lbl_date.text=date;
-    _lbl_time.text=time;
-
-   /* if ([location isEqualToString:@"<null>"])
+    @try
     {
-       location = @"Not Mentioned";
-    }else
-    {
-        location=@"US";
-    }*/
-    
-
-    NSString *text = [NSString stringWithFormat:@"%@\n%@",location,address];
-    
-    // If attributed text is supported (iOS6+)
-    if ([self.lbl_eventdetail respondsToSelector:@selector(setAttributedText:)]) {
-        
-        // Define general attributes for the entire text
-        NSDictionary *attribs = @{
-                                  NSForegroundColorAttributeName: self.lbl_eventdetail.textColor,
-                                  NSFontAttributeName: self.lbl_eventdetail.font
-                                  };
-        NSMutableAttributedString *attributedText =
-        [[NSMutableAttributedString alloc] initWithString:text
-                                               attributes:attribs];
-        
-        // Red text attributes
-        //            UIColor *redColor = [UIColor redColor];
-        NSRange cmp = [text rangeOfString:location];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-        
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        NSString *STR_error = [dict valueForKey:@"error"];
+        if (STR_error)
         {
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:18.0]}
-                                    range:cmp];
+            [self sessionOUT];
         }
         else
         {
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:17.0]}
-                                    range:cmp];
+            NSDictionary *temp_dict = [dict valueForKey:@"event"];
+            
+            CGRect old_frame = _lbl_eventname.frame;
+            
+            _lbl_eventname.text = [[temp_dict valueForKey:@"name"] capitalizedString];
+            _lbl_eventname.numberOfLines = 0;
+            [_lbl_eventname sizeToFit];
+            
+            NSLog(@"Image Url is %@",[NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_dict valueForKey:@"avatar_url"]]);
+            
+            [_img_event sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_dict valueForKey:@"avatar_url"]]]
+                          placeholderImage:[UIImage imageNamed:@"Logo_WT.png"]];
+            //    _img_event.contentMode = UIViewContentModeScaleAspectFit;
+            
+            float image_height = _img_event.frame.size.height;
+            float lbl_event_name_ht = _lbl_eventname.frame.size.height;
+            
+            _lbl_code.text=[temp_dict valueForKey:@"code"];
+            NSString *location = @"Grand Cypress Country Club";//[NSString stringWithFormat:@"%@",[temp_dict valueForKey:@"location"]];
+            NSString *address = @"1 N Jacaranda ST, Orlando, FL 32836";
+            NSString *date = [self getLocalDateFromUTC:[temp_dict valueForKey:@"start_date"]];
+            NSString *time = [self getLocalTimeFromUTC:[temp_dict valueForKey:@"start_date"]];
+            
+            NSLog(@"Date format %@",date);
+            NSLog(@"Time format %@",time);
+            
+            _lbl_date.text=date;
+            _lbl_time.text=time;
+            
+            /* if ([location isEqualToString:@"<null>"])
+             {
+             location = @"Not Mentioned";
+             }else
+             {
+             location=@"US";
+             }*/
+            
+            
+            NSString *text = [NSString stringWithFormat:@"%@\n%@",location,address];
+            
+            // If attributed text is supported (iOS6+)
+            if ([self.lbl_eventdetail respondsToSelector:@selector(setAttributedText:)]) {
+                
+                // Define general attributes for the entire text
+                NSDictionary *attribs = @{
+                                          NSForegroundColorAttributeName: self.lbl_eventdetail.textColor,
+                                          NSFontAttributeName: self.lbl_eventdetail.font
+                                          };
+                NSMutableAttributedString *attributedText =
+                [[NSMutableAttributedString alloc] initWithString:text
+                                                       attributes:attribs];
+                
+                // Red text attributes
+                //            UIColor *redColor = [UIColor redColor];
+                NSRange cmp = [text rangeOfString:location];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+                
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                {
+                    [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:18.0]}
+                                            range:cmp];
+                }
+                else
+                {
+                    [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:17.0]}
+                                            range:cmp];
+                }
+                
+                
+                self.lbl_eventdetail.attributedText = attributedText;
+            }
+            else
+            {
+                self.lbl_eventdetail.text = text;
+            }
+            
+            self.lbl_eventdetail.numberOfLines = 0;
+            [self.lbl_eventdetail sizeToFit];
+            
+            [_scroll_contents addSubview:_VW_dateandtime];
+            
+            float difference;
+            
+            if (image_height < lbl_event_name_ht)
+            {
+                difference = lbl_event_name_ht - image_height;
+                
+                CGRect frame_NN = _VW_dateandtime.frame;
+                frame_NN.origin.y = frame_NN.origin.y + difference;
+                _VW_dateandtime.frame = frame_NN;
+                
+                frame_NN = _img_cstmlbl.frame;
+                frame_NN.origin.y = _img_cstmlbl.frame.origin.y + difference;
+                _img_cstmlbl.frame = frame_NN;
+                
+                frame_NN = _lbl_code.frame;
+                frame_NN.origin.y = _lbl_code.frame.origin.y + difference;
+                _lbl_code.frame = frame_NN;
+                
+                frame_NN = _lbl_eventdetail.frame;
+                frame_NN.origin.y = _lbl_eventdetail.frame.origin.y + difference;
+                _lbl_eventdetail.frame = frame_NN;
+                
+                CGRect frame_IMGE = _img_event.frame;
+                frame_IMGE.size.height = _lbl_eventname.frame.size.height;
+                _img_event.frame = frame_IMGE;
+            }
+            else
+            {
+                _lbl_eventname.frame = old_frame;
+            }
+            
+            CGRect frame_HT = _VW_eventcontent.frame;
+            frame_HT.size.height = _lbl_eventdetail.frame.origin.y + _lbl_eventdetail.frame.size.height + 20;
+            _VW_eventcontent.frame = frame_HT;
+            
+            float diff_frame = _lbl_eventdetail.frame.size.height / 2;
+            float locframe_mid = _lbl_location.frame.size.height / 2;
+            
+            float final_Y = diff_frame - locframe_mid;
+            
+            CGRect frame_NN = _lbl_location.frame;
+            frame_NN.origin.y = _lbl_eventdetail.frame.origin.y + final_Y;
+            _lbl_location.frame = frame_NN;
+            
+            _lbl_ticketdescription.text = @"To gain access to this event’s features, purchasing a Winning Ticket is required";
+            _lbl_ticketdescription.numberOfLines = 0;
+            [_lbl_ticketdescription sizeToFit];
+            
+            frame_HT = _lbl_ticketdescription.frame;
+            frame_HT.origin.y = _VW_eventcontent.frame.origin.y + _VW_eventcontent.frame.size.height + 10;
+            frame_HT.size.width = _scroll_contents.frame.size.width - _lbl_ticketdescription.frame.origin.x * 2;
+            _lbl_ticketdescription.frame = frame_HT;
+            
+            frame_HT = _BTN_purchasetkt.frame;
+            frame_HT.origin.y = _lbl_ticketdescription.frame.origin.y + _lbl_ticketdescription.frame.size.height + 10;
+            _BTN_purchasetkt.frame = frame_HT;
+            
+            [_BTN_purchasetkt addTarget:self action:@selector(tap_purchaseTKT) forControlEvents:UIControlEventTouchUpInside];
+            
+            if ([[NSUserDefaults standardUserDefaults] valueForKey:@"VCSTAT"]) {
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"VCSTAT"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+            }
+            else
+            {
+                _BTN_purchasetkt.hidden = YES;
+                _lbl_ticketdescription.hidden = YES;
+            }
         }
-        
-        
-        self.lbl_eventdetail.attributedText = attributedText;
     }
-    else
+    @catch (NSException *exception)
     {
-        self.lbl_eventdetail.text = text;
-    }
-    
-    self.lbl_eventdetail.numberOfLines = 0;
-    [self.lbl_eventdetail sizeToFit];
-    
-    [_scroll_contents addSubview:_VW_dateandtime];
-    
-    float difference;
-    
-    if (image_height < lbl_event_name_ht)
-    {
-        difference = lbl_event_name_ht - image_height;
-        
-        CGRect frame_NN = _VW_dateandtime.frame;
-        frame_NN.origin.y = frame_NN.origin.y + difference;
-        _VW_dateandtime.frame = frame_NN;
-        
-        frame_NN = _img_cstmlbl.frame;
-        frame_NN.origin.y = _img_cstmlbl.frame.origin.y + difference;
-        _img_cstmlbl.frame = frame_NN;
-        
-        frame_NN = _lbl_code.frame;
-        frame_NN.origin.y = _lbl_code.frame.origin.y + difference;
-        _lbl_code.frame = frame_NN;
-        
-        frame_NN = _lbl_eventdetail.frame;
-        frame_NN.origin.y = _lbl_eventdetail.frame.origin.y + difference;
-        _lbl_eventdetail.frame = frame_NN;
-    
-        CGRect frame_IMGE = _img_event.frame;
-        frame_IMGE.size.height = _lbl_eventname.frame.size.height;
-        _img_event.frame = frame_IMGE;
-    }
-    else
-    {
-        _lbl_eventname.frame = old_frame;
-    }
-    
-    CGRect frame_HT = _VW_eventcontent.frame;
-    frame_HT.size.height = _lbl_eventdetail.frame.origin.y + _lbl_eventdetail.frame.size.height + 20;
-    _VW_eventcontent.frame = frame_HT;
-    
-    float diff_frame = _lbl_eventdetail.frame.size.height / 2;
-    float locframe_mid = _lbl_location.frame.size.height / 2;
-    
-    float final_Y = diff_frame - locframe_mid;
-    
-    CGRect frame_NN = _lbl_location.frame;
-    frame_NN.origin.y = _lbl_eventdetail.frame.origin.y + final_Y;
-    _lbl_location.frame = frame_NN;
-    
-    _lbl_ticketdescription.text = @"To gain access to this event’s features, purchasing a Winning Ticket is required";
-    _lbl_ticketdescription.numberOfLines = 0;
-    [_lbl_ticketdescription sizeToFit];
-    
-    frame_HT = _lbl_ticketdescription.frame;
-    frame_HT.origin.y = _VW_eventcontent.frame.origin.y + _VW_eventcontent.frame.size.height + 10;
-    frame_HT.size.width = _scroll_contents.frame.size.width - _lbl_ticketdescription.frame.origin.x * 2;
-    _lbl_ticketdescription.frame = frame_HT;
-    
-    frame_HT = _BTN_purchasetkt.frame;
-    frame_HT.origin.y = _lbl_ticketdescription.frame.origin.y + _lbl_ticketdescription.frame.size.height + 10;
-    _BTN_purchasetkt.frame = frame_HT;
-    
-    [_BTN_purchasetkt addTarget:self action:@selector(tap_purchaseTKT) forControlEvents:UIControlEventTouchUpInside];
-    
-    if ([[NSUserDefaults standardUserDefaults] valueForKey:@"VCSTAT"]) {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"VCSTAT"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-    else
-    {
-        _BTN_purchasetkt.hidden = YES;
-        _lbl_ticketdescription.hidden = YES;
+        [self sessionOUT];
     }
 }
 
@@ -415,4 +430,14 @@
     return [userFormatter stringFromDate:currentDate];
 }
 
+#pragma mark - MAnage session
+- (void) sessionOUT
+{
+    ViewController *tncView = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
+    [tncView setModalInPopover:YES];
+    [tncView setModalPresentationStyle:UIModalPresentationFormSheet];
+    [tncView setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    
+    [self presentViewController:tncView animated:YES completion:NULL];
+}
 @end

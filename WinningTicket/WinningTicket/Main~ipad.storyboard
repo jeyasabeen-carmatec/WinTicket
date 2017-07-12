@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" colorMatched="YES" initialViewController="2gX-Fs-HNE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16E195" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" colorMatched="YES" initialViewController="2gX-Fs-HNE">
     <device id="ipad9_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -115,7 +115,7 @@
         <!--View Controller-->
         <scene sceneID="if3-Au-In1">
             <objects>
-                <viewController id="66l-Ms-BQJ" customClass="ViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginScreen" id="66l-Ms-BQJ" customClass="ViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ut9-TW-9cN">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -749,7 +749,7 @@
                                                 <rect key="frame" x="11" y="231" width="120" height="51"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="GFD5H4" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="7" adjustsFontForContentSizeCategory="YES" id="nBB-6L-xr2">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="GFD5H4" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="7" id="nBB-6L-xr2">
                                                 <rect key="frame" x="30" y="247" width="94" height="21"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="19"/>
@@ -5506,6 +5506,7 @@
                     <connections>
                         <outlet property="filter_tab" destination="tSz-kM-uEW" id="L8I-34-MZC"/>
                         <outlet property="role_textfield" destination="oBr-fg-Mxt" id="2aU-S6-74I"/>
+                        <segue destination="Mta-aW-abu" kind="modal" identifier="filtertoaffiliatedetail" animates="NO" id="Rbn-fw-00q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YNj-9h-Zwf" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -5655,16 +5656,17 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="0ik-bb-uAM"/>
-        <segue reference="TOA-Cn-J0A"/>
-        <segue reference="2yE-Jf-Xnt"/>
-        <segue reference="RzG-Pg-A7n"/>
-        <segue reference="ske-o1-rF8"/>
+        <segue reference="F3l-cw-bxd"/>
         <segue reference="cbC-uE-OEU"/>
-        <segue reference="qIB-vq-Bf6"/>
-        <segue reference="al3-eI-ip9"/>
+        <segue reference="PfX-7b-7Ai"/>
+        <segue reference="QvG-ex-gHc"/>
+        <segue reference="XW0-8d-7Pi"/>
         <segue reference="FNW-jD-ovm"/>
-        <segue reference="n7A-AH-YVp"/>
+        <segue reference="qIB-vq-Bf6"/>
+        <segue reference="L4t-vn-64m"/>
+        <segue reference="a6g-Tr-1Xb"/>
+        <segue reference="Rbn-fw-00q"/>
+        <segue reference="p3s-LK-hmG"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.01176470588" green="0.69019607839999997" blue="0.87843137250000003" alpha="1" colorSpace="calibratedRGB"/>
 </document>

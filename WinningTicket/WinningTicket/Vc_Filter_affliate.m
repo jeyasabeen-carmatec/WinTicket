@@ -57,7 +57,7 @@
     VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     VW_overlay.clipsToBounds = YES;
-    VW_overlay.layer.cornerRadius = 10.0;
+//    VW_overlay.layer.cornerRadius = 10.0;
     
     activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
@@ -243,8 +243,8 @@
         cell.date_time_lbl.numberOfLines=0;
         [cell.date_time_lbl sizeToFit];
         [cell.BTN_view setTag:indexPath.row];
-        //    [cell.BTN_view addTarget:self action:@selector(BTN_referalDETAIL:) forControlEvents:
-        //     UIControlEventTouchUpInside];
+        [cell.BTN_view addTarget:self action:@selector(BTN_referalDETAIL:) forControlEvents:
+             UIControlEventTouchUpInside];
         
         
         
@@ -260,6 +260,22 @@
         return cell;
     }
 }
+#pragma mark - Button Action
+-(void) BTN_referalDETAIL : (UIButton *) sender
+{
+    NSIndexPath *buttonIndexPath = [NSIndexPath indexPathForRow:sender.tag inSection:0];
+    NSDictionary *ref_dict = [_sec_one_ARR objectAtIndex:buttonIndexPath.row];
+    
+    
+    NSLog(@"Affiliate home selected cell %@",ref_dict);
+    
+    [[NSUserDefaults standardUserDefaults] setObject:ref_dict forKey:@"referral_dict"];
+    [[NSUserDefaults standardUserDefaults]synchronize];
+    
+    
+    [self performSegueWithIdentifier:@"filtertoaffiliatedetail" sender:self];
+}
+
 
 #pragma mark PickerView DataSource
 

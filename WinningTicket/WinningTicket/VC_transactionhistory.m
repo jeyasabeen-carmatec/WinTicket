@@ -13,6 +13,8 @@
 //#import "WinningTicket_Universal-Swift.h"
 #import "UITableView+NewCategory.h"
 
+#import "ViewController.h"
+
 @class FrameObservingViewTransactions;
 
 @protocol FrameObservingViewDelegate1 <NSObject>
@@ -65,7 +67,7 @@
     VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     VW_overlay.clipsToBounds = YES;
-    VW_overlay.layer.cornerRadius = 10.0;
+//    VW_overlay.layer.cornerRadius = 10.0;
     
     activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
@@ -109,28 +111,29 @@
     temp_dict =(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"transaction_data"] options:NSASCIIStringEncoding error:&error];
     NSLog(@"the trasactiontotal data is:%@",temp_dict);
     
-   transaction_history=[temp_dict valueForKey:@"transactions"];
-    NSLog(@"the user Transaction data is:%@",transaction_history);
-//    ARR_contents = [[NSMutableArray alloc] init];
-//    NSDictionary *temp_Dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"#0003125",@"ticket_number",@"Nov 29, 2016 5:12pm EST",@"date",@"Donation",@"purpose",@"-200.00",@"amount", nil];
-//    [ARR_contents addObject:temp_Dictin];
-//    temp_Dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"#0002919",@"ticket_number",@"Nov 29, 2016 11:46am EST",@"date",@"Ticket purchase",@"purpose",@"-60.00",@"amount", nil];
-//    [ARR_contents addObject:temp_Dictin];
-//    temp_Dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"#0001561",@"ticket_number",@"Oct 31, 2016 2:27pm EST",@"date",@"Add Funds",@"purpose",@"60.00",@"amount", nil];
-//    [ARR_contents addObject:temp_Dictin];
-//    if(temp_Dictin[@"value"] ==(id)[NSNull null])
-//    {
-//        NSLog(@"dict is having null");
-//    }
-//    else{
-//        NSLog(@"Not NUll");
-//    }
-//
-    [_tbl_contents setDragDelegate:self refreshDatePermanentKey:@"FriendList"];
-    _tbl_contents.showLoadMoreView = YES;
-   
-
-    [_tbl_contents reloadData];
+    @try
+    {
+        NSString *STR_error = [temp_dict valueForKey:@"error"];
+        if (STR_error)
+        {
+            [self sessionOUT];
+        }
+        else
+        {
+            transaction_history=[temp_dict valueForKey:@"transactions"];
+            NSLog(@"the user Transaction data is:%@",transaction_history);
+          
+            [_tbl_contents setDragDelegate:self refreshDatePermanentKey:@"FriendList"];
+            _tbl_contents.showLoadMoreView = YES;
+            
+            
+            [_tbl_contents reloadData];
+        }
+    }
+    @catch (NSException *exception)
+    {
+        [self sessionOUT];
+    }
 }
 
 #pragma mark - BTN Actions
@@ -475,6 +478,16 @@
     [self performSelector:@selector(finishRefresh) withObject:nil afterDelay:0.01];
 }
 
+#pragma mark - Session OUT
+- (void) sessionOUT
+{
+    ViewController *tncView = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
+    [tncView setModalInPopover:YES];
+    [tncView setModalPresentationStyle:UIModalPresentationFormSheet];
+    [tncView setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    
+    [self presentViewController:tncView animated:YES completion:NULL];
+}
 
 
 @end

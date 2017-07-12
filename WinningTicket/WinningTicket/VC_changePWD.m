@@ -9,6 +9,8 @@
 #import "VC_changePWD.h"
 //#import "DGActivityIndicatorView.h"
 
+#import "ViewController.h"
+
 
 @interface VC_changePWD ()<UITextFieldDelegate>
 {
@@ -112,7 +114,7 @@
     VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     VW_overlay.clipsToBounds = YES;
-    VW_overlay.layer.cornerRadius = 10.0;
+//    VW_overlay.layer.cornerRadius = 10.0;
     
     activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
@@ -304,114 +306,130 @@
     self.actview.hidden=YES;
     NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
     NSLog(@"The response %@",json_DATA);
-    NSString *status=[json_DATA valueForKey:@"message"];
-    
-
-    if([status isEqualToString:@"Password has been changed successfully."])
-    {
-        
-    [activityIndicatorView stopAnimating];
-    VW_overlay.hidden = YES;
-        
-//        NSString *password = [[NSUserDefaults standardUserDefaults] valueForKey:@"loginPWD"];
-//        if (password) {
-//            [[NSUserDefaults standardUserDefaults] setValue:confirm_pwd forKey:@"loginPWD"];
-//            [[NSUserDefaults standardUserDefaults] synchronize];
-//        }
-        
-        _Stat_label.hidden=NO;
-        _Stat_label.backgroundColor=[UIColor greenColor];
-        
-        CGRect frame_TMP = old_frame_lbl;
-        _Stat_label.frame = frame_TMP;
-        
-        old_frame_lbl = _Stat_label.frame;
-        
-        frame_TMP = _lbl_icon1.frame;
-        frame_TMP.origin.y = _Stat_label.frame.origin.y + _Stat_label.frame.size.height + 15;
-        _lbl_icon1.frame = frame_TMP;
-        
-        frame_TMP = _TXT_currentPWD.frame;
-        frame_TMP.origin.y = _Stat_label.frame.origin.y + _Stat_label.frame.size.height + 15;
-        _TXT_currentPWD.frame = frame_TMP;
-        
-        frame_TMP = _lbl_icon2.frame;
-        frame_TMP.origin.y = _lbl_icon1.frame.origin.y + _lbl_icon1.frame.size.height + 10;
-        _lbl_icon2.frame = frame_TMP;
-        
-        frame_TMP = _TXT_newPWD.frame;
-        frame_TMP.origin.y = _lbl_icon2.frame.origin.y;
-        _TXT_newPWD.frame = frame_TMP;
-        
-        frame_TMP = _lbl_icon3.frame;
-        frame_TMP.origin.y = _lbl_icon2.frame.origin.y + _lbl_icon2.frame.size.height + 10;
-        _lbl_icon3.frame = frame_TMP;
-        
-        frame_TMP = _TXT_confirmnewPWD.frame;
-        frame_TMP.origin.y = _lbl_icon3.frame.origin.y;
-        _TXT_confirmnewPWD.frame = frame_TMP;
-        
-        frame_TMP = _done_Btn.frame;
-        frame_TMP.origin.y = _TXT_confirmnewPWD.frame.origin.y + _TXT_confirmnewPWD.frame.size.height + 15;
-        _done_Btn.frame = frame_TMP;
-        
-        
-    [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];
-    _Stat_label.text=[json_DATA valueForKey:@"message"];
-        
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"loginPWD"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
        
-        
-    }
-    else
-    {
-        
-    [activityIndicatorView stopAnimating];
-    VW_overlay.hidden = YES;
-    _Stat_label.hidden=NO;
-    [self performSelector:@selector(hiddenLabel_other) withObject:nil afterDelay:3];
-        
-        CGRect frame_TMP = old_frame_lbl;
-        _Stat_label.frame = frame_TMP;
-        
-        old_frame_lbl = _Stat_label.frame;
-        
-        frame_TMP = _lbl_icon1.frame;
-        frame_TMP.origin.y = _Stat_label.frame.origin.y + _Stat_label.frame.size.height + 15;
-        _lbl_icon1.frame = frame_TMP;
-        
-        frame_TMP = _TXT_currentPWD.frame;
-        frame_TMP.origin.y = _Stat_label.frame.origin.y + _Stat_label.frame.size.height + 15;
-        _TXT_currentPWD.frame = frame_TMP;
-        
-        frame_TMP = _lbl_icon2.frame;
-        frame_TMP.origin.y = _lbl_icon1.frame.origin.y + _lbl_icon1.frame.size.height + 10;
-        _lbl_icon2.frame = frame_TMP;
-        
-        frame_TMP = _TXT_newPWD.frame;
-        frame_TMP.origin.y = _lbl_icon2.frame.origin.y;
-        _TXT_newPWD.frame = frame_TMP;
-        
-        frame_TMP = _lbl_icon3.frame;
-        frame_TMP.origin.y = _lbl_icon2.frame.origin.y + _lbl_icon2.frame.size.height + 10;
-        _lbl_icon3.frame = frame_TMP;
-        
-        frame_TMP = _TXT_confirmnewPWD.frame;
-        frame_TMP.origin.y = _lbl_icon3.frame.origin.y;
-        _TXT_confirmnewPWD.frame = frame_TMP;
-        
-        frame_TMP = _done_Btn.frame;
-        frame_TMP.origin.y = _TXT_confirmnewPWD.frame.origin.y + _TXT_confirmnewPWD.frame.size.height + 15;
-        _done_Btn.frame = frame_TMP;
-        
-    _Stat_label.text=[json_DATA valueForKey:@"message"];
-    _Stat_label.backgroundColor=[UIColor redColor];
-     
-     }
-
-   [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"JsonEventlist"];
-   [[NSUserDefaults standardUserDefaults] synchronize];
+       @try
+       {
+           NSString *STR_error = [json_DATA valueForKey:@"error"];
+           if (STR_error)
+           {
+               [self sessionOUT];
+           }
+           else
+           {
+               NSString *status=[json_DATA valueForKey:@"message"];
+               
+               
+               if([status isEqualToString:@"Password has been changed successfully."])
+               {
+                   
+                   [activityIndicatorView stopAnimating];
+                   VW_overlay.hidden = YES;
+                   
+                   //        NSString *password = [[NSUserDefaults standardUserDefaults] valueForKey:@"loginPWD"];
+                   //        if (password) {
+                   //            [[NSUserDefaults standardUserDefaults] setValue:confirm_pwd forKey:@"loginPWD"];
+                   //            [[NSUserDefaults standardUserDefaults] synchronize];
+                   //        }
+                   
+                   _Stat_label.hidden=NO;
+                   _Stat_label.backgroundColor=[UIColor greenColor];
+                   
+                   CGRect frame_TMP = old_frame_lbl;
+                   _Stat_label.frame = frame_TMP;
+                   
+                   old_frame_lbl = _Stat_label.frame;
+                   
+                   frame_TMP = _lbl_icon1.frame;
+                   frame_TMP.origin.y = _Stat_label.frame.origin.y + _Stat_label.frame.size.height + 15;
+                   _lbl_icon1.frame = frame_TMP;
+                   
+                   frame_TMP = _TXT_currentPWD.frame;
+                   frame_TMP.origin.y = _Stat_label.frame.origin.y + _Stat_label.frame.size.height + 15;
+                   _TXT_currentPWD.frame = frame_TMP;
+                   
+                   frame_TMP = _lbl_icon2.frame;
+                   frame_TMP.origin.y = _lbl_icon1.frame.origin.y + _lbl_icon1.frame.size.height + 10;
+                   _lbl_icon2.frame = frame_TMP;
+                   
+                   frame_TMP = _TXT_newPWD.frame;
+                   frame_TMP.origin.y = _lbl_icon2.frame.origin.y;
+                   _TXT_newPWD.frame = frame_TMP;
+                   
+                   frame_TMP = _lbl_icon3.frame;
+                   frame_TMP.origin.y = _lbl_icon2.frame.origin.y + _lbl_icon2.frame.size.height + 10;
+                   _lbl_icon3.frame = frame_TMP;
+                   
+                   frame_TMP = _TXT_confirmnewPWD.frame;
+                   frame_TMP.origin.y = _lbl_icon3.frame.origin.y;
+                   _TXT_confirmnewPWD.frame = frame_TMP;
+                   
+                   frame_TMP = _done_Btn.frame;
+                   frame_TMP.origin.y = _TXT_confirmnewPWD.frame.origin.y + _TXT_confirmnewPWD.frame.size.height + 15;
+                   _done_Btn.frame = frame_TMP;
+                   
+                   
+                   [self performSelector:@selector(hiddenLabel) withObject:nil afterDelay:3];
+                   _Stat_label.text=[json_DATA valueForKey:@"message"];
+                   
+                   [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"loginPWD"];
+                   [[NSUserDefaults standardUserDefaults] synchronize];
+                   
+                   
+               }
+               else
+               {
+                   
+                   [activityIndicatorView stopAnimating];
+                   VW_overlay.hidden = YES;
+                   _Stat_label.hidden=NO;
+                   [self performSelector:@selector(hiddenLabel_other) withObject:nil afterDelay:3];
+                   
+                   CGRect frame_TMP = old_frame_lbl;
+                   _Stat_label.frame = frame_TMP;
+                   
+                   old_frame_lbl = _Stat_label.frame;
+                   
+                   frame_TMP = _lbl_icon1.frame;
+                   frame_TMP.origin.y = _Stat_label.frame.origin.y + _Stat_label.frame.size.height + 15;
+                   _lbl_icon1.frame = frame_TMP;
+                   
+                   frame_TMP = _TXT_currentPWD.frame;
+                   frame_TMP.origin.y = _Stat_label.frame.origin.y + _Stat_label.frame.size.height + 15;
+                   _TXT_currentPWD.frame = frame_TMP;
+                   
+                   frame_TMP = _lbl_icon2.frame;
+                   frame_TMP.origin.y = _lbl_icon1.frame.origin.y + _lbl_icon1.frame.size.height + 10;
+                   _lbl_icon2.frame = frame_TMP;
+                   
+                   frame_TMP = _TXT_newPWD.frame;
+                   frame_TMP.origin.y = _lbl_icon2.frame.origin.y;
+                   _TXT_newPWD.frame = frame_TMP;
+                   
+                   frame_TMP = _lbl_icon3.frame;
+                   frame_TMP.origin.y = _lbl_icon2.frame.origin.y + _lbl_icon2.frame.size.height + 10;
+                   _lbl_icon3.frame = frame_TMP;
+                   
+                   frame_TMP = _TXT_confirmnewPWD.frame;
+                   frame_TMP.origin.y = _lbl_icon3.frame.origin.y;
+                   _TXT_confirmnewPWD.frame = frame_TMP;
+                   
+                   frame_TMP = _done_Btn.frame;
+                   frame_TMP.origin.y = _TXT_confirmnewPWD.frame.origin.y + _TXT_confirmnewPWD.frame.size.height + 15;
+                   _done_Btn.frame = frame_TMP;
+                   
+                   _Stat_label.text=[json_DATA valueForKey:@"message"];
+                   _Stat_label.backgroundColor=[UIColor redColor];
+                   
+               }
+               
+               [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"JsonEventlist"];
+               [[NSUserDefaults standardUserDefaults] synchronize];
+           }
+       }
+       @catch (NSException *exception)
+       {
+           [self sessionOUT];
+       }
  }
 
 }
@@ -478,4 +496,16 @@
     
     _Stat_label.hidden = YES;
 }
+
+#pragma mark - Session OUT
+- (void) sessionOUT
+{
+    ViewController *tncView = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
+    [tncView setModalInPopover:YES];
+    [tncView setModalPresentationStyle:UIModalPresentationFormSheet];
+    [tncView setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    
+    [self presentViewController:tncView animated:YES completion:NULL];
+}
+
 @end

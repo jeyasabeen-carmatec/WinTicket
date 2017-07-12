@@ -8,6 +8,7 @@
 
 #import "VC_all_events.h"
 #import "TBL_VW_Cell_EVENTS.h"
+#import "ViewController.h"
 
 #import "WinningTicket_Universal-Swift.h"
 
@@ -68,7 +69,7 @@
     VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     VW_overlay.clipsToBounds = YES;
-    VW_overlay.layer.cornerRadius = 10.0;
+//    VW_overlay.layer.cornerRadius = 10.0;
     
     activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
@@ -93,22 +94,38 @@
     NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
 //    NSLog(@"The response ALLEvents %@",json_DATA);
     
-    NSArray *ARR_tmp = [json_DATA valueForKey:@"events"];
-    [ARR_allevent addObjectsFromArray:ARR_tmp];
     
-    [self State_api];
-    
-    _TXT_state.layer.borderWidth = 1.0f;
-    _TXT_state.layer.borderColor = [UIColor blackColor].CGColor;
-    
-    _TXT_todate.layer.borderWidth = 1.0f;
-    _TXT_todate.layer.borderColor = [UIColor blackColor].CGColor;
-    
-    _TXT_fromdate.layer.borderWidth = 1.0f;
-    _TXT_fromdate.layer.borderColor = [UIColor blackColor].CGColor;
-    
-    [_tbl_eventlst setDragDelegate:self refreshDatePermanentKey:@"FriendList"];
-    _tbl_eventlst.showLoadMoreView = YES;
+    @try
+    {
+        NSString *STR_error = [json_DATA valueForKey:@"error"];
+        if (STR_error)
+        {
+            [self sessionOUT];
+        }
+        else
+        {
+            NSArray *ARR_tmp = [json_DATA valueForKey:@"events"];
+            [ARR_allevent addObjectsFromArray:ARR_tmp];
+            
+            [self State_api];
+            
+            _TXT_state.layer.borderWidth = 1.0f;
+            _TXT_state.layer.borderColor = [UIColor blackColor].CGColor;
+            
+            _TXT_todate.layer.borderWidth = 1.0f;
+            _TXT_todate.layer.borderColor = [UIColor blackColor].CGColor;
+            
+            _TXT_fromdate.layer.borderWidth = 1.0f;
+            _TXT_fromdate.layer.borderColor = [UIColor blackColor].CGColor;
+            
+            [_tbl_eventlst setDragDelegate:self refreshDatePermanentKey:@"FriendList"];
+            _tbl_eventlst.showLoadMoreView = YES;
+        }
+    }
+    @catch (NSException *exception)
+    {
+        [self sessionOUT];
+    }
 }
 
 
@@ -975,16 +992,30 @@
         //    NSLog(@"The response %@",json_DATA);
         NSLog(@"the filterdata is:%@",json_DATA);
         
-        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"ALLEvents"];
-        [[NSUserDefaults standardUserDefaults] setObject:urlGetuser forKey:@"URL_SAVED"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        [ARR_allevent removeAllObjects];
-        NSMutableArray *temp_ARR=[json_DATA valueForKey:@"events"];
-        [ARR_allevent addObjectsFromArray:temp_ARR];
-        
-        [_tbl_eventlst reloadData];
-        
+        @try
+        {
+            NSString *STR_error = [json_DATA valueForKey:@"error"];
+            if (STR_error)
+            {
+                [self sessionOUT];
+            }
+            else
+            {
+                [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"ALLEvents"];
+                [[NSUserDefaults standardUserDefaults] setObject:urlGetuser forKey:@"URL_SAVED"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                
+                [ARR_allevent removeAllObjects];
+                NSMutableArray *temp_ARR=[json_DATA valueForKey:@"events"];
+                [ARR_allevent addObjectsFromArray:temp_ARR];
+                
+                [_tbl_eventlst reloadData];
+            }
+        }
+        @catch (NSException *exception)
+        {
+            [self sessionOUT];
+        }
     }
     else
     {
@@ -1123,9 +1154,25 @@
     if(aData)
     {
     NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-//    NSLog(@"The response %@",json_DATA);
-    sorted_STAES = [json_DATA allKeys];
-    _ARR_states = [sorted_STAES sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+        
+        @try
+        {
+            NSString *STR_error = [json_DATA valueForKey:@"error"];
+            if (STR_error)
+            {
+                [self sessionOUT];
+            }
+            else
+            {
+                sorted_STAES = [json_DATA allKeys];
+                _ARR_states = [sorted_STAES sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+            }
+        }
+        @catch (NSException *exception)
+        {
+            [self sessionOUT];
+        }
+        
     }
     else
     {
@@ -1228,19 +1275,33 @@
     if (aData)
     {
         json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-        //        NSLog(@"Search Event tapped %@",json_DATA);
         
-        NSArray *ARR_tmp = [json_DATA valueForKey:@"events"];
-        
-        _lbl_Serch_char.text = [NSString stringWithFormat:@"%lu Results for '%@'",(unsigned long)[ARR_tmp count],searchBar1.text];
-        
-        ARR_allevent = [[NSMutableArray alloc]init];
-        [ARR_allevent addObjectsFromArray:ARR_tmp];
-        
-        [_tbl_eventlst reloadData];
-        
-        [activityIndicatorView stopAnimating];
-        VW_overlay.hidden = YES;
+        @try
+        {
+            NSString *STR_error = [json_DATA valueForKey:@"error"];
+            if (STR_error)
+            {
+                [self sessionOUT];
+            }
+            else
+            {
+                NSArray *ARR_tmp = [json_DATA valueForKey:@"events"];
+                
+                _lbl_Serch_char.text = [NSString stringWithFormat:@"%lu Results for '%@'",(unsigned long)[ARR_tmp count],searchBar1.text];
+                
+                ARR_allevent = [[NSMutableArray alloc]init];
+                [ARR_allevent addObjectsFromArray:ARR_tmp];
+                
+                [_tbl_eventlst reloadData];
+                
+                [activityIndicatorView stopAnimating];
+                VW_overlay.hidden = YES;
+            }
+        }
+        @catch (NSException *exception)
+        {
+            [self sessionOUT];
+        }
     }
     else
     {
@@ -1291,19 +1352,33 @@
     if (aData)
     {
         json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-//        NSLog(@"Search Event tapped %@",json_DATA);
         
-        NSArray *ARR_tmp = [json_DATA valueForKey:@"events"];
-        
-        _lbl_Serch_char.text = [NSString stringWithFormat:@"%lu Results for '%@'",(unsigned long)[ARR_tmp count],searchBar1.text];
-        
-        ARR_allevent = [[NSMutableArray alloc]init];
-        [ARR_allevent addObjectsFromArray:ARR_tmp];
-        
-        [_tbl_eventlst reloadData];
-        
-        [activityIndicatorView stopAnimating];
-        VW_overlay.hidden = YES;
+        @try
+        {
+            NSString *STR_error = [json_DATA valueForKey:@"error"];
+            if (STR_error)
+            {
+                [self sessionOUT];
+            }
+            else
+            {
+                NSArray *ARR_tmp = [json_DATA valueForKey:@"events"];
+                
+                _lbl_Serch_char.text = [NSString stringWithFormat:@"%lu Results for '%@'",(unsigned long)[ARR_tmp count],searchBar1.text];
+                
+                ARR_allevent = [[NSMutableArray alloc]init];
+                [ARR_allevent addObjectsFromArray:ARR_tmp];
+                
+                [_tbl_eventlst reloadData];
+                
+                [activityIndicatorView stopAnimating];
+                VW_overlay.hidden = YES;
+            }
+        }
+        @catch (NSException *exception)
+        {
+            [self sessionOUT];
+        }
     }
     else
     {
@@ -1349,24 +1424,39 @@
     NSError *error;
     NSData *aData = [[NSUserDefaults standardUserDefaults] valueForKey:@"ALLEvents"];
     NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-//    NSLog(@"The response ALLEvents Pagination Method %@",json_DATA);
-    NSString *url_STR;
+
+    @try
+    {
+        NSString *STR_error = [json_DATA valueForKey:@"error"];
+        if (STR_error)
+        {
+            [self sessionOUT];
+        }
+        else
+        {
+            NSString *url_STR;
+            NSDictionary *temp_Dictin = [json_DATA valueForKey:@"meta"];
+            NSString *nextPAGE = [NSString stringWithFormat:@"%@",[temp_Dictin valueForKey:@"next_page"]];
+            if ([nextPAGE isEqualToString:@"0"])
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Already in Last Page" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                [alert show];
+                [self performSelector:@selector(finishLoadMore) withObject:nil afterDelay:2];
+            }
+            else
+            {
+                url_STR = [NSString stringWithFormat:@"%@&page=%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"URL_SAVED"],nextPAGE];
+                [[NSUserDefaults standardUserDefaults] setObject:url_STR forKey:@"URL_SAVED"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                [self performSelector:@selector(NEXTpage_API) withObject:nil afterDelay:0.01];
+            }
+        }
+    }
+    @catch (NSException *exception)
+    {
+        [self sessionOUT];
+    }
     
-    NSDictionary *temp_Dictin = [json_DATA valueForKey:@"meta"];
-    NSString *nextPAGE = [NSString stringWithFormat:@"%@",[temp_Dictin valueForKey:@"next_page"]];
-    if ([nextPAGE isEqualToString:@"0"])
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Already in Last Page" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-        [alert show];
-        [self performSelector:@selector(finishLoadMore) withObject:nil afterDelay:2];
-    }
-    else
-    {
-        url_STR = [NSString stringWithFormat:@"%@&page=%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"URL_SAVED"],nextPAGE];
-        [[NSUserDefaults standardUserDefaults] setObject:url_STR forKey:@"URL_SAVED"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        [self performSelector:@selector(NEXTpage_API) withObject:nil afterDelay:0.01];
-    }
 }
 
 - (void)dragTableLoadMoreCanceled:(UITableView *)tableView
@@ -1394,17 +1484,49 @@
         VW_overlay.hidden = YES;
         
         NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-        NSLog(@"From VC_all_events Pagination testing :%@",dict);
         
-        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"ALLEvents"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        @try
+        {
+            NSString *STR_error = [dict valueForKey:@"error"];
+            if (STR_error)
+            {
+                [self sessionOUT];
+            }
+            else
+            {
+                [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"ALLEvents"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                
+                NSData *aData = [[NSUserDefaults standardUserDefaults] valueForKey:@"ALLEvents"];
+                NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+                
+                @try
+                {
+                    NSString *STR_error1 = [dict valueForKey:@"error"];
+                    if (STR_error1)
+                    {
+                        [self sessionOUT];
+                    }
+                    else
+                    {
+                        NSArray *ARR_tmp = [json_DATA valueForKey:@"events"];
+                        [ARR_allevent addObjectsFromArray:ARR_tmp];
+                        
+                        [_tbl_eventlst reloadData];
+                    }
+                }
+                @catch (NSException *exception)
+                {
+                    [self sessionOUT];
+                }
+            }
+        }
+        @catch (NSException *exception)
+        {
+            [self sessionOUT];
+        }
         
-        NSData *aData = [[NSUserDefaults standardUserDefaults] valueForKey:@"ALLEvents"];
-        NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-        NSArray *ARR_tmp = [json_DATA valueForKey:@"events"];
-        [ARR_allevent addObjectsFromArray:ARR_tmp];
         
-        [_tbl_eventlst reloadData];
         
     }
     else
@@ -1437,19 +1559,49 @@
         VW_overlay.hidden = YES;
         
         NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-        NSLog(@"From VC_all_events Pagination testing :%@",dict);
         
-        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"ALLEvents"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        [ARR_allevent removeAllObjects];
-        NSData *aData = [[NSUserDefaults standardUserDefaults] valueForKey:@"ALLEvents"];
-        NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-        NSArray *ARR_tmp = [json_DATA valueForKey:@"events"];
-        [ARR_allevent addObjectsFromArray:ARR_tmp];
-        
-        [_tbl_eventlst reloadData];
-        
+        @try
+        {
+            NSString *STR_error = [dict valueForKey:@"error"];
+            if (STR_error)
+            {
+                [self sessionOUT];
+            }
+            else
+            {
+                [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"ALLEvents"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                
+                [ARR_allevent removeAllObjects];
+                NSData *aData = [[NSUserDefaults standardUserDefaults] valueForKey:@"ALLEvents"];
+                NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+                
+                @try
+                {
+                    NSString *STR_error1 = [json_DATA valueForKey:@"error"];
+                    if (STR_error1)
+                    {
+                        [self sessionOUT];
+                    }
+                    else
+                    {
+                        NSArray *ARR_tmp = [json_DATA valueForKey:@"events"];
+                        [ARR_allevent addObjectsFromArray:ARR_tmp];
+                        
+                        [_tbl_eventlst reloadData];
+                    }
+                }
+                @catch (NSException *exception)
+                {
+                    [self sessionOUT];
+                }
+                
+            }
+        }
+        @catch (NSException *exception)
+        {
+            [self sessionOUT];
+        }
     }
     else
     {
@@ -1479,6 +1631,17 @@
 -(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     return YES;
+}
+
+#pragma mark - Session OUT
+- (void) sessionOUT
+{
+    ViewController *tncView = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
+    [tncView setModalInPopover:YES];
+    [tncView setModalPresentationStyle:UIModalPresentationFormSheet];
+    [tncView setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    
+    [self presentViewController:tncView animated:YES completion:NULL];
 }
 
 @end

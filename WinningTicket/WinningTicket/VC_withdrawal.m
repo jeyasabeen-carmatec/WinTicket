@@ -9,6 +9,7 @@
 #import "VC_withdrawal.h"
 //#import "DejalActivityView.h"
 //#import "DGActivityIndicatorView.h"
+#import "ViewController.h"
 
 @interface VC_withdrawal ()<UIAlertViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate>
 {
@@ -53,34 +54,48 @@
         NSMutableDictionary *account_data=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"Account_data"] options:NSASCIIStringEncoding error:&error];
         NSLog(@"the user data is:%@",account_data);
         
-//        NSDictionary *temp_dict=[account_data valueForKey:@"user"];
-        NSString *pricee_STR = [NSString stringWithFormat:@"%.2f",[[account_data valueForKey:@"wallet"] floatValue]];
-;
-        NSString *text = [NSString stringWithFormat:@"Available balance: $%@",pricee_STR];
-        
-        if ([self.lbl_availableBAL respondsToSelector:@selector(setAttributedText:)]) {
-            
-            // Define general attributes for the entire text
-            NSDictionary *attribs = @{
-                                      NSForegroundColorAttributeName: self.lbl_availableBAL.textColor,
-                                      NSFontAttributeName: self.lbl_availableBAL.font
-                                      };
-            NSMutableAttributedString *attributedText =
-            [[NSMutableAttributedString alloc] initWithString:text
-                                                   attributes:attribs];
-            
-            // Red text attributes
-            //            UIColor *redColor = [UIColor redColor];
-            NSRange cmp = [text rangeOfString:pricee_STR];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Gotham-Book" size:17.0]}
-                                    range:cmp];
-            
-            
-            self.lbl_availableBAL.attributedText = attributedText;
-        }
-        else
+        @try
         {
-            self.lbl_availableBAL.text = text;
+            NSString *STR_error = [account_data valueForKey:@"error"];
+            if (STR_error)
+            {
+                [self sessionOUT];
+            }
+            else
+            {
+                //        NSDictionary *temp_dict=[account_data valueForKey:@"user"];
+                NSString *pricee_STR = [NSString stringWithFormat:@"%.2f",[[account_data valueForKey:@"wallet"] floatValue]];
+                NSString *text = [NSString stringWithFormat:@"Available balance: $%@",pricee_STR];
+                
+                if ([self.lbl_availableBAL respondsToSelector:@selector(setAttributedText:)]) {
+                    
+                    // Define general attributes for the entire text
+                    NSDictionary *attribs = @{
+                                              NSForegroundColorAttributeName: self.lbl_availableBAL.textColor,
+                                              NSFontAttributeName: self.lbl_availableBAL.font
+                                              };
+                    NSMutableAttributedString *attributedText =
+                    [[NSMutableAttributedString alloc] initWithString:text
+                                                           attributes:attribs];
+                    
+                    // Red text attributes
+                    //            UIColor *redColor = [UIColor redColor];
+                    NSRange cmp = [text rangeOfString:pricee_STR];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+                    [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Gotham-Book" size:17.0]}
+                                            range:cmp];
+                    
+                    
+                    self.lbl_availableBAL.attributedText = attributedText;
+                }
+                else
+                {
+                    self.lbl_availableBAL.text = text;
+                }
+            }
+        }
+        @catch (NSException *exception)
+        {
+            [self sessionOUT];
         }
     }
     else
@@ -89,9 +104,6 @@
         [alert show];
         
     }
-    
-    
-    
 }
 
 
@@ -234,7 +246,7 @@
     VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     VW_overlay.clipsToBounds = YES;
-    VW_overlay.layer.cornerRadius = 10.0;
+//    VW_overlay.layer.cornerRadius = 10.0;
     
     activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
@@ -377,51 +389,63 @@ else if ([_TXT_amtpaypal.text isEqualToString:@"0.00"] || [_TXT_amtpaypal.text i
         //        self->activityIndicatorView.hidden=YES;
         NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"The response %@",json_DATA);
-        NSString *status=[json_DATA valueForKey:@"status"];
-        NSString *error=[json_DATA valueForKey:@"errors"];
-        NSString *message=[json_DATA valueForKey:@"message"];
         
         
         
-        if([status isEqualToString:@"Success"])
+        @try
         {
-            [activityIndicatorView stopAnimating];
-            VW_overlay.hidden=YES;
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-            [alert show];
-                        
+            NSString *STR_error1 = [json_DATA valueForKey:@"error"];
+            if (STR_error1)
+            {
+                [self sessionOUT];
+            }
+            else
+            {
+                NSString *status=[json_DATA valueForKey:@"status"];
+                NSString *error=[json_DATA valueForKey:@"errors"];
+                NSString *message=[json_DATA valueForKey:@"message"];
+                
+                if([status isEqualToString:@"Success"])
+                {
+                    [activityIndicatorView stopAnimating];
+                    VW_overlay.hidden=YES;
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                    [alert show];
+                    
+                }
+                else if(error)
+                {
+                    [activityIndicatorView stopAnimating];
+                    VW_overlay.hidden=YES;
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection failed" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                    [alert show];
+                }
+                
+                else
+                {
+                    [activityIndicatorView stopAnimating];
+                    VW_overlay.hidden=YES;
+                    
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                    [alert show];
+                }
+            }
         }
-        else if(error)
+        @catch (NSException *exception)
         {
-            [activityIndicatorView stopAnimating];
-            VW_overlay.hidden=YES;
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:error delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-            [alert show];
-        }
-
-        else
-        {
-            [activityIndicatorView stopAnimating];
-            VW_overlay.hidden=YES;
-
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-            [alert show];
+            [self sessionOUT];
         }
         
      }
-    
-    
-    
-    else{
+    else
+    {
         [activityIndicatorView stopAnimating];
         VW_overlay.hidden=YES;
 
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection error" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
 
-       }
-    
-
+    }
 }
 #pragma Alertview Methods
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -480,6 +504,17 @@ else if ([_TXT_amtpaypal.text isEqualToString:@"0.00"] || [_TXT_amtpaypal.text i
     NSLog(@"Tappd order detail");
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"This option will be available in next version" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
     [alert show];
+}
+
+#pragma mark - Session OUT
+- (void) sessionOUT
+{
+    ViewController *tncView = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
+    [tncView setModalInPopover:YES];
+    [tncView setModalPresentationStyle:UIModalPresentationFormSheet];
+    [tncView setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    
+    [self presentViewController:tncView animated:YES completion:NULL];
 }
 
 @end

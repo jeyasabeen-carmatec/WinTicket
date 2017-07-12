@@ -10,6 +10,8 @@
 //#import "DejalActivityView.h"
 //#import "DGActivityIndicatorView.h"
 
+#import "ViewController.h"
+
 #pragma mark - Image Cache
 #import "SDWebImage/UIImageView+WebCache.h"
 
@@ -111,7 +113,7 @@
     VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     VW_overlay.clipsToBounds = YES;
-    VW_overlay.layer.cornerRadius = 10.0;
+//    VW_overlay.layer.cornerRadius = 10.0;
     
     activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
@@ -133,308 +135,325 @@
     
     NSError *error;
     NSMutableDictionary *temp_resp = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults] valueForKey:@"CHKOUTDETAIL"] options:NSASCIIStringEncoding error:&error];
-    NSDictionary *address_dictin = [temp_resp valueForKey:@"billing_address"];
     
-    NSLog(@"Image Url Vc checkout detail %@",[NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_resp valueForKey:@"avatar_url"]]);
-    [_img_icon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_resp valueForKey:@"avatar_url"]]]
-                  placeholderImage:[UIImage imageNamed:@"Logo_WT.png"]];
-    _img_icon.contentMode = UIViewContentModeScaleAspectFit;
-    
-    NSLog(@"The response from checkout detail VC \n%@",temp_resp);
-    
-    _lbl_datasubtotal.text = [NSString stringWithFormat:@"$%.2f",[[temp_resp valueForKey:@"price"] floatValue] * [[temp_resp valueForKey:@"quantity"] floatValue]];
-    _lbl_datatotal.text = _lbl_datasubtotal.text;
-    
-    [_BTN_order2 addTarget:self action:@selector(BTN_order2action) forControlEvents:UIControlEventTouchUpInside];
-    
-    CGRect rect_content,frame_rect;
-    rect_content = _VW_contents.frame;
-    rect_content.size.width = self.navigationController.navigationBar.frame.size.width;
-    
-    _lbl_email.text = [temp_resp valueForKey:@"email"];
-    
-    [self Country_api];
-    conty_code  = [address_dictin valueForKey:@"country"];
-    NSArray *temp = [countryS allKeysForObject:conty_code];
-    cntry_name = [temp lastObject];
-    
-    [self State_api];
-    NSString *state_code = [address_dictin valueForKey:@"state"];
-    NSArray *temp_arr = [states allKeysForObject:state_code];
-    NSString *state_name = [temp_arr lastObject];
-    
-    NSString *zip_code = [address_dictin valueForKey:@"zip_code"];
-    
-//    NSString *address_str = [NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone:%@",[address_dictin valueForKey:@"first_name"],[address_dictin valueForKey:@"last_name"],[address_dictin valueForKey:@"address_line1"],[address_dictin valueForKey:@"address_line2"],[address_dictin valueForKey:@"city"],state_name,cntry_name,zip_code,[address_dictin valueForKey:@"phone"]];
-//    
-//    _lbl_address.text = [NSString stringWithFormat:@"%@",address_str];
-//    _lbl_address.numberOfLines = 0;
-//    [_lbl_address sizeToFit];
-    
-    NSString *STR_fname = [NSString stringWithFormat:@"%@",[[address_dictin valueForKey:@"first_name"] capitalizedString]];
-    STR_fname = [STR_fname stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-    STR_fname = [STR_fname stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-    NSString *STR_lname = [NSString stringWithFormat:@"%@",[[address_dictin valueForKey:@"last_name"] capitalizedString]];
-    STR_lname = [STR_lname stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-    STR_lname = [STR_lname stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-    NSString *STR_addr1 = [NSString stringWithFormat:@"%@",[[address_dictin valueForKey:@"address_line1"] capitalizedString]];
-    STR_addr1 = [STR_addr1 stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-    STR_addr1 = [STR_addr1 stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-    NSString *STR_addr2 = [NSString stringWithFormat:@"%@",[[address_dictin valueForKey:@"address_line2"] capitalizedString]];
-    STR_addr2 = [STR_addr2 stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-    STR_addr2 = [STR_addr2 stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-    NSString *STR_city = [NSString stringWithFormat:@"%@",[[address_dictin valueForKey:@"city"] capitalizedString]];
-    STR_city = [STR_city stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-    STR_city = [STR_city stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-    NSString *STR_state = [NSString stringWithFormat:@"%@",[state_name capitalizedString]];
-    STR_state = [STR_state stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-    STR_state = [STR_state stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-    NSString *STR_cntry = [NSString stringWithFormat:@"%@",[cntry_name capitalizedString]];
-    STR_cntry = [STR_cntry stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-    STR_cntry = [STR_cntry stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-    NSString *STR_zip = [NSString stringWithFormat:@"%@",[zip_code capitalizedString]];
-    STR_zip = [STR_zip stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-    STR_zip = [STR_zip stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-    NSString *STR_phone = [NSString stringWithFormat:@"%@",[[address_dictin valueForKey:@"phone"] capitalizedString]];
-    STR_phone = [STR_phone stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-    STR_phone = [STR_phone stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-    
-    NSString *name;
-    if (STR_lname.length == 0)
+    @try
     {
-        name = [NSString stringWithFormat:@"%@,\n",STR_fname];
-    }
-    else
-    {
-        name = [NSString stringWithFormat:@"%@ %@,\n",STR_fname,STR_lname];
-    }
-    
-    NSString *addr;
-    if (STR_addr2.length == 0)
-    {
-        addr = [NSString stringWithFormat:@"%@,\n",STR_addr1];
-    }
-    else
-    {
-        addr = [NSString stringWithFormat:@"%@, %@,\n",STR_addr1,STR_addr2];
-    }
-    if ([addr isEqualToString:@",\n"]) {
-        addr = @"";
-    }
-    
-    NSString *city = [NSString stringWithFormat:@"%@",STR_city];
-    NSString *state = [NSString stringWithFormat:@"%@",STR_state];
-    NSString *zip = [NSString stringWithFormat:@"%@",STR_zip];
-    NSString *cntry;
-    if (STR_zip.length == 0)
-    {
-        cntry = [NSString stringWithFormat:@"%@, %@, \n",city,state];
-    }
-    else
-    {
-        if (STR_state.length == 0)
+        NSString *STR_error = [temp_resp valueForKey:@"error"];
+        if (STR_error)
         {
-            cntry = [NSString stringWithFormat:@"%@, %@,\n",city,zip];
+            [self sessionOUT];
         }
         else
         {
-            cntry = [NSString stringWithFormat:@"%@, %@, %@,\n",city,state,zip];
-        }
-    }
-    NSString *country;
-    if(STR_cntry.length == 0)
-    {
-        country = [NSString stringWithFormat:@"Phone : %@.",STR_phone];
-    }
-    else
-    {
-        country = [NSString stringWithFormat:@"%@ \nPhone : %@.",STR_cntry,STR_phone];
-        
-    }
-    NSMutableArray *final_ADDR = [[NSMutableArray alloc] init];
-    if (name.length != 0) {
-        [final_ADDR addObject:[name capitalizedString]];
-    }
-    
-    if (addr.length != 0) {
-        [final_ADDR addObject:addr];
-    }
-    
-    if (city.length != 0 && state.length != 0 && zip.length != 0) {
-        [final_ADDR addObject:cntry];
-    }
-    
-    
-    if (country.length != 0){
-        [final_ADDR addObject:country];
-    }
-    
-    
-    //    NSString *address_str=[NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone : %@",,,,,,,,,];
-    
-    NSMutableString *str_TST = [[NSMutableString alloc]init];
-    for (int i = 0; i<[final_ADDR count]; i++) {
-        [str_TST appendString:[final_ADDR objectAtIndex:i]];
-    }
-    
-    NSLog(@"Testing Addr = \n%@",str_TST);
-    
-    
-    _lbl_address.text = str_TST;
-    _lbl_address.numberOfLines = 0;
-    [_lbl_address sizeToFit];
-    
-    frame_rect = _lbl_address.frame;
-    frame_rect.size.height = _lbl_address.frame.size.height;
-    _lbl_address.frame = frame_rect;
-    
-    frame_rect = _lbl_titl_payment_info.frame;
-    frame_rect.origin.y = _lbl_address.frame.origin.y + _lbl_address.frame.size.height + 10;
-    _lbl_titl_payment_info.frame = frame_rect;
-    
-    
-    _lbl_data_payment_info.text = @"Credit / Debit Card";
-    frame_rect = _lbl_data_payment_info.frame;
-    frame_rect.origin.y = _lbl_titl_payment_info.frame.origin.y + _lbl_titl_payment_info.frame.size.height + 10;
-    _lbl_data_payment_info.frame = frame_rect;
-    
-    frame_rect = _VW_line1.frame;
-    frame_rect.origin.y = _lbl_data_payment_info.frame.origin.y + _lbl_data_payment_info.frame.size.height + 10;
-    _VW_line1.frame = frame_rect;
-    
-    float orginal_width = _lbl_ticketDetail.frame.size.width;
-    
-    NSString *show = @"Winning Ticket";
-//    NSString *place = @"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
-    NSString *ticketnumber = [temp_resp valueForKey:@"code"];
-    NSString *club_name = [[temp_resp valueForKey:@"event_name"] capitalizedString];
-    NSString *org_name = [[temp_resp valueForKey:@"organization_name"] capitalizedString];
-    NSString *qty = [NSString stringWithFormat:@"Qty : %@",[temp_resp valueForKey:@"quantity"]];
-    
-    NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@ - %@\n%@",show,org_name,ticketnumber,club_name,qty];
-    
-    text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
-    text = [text stringByReplacingOccurrencesOfString:@"(null)" withString:@"Not Mentioned"];
-    
-    // If attributed text is supported (iOS6+)
-    if ([self.lbl_ticketDetail respondsToSelector:@selector(setAttributedText:)]) {
-        
-        // Define general attributes for the entire text
-        NSDictionary *attribs = @{
-                                  NSForegroundColorAttributeName: self.lbl_ticketDetail.textColor,
-                                  NSFontAttributeName: self.lbl_ticketDetail.font
-                                  };
-        NSMutableAttributedString *attributedText =
-        [[NSMutableAttributedString alloc] initWithString:text
-                                               attributes:attribs];
-        
-        // Red text attributes
-        //            UIColor *redColor = [UIColor redColor];
-        NSRange cmp = [text rangeOfString:show];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:17.0]}
-                                range:cmp];
-        
-        NSRange org = [text rangeOfString:org_name];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:15.0]}
-                                range:org];
-        
-        NSRange qt = [text rangeOfString:club_name];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-        [attributedText setAttributes:@{NSFontAttributeName:_lbl_address.font}
-                                range:qt];
-        
-        NSRange tkt_num = [text rangeOfString:ticketnumber];
-        [attributedText setAttributes:@{NSFontAttributeName:_lbl_address.font}
-                                range:tkt_num];
-        
-        NSRange qty_range = [text rangeOfString:qty];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:15.0]}
-                                range:qty_range];
-        
-        self.lbl_ticketDetail.attributedText = attributedText;
-    }
-    else
-    {
-        self.lbl_ticketDetail.text = [text capitalizedString];
-    }
-    
-    self.lbl_ticketDetail.numberOfLines = 0;
-    [self.lbl_ticketDetail sizeToFit];
-    
-    frame_rect = _lbl_ticketDetail.frame;
-    frame_rect.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 5;
-    frame_rect.size.width = orginal_width;
-    _lbl_ticketDetail.frame = frame_rect;
-    
-    frame_rect = _img_icon.frame;
-    frame_rect.origin.y = _lbl_ticketDetail.frame.origin.y + 10;
-    _img_icon.frame = frame_rect;
-    
-    float chk_ht = _lbl_ticketDetail.frame.size.height;
-    frame_rect = _VW_line2.frame;
-    frame_rect.origin.y = _lbl_ticketDetail.frame.origin.y + _lbl_ticketDetail.frame.size.height + 10;
-//    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-//    {
-        if (chk_ht < _img_icon.frame.size.height)
-        {
-            frame_rect.origin.y = _img_icon.frame.origin.y + _img_icon.frame.size.height + 10;
+            NSDictionary *address_dictin = [temp_resp valueForKey:@"billing_address"];
             
-            CGRect temp_frame = _lbl_ticketDetail.frame;
-            temp_frame.origin.y = _img_icon.frame.origin.y;
-            temp_frame.size.height = _img_icon.frame.size.height;
-            _lbl_ticketDetail.frame = temp_frame;
+            NSLog(@"Image Url Vc checkout detail %@",[NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_resp valueForKey:@"avatar_url"]]);
+            [_img_icon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_resp valueForKey:@"avatar_url"]]]
+                         placeholderImage:[UIImage imageNamed:@"Logo_WT.png"]];
+            _img_icon.contentMode = UIViewContentModeScaleAspectFit;
+            
+            NSLog(@"The response from checkout detail VC \n%@",temp_resp);
+            
+            _lbl_datasubtotal.text = [NSString stringWithFormat:@"$%.2f",[[temp_resp valueForKey:@"price"] floatValue] * [[temp_resp valueForKey:@"quantity"] floatValue]];
+            _lbl_datatotal.text = _lbl_datasubtotal.text;
+            
+            [_BTN_order2 addTarget:self action:@selector(BTN_order2action) forControlEvents:UIControlEventTouchUpInside];
+            
+            CGRect rect_content,frame_rect;
+            rect_content = _VW_contents.frame;
+            rect_content.size.width = self.navigationController.navigationBar.frame.size.width;
+            
+            _lbl_email.text = [temp_resp valueForKey:@"email"];
+            
+            [self Country_api];
+            conty_code  = [address_dictin valueForKey:@"country"];
+            NSArray *temp = [countryS allKeysForObject:conty_code];
+            cntry_name = [temp lastObject];
+            
+            [self State_api];
+            NSString *state_code = [address_dictin valueForKey:@"state"];
+            NSArray *temp_arr = [states allKeysForObject:state_code];
+            NSString *state_name = [temp_arr lastObject];
+            
+            NSString *zip_code = [address_dictin valueForKey:@"zip_code"];
+            
+            //    NSString *address_str = [NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone:%@",[address_dictin valueForKey:@"first_name"],[address_dictin valueForKey:@"last_name"],[address_dictin valueForKey:@"address_line1"],[address_dictin valueForKey:@"address_line2"],[address_dictin valueForKey:@"city"],state_name,cntry_name,zip_code,[address_dictin valueForKey:@"phone"]];
+            //
+            //    _lbl_address.text = [NSString stringWithFormat:@"%@",address_str];
+            //    _lbl_address.numberOfLines = 0;
+            //    [_lbl_address sizeToFit];
+            
+            NSString *STR_fname = [NSString stringWithFormat:@"%@",[[address_dictin valueForKey:@"first_name"] capitalizedString]];
+            STR_fname = [STR_fname stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+            STR_fname = [STR_fname stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+            NSString *STR_lname = [NSString stringWithFormat:@"%@",[[address_dictin valueForKey:@"last_name"] capitalizedString]];
+            STR_lname = [STR_lname stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+            STR_lname = [STR_lname stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+            NSString *STR_addr1 = [NSString stringWithFormat:@"%@",[[address_dictin valueForKey:@"address_line1"] capitalizedString]];
+            STR_addr1 = [STR_addr1 stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+            STR_addr1 = [STR_addr1 stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+            NSString *STR_addr2 = [NSString stringWithFormat:@"%@",[[address_dictin valueForKey:@"address_line2"] capitalizedString]];
+            STR_addr2 = [STR_addr2 stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+            STR_addr2 = [STR_addr2 stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+            NSString *STR_city = [NSString stringWithFormat:@"%@",[[address_dictin valueForKey:@"city"] capitalizedString]];
+            STR_city = [STR_city stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+            STR_city = [STR_city stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+            NSString *STR_state = [NSString stringWithFormat:@"%@",[state_name capitalizedString]];
+            STR_state = [STR_state stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+            STR_state = [STR_state stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+            NSString *STR_cntry = [NSString stringWithFormat:@"%@",[cntry_name capitalizedString]];
+            STR_cntry = [STR_cntry stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+            STR_cntry = [STR_cntry stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+            NSString *STR_zip = [NSString stringWithFormat:@"%@",[zip_code capitalizedString]];
+            STR_zip = [STR_zip stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+            STR_zip = [STR_zip stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+            NSString *STR_phone = [NSString stringWithFormat:@"%@",[[address_dictin valueForKey:@"phone"] capitalizedString]];
+            STR_phone = [STR_phone stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+            STR_phone = [STR_phone stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+            
+            NSString *name;
+            if (STR_lname.length == 0)
+            {
+                name = [NSString stringWithFormat:@"%@,\n",STR_fname];
+            }
+            else
+            {
+                name = [NSString stringWithFormat:@"%@ %@,\n",STR_fname,STR_lname];
+            }
+            
+            NSString *addr;
+            if (STR_addr2.length == 0)
+            {
+                addr = [NSString stringWithFormat:@"%@,\n",STR_addr1];
+            }
+            else
+            {
+                addr = [NSString stringWithFormat:@"%@, %@,\n",STR_addr1,STR_addr2];
+            }
+            if ([addr isEqualToString:@",\n"]) {
+                addr = @"";
+            }
+            
+            NSString *city = [NSString stringWithFormat:@"%@",STR_city];
+            NSString *state = [NSString stringWithFormat:@"%@",STR_state];
+            NSString *zip = [NSString stringWithFormat:@"%@",STR_zip];
+            NSString *cntry;
+            if (STR_zip.length == 0)
+            {
+                cntry = [NSString stringWithFormat:@"%@, %@, \n",city,state];
+            }
+            else
+            {
+                if (STR_state.length == 0)
+                {
+                    cntry = [NSString stringWithFormat:@"%@, %@,\n",city,zip];
+                }
+                else
+                {
+                    cntry = [NSString stringWithFormat:@"%@, %@, %@,\n",city,state,zip];
+                }
+            }
+            NSString *country;
+            if(STR_cntry.length == 0)
+            {
+                country = [NSString stringWithFormat:@"Phone : %@.",STR_phone];
+            }
+            else
+            {
+                country = [NSString stringWithFormat:@"%@ \nPhone : %@.",STR_cntry,STR_phone];
+                
+            }
+            NSMutableArray *final_ADDR = [[NSMutableArray alloc] init];
+            if (name.length != 0) {
+                [final_ADDR addObject:[name capitalizedString]];
+            }
+            
+            if (addr.length != 0) {
+                [final_ADDR addObject:addr];
+            }
+            
+            if (city.length != 0 && state.length != 0 && zip.length != 0) {
+                [final_ADDR addObject:cntry];
+            }
+            
+            
+            if (country.length != 0){
+                [final_ADDR addObject:country];
+            }
+            
+            
+            //    NSString *address_str=[NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone : %@",,,,,,,,,];
+            
+            NSMutableString *str_TST = [[NSMutableString alloc]init];
+            for (int i = 0; i<[final_ADDR count]; i++) {
+                [str_TST appendString:[final_ADDR objectAtIndex:i]];
+            }
+            
+            NSLog(@"Testing Addr = \n%@",str_TST);
+            
+            
+            _lbl_address.text = str_TST;
+            _lbl_address.numberOfLines = 0;
+            [_lbl_address sizeToFit];
+            
+            frame_rect = _lbl_address.frame;
+            frame_rect.size.height = _lbl_address.frame.size.height;
+            _lbl_address.frame = frame_rect;
+            
+            frame_rect = _lbl_titl_payment_info.frame;
+            frame_rect.origin.y = _lbl_address.frame.origin.y + _lbl_address.frame.size.height + 10;
+            _lbl_titl_payment_info.frame = frame_rect;
+            
+            
+            _lbl_data_payment_info.text = @"Credit / Debit Card";
+            frame_rect = _lbl_data_payment_info.frame;
+            frame_rect.origin.y = _lbl_titl_payment_info.frame.origin.y + _lbl_titl_payment_info.frame.size.height + 10;
+            _lbl_data_payment_info.frame = frame_rect;
+            
+            frame_rect = _VW_line1.frame;
+            frame_rect.origin.y = _lbl_data_payment_info.frame.origin.y + _lbl_data_payment_info.frame.size.height + 10;
+            _VW_line1.frame = frame_rect;
+            
+            float orginal_width = _lbl_ticketDetail.frame.size.width;
+            
+            NSString *show = @"Winning Ticket";
+            //    NSString *place = @"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
+            NSString *ticketnumber = [temp_resp valueForKey:@"code"];
+            NSString *club_name = [[temp_resp valueForKey:@"event_name"] capitalizedString];
+            NSString *org_name = [[temp_resp valueForKey:@"organization_name"] capitalizedString];
+            NSString *qty = [NSString stringWithFormat:@"Qty : %@",[temp_resp valueForKey:@"quantity"]];
+            
+            NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@ - %@\n%@",show,org_name,ticketnumber,club_name,qty];
+            
+            text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
+            text = [text stringByReplacingOccurrencesOfString:@"(null)" withString:@"Not Mentioned"];
+            
+            // If attributed text is supported (iOS6+)
+            if ([self.lbl_ticketDetail respondsToSelector:@selector(setAttributedText:)]) {
+                
+                // Define general attributes for the entire text
+                NSDictionary *attribs = @{
+                                          NSForegroundColorAttributeName: self.lbl_ticketDetail.textColor,
+                                          NSFontAttributeName: self.lbl_ticketDetail.font
+                                          };
+                NSMutableAttributedString *attributedText =
+                [[NSMutableAttributedString alloc] initWithString:text
+                                                       attributes:attribs];
+                
+                // Red text attributes
+                //            UIColor *redColor = [UIColor redColor];
+                NSRange cmp = [text rangeOfString:show];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+                [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:17.0]}
+                                        range:cmp];
+                
+                NSRange org = [text rangeOfString:org_name];
+                [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:15.0]}
+                                        range:org];
+                
+                NSRange qt = [text rangeOfString:club_name];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+                [attributedText setAttributes:@{NSFontAttributeName:_lbl_address.font}
+                                        range:qt];
+                
+                NSRange tkt_num = [text rangeOfString:ticketnumber];
+                [attributedText setAttributes:@{NSFontAttributeName:_lbl_address.font}
+                                        range:tkt_num];
+                
+                NSRange qty_range = [text rangeOfString:qty];
+                [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:15.0]}
+                                        range:qty_range];
+                
+                self.lbl_ticketDetail.attributedText = attributedText;
+            }
+            else
+            {
+                self.lbl_ticketDetail.text = [text capitalizedString];
+            }
+            
+            self.lbl_ticketDetail.numberOfLines = 0;
+            [self.lbl_ticketDetail sizeToFit];
+            
+            frame_rect = _lbl_ticketDetail.frame;
+            frame_rect.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 5;
+            frame_rect.size.width = orginal_width;
+            _lbl_ticketDetail.frame = frame_rect;
+            
+            frame_rect = _img_icon.frame;
+            frame_rect.origin.y = _lbl_ticketDetail.frame.origin.y + 10;
+            _img_icon.frame = frame_rect;
+            
+            float chk_ht = _lbl_ticketDetail.frame.size.height;
+            frame_rect = _VW_line2.frame;
+            frame_rect.origin.y = _lbl_ticketDetail.frame.origin.y + _lbl_ticketDetail.frame.size.height + 10;
+            //    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+            //    {
+            if (chk_ht < _img_icon.frame.size.height)
+            {
+                frame_rect.origin.y = _img_icon.frame.origin.y + _img_icon.frame.size.height + 10;
+                
+                CGRect temp_frame = _lbl_ticketDetail.frame;
+                temp_frame.origin.y = _img_icon.frame.origin.y;
+                temp_frame.size.height = _img_icon.frame.size.height;
+                _lbl_ticketDetail.frame = temp_frame;
+            }
+            else
+            {
+                frame_rect.origin.y = _lbl_ticketDetail.frame.origin.y + _lbl_ticketDetail.frame.size.height + 10;
+                
+                CGRect temp_frame = _img_icon.frame;
+                temp_frame.origin.y = _lbl_ticketDetail.frame.origin.y;
+                temp_frame.size.height = _lbl_ticketDetail.frame.size.height;
+                _img_icon.frame = temp_frame;
+            }
+            //    }
+            
+            _VW_line2.frame = frame_rect;
+            
+            //    frame_rect = _img_icon.frame;
+            //    frame_rect.origin.y = _lbl_ticketDetail.frame.origin.y;
+            //    _img_icon.frame = frame_rect;
+            
+            frame_rect = _lbl_titleSubtotal.frame;
+            frame_rect.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
+            _lbl_titleSubtotal.frame = frame_rect;
+            
+            
+            
+            frame_rect = _lbl_datasubtotal.frame;
+            frame_rect.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
+            _lbl_datasubtotal.frame = frame_rect;
+            
+            frame_rect = _VW_line3.frame;
+            frame_rect.origin.y = _lbl_datasubtotal.frame.origin.y + _lbl_datasubtotal.frame.size.height + 10;
+            _VW_line3.frame = frame_rect;
+            
+            frame_rect = _lbl_titletotal.frame;
+            frame_rect.origin.y = _VW_line3.frame.origin.y + _VW_line3.frame.size.height + 10;
+            _lbl_titletotal.frame = frame_rect;
+            
+            frame_rect = _lbl_datatotal.frame;
+            frame_rect.origin.y = _VW_line3.frame.origin.y + _VW_line3.frame.size.height + 10;
+            _lbl_datatotal.frame = frame_rect;
+            
+            frame_rect = _BTN_order2.frame;
+            frame_rect.origin.y = _lbl_datatotal.frame.origin.y + _lbl_datatotal.frame.size.height + 10;
+            _BTN_order2.frame = frame_rect;
+            
+            frame_rect = _lbl_norms.frame;
+            frame_rect.origin.y = _BTN_order2.frame.origin.y + _BTN_order2.frame.size.height + 10;
+            _lbl_norms.frame = frame_rect;
+            
+            rect_content.size.height = _lbl_norms.frame.origin.y + _lbl_norms.frame.size.height + 20;
+            
+            _VW_contents.frame = rect_content;
+            
+            [_scroll_contents addSubview:_VW_contents];
         }
-        else
-       {
-           frame_rect.origin.y = _lbl_ticketDetail.frame.origin.y + _lbl_ticketDetail.frame.size.height + 10;
-           
-           CGRect temp_frame = _img_icon.frame;
-           temp_frame.origin.y = _lbl_ticketDetail.frame.origin.y;
-           temp_frame.size.height = _lbl_ticketDetail.frame.size.height;
-           _img_icon.frame = temp_frame;
-       }
-//    }
+    }
+    @catch (NSException *exception)
+    {
+        [self sessionOUT];
+    }
     
-    _VW_line2.frame = frame_rect;
-    
-//    frame_rect = _img_icon.frame;
-//    frame_rect.origin.y = _lbl_ticketDetail.frame.origin.y;
-//    _img_icon.frame = frame_rect;
-    
-    frame_rect = _lbl_titleSubtotal.frame;
-    frame_rect.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
-    _lbl_titleSubtotal.frame = frame_rect;
-    
-    
-    
-    frame_rect = _lbl_datasubtotal.frame;
-    frame_rect.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
-    _lbl_datasubtotal.frame = frame_rect;
-    
-    frame_rect = _VW_line3.frame;
-    frame_rect.origin.y = _lbl_datasubtotal.frame.origin.y + _lbl_datasubtotal.frame.size.height + 10;
-    _VW_line3.frame = frame_rect;
-    
-    frame_rect = _lbl_titletotal.frame;
-    frame_rect.origin.y = _VW_line3.frame.origin.y + _VW_line3.frame.size.height + 10;
-    _lbl_titletotal.frame = frame_rect;
-    
-    frame_rect = _lbl_datatotal.frame;
-    frame_rect.origin.y = _VW_line3.frame.origin.y + _VW_line3.frame.size.height + 10;
-    _lbl_datatotal.frame = frame_rect;
-    
-    frame_rect = _BTN_order2.frame;
-    frame_rect.origin.y = _lbl_datatotal.frame.origin.y + _lbl_datatotal.frame.size.height + 10;
-    _BTN_order2.frame = frame_rect;
-    
-    frame_rect = _lbl_norms.frame;
-    frame_rect.origin.y = _BTN_order2.frame.origin.y + _BTN_order2.frame.size.height + 10;
-    _lbl_norms.frame = frame_rect;
-    
-    rect_content.size.height = _lbl_norms.frame.origin.y + _lbl_norms.frame.size.height + 20;
-    
-    _VW_contents.frame = rect_content;
-    
-    [_scroll_contents addSubview:_VW_contents];
 }
 
 -(void) backAction
@@ -445,7 +464,25 @@
     NSMutableDictionary *dict;
     @try {
         dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults] valueForKey:@"PurchaseRESPONSE"] options:NSJSONReadingAllowFragments error:&error];
-        NSLog(@"Response from purchase controller :%@",dict);
+        
+        
+        @try
+        {
+            NSString *STR_error = [dict valueForKey:@"error"];
+            if (STR_error)
+            {
+                [self sessionOUT];
+            }
+            else
+            {
+                NSLog(@"Response from purchase controller :%@",dict);
+            }
+        }
+        @catch (NSException *exception)
+        {
+            [self sessionOUT];
+        }
+        
     }
     @catch (NSException *exception)
     {
@@ -567,13 +604,28 @@
         
         if (dict)
         {
-            if ([[dict valueForKey:@"status"] isEqualToString:@"Failure"]) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[dict valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-                [alert show];
-            }
-            else
+            @try
             {
-                [self performSegueWithIdentifier:@"purchaseidentifier" sender:self];
+                NSString *STR_error = [dict valueForKey:@"error"];
+                if (STR_error)
+                {
+                    [self sessionOUT];
+                }
+                else
+                {
+                    if ([[dict valueForKey:@"status"] isEqualToString:@"Failure"]) {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[dict valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                        [alert show];
+                    }
+                    else
+                    {
+                        [self performSegueWithIdentifier:@"purchaseidentifier" sender:self];
+                    }
+                }
+            }
+            @catch (NSException *exception)
+            {
+                [self sessionOUT];
             }
         }
         else
@@ -592,4 +644,14 @@
     }
 }
 
+#pragma mark - Session OUT
+- (void) sessionOUT
+{
+    ViewController *tncView = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
+    [tncView setModalInPopover:YES];
+    [tncView setModalPresentationStyle:UIModalPresentationFormSheet];
+    [tncView setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    
+    [self presentViewController:tncView animated:YES completion:NULL];
+}
 @end

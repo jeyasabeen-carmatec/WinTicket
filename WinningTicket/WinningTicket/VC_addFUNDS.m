@@ -10,6 +10,7 @@
 #import "ADD_Funds_CollectionViewCell.h"
 //#import "DGActivityIndicatorView.h"
 //#import "DejalActivityView.h"
+#import "ViewController.h"
 
 
 
@@ -300,7 +301,7 @@
     VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     VW_overlay.clipsToBounds = YES;
-    VW_overlay.layer.cornerRadius = 10.0;
+//    VW_overlay.layer.cornerRadius = 10.0;
     
     activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
@@ -568,6 +569,7 @@
 {
     if(textField == _TXT_amount)
     {
+        amount_str = @"";
         _TXT_amount.text=@"";
         _TXT_amount.placeholder=@"0.00";
         
@@ -795,72 +797,90 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
         
         NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         
-        NSLog(@"Client Token = %@",[dict valueForKey:@"client_token"]);
-        
-        VW_overlay.hidden = YES;
-        [activityIndicatorView stopAnimating];
-        
-        
-       /* self.braintree = [Braintree braintreeWithClientToken:[dict valueForKey:@"client_token"]];
-        NSLog(@"dddd = %@",self.braintree);
-        
-        BTDropInViewController *dropInViewController = [self.braintree dropInViewControllerWithDelegate:self];
-        // This is where you might want to customize your Drop in. (See below.)
-        
-        // The way you present your BTDropInViewController instance is up to you.
-        // In this example, we wrap it in a new, modally presented navigation controller:
-        dropInViewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-                                                                                                              target:self
-                                                                                                              action:@selector(userDidCancelPayment)];
-        dropInViewController.view.tintColor = _ADD_funds.backgroundColor;
-        
-        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:dropInViewController];
-        UIImage *new_image = [UIImage imageNamed:@"UI_01"];
-        UIImageView *temp_IMG = [[UIImageView alloc]initWithFrame:navigationController.navigationBar.frame];
-        temp_IMG.image = new_image;
-        
-        UIImage *newImage = [temp_IMG.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        UIGraphicsBeginImageContextWithOptions(temp_IMG.image.size, NO, newImage.scale);
-        [[UIColor blackColor] set];
-        [newImage drawInRect:CGRectMake(0, 0, temp_IMG.image.size.width, newImage.size.height)];
-        newImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        
-        temp_IMG.image = newImage;
-        
-        [navigationController.navigationBar setBackgroundImage:temp_IMG.image
-                                                 forBarMetrics:UIBarMetricsDefault];
-        navigationController.navigationBar.shadowImage = [UIImage new];
-        navigationController.navigationBar.tintColor = [UIColor whiteColor];
-        
-        [self presentViewController:navigationController animated:YES completion:nil];*/
-        
         @try
         {
-            BTDropInRequest *request = [[BTDropInRequest alloc] init];
-            BTDropInController *dropIn = [[BTDropInController alloc] initWithAuthorization:[dict valueForKey:@"client_token"] request:request handler:^(BTDropInController * _Nonnull controller, BTDropInResult * _Nullable result, NSError * _Nullable error) {
+            NSString *STR_error = [dict valueForKey:@"error"];
+            if (STR_error)
+            {
+                [self sessionOUT];
+            }
+            else
+            {
+                NSLog(@"Client Token = %@",[dict valueForKey:@"client_token"]);
                 
-                if (error != nil) {
-                    NSLog(@"ERROR");
-                } else if (result.cancelled) {
-                    NSLog(@"CANCELLED");
-                    [self dismissViewControllerAnimated:YES completion:NULL];
-                } else {
-//                    [self performSelector:@selector(dismiss_BT)
-//                               withObject:nil
-//                               afterDelay:0.0];
-                    [self postNonceToServer:result.paymentMethod.nonce];
+                VW_overlay.hidden = YES;
+                [activityIndicatorView stopAnimating];
+                
+                
+                /* self.braintree = [Braintree braintreeWithClientToken:[dict valueForKey:@"client_token"]];
+                 NSLog(@"dddd = %@",self.braintree);
+                 
+                 BTDropInViewController *dropInViewController = [self.braintree dropInViewControllerWithDelegate:self];
+                 // This is where you might want to customize your Drop in. (See below.)
+                 
+                 // The way you present your BTDropInViewController instance is up to you.
+                 // In this example, we wrap it in a new, modally presented navigation controller:
+                 dropInViewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                 target:self
+                 action:@selector(userDidCancelPayment)];
+                 dropInViewController.view.tintColor = _ADD_funds.backgroundColor;
+                 
+                 UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:dropInViewController];
+                 UIImage *new_image = [UIImage imageNamed:@"UI_01"];
+                 UIImageView *temp_IMG = [[UIImageView alloc]initWithFrame:navigationController.navigationBar.frame];
+                 temp_IMG.image = new_image;
+                 
+                 UIImage *newImage = [temp_IMG.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                 UIGraphicsBeginImageContextWithOptions(temp_IMG.image.size, NO, newImage.scale);
+                 [[UIColor blackColor] set];
+                 [newImage drawInRect:CGRectMake(0, 0, temp_IMG.image.size.width, newImage.size.height)];
+                 newImage = UIGraphicsGetImageFromCurrentImageContext();
+                 UIGraphicsEndImageContext();
+                 
+                 temp_IMG.image = newImage;
+                 
+                 [navigationController.navigationBar setBackgroundImage:temp_IMG.image
+                 forBarMetrics:UIBarMetricsDefault];
+                 navigationController.navigationBar.shadowImage = [UIImage new];
+                 navigationController.navigationBar.tintColor = [UIColor whiteColor];
+                 
+                 [self presentViewController:navigationController animated:YES completion:nil];*/
+                
+                @try
+                {
+                    BTDropInRequest *request = [[BTDropInRequest alloc] init];
+                    BTDropInController *dropIn = [[BTDropInController alloc] initWithAuthorization:[dict valueForKey:@"client_token"] request:request handler:^(BTDropInController * _Nonnull controller, BTDropInResult * _Nullable result, NSError * _Nullable error) {
+                        
+                        if (error != nil) {
+                            NSLog(@"ERROR");
+                        } else if (result.cancelled) {
+                            NSLog(@"CANCELLED");
+                            [self dismissViewControllerAnimated:YES completion:NULL];
+                        } else {
+                            //                    [self performSelector:@selector(dismiss_BT)
+                            //                               withObject:nil
+                            //                               afterDelay:0.0];
+                            [self postNonceToServer:result.paymentMethod.nonce];
+                        }
+                    }];
+                    [self presentViewController:dropIn animated:YES completion:nil];
                 }
-            }];
-            [self presentViewController:dropIn animated:YES completion:nil];
+                @catch (NSException *exception)
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                    [alert show];
+                }
+            }
         }
         @catch (NSException *exception)
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-            [alert show];
+            [self sessionOUT];
         }
-        
-        
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Conncetion failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
     }
 }
 -(void) dismiss_BT
@@ -913,23 +933,39 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
     {
         NSMutableDictionary *json_DATA_one = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"Data from Donate VC generate client TOK : \n%@",json_DATA_one);
-        NSString *str = [json_DATA_one valueForKey:@"status"];
-        NSString *error = [json_DATA_one valueForKey:@"error"];
-        if([str isEqualToString:@"Failure"])
+        
+        @try
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-            [alert show];
+            NSString *STR_error = [json_DATA_one valueForKey:@"error"];
+            if (STR_error)
+            {
+                [self sessionOUT];
+            }
+            else
+            {
+                NSString *str = [json_DATA_one valueForKey:@"status"];
+                NSString *error = [json_DATA_one valueForKey:@"error"];
+                if([str isEqualToString:@"Failure"])
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                    [alert show];
+                }
+                else if(error)
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                    [alert show];
+                }
+                else
+                {
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:@"Funds added successfully" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                    [alert show];
+                }
+            }
         }
-        else if(error)
+        @catch (NSException *exception)
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-            [alert show];
-        }
-        else
-        {
-            [self dismissViewControllerAnimated:YES completion:nil];
-            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"" message:@"Funds added successfully" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-            [alert show];
+            [self sessionOUT];
         }
     }
     [activityIndicatorView stopAnimating];
@@ -939,36 +975,16 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
 
 -(void)add_funds_tapped
 {
-    NSString *temp_str;
-    if([amount_str isEqualToString:@""] && _TXT_amount.text.length > 0 )
-    {
-        temp_str = _TXT_amount.text;
-        temp_str = [temp_str stringByReplacingOccurrencesOfString:@"," withString:@""];
-        int i=[temp_str intValue];
-        NSLog(@"Temporoary string:%i",i);
-//        if(i < [[asc_denomarr valueForKeyPath:@"@max.intValue"] intValue])
-//        {
-            _TXT_amount.placeholder=@"0.00";
-            //        UIAlertController  *alertControllerAction = [UIAlertController alertControllerWithTitle:@"" message:@"Amount Should be Grater than Maximum." preferredStyle:UIAlertControllerStyleAlert];
-            //        UIAlertAction *okaction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            //
-            //
-            //        }];
-            //        [alertControllerAction addAction:okaction];
-            //
-            //        [self presentViewController:alertControllerAction animated:YES completion:nil];
-//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"Please enter an amount greater than %d",[[asc_denomarr valueForKeyPath:@"@max.intValue"] intValue]] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-//            [alert show];
-//        }
-//        else
-//        {
-            VW_overlay.hidden=NO;
-            [activityIndicatorView startAnimating];
-            [self performSelector:@selector(get_client_TOKEN) withObject:activityIndicatorView afterDelay:0.01];
-            
-//        }
+    NSString *temp_str = _TXT_amount.text;
+    
+//    NSLog(@"Amount Str = %@",amount_str);
+    
+    if (![amount_str isEqualToString:@""]) {
+        VW_overlay.hidden=NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(get_client_TOKEN) withObject:activityIndicatorView afterDelay:0.01];
     }
-    else if(amount_str.length > 0  && [_TXT_amount.text isEqualToString:@"0.00"])
+    else if(![amount_str isEqualToString:@""]  && ![temp_str isEqualToString:@"0.00"])
     {
         
         // temp_str=amount_str;
@@ -995,11 +1011,17 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
         
         //}
     }
-    else if(amount_str.length == 0  && ([_TXT_amount.text isEqualToString:@"0.00"] || [_TXT_amount.text isEqualToString:@" 0.00"]))
+    else if(amount_str.length == 0  &&  [_TXT_amount.text isEqualToString:@" 0.00"])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please Enter Any amount" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
         [_TXT_amount becomeFirstResponder];
+    }
+    else
+    {
+        VW_overlay.hidden=NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(get_client_TOKEN) withObject:activityIndicatorView afterDelay:0.01];
     }
 }
 -(void)myaccount_API_calling
@@ -1100,5 +1122,16 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
 //
 //    
 //}
+
+#pragma mark - Session OUT
+- (void) sessionOUT
+{
+    ViewController *tncView = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
+    [tncView setModalInPopover:YES];
+    [tncView setModalPresentationStyle:UIModalPresentationFormSheet];
+    [tncView setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    
+    [self presentViewController:tncView animated:YES completion:NULL];
+}
 
 @end

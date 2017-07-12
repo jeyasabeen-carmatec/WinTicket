@@ -10,6 +10,8 @@
 #import "cellACCOUNTS.h"
 //#import "DGActivityIndicatorView.h"
 
+#import "ViewController.h"
+
 #pragma mark - Image Cache
 #import "SDWebImage/UIImageView+WebCache.h"
 
@@ -52,7 +54,7 @@
     VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     VW_overlay.clipsToBounds = YES;
-    VW_overlay.layer.cornerRadius = 10.0;
+//    VW_overlay.layer.cornerRadius = 10.0;
     
     activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
@@ -565,10 +567,26 @@
         VW_overlay.hidden = YES;
         [activityIndicatorView stopAnimating];
         NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-        [[NSUserDefaults standardUserDefaults] setValue:json_DATA forKey:@"denom_collection"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        NSLog(@"The response get_Denominations VC Accounts %@",json_DATA);
-        [self performSegueWithIdentifier:@"accountstofundsidentifier" sender:self];
+        
+        @try
+        {
+            NSString *STR_error = [json_DATA valueForKey:@"error"];
+            if (STR_error)
+            {
+                [self sessionOUT];
+            }
+            else
+            {
+                [[NSUserDefaults standardUserDefaults] setValue:json_DATA forKey:@"denom_collection"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                NSLog(@"The response get_Denominations VC Accounts %@",json_DATA);
+                [self performSegueWithIdentifier:@"accountstofundsidentifier" sender:self];
+            }
+        }
+        @catch (NSException *exception)
+        {
+            [self sessionOUT];
+        }
     }
     else
     {
@@ -598,9 +616,28 @@
         VW_overlay.hidden = YES;
         NSMutableDictionary *json_DICTIn = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"oraganisations dictionary is:%@",json_DICTIn);
-        [[NSUserDefaults standardUserDefaults] setValue:json_DICTIn forKey:@"eventsStored"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        [self performSegueWithIdentifier:@"accountstodateidentifier" sender:self];
+        
+        
+        @try
+        {
+            NSString *STR_error = [json_DICTIn valueForKey:@"error"];
+            if (STR_error)
+            {
+                [self sessionOUT];
+            }
+            else
+            {
+                [[NSUserDefaults standardUserDefaults] setValue:json_DICTIn forKey:@"eventsStored"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                [self performSegueWithIdentifier:@"accountstodateidentifier" sender:self];
+            }
+        }
+        @catch (NSException *exception)
+        {
+            [self sessionOUT];
+        }
+        
+        
     }
     else
     {
@@ -685,25 +722,40 @@
         NSMutableDictionary *account_data=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:PFData options:NSASCIIStringEncoding error:&error];
         NSLog(@"the user data is:%@",account_data);
         
-        NSDictionary *temp_dict=[account_data valueForKey:@"user"];
-        NSString *name_STR = [NSString stringWithFormat:@"%@ %@",[temp_dict valueForKey:@"first_name"],[temp_dict valueForKey:@"last_name"]];
-        name_STR = [name_STR stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-        name_STR = [name_STR stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-        
-        self.first_name.text = name_STR;
-        [self.first_name sizeToFit];
-        self.last_name.text=[temp_dict valueForKey:@"email"];
-        [self.last_name sizeToFit];
-        NSString *amount=[NSString stringWithFormat:@"%.2f",[[account_data valueForKey:@"wallet"] floatValue]];
-        self.amount.text =[NSString stringWithFormat:@"$%@",amount];
-        
-        NSLog(@"Image Url is %@",[NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_dict valueForKey:@"avatar_url"]]);
-        
-        @try {
-            [_img_profile sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_dict valueForKey:@"avatar_url"]]]
-                            placeholderImage:[UIImage imageNamed:@"profile_pic.png"]];
-        } @catch (NSException *exception) {
-            NSLog(@"Exception");
+        @try
+        {
+            NSString *STR_error = [account_data valueForKey:@"error"];
+            if (STR_error)
+            {
+                [self sessionOUT];
+            }
+            else
+            {
+                NSDictionary *temp_dict=[account_data valueForKey:@"user"];
+                NSString *name_STR = [NSString stringWithFormat:@"%@ %@",[temp_dict valueForKey:@"first_name"],[temp_dict valueForKey:@"last_name"]];
+                name_STR = [name_STR stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+                name_STR = [name_STR stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+                
+                self.first_name.text = name_STR;
+                [self.first_name sizeToFit];
+                self.last_name.text=[temp_dict valueForKey:@"email"];
+                [self.last_name sizeToFit];
+                NSString *amount=[NSString stringWithFormat:@"%.2f",[[account_data valueForKey:@"wallet"] floatValue]];
+                self.amount.text =[NSString stringWithFormat:@"$%@",amount];
+                
+                NSLog(@"Image Url is %@",[NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_dict valueForKey:@"avatar_url"]]);
+                
+                @try {
+                    [_img_profile sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_dict valueForKey:@"avatar_url"]]]
+                                    placeholderImage:[UIImage imageNamed:@"profile_pic.png"]];
+                } @catch (NSException *exception) {
+                    NSLog(@"Exception");
+                }
+            }
+        }
+        @catch (NSException *exception)
+        {
+            [self sessionOUT];
         }
     }
     
@@ -793,6 +845,17 @@
             [self performSelector:@selector(log_OUTAPI) withObject:activityIndicatorView afterDelay:0.01];
         }
     }
+}
+
+#pragma mark - Session OUT
+- (void) sessionOUT
+{
+    ViewController *tncView = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
+    [tncView setModalInPopover:YES];
+    [tncView setModalPresentationStyle:UIModalPresentationFormSheet];
+    [tncView setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    
+    [self presentViewController:tncView animated:YES completion:NULL];
 }
 
 @end

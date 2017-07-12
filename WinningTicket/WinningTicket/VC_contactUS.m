@@ -9,6 +9,8 @@
 #import "VC_contactUS.h"
 //#import "DGActivityIndicatorView.h"
 
+#import "ViewController.h"
+
 
 @interface VC_contactUS ()<UITextFieldDelegate,UITextViewDelegate,UIAlertViewDelegate>
 {
@@ -110,7 +112,7 @@
     VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     VW_overlay.clipsToBounds = YES;
-    VW_overlay.layer.cornerRadius = 10.0;
+//    VW_overlay.layer.cornerRadius = 10.0;
     
     activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
@@ -357,9 +359,6 @@
                                   @"phone": phone_num };
     
     
-//    self->activityIndicatorView.hidden=NO;
-//    [self->activityIndicatorView startAnimating];
-//    [self.view addSubview:activityIndicatorView];
     NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&error];
     
     
@@ -379,32 +378,45 @@
     {
         NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"The response %@",json_DATA);
-        NSString *status=[json_DATA valueForKey:@"status"];
-        if([status isEqualToString:@"Success"])
+        
+        @try
         {
-            [activityIndicatorView stopAnimating];
-            VW_overlay.hidden = YES;
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Thank you. We aim to respond to your request within 48 hours." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-            [alert show];
-            [self dismissViewControllerAnimated:YES completion:nil];
-            
+            NSString *STR_error = [json_DATA valueForKey:@"error"];
+            if (STR_error)
+            {
+                [self sessionOUT];
+            }
+            else
+            {
+                NSString *status=[json_DATA valueForKey:@"status"];
+                if([status isEqualToString:@"Success"])
+                {
+                    [activityIndicatorView stopAnimating];
+                    VW_overlay.hidden = YES;
+                    
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Thank you. We aim to respond to your request within 48 hours." delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                    [alert show];
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                    
+                }
+                else
+                {
+                    
+                    [activityIndicatorView stopAnimating];
+                    VW_overlay.hidden = YES;
+                    
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please Check the Details" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                    [alert show];
+                    
+                    
+                }
+            }
         }
-        else
+        @catch (NSException *exception)
         {
-            
-            [activityIndicatorView stopAnimating];
-            VW_overlay.hidden = YES;
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please Check the Details" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-            [alert show];
-        
-        
-         }
+            [self sessionOUT];
+        }
       }
-    
-    
-    
     else
     {
         
@@ -423,6 +435,16 @@
 //    }
 //}
 
+#pragma mark - Session OUT
+- (void) sessionOUT
+{
+    ViewController *tncView = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
+    [tncView setModalInPopover:YES];
+    [tncView setModalPresentationStyle:UIModalPresentationFormSheet];
+    [tncView setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    
+    [self presentViewController:tncView animated:YES completion:NULL];
+}
 
 
 @end

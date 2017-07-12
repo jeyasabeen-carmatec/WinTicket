@@ -10,6 +10,7 @@
 #import "purchase_Cell.h"
 //#import "DejalActivityView.h"
 //#import "DGActivityIndicatorView.h"
+#import "ViewController.h"
 
 @interface VC_qty_detail ()
 {
@@ -212,44 +213,59 @@
     NSError *error;
     NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"QUANTITY"] options:NSASCIIStringEncoding error:&error];
     
-    NSError *err;
-    NSHTTPURLResponse *response = nil;
-    NSDictionary *parameters = @{ @"recipients": userDetails, @"order_item" : @{ @"id":[dict valueForKey:@"order_item_id"]}};
-    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
-    
-    NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&err];
-    NSString *urlGetuser = [NSString stringWithFormat:@"%@events/create_update_recipients",SERVER_URL];
-    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:urlProducts];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
-    [request setHTTPBody:postData];
-    [request setHTTPShouldHandleCookies:NO];
-    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    if (aData)
+    @try
     {
-        [activityIndicatorView stopAnimating];
-        VW_overlay.hidden = YES;
-        dict = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-        NSLog(@"Updated Status %@",dict);
-        
-        if ([[dict valueForKey:@"message"] isEqualToString:@"Recipient(s) created/updated successfully."]) {
-            [self performSegueWithIdentifier:@"qtydetailtoplaceorder" sender:self];
+        NSString *STR_error = [dict valueForKey:@"error"];
+        if (STR_error)
+        {
+            [self sessionOUT];
         }
         else
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-            [alert show];
+            NSError *err;
+            NSHTTPURLResponse *response = nil;
+            NSDictionary *parameters = @{ @"recipients": userDetails, @"order_item" : @{ @"id":[dict valueForKey:@"order_item_id"]}};
+            NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+            
+            NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&err];
+            NSString *urlGetuser = [NSString stringWithFormat:@"%@events/create_update_recipients",SERVER_URL];
+            NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+            NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+            [request setURL:urlProducts];
+            [request setHTTPMethod:@"POST"];
+            [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+            [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+            [request setHTTPBody:postData];
+            [request setHTTPShouldHandleCookies:NO];
+            NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+            if (aData)
+            {
+                [activityIndicatorView stopAnimating];
+                VW_overlay.hidden = YES;
+                dict = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+                NSLog(@"Updated Status %@",dict);
+                
+                if ([[dict valueForKey:@"message"] isEqualToString:@"Recipient(s) created/updated successfully."]) {
+                    [self performSegueWithIdentifier:@"qtydetailtoplaceorder" sender:self];
+                }
+                else
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                    [alert show];
+                }
+            }
+            else
+            {
+                [activityIndicatorView stopAnimating];
+                VW_overlay.hidden = YES;
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                [alert show];
+            }
         }
     }
-    else
+    @catch (NSException *exception)
     {
-        [activityIndicatorView stopAnimating];
-        VW_overlay.hidden = YES;
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-        [alert show];
+        [self sessionOUT];
     }
 }
 
@@ -260,7 +276,7 @@
     VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     VW_overlay.clipsToBounds = YES;
-    VW_overlay.layer.cornerRadius = 10.0;
+//    VW_overlay.layer.cornerRadius = 10.0;
     
     activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
@@ -289,136 +305,153 @@
     
     NSError *error;
     NSMutableDictionary *dict1 = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
-    NSMutableDictionary *temp_dictin=[dict1 valueForKey:@"event"];
-    
-    NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"QUANTITY"] options:NSASCIIStringEncoding error:&error];
-    
-    _lbl_amount_des.text = [NSString stringWithFormat:@"$%.2f",[[dict1 valueForKey:@"price"] floatValue]];
-    _lbl_sub_amount.text = [NSString stringWithFormat:@"$%.2f",[[dict1 valueForKey:@"price"] floatValue] * [[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"]] intValue]];
-    _lbl_total_amount.text = _lbl_sub_amount.text;
     
     
-    self.lbl_name_ticket.text=@"Winning Ticket";
-    int qtynum = [[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"]]intValue];
-    self.lbl_qty.text=[NSString stringWithFormat:@"Qty:%d",qtynum];
-    
-//    NSString *show = @"Winning Ticket";
-//    NSString *place = [NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"location"]];//@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
-//    if(!place)
-//    {
-//        place=@"Notmentioned";
-//    }
-//    else
-//    {
-//        place=@"Notmentioned";
-//        
-//    }
-    //    place = [place stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
-    NSString *ticketnumber = [temp_dictin valueForKey:@"code"];
-    NSString *club_name = [[temp_dictin valueForKey:@"name"] capitalizedString];
-    NSString *org_name = [[temp_dictin valueForKey:@"organization_name"] capitalizedString];
-    
-    NSString *text = [NSString stringWithFormat:@"%@\n%@ - %@",org_name,ticketnumber,club_name];
-    
-    text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
-    
-    
-    if ([self.lbl_des_cription respondsToSelector:@selector(setAttributedText:)])
+    @try
     {
-        NSDictionary *attribs = @{
-                                  NSForegroundColorAttributeName: self.lbl_des_cription.textColor,
-                                  NSFontAttributeName: self.lbl_des_cription.font
-                                  };
-        NSMutableAttributedString *attributedText =
-        [[NSMutableAttributedString alloc] initWithString:text
-                                               attributes:attribs];
-        
-        NSRange org = [text rangeOfString:org_name];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:17.0]}range:org];
-        
-        NSRange plce = [text rangeOfString:club_name];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:15.0]}range:plce];
-        
-        NSRange codeR = [text rangeOfString:ticketnumber];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:15.0]}range:codeR];
-        
-        self.lbl_des_cription.attributedText = attributedText;
-    }
-    else
-    {
-        self.lbl_des_cription.text = [text capitalizedString];
-    }
-    
-    _lbl_des_cription.numberOfLines = 0;
-    [_lbl_des_cription sizeToFit];
-    
-    CGRect frame_NEW;
-    frame_NEW=_lbl_amount_des.frame;
-    frame_NEW.origin.y=_lbl_des_cription.frame.origin.y;
-    _lbl_amount_des.frame=frame_NEW;
-    
-    frame_NEW = _VW_line1.frame;
-    frame_NEW.origin.y = _lbl_des_cription.frame.origin.y + _lbl_des_cription.frame.size.height + 10;
-    _VW_line1.frame = frame_NEW;
-    
-    frame_NEW = _lbl_sub_total.frame;
-    frame_NEW.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
-    _lbl_sub_total.frame = frame_NEW;
-    
-    frame_NEW = _lbl_sub_amount.frame;
-    frame_NEW.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
-    _lbl_sub_amount.frame = frame_NEW;
-    
-    frame_NEW = _VW_line2.frame;
-    frame_NEW.origin.y = _lbl_sub_total.frame.origin.y + _lbl_sub_total.frame.size.height + 10;
-    _VW_line2.frame = frame_NEW;
-    
-    frame_NEW = _lbl_total.frame;
-    frame_NEW.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
-    _lbl_total.frame = frame_NEW;
-    
-    frame_NEW = _lbl_total_amount.frame;
-    frame_NEW.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
-    _lbl_total_amount.frame = frame_NEW;
-    
-    frame_NEW = _VW_main.frame;
-    frame_NEW.size.height = _lbl_total.frame.origin.y + _lbl_total.frame.size.height + 15;
-    _VW_main.frame = frame_NEW;
-    
-    [_scroll_TBL addSubview:_VW_main];
-    
-    frame_NEW = _tbl_content.frame;
-    frame_NEW.origin.y = _VW_main.frame.origin.y + _VW_main.frame.size.height + 10;
-//    frame_NEW.size.height = [_tbl_content contentSize].height;
-    _tbl_content.frame = frame_NEW;
-    
-//    CGRect frame_NN = _tbl_content.frame;
-//    frame_NN.size.height = [_tbl_content contentSize].height;
-//    _tbl_content.frame = frame_NN;
-    
-    [_scroll_TBL addSubview:_tbl_content];
-
-//    NSError *error;
-//    NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"QUANTITY"] options:NSASCIIStringEncoding error:&error];
-    
-    NSLog(@"The value stored is %@",dict);
-    t = [[dict valueForKey:@"quantity"] intValue];
-    
-    
-    
-    userDetails = [[NSMutableArray alloc] init];
-    if (t-1 != 0)
-    {
-        for(int i=0; i < t-1; i++)
+        NSString *STR_error = [dict1 valueForKey:@"error"];
+        if (STR_error)
         {
-            NSDictionary *userDictionary = [[NSDictionary alloc] initWithObjectsAndKeys: @"", @"first_name", @"", @"last_name",@"", @"email", nil];
-            [userDetails addObject:userDictionary];
+            [self sessionOUT];
+        }
+        else
+        {
+            NSMutableDictionary *temp_dictin=[dict1 valueForKey:@"event"];
+            
+            NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"QUANTITY"] options:NSASCIIStringEncoding error:&error];
+            
+            _lbl_amount_des.text = [NSString stringWithFormat:@"$%.2f",[[dict1 valueForKey:@"price"] floatValue]];
+            _lbl_sub_amount.text = [NSString stringWithFormat:@"$%.2f",[[dict1 valueForKey:@"price"] floatValue] * [[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"]] intValue]];
+            _lbl_total_amount.text = _lbl_sub_amount.text;
+            
+            
+            self.lbl_name_ticket.text=@"Winning Ticket";
+            int qtynum = [[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"]]intValue];
+            self.lbl_qty.text=[NSString stringWithFormat:@"Qty:%d",qtynum];
+            
+            //    NSString *show = @"Winning Ticket";
+            //    NSString *place = [NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"location"]];//@"Make A Wish Foundation of Central Florida’s 4th Annual Golf Event";
+            //    if(!place)
+            //    {
+            //        place=@"Notmentioned";
+            //    }
+            //    else
+            //    {
+            //        place=@"Notmentioned";
+            //
+            //    }
+            //    place = [place stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
+            NSString *ticketnumber = [temp_dictin valueForKey:@"code"];
+            NSString *club_name = [[temp_dictin valueForKey:@"name"] capitalizedString];
+            NSString *org_name = [[temp_dictin valueForKey:@"organization_name"] capitalizedString];
+            
+            NSString *text = [NSString stringWithFormat:@"%@\n%@ - %@",org_name,ticketnumber,club_name];
+            
+            text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
+            
+            
+            if ([self.lbl_des_cription respondsToSelector:@selector(setAttributedText:)])
+            {
+                NSDictionary *attribs = @{
+                                          NSForegroundColorAttributeName: self.lbl_des_cription.textColor,
+                                          NSFontAttributeName: self.lbl_des_cription.font
+                                          };
+                NSMutableAttributedString *attributedText =
+                [[NSMutableAttributedString alloc] initWithString:text
+                                                       attributes:attribs];
+                
+                NSRange org = [text rangeOfString:org_name];
+                [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:17.0]}range:org];
+                
+                NSRange plce = [text rangeOfString:club_name];
+                [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:15.0]}range:plce];
+                
+                NSRange codeR = [text rangeOfString:ticketnumber];
+                [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:15.0]}range:codeR];
+                
+                self.lbl_des_cription.attributedText = attributedText;
+            }
+            else
+            {
+                self.lbl_des_cription.text = [text capitalizedString];
+            }
+            
+            _lbl_des_cription.numberOfLines = 0;
+            [_lbl_des_cription sizeToFit];
+            
+            CGRect frame_NEW;
+            frame_NEW=_lbl_amount_des.frame;
+            frame_NEW.origin.y=_lbl_des_cription.frame.origin.y;
+            _lbl_amount_des.frame=frame_NEW;
+            
+            frame_NEW = _VW_line1.frame;
+            frame_NEW.origin.y = _lbl_des_cription.frame.origin.y + _lbl_des_cription.frame.size.height + 10;
+            _VW_line1.frame = frame_NEW;
+            
+            frame_NEW = _lbl_sub_total.frame;
+            frame_NEW.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
+            _lbl_sub_total.frame = frame_NEW;
+            
+            frame_NEW = _lbl_sub_amount.frame;
+            frame_NEW.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
+            _lbl_sub_amount.frame = frame_NEW;
+            
+            frame_NEW = _VW_line2.frame;
+            frame_NEW.origin.y = _lbl_sub_total.frame.origin.y + _lbl_sub_total.frame.size.height + 10;
+            _VW_line2.frame = frame_NEW;
+            
+            frame_NEW = _lbl_total.frame;
+            frame_NEW.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
+            _lbl_total.frame = frame_NEW;
+            
+            frame_NEW = _lbl_total_amount.frame;
+            frame_NEW.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
+            _lbl_total_amount.frame = frame_NEW;
+            
+            frame_NEW = _VW_main.frame;
+            frame_NEW.size.height = _lbl_total.frame.origin.y + _lbl_total.frame.size.height + 15;
+            _VW_main.frame = frame_NEW;
+            
+            [_scroll_TBL addSubview:_VW_main];
+            
+            frame_NEW = _tbl_content.frame;
+            frame_NEW.origin.y = _VW_main.frame.origin.y + _VW_main.frame.size.height + 10;
+            //    frame_NEW.size.height = [_tbl_content contentSize].height;
+            _tbl_content.frame = frame_NEW;
+            
+            //    CGRect frame_NN = _tbl_content.frame;
+            //    frame_NN.size.height = [_tbl_content contentSize].height;
+            //    _tbl_content.frame = frame_NN;
+            
+            [_scroll_TBL addSubview:_tbl_content];
+            
+            //    NSError *error;
+            //    NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"QUANTITY"] options:NSASCIIStringEncoding error:&error];
+            
+            NSLog(@"The value stored is %@",dict);
+            t = [[dict valueForKey:@"quantity"] intValue];
+            
+            
+            
+            userDetails = [[NSMutableArray alloc] init];
+            if (t-1 != 0)
+            {
+                for(int i=0; i < t-1; i++)
+                {
+                    NSDictionary *userDictionary = [[NSDictionary alloc] initWithObjectsAndKeys: @"", @"first_name", @"", @"last_name",@"", @"email", nil];
+                    [userDetails addObject:userDictionary];
+                }
+            }
+            
+            [_tbl_content reloadData];
+            _tbl_content.scrollEnabled = NO;
+            [_BTN_checkout addTarget:self action:@selector(button_TAPPed) forControlEvents:UIControlEventTouchUpInside];
         }
     }
-    
-    [_tbl_content reloadData];
-    _tbl_content.scrollEnabled = NO;
-    [_BTN_checkout addTarget:self action:@selector(button_TAPPed) forControlEvents:UIControlEventTouchUpInside];
+    @catch (NSException *exception)
+    {
+        [self sessionOUT];
+    }
 }
 
 #pragma mark - Uitableview datasource/deligate
@@ -478,7 +511,7 @@
     [pu_cell.email setTag:indexPath.row];
     [pu_cell.email addTarget:self action:@selector(TXT_Email:) forControlEvents:UIControlEventEditingChanged];
     
-    pu_cell.stat_lbl.text=[NSString stringWithFormat:@"Extra Ticket  %ld",indexPath.row + 1];
+    pu_cell.stat_lbl.text=[NSString stringWithFormat:@"Extra Ticket  %d",indexPath.row + 1];
     
     return pu_cell;
 }
@@ -745,6 +778,15 @@
     [super dealloc];
 }
 
-
+#pragma mark - Session OUT
+- (void) sessionOUT
+{
+    ViewController *tncView = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
+    [tncView setModalInPopover:YES];
+    [tncView setModalPresentationStyle:UIModalPresentationFormSheet];
+    [tncView setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    
+    [self presentViewController:tncView animated:YES completion:NULL];
+}
 
 @end

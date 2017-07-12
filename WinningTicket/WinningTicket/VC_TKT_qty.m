@@ -9,6 +9,7 @@
 #import "VC_TKT_qty.h"
 //#import "DejalActivityView.h"
 //#import "DGActivityIndicatorView.h"
+#import "ViewController.h"
 
 @interface VC_TKT_qty ()
 {
@@ -106,7 +107,7 @@
     VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     VW_overlay.clipsToBounds = YES;
-    VW_overlay.layer.cornerRadius = 10.0;
+//    VW_overlay.layer.cornerRadius = 10.0;
     
     activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
@@ -138,188 +139,203 @@
     NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
     NSLog(@"thedata is Upcoming:%@",dict);
     
-    NSDictionary *temp_dict=[dict valueForKey:@"event"];
-
-    
-    [_scroll_contents addSubview:_VW_qtycontent];
-    [_scroll_contents addSubview:_VW_line1];
-    [_scroll_contents addSubview:_VW_line2];
-    [_scroll_contents addSubview:_VW_promo];
-    
-    NSString *location=[NSString stringWithFormat:@"%@",[temp_dict valueForKey:@"location"]];
-    if([location isEqualToString:@"<null>"])
+    @try
     {
-            location=@"Not mentioned";
-    }
-    _TXT_qty.text = @"1";
-    NSString *show = @"Winning Ticket";
-    NSString *place = [[temp_dict valueForKey:@"name"] capitalizedString];
-    NSString *org_name = [[temp_dict valueForKey:@"organization_name"] capitalizedString];
-    NSString *ticketnumber = [temp_dict  valueForKey:@"code"];
-    
-    NSString *STR_tkt_num_club = [NSString stringWithFormat:@"%@ - %@",ticketnumber,place];
-    
-    _lbl_price.text=[NSString stringWithFormat:@"$%.02f",[[dict valueForKey:@"price"] floatValue]];
-    
-    NSArray *arr = [_lbl_price.text componentsSeparatedByString:@"$"];
-    _lbl_dataTotal.text = [NSString stringWithFormat:@"$%.02f",[_TXT_qty.text floatValue] * [[arr objectAtIndex:1] floatValue]];
-    _lbl_datasubtotal.text = [NSString stringWithFormat:@"$%.02f",[_TXT_qty.text floatValue] * [[arr objectAtIndex:1] floatValue]];
-    
-    NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@",show,org_name,STR_tkt_num_club];
-    
-    text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
-    text = [text stringByReplacingOccurrencesOfString:@"(null)" withString:@"Not Mentioned"];
-    
-    // If attributed text is supported (iOS6+)
-    if ([self.lbl_ticketdetail respondsToSelector:@selector(setAttributedText:)]) {
-        
-        // Define general attributes for the entire text
-        
-        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        paragraphStyle.alignment = _lbl_ticketdetail.textAlignment;
-        
-        NSDictionary *attribs = @{
-                                  NSForegroundColorAttributeName: self.lbl_ticketdetail.textColor,
-                                  NSFontAttributeName: self.lbl_ticketdetail.font
-                                  };
-        NSMutableAttributedString *attributedText =
-        [[NSMutableAttributedString alloc] initWithString:text
-                                               attributes:attribs];
-        
-        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+        NSString *STR_error = [dict valueForKey:@"error"];
+        if (STR_error)
         {
-            NSMutableParagraphStyle *paragraphStyle1  = [[NSMutableParagraphStyle alloc] init];
-            paragraphStyle1.lineSpacing = 5;
-            // Red text attributes
-            //            UIColor *redColor = [UIColor redColor];
-            NSRange cmp = [text rangeOfString:show];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:17],NSParagraphStyleAttributeName:paragraphStyle1}
-                                    range:cmp];
-            
-            NSMutableParagraphStyle *paragraphStyle2  = [[NSMutableParagraphStyle alloc] init];
-            paragraphStyle2.lineSpacing = 2;
-            NSRange plce = [text rangeOfString:org_name];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:15.0],NSParagraphStyleAttributeName:paragraphStyle2}
-                                    range:plce];
-        
-            NSMutableParagraphStyle *paragraphStyle3  = [[NSMutableParagraphStyle alloc] init];
-            paragraphStyle3.lineSpacing = 0;
-            NSRange tkt_num_range = [text rangeOfString:STR_tkt_num_club];
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:15.0],NSParagraphStyleAttributeName:paragraphStyle} range:tkt_num_range];
+            [self sessionOUT];
         }
         else
         {
-            NSMutableParagraphStyle *paragraphStyle1  = [[NSMutableParagraphStyle alloc] init];
-            paragraphStyle1.lineSpacing = 5;
-            // Red text attributes
-            //            UIColor *redColor = [UIColor redColor];
-            NSRange cmp = [text rangeOfString:show];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:17.0],NSParagraphStyleAttributeName:paragraphStyle1}
-                                    range:cmp];
+            NSDictionary *temp_dict=[dict valueForKey:@"event"];
             
-            NSMutableParagraphStyle *paragraphStyle2  = [[NSMutableParagraphStyle alloc] init];
-            paragraphStyle2.lineSpacing = 2;
-            NSRange plce = [text rangeOfString:org_name];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:15.0],NSParagraphStyleAttributeName:paragraphStyle2}
-                                    range:plce];
             
-            NSMutableParagraphStyle *paragraphStyle3  = [[NSMutableParagraphStyle alloc] init];
-            paragraphStyle3.lineSpacing = 0;
-            NSRange tkt_num_range = [text rangeOfString:STR_tkt_num_club];
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:15.0],NSParagraphStyleAttributeName:paragraphStyle3} range:tkt_num_range];
+            [_scroll_contents addSubview:_VW_qtycontent];
+            [_scroll_contents addSubview:_VW_line1];
+            [_scroll_contents addSubview:_VW_line2];
+            [_scroll_contents addSubview:_VW_promo];
+            
+            NSString *location=[NSString stringWithFormat:@"%@",[temp_dict valueForKey:@"location"]];
+            if([location isEqualToString:@"<null>"])
+            {
+                location=@"Not mentioned";
+            }
+            _TXT_qty.text = @"1";
+            NSString *show = @"Winning Ticket";
+            NSString *place = [[temp_dict valueForKey:@"name"] capitalizedString];
+            NSString *org_name = [[temp_dict valueForKey:@"organization_name"] capitalizedString];
+            NSString *ticketnumber = [temp_dict  valueForKey:@"code"];
+            
+            NSString *STR_tkt_num_club = [NSString stringWithFormat:@"%@ - %@",ticketnumber,place];
+            
+            _lbl_price.text=[NSString stringWithFormat:@"$%.02f",[[dict valueForKey:@"price"] floatValue]];
+            
+            NSArray *arr = [_lbl_price.text componentsSeparatedByString:@"$"];
+            _lbl_dataTotal.text = [NSString stringWithFormat:@"$%.02f",[_TXT_qty.text floatValue] * [[arr objectAtIndex:1] floatValue]];
+            _lbl_datasubtotal.text = [NSString stringWithFormat:@"$%.02f",[_TXT_qty.text floatValue] * [[arr objectAtIndex:1] floatValue]];
+            
+            NSString *text = [NSString stringWithFormat:@"%@\n%@\n%@",show,org_name,STR_tkt_num_club];
+            
+            text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
+            text = [text stringByReplacingOccurrencesOfString:@"(null)" withString:@"Not Mentioned"];
+            
+            // If attributed text is supported (iOS6+)
+            if ([self.lbl_ticketdetail respondsToSelector:@selector(setAttributedText:)]) {
+                
+                // Define general attributes for the entire text
+                
+                NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+                paragraphStyle.alignment = _lbl_ticketdetail.textAlignment;
+                
+                NSDictionary *attribs = @{
+                                          NSForegroundColorAttributeName: self.lbl_ticketdetail.textColor,
+                                          NSFontAttributeName: self.lbl_ticketdetail.font
+                                          };
+                NSMutableAttributedString *attributedText =
+                [[NSMutableAttributedString alloc] initWithString:text
+                                                       attributes:attribs];
+                
+                if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+                {
+                    NSMutableParagraphStyle *paragraphStyle1  = [[NSMutableParagraphStyle alloc] init];
+                    paragraphStyle1.lineSpacing = 5;
+                    // Red text attributes
+                    //            UIColor *redColor = [UIColor redColor];
+                    NSRange cmp = [text rangeOfString:show];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+                    [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:17],NSParagraphStyleAttributeName:paragraphStyle1}
+                                            range:cmp];
+                    
+                    NSMutableParagraphStyle *paragraphStyle2  = [[NSMutableParagraphStyle alloc] init];
+                    paragraphStyle2.lineSpacing = 2;
+                    NSRange plce = [text rangeOfString:org_name];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+                    [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:15.0],NSParagraphStyleAttributeName:paragraphStyle2}
+                                            range:plce];
+                    
+                    NSMutableParagraphStyle *paragraphStyle3  = [[NSMutableParagraphStyle alloc] init];
+                    paragraphStyle3.lineSpacing = 0;
+                    NSRange tkt_num_range = [text rangeOfString:STR_tkt_num_club];
+                    [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:15.0],NSParagraphStyleAttributeName:paragraphStyle} range:tkt_num_range];
+                }
+                else
+                {
+                    NSMutableParagraphStyle *paragraphStyle1  = [[NSMutableParagraphStyle alloc] init];
+                    paragraphStyle1.lineSpacing = 5;
+                    // Red text attributes
+                    //            UIColor *redColor = [UIColor redColor];
+                    NSRange cmp = [text rangeOfString:show];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+                    [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:17.0],NSParagraphStyleAttributeName:paragraphStyle1}
+                                            range:cmp];
+                    
+                    NSMutableParagraphStyle *paragraphStyle2  = [[NSMutableParagraphStyle alloc] init];
+                    paragraphStyle2.lineSpacing = 2;
+                    NSRange plce = [text rangeOfString:org_name];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+                    [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:15.0],NSParagraphStyleAttributeName:paragraphStyle2}
+                                            range:plce];
+                    
+                    NSMutableParagraphStyle *paragraphStyle3  = [[NSMutableParagraphStyle alloc] init];
+                    paragraphStyle3.lineSpacing = 0;
+                    NSRange tkt_num_range = [text rangeOfString:STR_tkt_num_club];
+                    [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:15.0],NSParagraphStyleAttributeName:paragraphStyle3} range:tkt_num_range];
+                }
+                
+                self.lbl_ticketdetail.attributedText = attributedText;
+            }
+            else
+            {
+                self.lbl_ticketdetail.text = [text capitalizedString];
+            }
+            
+            self.lbl_ticketdetail.numberOfLines = 0;
+            [self.lbl_ticketdetail sizeToFit];
+            
+            float qty_frame_Y = _lbl_ticketdetail.frame.size.height;
+            
+            CGRect frame_ST = _VW_qtycontent.frame;
+            frame_ST.origin.y = _lbl_ticketdetail.frame.origin.y + qty_frame_Y + 10;
+            _VW_qtycontent.frame = frame_ST;
+            
+            frame_ST = _lbl_arrowpromocode.frame;
+            frame_ST.origin.y = _VW_qtycontent.frame.origin.y + _VW_qtycontent.frame.size.height + 10;
+            _lbl_arrowpromocode.frame = frame_ST;
+            
+            frame_ST = _BTN_promocode.frame;
+            frame_ST.origin.y = _VW_qtycontent.frame.origin.y + _VW_qtycontent.frame.size.height + 10;
+            _BTN_promocode.frame = frame_ST;
+            
+            [_BTN_promocode addTarget:self action:@selector(BTN_promocode_TAP) forControlEvents:UIControlEventTouchUpInside];
+            
+            frame_ST = _VW_promo.frame;
+            frame_ST.origin.y = _BTN_promocode.frame.origin.y + _BTN_promocode.frame.size.height + 10;
+            _VW_promo.frame = frame_ST;
+            
+            frame_ST = _VW_line1.frame;
+            frame_ST.origin.y = _BTN_promocode.frame.origin.y + _BTN_promocode.frame.size.height + 10;
+            _VW_line1.frame = frame_ST;
+            
+            frame_ST = _lbl_titleSubtotal.frame;
+            frame_ST.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
+            _lbl_titleSubtotal.frame = frame_ST;
+            
+            frame_ST = _lbl_datasubtotal.frame;
+            frame_ST.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
+            _lbl_datasubtotal.frame = frame_ST;
+            
+            frame_ST = _VW_line2.frame;
+            frame_ST.origin.y = _lbl_titleSubtotal.frame.origin.y + _lbl_titleSubtotal.frame.size.height + 10;
+            _VW_line2.frame = frame_ST;
+            
+            frame_ST = _lbl_titleTotal.frame;
+            frame_ST.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
+            _lbl_titleTotal.frame = frame_ST;
+            
+            frame_ST = _lbl_dataTotal.frame;
+            frame_ST.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
+            _lbl_dataTotal.frame = frame_ST;
+            
+            [_BTN_checkout addTarget:self action:@selector(decide_VC) forControlEvents:UIControlEventTouchUpInside];
+            
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            {
+                frame_ST = _BTN_checkout.frame;
+                frame_ST.origin.y = _lbl_titleTotal.frame.origin.y + _lbl_titleTotal.frame.size.height + 20;
+                _BTN_checkout.frame = frame_ST;
+            }
+            else
+            {
+                frame_ST = _BTN_checkout.frame;
+                frame_ST.origin.y = _lbl_titleTotal.frame.origin.y + _lbl_titleTotal.frame.size.height + 10;
+                _BTN_checkout.frame = frame_ST;
+            }
+            
+            
+            //    _VW_promo.layer.borderWidth = 2.0f;
+            //    _VW_promo.layer.borderColor = [UIColor colorWithRed:0.56 green:0.56 blue:0.57 alpha:1.0].CGColor;
+            _VW_promo.hidden = YES;
+            
+            _TXT_promocode.layer.borderWidth = 1.0f;
+            _TXT_promocode.layer.borderColor = [UIColor colorWithRed:0.56 green:0.56 blue:0.57 alpha:1.0].CGColor;
+            _TXT_promocode.layer.cornerRadius = 5.0f;
+            _TXT_promocode.layer.masksToBounds = YES;
+            
+            original_height = _BTN_checkout.frame.origin.y + _BTN_checkout.frame.size.height + 40;
+            
+            frame_ST = _scroll_contents.frame;
+            frame_ST.size.height = [UIScreen mainScreen].bounds.size.height - self.navigationController.navigationBar.frame.size.height;
+            _scroll_contents.frame = frame_ST;
+            
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(Tap_DTECt:)];
+            [tap setCancelsTouchesInView:NO];
+            tap.delegate = self;
+            [self.view addGestureRecognizer:tap];
+            
+            [self.TXT_qty addTarget:self action:@selector(get_caluculated_text) forControlEvents:UIControlEventEditingChanged];
         }
-
-        self.lbl_ticketdetail.attributedText = attributedText;
     }
-    else
+    @catch (NSException *exception)
     {
-        self.lbl_ticketdetail.text = [text capitalizedString];
+        [self sessionOUT];
     }
-    
-    self.lbl_ticketdetail.numberOfLines = 0;
-    [self.lbl_ticketdetail sizeToFit];
-    
-    float qty_frame_Y = _lbl_ticketdetail.frame.size.height;
-    
-    CGRect frame_ST = _VW_qtycontent.frame;
-    frame_ST.origin.y = _lbl_ticketdetail.frame.origin.y + qty_frame_Y + 10;
-    _VW_qtycontent.frame = frame_ST;
-    
-    frame_ST = _lbl_arrowpromocode.frame;
-    frame_ST.origin.y = _VW_qtycontent.frame.origin.y + _VW_qtycontent.frame.size.height + 10;
-    _lbl_arrowpromocode.frame = frame_ST;
-    
-    frame_ST = _BTN_promocode.frame;
-    frame_ST.origin.y = _VW_qtycontent.frame.origin.y + _VW_qtycontent.frame.size.height + 10;
-    _BTN_promocode.frame = frame_ST;
-    
-    [_BTN_promocode addTarget:self action:@selector(BTN_promocode_TAP) forControlEvents:UIControlEventTouchUpInside];
-    
-    frame_ST = _VW_promo.frame;
-    frame_ST.origin.y = _BTN_promocode.frame.origin.y + _BTN_promocode.frame.size.height + 10;
-    _VW_promo.frame = frame_ST;
-    
-    frame_ST = _VW_line1.frame;
-    frame_ST.origin.y = _BTN_promocode.frame.origin.y + _BTN_promocode.frame.size.height + 10;
-    _VW_line1.frame = frame_ST;
-    
-    frame_ST = _lbl_titleSubtotal.frame;
-    frame_ST.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
-    _lbl_titleSubtotal.frame = frame_ST;
-    
-    frame_ST = _lbl_datasubtotal.frame;
-    frame_ST.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
-    _lbl_datasubtotal.frame = frame_ST;
-    
-    frame_ST = _VW_line2.frame;
-    frame_ST.origin.y = _lbl_titleSubtotal.frame.origin.y + _lbl_titleSubtotal.frame.size.height + 10;
-    _VW_line2.frame = frame_ST;
-    
-    frame_ST = _lbl_titleTotal.frame;
-    frame_ST.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
-    _lbl_titleTotal.frame = frame_ST;
-    
-    frame_ST = _lbl_dataTotal.frame;
-    frame_ST.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
-    _lbl_dataTotal.frame = frame_ST;
-    
-    [_BTN_checkout addTarget:self action:@selector(decide_VC) forControlEvents:UIControlEventTouchUpInside];
-    
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-    {
-        frame_ST = _BTN_checkout.frame;
-        frame_ST.origin.y = _lbl_titleTotal.frame.origin.y + _lbl_titleTotal.frame.size.height + 20;
-        _BTN_checkout.frame = frame_ST;
-    }
-    else
-    {
-        frame_ST = _BTN_checkout.frame;
-        frame_ST.origin.y = _lbl_titleTotal.frame.origin.y + _lbl_titleTotal.frame.size.height + 10;
-        _BTN_checkout.frame = frame_ST;
-    }
-    
-    
-//    _VW_promo.layer.borderWidth = 2.0f;
-//    _VW_promo.layer.borderColor = [UIColor colorWithRed:0.56 green:0.56 blue:0.57 alpha:1.0].CGColor;
-    _VW_promo.hidden = YES;
-    
-    _TXT_promocode.layer.borderWidth = 1.0f;
-    _TXT_promocode.layer.borderColor = [UIColor colorWithRed:0.56 green:0.56 blue:0.57 alpha:1.0].CGColor;
-    _TXT_promocode.layer.cornerRadius = 5.0f;
-    _TXT_promocode.layer.masksToBounds = YES;
-    
-    original_height = _BTN_checkout.frame.origin.y + _BTN_checkout.frame.size.height + 40;
-    
-    frame_ST = _scroll_contents.frame;
-    frame_ST.size.height = [UIScreen mainScreen].bounds.size.height - self.navigationController.navigationBar.frame.size.height;
-    _scroll_contents.frame = frame_ST;
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(Tap_DTECt:)];
-    [tap setCancelsTouchesInView:NO];
-    tap.delegate = self;
-    [self.view addGestureRecognizer:tap];
-    
-    [self.TXT_qty addTarget:self action:@selector(get_caluculated_text) forControlEvents:UIControlEventEditingChanged];
 }
 
 -(void) decide_VC
@@ -381,16 +397,31 @@
         dict = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"Updated Status %@",dict);
         
-        [activityIndicatorView stopAnimating];
-        VW_overlay.hidden = YES;
-        
-        if ([[dict valueForKey:@"message"] isEqualToString:@"Recipient(s) created/updated successfully."]) {
-            [self performSegueWithIdentifier:@"checkouttobillingaddr" sender:self];
-        }
-        else
+        @try
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-            [alert show];
+            NSString *STR_error = [dict valueForKey:@"error"];
+            if (STR_error)
+            {
+                [self sessionOUT];
+            }
+            else
+            {
+                [activityIndicatorView stopAnimating];
+                VW_overlay.hidden = YES;
+                
+                if ([[dict valueForKey:@"message"] isEqualToString:@"Recipient(s) created/updated successfully."]) {
+                    [self performSegueWithIdentifier:@"checkouttobillingaddr" sender:self];
+                }
+                else
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                    [alert show];
+                }
+            }
+        }
+        @catch (NSException *exception)
+        {
+            [self sessionOUT];
         }
     }
     else
@@ -423,17 +454,23 @@
 #define MAX_LENGTH 2
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-//    if (textField == _TXT_qty)
-//    {
-//        float width = textField.frame.size.width;
-//        if (width  < 200) {
-//            
-//            CGRect rect = textField.frame;
-//            rect.size.width += 10 ;
-//            
-//            textField.frame =rect;
-//        }
-//    }
+    if (textField == _TXT_qty)
+    {
+        NSInteger inte = textField.text.length;
+        if(inte >= 2)
+        {
+            if ([string isEqualToString:@""]) {
+                return YES;
+            }
+            else
+            {
+                return NO;
+            }
+        }
+        NSCharacterSet *invalidCharSet = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
+        NSString *filtered = [[string componentsSeparatedByCharactersInSet:invalidCharSet] componentsJoinedByString:@""];
+        return [string isEqualToString:filtered];
+    }
     return YES;
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -541,57 +578,98 @@
     NSHTTPURLResponse *response = nil;
     
     NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
-    NSDictionary *temp_dict=[dict valueForKey:@"event"];
-
-    NSDictionary *parameters = @{ @"event_id":  [temp_dict valueForKey:@"id"], @"quantity": STR_chk};
-    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
     
-    NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&err];
-    NSString *urlGetuser = [NSString stringWithFormat:@"%@events/create_order",SERVER_URL];
-    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:urlProducts];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
-    [request setHTTPBody:postData];
-    [request setHTTPShouldHandleCookies:NO];
-    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    if (aData)
+    @try
     {
-        [activityIndicatorView stopAnimating];
-        VW_overlay.hidden = YES;
-        
-        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-        
-        NSLog(@"The value VC TKT Quantity %@",dict);
-        
-        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"QUANTITY"];
-        [[NSUserDefaults standardUserDefaults] setValue:STR_chk forKey:@"QTY"];
-        [[NSUserDefaults standardUserDefaults] setValue:[dict valueForKey:@"price"] forKey:@"PriceSTR"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-
+        NSString *STR_error = [dict valueForKey:@"error"];
+        if (STR_error)
+        {
+            [self sessionOUT];
+        }
+        else
+        {
+            NSDictionary *temp_dict=[dict valueForKey:@"event"];
+            
+            NSDictionary *parameters = @{ @"event_id":  [temp_dict valueForKey:@"id"], @"quantity": STR_chk};
+            NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+            
+            NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&err];
+            NSString *urlGetuser = [NSString stringWithFormat:@"%@events/create_order",SERVER_URL];
+            NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+            NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+            [request setURL:urlProducts];
+            [request setHTTPMethod:@"POST"];
+            [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+            [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+            [request setHTTPBody:postData];
+            [request setHTTPShouldHandleCookies:NO];
+            NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+            if (aData)
+            {
+                [activityIndicatorView stopAnimating];
+                VW_overlay.hidden = YES;
+                
+                NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+                
+                @try
+                {
+                    NSString *STR_error1 = [dict valueForKey:@"error"];
+                    if (STR_error1)
+                    {
+                        [self sessionOUT];
+                    }
+                    else
+                    {
+                        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"QUANTITY"];
+                        [[NSUserDefaults standardUserDefaults] setValue:STR_chk forKey:@"QTY"];
+                        [[NSUserDefaults standardUserDefaults] setValue:[dict valueForKey:@"price"] forKey:@"PriceSTR"];
+                        [[NSUserDefaults standardUserDefaults] synchronize];
+                    }
+                }
+                @catch (NSException *exception)
+                {
+                    [self sessionOUT];
+                }
+            }
+            else
+            {
+                [activityIndicatorView stopAnimating];
+                VW_overlay.hidden = YES;
+                
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                [alert show];
+            }
+            
+            int count = [[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"] intValue];
+            if (count >= 2)
+            {
+                [self performSegueWithIdentifier:@"checkouttocontinuecheckout" sender:self];
+            }
+            else
+            {
+                VW_overlay.hidden = NO;
+                [activityIndicatorView startAnimating];
+                [self performSelector:@selector(api_update_Recipts) withObject:activityIndicatorView afterDelay:0.01];
+            }
+        }
     }
-    else
+    @catch (NSException *exception)
     {
-        [activityIndicatorView stopAnimating];
-        VW_overlay.hidden = YES;
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-        [alert show];
+        [self sessionOUT];
     }
     
-    int count = [[[NSUserDefaults standardUserDefaults] valueForKey:@"QTY"] intValue];
-    if (count >= 2)
-    {
-        [self performSegueWithIdentifier:@"checkouttocontinuecheckout" sender:self];
-    }
-    else
-    {
-        VW_overlay.hidden = NO;
-        [activityIndicatorView startAnimating];
-        [self performSelector:@selector(api_update_Recipts) withObject:activityIndicatorView afterDelay:0.01];
-    }
+    
+}
+
+#pragma mark - Session OUT
+- (void) sessionOUT
+{
+    ViewController *tncView = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
+    [tncView setModalInPopover:YES];
+    [tncView setModalPresentationStyle:UIModalPresentationFormSheet];
+    [tncView setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    
+    [self presentViewController:tncView animated:YES completion:NULL];
 }
 
 @end

@@ -10,12 +10,12 @@
 #import "ACFloatingTextField.h"
 
 @interface purchase_Cell : UITableViewCell
-@property(nonatomic,strong)IBOutlet UILabel *stat_lbl;
-@property (strong, nonatomic) IBOutlet ACFloatingTextField *fname;
-@property (strong, nonatomic) IBOutlet ACFloatingTextField *lname;
-@property (strong, nonatomic) IBOutlet UIView *VW_contentcell;
 
-@property (strong, nonatomic) IBOutlet ACFloatingTextField *email;
+@property (nonatomic, retain) IBOutlet UILabel *stat_lbl;
+@property (nonatomic, retain) IBOutlet ACFloatingTextField *fname;
+@property (nonatomic, retain) IBOutlet ACFloatingTextField *lname;
+@property (nonatomic, retain) IBOutlet UIView *VW_contentcell;
+@property (nonatomic, retain) IBOutlet ACFloatingTextField *email;
 
 
 

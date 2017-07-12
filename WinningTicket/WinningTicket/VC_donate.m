@@ -12,6 +12,7 @@
 //#import "DGActivityIndicatorView.h"
 //#import "DejalActivityView.h"
 
+#import "ViewController.h"
 
 @interface VC_donate ()<UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,UITextViewDelegate,BTViewControllerPresentingDelegate>
 {
@@ -133,148 +134,163 @@
     if(aData)
     {
         NSMutableDictionary *user_DICTIN = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"User_data"] options:NSASCIIStringEncoding error:&error];
-        NSDictionary *user_data = [user_DICTIN valueForKey:@"user"];
-        NSLog(@"VC donate display Address:%@",user_data);
         
-        
-        NSString *STR_fname = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"first_name"]];
-        STR_fname = [STR_fname stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-        STR_fname = [STR_fname stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-        STR_fname = [STR_fname capitalizedString];
-        NSString *STR_lname = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"last_name"]];
-        STR_lname = [STR_lname stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-        STR_lname = [STR_lname stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-        STR_lname = [STR_lname capitalizedString];
-        NSString *STR_addr1 = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"address1"]];
-        STR_addr1 = [STR_addr1 stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-        STR_addr1 = [STR_addr1 stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-        STR_addr1 = [STR_addr1 capitalizedString];
-        NSString *STR_addr2 = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"address2"]];
-        STR_addr2 = [STR_addr2 stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-        STR_addr2 = [STR_addr2 stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-        STR_addr2 = [STR_addr2 capitalizedString];
-        NSString *STR_city = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"city"]];
-        STR_city = [STR_city stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-        STR_city = [STR_city stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-        STR_city = [STR_city capitalizedString];
-        NSString *STR_state = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"state"]];
-        STR_state = [STR_state stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-        STR_state = [STR_state stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-        STR_state = [STR_state capitalizedString];
-        NSString *STR_cntry = [NSString stringWithFormat:@"%@",[user_DICTIN valueForKey:@"country"]];
-        STR_cntry = [STR_cntry stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-        STR_cntry = [STR_cntry stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-        STR_cntry = [STR_cntry capitalizedString];
-        NSString *STR_zip = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"zipcode"]];
-        STR_zip = [STR_zip stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-        STR_zip = [STR_zip stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-        STR_zip = [STR_zip capitalizedString];
-        NSString *STR_phone = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"phone"]];
-        STR_phone = [STR_phone stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-        STR_phone = [STR_phone stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-        STR_phone = [STR_phone capitalizedString];
-        
-        NSString *name;
-        if (STR_lname.length == 0)
+        @try
         {
-            name = [NSString stringWithFormat:@"%@,\n",STR_fname];
-        }
-        else
-        {
-            name = [NSString stringWithFormat:@"%@ %@,\n",STR_fname,STR_lname];
-        }
-        
-        NSString *addr;
-        if (STR_addr2.length == 0)
-        {
-            addr = [NSString stringWithFormat:@"%@,\n",STR_addr1];
-        }
-        else
-        {
-            addr = [NSString stringWithFormat:@"%@, %@,\n",STR_addr1,STR_addr2];
-        }
-        if ([addr isEqualToString:@",\n"]) {
-            addr = @"";
-        }
-        
-        NSString *city = [NSString stringWithFormat:@"%@",STR_city];
-        NSString *state = [NSString stringWithFormat:@"%@",STR_state];
-        NSString *zip = [NSString stringWithFormat:@"%@",STR_zip];
-        NSString *cntry;
-        if (STR_zip.length == 0)
-        {
-            cntry = [NSString stringWithFormat:@"%@, %@, \n",city,state];
-        }
-        else
-        {
-            if (STR_state.length == 0)
+            NSString *STR_error = [user_DICTIN valueForKey:@"error"];
+            if (STR_error)
             {
-                cntry = [NSString stringWithFormat:@"%@, %@,\n",city,zip];
+                [self sessionOUT];
             }
             else
             {
-                cntry = [NSString stringWithFormat:@"%@, %@, %@,\n",city,state,zip];
+                NSDictionary *user_data = [user_DICTIN valueForKey:@"user"];
+                NSLog(@"VC donate display Address:%@",user_data);
+                
+                
+                NSString *STR_fname = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"first_name"]];
+                STR_fname = [STR_fname stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+                STR_fname = [STR_fname stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+                STR_fname = [STR_fname capitalizedString];
+                NSString *STR_lname = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"last_name"]];
+                STR_lname = [STR_lname stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+                STR_lname = [STR_lname stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+                STR_lname = [STR_lname capitalizedString];
+                NSString *STR_addr1 = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"address1"]];
+                STR_addr1 = [STR_addr1 stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+                STR_addr1 = [STR_addr1 stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+                STR_addr1 = [STR_addr1 capitalizedString];
+                NSString *STR_addr2 = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"address2"]];
+                STR_addr2 = [STR_addr2 stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+                STR_addr2 = [STR_addr2 stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+                STR_addr2 = [STR_addr2 capitalizedString];
+                NSString *STR_city = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"city"]];
+                STR_city = [STR_city stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+                STR_city = [STR_city stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+                STR_city = [STR_city capitalizedString];
+                NSString *STR_state = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"state"]];
+                STR_state = [STR_state stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+                STR_state = [STR_state stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+                STR_state = [STR_state capitalizedString];
+                NSString *STR_cntry = [NSString stringWithFormat:@"%@",[user_DICTIN valueForKey:@"country"]];
+                STR_cntry = [STR_cntry stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+                STR_cntry = [STR_cntry stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+                STR_cntry = [STR_cntry capitalizedString];
+                NSString *STR_zip = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"zipcode"]];
+                STR_zip = [STR_zip stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+                STR_zip = [STR_zip stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+                STR_zip = [STR_zip capitalizedString];
+                NSString *STR_phone = [NSString stringWithFormat:@"%@",[user_data valueForKey:@"phone"]];
+                STR_phone = [STR_phone stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+                STR_phone = [STR_phone stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+                STR_phone = [STR_phone capitalizedString];
+                
+                NSString *name;
+                if (STR_lname.length == 0)
+                {
+                    name = [NSString stringWithFormat:@"%@,\n",STR_fname];
+                }
+                else
+                {
+                    name = [NSString stringWithFormat:@"%@ %@,\n",STR_fname,STR_lname];
+                }
+                
+                NSString *addr;
+                if (STR_addr2.length == 0)
+                {
+                    addr = [NSString stringWithFormat:@"%@,\n",STR_addr1];
+                }
+                else
+                {
+                    addr = [NSString stringWithFormat:@"%@, %@,\n",STR_addr1,STR_addr2];
+                }
+                if ([addr isEqualToString:@",\n"]) {
+                    addr = @"";
+                }
+                
+                NSString *city = [NSString stringWithFormat:@"%@",STR_city];
+                NSString *state = [NSString stringWithFormat:@"%@",STR_state];
+                NSString *zip = [NSString stringWithFormat:@"%@",STR_zip];
+                NSString *cntry;
+                if (STR_zip.length == 0)
+                {
+                    cntry = [NSString stringWithFormat:@"%@, %@, \n",city,state];
+                }
+                else
+                {
+                    if (STR_state.length == 0)
+                    {
+                        cntry = [NSString stringWithFormat:@"%@, %@,\n",city,zip];
+                    }
+                    else
+                    {
+                        cntry = [NSString stringWithFormat:@"%@, %@, %@,\n",city,state,zip];
+                    }
+                }
+                NSString *country;
+                if(STR_cntry.length == 0)
+                {
+                    country = [NSString stringWithFormat:@"Phone : %@.",STR_phone];
+                }
+                else
+                {
+                    country = [NSString stringWithFormat:@"%@ \nPhone : %@.",STR_cntry,STR_phone];
+                    
+                }
+                NSMutableArray *final_ADDR = [[NSMutableArray alloc] init];
+                if (name.length != 0) {
+                    [final_ADDR addObject:[name capitalizedString]];
+                }
+                
+                if (addr.length != 0) {
+                    [final_ADDR addObject:addr];
+                }
+                
+                if (city.length != 0 && state.length != 0 && zip.length != 0) {
+                    [final_ADDR addObject:cntry];
+                }
+                
+                if (country.length != 0){
+                    [final_ADDR addObject:country];
+                }
+                
+                //    NSString *address_str=[NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone : %@",,,,,,,,,];
+                
+                NSMutableString *str_TST = [[NSMutableString alloc]init];
+                for (int i = 0; i<[final_ADDR count]; i++) {
+                    [str_TST appendString:[final_ADDR objectAtIndex:i]];
+                }
+                
+                NSLog(@"Testing Addr = %@",str_TST);
+                
+                _TXT_firstname.text = STR_fname;// [user_data valueForKey:@"first_name"];
+                _TXT_lastname.text = STR_lname;//[user_data valueForKey:@"last_name"];
+                _TXT_address1.text = STR_addr1;//[user_data valueForKey:@"address1"];
+                _TXT_address2.text = STR_addr2;//[user_data valueForKey:@"address2"];
+                _TXT_city.text = STR_city;//[user_data valueForKey:@"city"];
+                _TXT_country.text = STR_cntry;//[user valueForKey:@"country"];
+                _TXT_zip.text = STR_zip;//[user_data valueForKey:@"zipcode"];
+                _TXT_state.text = STR_state;//[user valueForKey:@"state"];
+                _TXT_phonenumber.text = STR_phone;//[user_data valueForKey:@"phone"];
+                
+                _lbl_address.text = str_TST;
+                [_lbl_address sizeToFit];
+                
+                _TXT_firstname.text = [user_data valueForKey:@"first_name"];
+                _TXT_lastname.text = [user_data valueForKey:@"last_name"];
+                _TXT_address1.text = [user_data valueForKey:@"address1"];
+                _TXT_address2.text = [user_data valueForKey:@"address2"];
+                _TXT_city.text = [user_data valueForKey:@"city"];
+                _TXT_country.text = [user_DICTIN valueForKey:@"country"];
+                _TXT_zip.text = [user_data valueForKey:@"zipcode"];
+                _TXT_state.text = [user_DICTIN valueForKey:@"state"];
+                _TXT_phonenumber.text = [user_data valueForKey:@"phone"];
             }
         }
-        NSString *country;
-        if(STR_cntry.length == 0)
+        @catch (NSException *exception)
         {
-            country = [NSString stringWithFormat:@"Phone : %@.",STR_phone];
+            [self sessionOUT];
         }
-        else
-        {
-            country = [NSString stringWithFormat:@"%@ \nPhone : %@.",STR_cntry,STR_phone];
-            
-        }
-        NSMutableArray *final_ADDR = [[NSMutableArray alloc] init];
-        if (name.length != 0) {
-            [final_ADDR addObject:[name capitalizedString]];
-        }
-        
-        if (addr.length != 0) {
-            [final_ADDR addObject:addr];
-        }
-        
-        if (city.length != 0 && state.length != 0 && zip.length != 0) {
-            [final_ADDR addObject:cntry];
-        }
-        
-        if (country.length != 0){
-            [final_ADDR addObject:country];
-        }
-        
-        //    NSString *address_str=[NSString stringWithFormat:@"%@ %@\n%@,%@\n%@,%@\n%@,%@.\nPhone : %@",,,,,,,,,];
-        
-        NSMutableString *str_TST = [[NSMutableString alloc]init];
-        for (int i = 0; i<[final_ADDR count]; i++) {
-            [str_TST appendString:[final_ADDR objectAtIndex:i]];
-        }
-        
-        NSLog(@"Testing Addr = %@",str_TST);
-        
-        _TXT_firstname.text = STR_fname;// [user_data valueForKey:@"first_name"];
-        _TXT_lastname.text = STR_lname;//[user_data valueForKey:@"last_name"];
-        _TXT_address1.text = STR_addr1;//[user_data valueForKey:@"address1"];
-        _TXT_address2.text = STR_addr2;//[user_data valueForKey:@"address2"];
-        _TXT_city.text = STR_city;//[user_data valueForKey:@"city"];
-        _TXT_country.text = STR_cntry;//[user valueForKey:@"country"];
-        _TXT_zip.text = STR_zip;//[user_data valueForKey:@"zipcode"];
-        _TXT_state.text = STR_state;//[user valueForKey:@"state"];
-        _TXT_phonenumber.text = STR_phone;//[user_data valueForKey:@"phone"];
-        
-        _lbl_address.text = str_TST;
-        [_lbl_address sizeToFit];
-        
-        _TXT_firstname.text = [user_data valueForKey:@"first_name"];
-        _TXT_lastname.text = [user_data valueForKey:@"last_name"];
-        _TXT_address1.text = [user_data valueForKey:@"address1"];
-        _TXT_address2.text = [user_data valueForKey:@"address2"];
-        _TXT_city.text = [user_data valueForKey:@"city"];
-        _TXT_country.text = [user_DICTIN valueForKey:@"country"];
-        _TXT_zip.text = [user_data valueForKey:@"zipcode"];
-        _TXT_state.text = [user_DICTIN valueForKey:@"state"];
-        _TXT_phonenumber.text = [user_data valueForKey:@"phone"];
-        
     }
     else
     {
@@ -416,7 +432,7 @@
     VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     VW_overlay.clipsToBounds = YES;
-    VW_overlay.layer.cornerRadius = 10.0;
+//    VW_overlay.layer.cornerRadius = 10.0;
     
     activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
@@ -1366,22 +1382,37 @@
         
         NSMutableDictionary *json_DATA_one = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"Data from Donate VC:%@",json_DATA_one);
-        NSString *status=[json_DATA_one valueForKey:@"status"];
-        if([status isEqualToString:@"Success"])
-        {
-            //                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-            //                [alert show];
-            [[NSUserDefaults standardUserDefaults] setObject:json_DATA_one forKey:@"donate_Deatils"];
-            [[NSUserDefaults standardUserDefaults]synchronize];
-
-            [self get_client_TOKEN];
-        }
-        else
-        {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-            [alert show];
-        }
         
+        @try
+        {
+            NSString *STR_error = [json_DATA_one valueForKey:@"error"];
+            if (STR_error)
+            {
+                [self sessionOUT];
+            }
+            else
+            {
+                NSString *status=[json_DATA_one valueForKey:@"status"];
+                if([status isEqualToString:@"Success"])
+                {
+                    //                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                    //                [alert show];
+                    [[NSUserDefaults standardUserDefaults] setObject:json_DATA_one forKey:@"donate_Deatils"];
+                    [[NSUserDefaults standardUserDefaults]synchronize];
+                    
+                    [self get_client_TOKEN];
+                }
+                else
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                    [alert show];
+                }
+            }
+        }
+        @catch (NSException *exception)
+        {
+            [self sessionOUT];
+        }
     }
     else
     {
@@ -1460,31 +1491,44 @@
         
         NSLog(@"Client Token = %@",[dict valueForKey:@"client_token"]);
         
-        @try {
-            BTDropInRequest *request = [[BTDropInRequest alloc] init];
-            BTDropInController *dropIn = [[BTDropInController alloc] initWithAuthorization:[dict valueForKey:@"client_token"] request:request handler:^(BTDropInController * _Nonnull controller, BTDropInResult * _Nullable result, NSError * _Nullable error) {
-                
-                if (error != nil) {
-                    NSLog(@"ERROR");
-                } else if (result.cancelled) {
-                    NSLog(@"CANCELLED");
-                    [self dismissViewControllerAnimated:YES completion:NULL];
-                } else {
-//                    [self performSelector:@selector(dismiss_BT)
-//                               withObject:nil
-//                               afterDelay:1.0];
-                    [self postNonceToServer:result.paymentMethod.nonce];
+        @try
+        {
+            NSString *STR_error = [dict valueForKey:@"error"];
+            if (STR_error)
+            {
+                [self sessionOUT];
+            }
+            else
+            {
+                @try {
+                    BTDropInRequest *request = [[BTDropInRequest alloc] init];
+                    BTDropInController *dropIn = [[BTDropInController alloc] initWithAuthorization:[dict valueForKey:@"client_token"] request:request handler:^(BTDropInController * _Nonnull controller, BTDropInResult * _Nullable result, NSError * _Nullable error) {
+                        
+                        if (error != nil) {
+                            NSLog(@"ERROR");
+                        } else if (result.cancelled) {
+                            NSLog(@"CANCELLED");
+                            [self dismissViewControllerAnimated:YES completion:NULL];
+                        } else {
+                            //                    [self performSelector:@selector(dismiss_BT)
+                            //                               withObject:nil
+                            //                               afterDelay:1.0];
+                            [self postNonceToServer:result.paymentMethod.nonce];
+                        }
+                    }];
+                    [self presentViewController:dropIn animated:YES completion:nil];
                 }
-            }];
-            [self presentViewController:dropIn animated:YES completion:nil];
+                @catch (NSException *exception)
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                    [alert show];
+                }
+            }
         }
         @catch (NSException *exception)
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-            [alert show];
+            [self sessionOUT];
         }
-        
-        
         
       /*  self.braintree = [Braintree braintreeWithClientToken:[dict valueForKey:@"client_token"]];
         NSLog(@"dddd = %@",self.braintree);
@@ -1559,21 +1603,38 @@
         [activityIndicatorView stopAnimating];
         VW_overlay.hidden = YES;
         NSMutableDictionary *json_DATA_one = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-        NSString *str = [json_DATA_one valueForKey:@"status"];
-        NSLog(@"Final Payment data : \n%@",json_DATA_one);
-        if([str isEqualToString:@"Failure"])
-        {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-            [alert show];
-            
-        }
-        else
-        {
-            [self performSelector:@selector(load_donatepurchase)
-                       withObject:activityIndicatorView
-                       afterDelay:1.0];
-        }
-
+        
+//        @try
+//        {
+//            NSString *STR_error = [json_DATA_one valueForKey:@"error"];
+//            if (STR_error)
+//            {
+//                [self sessionOUT];
+//            }
+//            else
+//            {
+                NSString *str = [json_DATA_one valueForKey:@"status"];
+                NSLog(@"Final Payment data : \n%@",json_DATA_one);
+                if([str isEqualToString:@"Failure"])
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA_one valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                    [alert show];
+                    
+                }
+                else
+                {
+                    [self performSelector:@selector(load_donatepurchase)
+                               withObject:activityIndicatorView
+                               afterDelay:1.0];
+                }
+//            }
+//        }
+//        @catch (NSException *exception)
+//        {
+//            [self sessionOUT];
+//        }
+    
+        
     }
     else
     {
@@ -1653,6 +1714,17 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Payment Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
     }
+}
+
+#pragma mark - Session OUT
+- (void) sessionOUT
+{
+    ViewController *tncView = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
+    [tncView setModalInPopover:YES];
+    [tncView setModalPresentationStyle:UIModalPresentationFormSheet];
+    [tncView setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    
+    [self presentViewController:tncView animated:YES completion:NULL];
 }
 
 @end
