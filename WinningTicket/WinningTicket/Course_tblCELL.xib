@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina3_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Gotham Bold Regular.ttf">
+            <string>GothamBold</string>
+        </array>
+        <array key="GothamMedium Regular.otf">
+            <string>GothamMedium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="93" id="KGk-i7-Jjw" customClass="Course_tblCELL" customModule="WinningTicket_Universal" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="93"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="93"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LZ0-XB-ukf">
+                        <rect key="frame" x="8" y="15" width="62" height="62"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="62" id="lGS-aZ-nJM"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="6" translatesAutoresizingMaskIntoConstraints="NO" id="ukq-do-ib8">
+                        <rect key="frame" x="78" y="32" width="234" height="20"/>
+                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="private.png" translatesAutoresizingMaskIntoConstraints="NO" id="Zws-op-v1i">
+                        <rect key="frame" x="180" y="0.0" width="140" height="58"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="140" id="JdU-b8-yRO"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PRIVATE" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hHH-GO-Uq1">
+                        <rect key="frame" x="254" y="13" width="59" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="Omg-Bz-ZAZ"/>
+                            <constraint firstAttribute="width" constant="59" id="eBi-7j-Hgs"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="13"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="LZ0-XB-ukf" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="7" id="2hm-Su-9pU"/>
+                    <constraint firstItem="Zws-op-v1i" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="7La-Op-4Ry"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="hHH-GO-Uq1" secondAttribute="trailing" constant="-1" id="DSl-ha-Mhm"/>
+                    <constraint firstAttribute="trailing" secondItem="Zws-op-v1i" secondAttribute="trailing" id="EI9-OB-Vwv"/>
+                    <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="ukq-do-ib8" secondAttribute="bottom" constant="31.5" id="Ghr-Sa-QlM"/>
+                    <constraint firstItem="ukq-do-ib8" firstAttribute="leading" secondItem="LZ0-XB-ukf" secondAttribute="trailing" constant="8" symbolic="YES" id="LLx-DZ-nV6"/>
+                    <constraint firstItem="LZ0-XB-ukf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="MCi-pz-Lmh"/>
+                    <constraint firstItem="hHH-GO-Uq1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="5" id="OQ8-1N-We0"/>
+                    <constraint firstItem="ukq-do-ib8" firstAttribute="top" secondItem="hHH-GO-Uq1" secondAttribute="bottom" constant="4" id="VrW-bl-SKW"/>
+                    <constraint firstItem="ukq-do-ib8" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="hF4-It-fj6"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="Zws-op-v1i" secondAttribute="bottom" constant="26.5" id="qhy-R9-DTz"/>
+                    <constraint firstItem="LZ0-XB-ukf" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="zn5-Xf-xmZ"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="IMG_courseimage" destination="LZ0-XB-ukf" id="Ttw-eD-ba3"/>
+                <outlet property="IMG_privacy" destination="Zws-op-v1i" id="69J-Dz-IoY"/>
+                <outlet property="lbl_courseName" destination="ukq-do-ib8" id="rNE-JL-nXW"/>
+                <outlet property="lbl_privacy" destination="hHH-GO-Uq1" id="HaQ-aQ-pwA"/>
+            </connections>
+            <point key="canvasLocation" x="33" y="108.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="private.png" width="100" height="51"/>
+    </resources>
+</document>

@@ -1455,6 +1455,9 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
 #pragma mark - Session OUT
 - (void) sessionOUT
 {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Session out" message:@"In some other device same user logged in. Please login again" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+    [alert show];
+    
     ViewController *tncView = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
     [tncView setModalInPopover:YES];
     [tncView setModalPresentationStyle:UIModalPresentationFormSheet];

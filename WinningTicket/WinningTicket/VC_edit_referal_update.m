@@ -162,7 +162,14 @@
 //    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegEx];
     
     
-    if (_TXT_referal_name.text.length < 2)
+    
+    if ([_TXT_referal_name.text isEqualToString:@""])
+    {
+        [_TXT_referal_name becomeFirstResponder];
+        [_TXT_referal_name showError];
+        [_TXT_referal_name showErrorWithText:@" Please enter referral name"];
+    }
+    else if (_TXT_referal_name.text.length < 2)
     {
         [_TXT_referal_name becomeFirstResponder];
         [_TXT_referal_name showError];
@@ -172,11 +179,17 @@
 //    {
 //        [_TXT_referal_email becomeFirstResponder];
 //    }
+    else if ([_TXT_referal_phone.text isEqualToString:@""])
+    {
+        [_TXT_referal_phone becomeFirstResponder];
+        [_TXT_referal_phone showError];
+        [_TXT_referal_phone showErrorWithText:@" Please enter phone number"];
+    }
     else if (_TXT_referal_phone.text.length < 5)
     {
         [_TXT_referal_phone becomeFirstResponder];
         [_TXT_referal_phone showError];
-        [_TXT_referal_phone showErrorWithText:@" Please enter More than 5 numbers"];
+        [_TXT_referal_phone showErrorWithText:@" Please enter more than 5 numbers"];
     }
     else
     {

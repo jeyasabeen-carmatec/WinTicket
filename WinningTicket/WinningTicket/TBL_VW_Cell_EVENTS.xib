@@ -59,7 +59,8 @@
                         <rect key="frame" x="268" y="15" width="48" height="29"/>
                         <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="48" id="db7-Wq-pIM"/>
+                            <constraint firstAttribute="width" constant="48" id="PPL-0E-M6R"/>
+                            <constraint firstAttribute="height" constant="29" id="RGD-Vv-neq"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="14"/>
                         <state key="normal" title="VIEW">

@@ -15,6 +15,10 @@
 		BE00560B1EC5A1AD00E95941 /* Normal_sighnUP.m in Sources */ = {isa = PBXBuildFile; fileRef = BE0056081EC5A1AD00E95941 /* Normal_sighnUP.m */; };
 		BE00560C1EC5A1AD00E95941 /* VC_affiliate_sighnUP.m in Sources */ = {isa = PBXBuildFile; fileRef = BE00560A1EC5A1AD00E95941 /* VC_affiliate_sighnUP.m */; };
 		BE1F1DC61F135FFA00B06903 /* referal_cell_ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE1F1DC51F135FF900B06903 /* referal_cell_ipad.xib */; };
+		BE3721E91F177327001DA70A /* HMSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = BE3721E81F177327001DA70A /* HMSegmentedControl.m */; };
+		BE3721ED1F17920A001DA70A /* Course_tblCELL.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3721EB1F17920A001DA70A /* Course_tblCELL.swift */; };
+		BE3721EE1F17920A001DA70A /* Course_tblCELL.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE3721EC1F17920A001DA70A /* Course_tblCELL.xib */; };
+		BE3721F61F179287001DA70A /* Course_tblCELL~iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE3721F41F179287001DA70A /* Course_tblCELL~iPad.xib */; };
 		BE4EEEA51ED2AA88003C1C24 /* VC_item_deatail.m in Sources */ = {isa = PBXBuildFile; fileRef = BE4EEEA41ED2AA88003C1C24 /* VC_item_deatail.m */; };
 		BE4EEEB21ED2AAB9003C1C24 /* image1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4EEEA61ED2AAB9003C1C24 /* image1.jpg */; };
 		BE4EEEB31ED2AAB9003C1C24 /* image2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BE4EEEA71ED2AAB9003C1C24 /* image2.jpg */; };
@@ -229,6 +233,13 @@
 		BEFC20681F0619290067717D /* Montserrat-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BEFC20551F0619290067717D /* Montserrat-Thin.ttf */; };
 		BEFC20691F0619290067717D /* Montserrat-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BEFC20561F0619290067717D /* Montserrat-ThinItalic.ttf */; };
 		BEFC206A1F0619290067717D /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = BEFC20571F0619290067717D /* OFL.txt */; };
+		BEFCD3151F18A72C0005D82D /* private.png in Resources */ = {isa = PBXBuildFile; fileRef = BEFCD3141F18A72C0005D82D /* private.png */; };
+		BEFCD3171F18F9870005D82D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEFCD3161F18F9870005D82D /* QuartzCore.framework */; };
+		BEFCD31A1F1C93860005D82D /* courseCollectionCELL.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFCD3181F1C93860005D82D /* courseCollectionCELL.swift */; };
+		BEFCD31B1F1C93860005D82D /* courseCollectionCELL.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEFCD3191F1C93860005D82D /* courseCollectionCELL.xib */; };
+		BEFCD31F1F1C93E50005D82D /* courseCollectionCELL~iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEFCD31D1F1C93E50005D82D /* courseCollectionCELL~iPad.xib */; };
+		BEFCD3231F1C96410005D82D /* InfoWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = BEFCD3211F1C96410005D82D /* InfoWindow.m */; };
+		BEFCD3241F1C96410005D82D /* InfoWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEFCD3221F1C96410005D82D /* InfoWindow.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -256,6 +267,11 @@
 		BE0056081EC5A1AD00E95941 /* Normal_sighnUP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Normal_sighnUP.m; sourceTree = "<group>"; };
 		BE00560A1EC5A1AD00E95941 /* VC_affiliate_sighnUP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_affiliate_sighnUP.m; sourceTree = "<group>"; };
 		BE1F1DC51F135FF900B06903 /* referal_cell_ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = referal_cell_ipad.xib; sourceTree = "<group>"; };
+		BE3721E71F177327001DA70A /* HMSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMSegmentedControl.h; sourceTree = "<group>"; };
+		BE3721E81F177327001DA70A /* HMSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMSegmentedControl.m; sourceTree = "<group>"; };
+		BE3721EB1F17920A001DA70A /* Course_tblCELL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Course_tblCELL.swift; sourceTree = "<group>"; };
+		BE3721EC1F17920A001DA70A /* Course_tblCELL.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Course_tblCELL.xib; sourceTree = "<group>"; };
+		BE3721F41F179287001DA70A /* Course_tblCELL~iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Course_tblCELL~iPad.xib"; sourceTree = "<group>"; };
 		BE4EEEA31ED2AA88003C1C24 /* VC_item_deatail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_item_deatail.h; sourceTree = "<group>"; };
 		BE4EEEA41ED2AA88003C1C24 /* VC_item_deatail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_item_deatail.m; sourceTree = "<group>"; };
 		BE4EEEA61ED2AAB9003C1C24 /* image1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image1.jpg; sourceTree = "<group>"; };
@@ -581,6 +597,14 @@
 		BEFC20551F0619290067717D /* Montserrat-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Thin.ttf"; sourceTree = "<group>"; };
 		BEFC20561F0619290067717D /* Montserrat-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-ThinItalic.ttf"; sourceTree = "<group>"; };
 		BEFC20571F0619290067717D /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
+		BEFCD3141F18A72C0005D82D /* private.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = private.png; sourceTree = "<group>"; };
+		BEFCD3161F18F9870005D82D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		BEFCD3181F1C93860005D82D /* courseCollectionCELL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = courseCollectionCELL.swift; sourceTree = "<group>"; };
+		BEFCD3191F1C93860005D82D /* courseCollectionCELL.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = courseCollectionCELL.xib; sourceTree = "<group>"; };
+		BEFCD31D1F1C93E50005D82D /* courseCollectionCELL~iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "courseCollectionCELL~iPad.xib"; sourceTree = "<group>"; };
+		BEFCD3201F1C96410005D82D /* InfoWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoWindow.h; sourceTree = "<group>"; };
+		BEFCD3211F1C96410005D82D /* InfoWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoWindow.m; sourceTree = "<group>"; };
+		BEFCD3221F1C96410005D82D /* InfoWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoWindow.xib; sourceTree = "<group>"; };
 		DF95C9B9EE59230A8BE59B4D /* libPods-WinningTicket_Universal.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WinningTicket_Universal.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -589,6 +613,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEFCD3171F18F9870005D82D /* QuartzCore.framework in Frameworks */,
 				BECD7CDD1EF7EF950037A968 /* UserNotifications.framework in Frameworks */,
 				0794DD6D28F5CCD42CBF0E75 /* libPods-WinningTicket_Universal.a in Frameworks */,
 			);
@@ -597,6 +622,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BE3721BA1F175CD5001DA70A /* CustomSegmentedControl */ = {
+			isa = PBXGroup;
+			children = (
+				BE3721E71F177327001DA70A /* HMSegmentedControl.h */,
+				BE3721E81F177327001DA70A /* HMSegmentedControl.m */,
+			);
+			name = CustomSegmentedControl;
+			sourceTree = "<group>";
+		};
 		BE4EEEBE1ED2AADB003C1C24 /* TAPageControl */ = {
 			isa = PBXGroup;
 			children = (
@@ -615,6 +649,7 @@
 		BE52DF971E9CAA2F0055E914 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BEFCD3161F18F9870005D82D /* QuartzCore.framework */,
 				BECD7CDC1EF7EF950037A968 /* UserNotifications.framework */,
 				DF95C9B9EE59230A8BE59B4D /* libPods-WinningTicket_Universal.a */,
 			);
@@ -720,6 +755,7 @@
 				BEC548611EA4D9A500FF2114 /* auction_CellTableViewCell.m */,
 				BE812A471E96069100D58DDA /* VC_liveAuctions.h */,
 				BE812A481E96069100D58DDA /* VC_liveAuctions.m */,
+				BEFCD3141F18A72C0005D82D /* private.png */,
 				BE812A4A1E9629CC00D58DDA /* item_detail */,
 				BEA9C3191EAE289700930A7F /* Bidding_history */,
 			);
@@ -1237,6 +1273,9 @@
 		BED71F861EEA8C5000492E97 /* Swift_codes */ = {
 			isa = PBXGroup;
 			children = (
+				BE3721EB1F17920A001DA70A /* Course_tblCELL.swift */,
+				BE3721EC1F17920A001DA70A /* Course_tblCELL.xib */,
+				BE3721F41F179287001DA70A /* Course_tblCELL~iPad.xib */,
 				BEB702B31ECD636D004CB729 /* Cell_search.swift */,
 				BEB702B41ECD636D004CB729 /* Cell_search.xib */,
 				BED71F8F1EEA8D8F00492E97 /* Cell_search~iPad.xib */,
@@ -1244,6 +1283,9 @@
 				BED71F891EEA8CEE00492E97 /* cell_EMPTY_val.swift */,
 				BED71F8A1EEA8CEE00492E97 /* cell_EMPTY_val.xib */,
 				BED71F911EEA8DDB00492E97 /* cell_EMPTY_val~iPad.xib */,
+				BEFCD3181F1C93860005D82D /* courseCollectionCELL.swift */,
+				BEFCD3191F1C93860005D82D /* courseCollectionCELL.xib */,
+				BEFCD31D1F1C93E50005D82D /* courseCollectionCELL~iPad.xib */,
 			);
 			name = Swift_codes;
 			sourceTree = "<group>";
@@ -1273,6 +1315,7 @@
 		BEE6657D1E5D90EC00DF9235 /* WinningTicket */ = {
 			isa = PBXGroup;
 			children = (
+				BE3721BA1F175CD5001DA70A /* CustomSegmentedControl */,
 				BEB702DE1ECEC643004CB729 /* PrivateClassTables */,
 				BEB702EF1ECEC79B004CB729 /* PublicClassTables */,
 				BE811F711EBC4F61003D7C0B /* States */,
@@ -1448,6 +1491,7 @@
 			children = (
 				BEE9B3061E684D3C00AD83C6 /* VC_courses.h */,
 				BEE9B3071E684D3C00AD83C6 /* VC_courses.m */,
+				BEFCD3251F1C96450005D82D /* mapInfoView */,
 			);
 			name = Courses;
 			sourceTree = "<group>";
@@ -1473,6 +1517,16 @@
 				BE812A421E95005100D58DDA /* PasswordChange */,
 			);
 			name = Account;
+			sourceTree = "<group>";
+		};
+		BEFCD3251F1C96450005D82D /* mapInfoView */ = {
+			isa = PBXGroup;
+			children = (
+				BEFCD3201F1C96410005D82D /* InfoWindow.h */,
+				BEFCD3211F1C96410005D82D /* InfoWindow.m */,
+				BEFCD3221F1C96410005D82D /* InfoWindow.xib */,
+			);
+			name = mapInfoView;
 			sourceTree = "<group>";
 		};
 		DADD7D7502D5C91A77B31D61 /* Pods */ = {
@@ -1558,6 +1612,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEB49DC61E76B3A900209E63 /* events-icon_36X36.png in Resources */,
+				BE3721EE1F17920A001DA70A /* Course_tblCELL.xib in Resources */,
 				BEB49DC71E76B3A900209E63 /* User-36X36.png in Resources */,
 				BEA875DC1E8CEB5A00EFBB7F /* sec1_8.png in Resources */,
 				BEA875E01E8CEE6300EFBB7F /* Gotham Bold Regular.ttf in Resources */,
@@ -1582,6 +1637,7 @@
 				BE5F8DEA1F132C2500280683 /* Main~ipad.storyboard in Resources */,
 				BEA875921E89007B00EFBB7F /* UI_01.png in Resources */,
 				BEA875DE1E8CEE3E00EFBB7F /* Gotham Condensed Book Regular.otf in Resources */,
+				BEFCD3241F1C96410005D82D /* InfoWindow.xib in Resources */,
 				BE0055FE1EC44BF800E95941 /* purchase_Cell.xib in Resources */,
 				BEB49DCB1E76B3A900209E63 /* fontawesome-webfont.ttf in Resources */,
 				BECD7C811EF141990037A968 /* cell_add_referral~ipad.xib in Resources */,
@@ -1592,7 +1648,9 @@
 				BE888A3B1E9363C700656580 /* Cell_notifications~iPad.xib in Resources */,
 				BEFC20631F0619290067717D /* Montserrat-Medium.ttf in Resources */,
 				BECD7C931EF142A70037A968 /* gotham-light-italic.otf in Resources */,
+				BEFCD31B1F1C93860005D82D /* courseCollectionCELL.xib in Resources */,
 				BEA875D41E8CEB5A00EFBB7F /* sec1_0.png in Resources */,
+				BE3721F61F179287001DA70A /* Course_tblCELL~iPad.xib in Resources */,
 				BEA875F01E8D0C2600EFBB7F /* GothamMedium Regular.otf in Resources */,
 				BEA875D81E8CEB5A00EFBB7F /* sec1_4.png in Resources */,
 				BEA875E81E8D06CA00EFBB7F /* sec0_0.png in Resources */,
@@ -1643,6 +1701,7 @@
 				BEA875C31E8CE05E00EFBB7F /* cellACCOUNTS~iPad.xib in Resources */,
 				BEFC205F1F0619290067717D /* Montserrat-ExtraLightItalic.ttf in Resources */,
 				BEB49DF71E8248D600209E63 /* detail_baground.png in Resources */,
+				BEFCD31F1F1C93E50005D82D /* courseCollectionCELL~iPad.xib in Resources */,
 				BEA875E21E8CEE7500EFBB7F /* Gotham Book Regular.otf in Resources */,
 				BEFC20621F0619290067717D /* Montserrat-LightItalic.ttf in Resources */,
 				BEB702C61ECDC24C004CB729 /* LaunchScreen~iPad.storyboard in Resources */,
@@ -1652,6 +1711,7 @@
 				BE52DF4B1E9B3E3B0055E914 /* IMG_0004.PNG in Resources */,
 				BE4EEEBD1ED2AAB9003C1C24 /* dotInactive@3x.png in Resources */,
 				BED71F921EEA8DDB00492E97 /* cell_EMPTY_val~iPad.xib in Resources */,
+				BEFCD3151F18A72C0005D82D /* private.png in Resources */,
 				BE60C1A21EB1CE7A00C4B522 /* cross.png in Resources */,
 				BEA875D71E8CEB5A00EFBB7F /* sec1_3.png in Resources */,
 				BED71F941EEABC7D00492E97 /* gotham-pro-medium.otf in Resources */,
@@ -1762,11 +1822,13 @@
 				BED71F681EE91FED00492E97 /* SDWebImageDownloader.m in Sources */,
 				BE811F6C1EBB6335003D7C0B /* DGActivityIndicatorBallSpinFadeLoader.m in Sources */,
 				BE812A491E96069100D58DDA /* VC_liveAuctions.m in Sources */,
+				BEFCD31A1F1C93860005D82D /* courseCollectionCELL.swift in Sources */,
 				BE888A301E927FD000656580 /* VC_notificationsettings.m in Sources */,
 				BECD7CC21EF78C880037A968 /* VC_billingAddr.m in Sources */,
 				BEB49DC01E76B3A900209E63 /* VC_courses.m in Sources */,
 				BE4EEEC91ED2AAFC003C1C24 /* TADotView.m in Sources */,
 				BED71F7B1EE9216C00492E97 /* FLAnimatedImageView.m in Sources */,
+				BEFCD3231F1C96410005D82D /* InfoWindow.m in Sources */,
 				BED71F6B1EE91FED00492E97 /* SDWebImagePrefetcher.m in Sources */,
 				BEB702FC1ECF06AF004CB729 /* DGActivityIndicatorTwoDotsAnimation.m in Sources */,
 				BECD7CD11EF78D300037A968 /* VC_withdrawal.m in Sources */,
@@ -1797,6 +1859,7 @@
 				BEB702F91ECF0479004CB729 /* DGActivityIndicatorTriplePulseAnimation.m in Sources */,
 				BEB49DC21E76B3A900209E63 /* AppDelegate.m in Sources */,
 				BED71F631EE91FED00492E97 /* NSImage+WebCache.m in Sources */,
+				BE3721E91F177327001DA70A /* HMSegmentedControl.m in Sources */,
 				BECD7C911EF1423F0037A968 /* VC_edit_referal_update.m in Sources */,
 				BED71F801EE93D8F00492E97 /* CSTMdateLABEL.m in Sources */,
 				BEB702FF1ECF09FB004CB729 /* DGActivityIndicatorBallPulseAnimation.m in Sources */,
@@ -1830,6 +1893,7 @@
 				BECD7C711EF140C60037A968 /* VC_editRefferel.m in Sources */,
 				BED71F601EE91FED00492E97 /* FLAnimatedImageView+WebCache.m in Sources */,
 				BEB702ED1ECEC660004CB729 /* UIScrollView+DragTableSafeAnimation.m in Sources */,
+				BE3721ED1F17920A001DA70A /* Course_tblCELL.swift in Sources */,
 				BEFC20371EFD23CD0067717D /* VC_donate.m in Sources */,
 				BE888A3F1E93775500656580 /* VC_howitworks.m in Sources */,
 				BED71F6C1EE91FED00492E97 /* UIButton+WebCache.m in Sources */,
@@ -1848,8 +1912,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WinningTicket_Universal.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Carmatec IT Solutions Private Limited (4MCGAH3G26)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Carmatec IT Solutions Private Limited (4MCGAH3G26)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Aromal P. Rajagopal (CPRZV94W5U)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Aromal P. Rajagopal (CPRZV94W5U)";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 4MCGAH3G26;
 				GCC_PREFIX_HEADER = WinningTicket/WinningTicket.pch;
@@ -1858,8 +1922,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.carmatec.WinningTicket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a2278d91-f9a4-46dd-9b30-32dfaacee582";
-				PROVISIONING_PROFILE_SPECIFIER = WT_adhoc_new;
+				PROVISIONING_PROFILE = "55ea3ec0-4971-48b7-96ff-e580fab871d4";
+				PROVISIONING_PROFILE_SPECIFIER = WT_DEV_new;
 				SWIFT_OBJC_BRIDGING_HEADER = "WinningTicket/WinningTicket_Universal-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -1875,8 +1939,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WinningTicket_Universal.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Carmatec IT Solutions Private Limited (4MCGAH3G26)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Carmatec IT Solutions Private Limited (4MCGAH3G26)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Aromal P. Rajagopal (CPRZV94W5U)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Aromal P. Rajagopal (CPRZV94W5U)";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 4MCGAH3G26;
 				GCC_PREFIX_HEADER = WinningTicket/WinningTicket.pch;
@@ -1885,8 +1949,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.carmatec.WinningTicket;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a2278d91-f9a4-46dd-9b30-32dfaacee582";
-				PROVISIONING_PROFILE_SPECIFIER = WT_adhoc_new;
+				PROVISIONING_PROFILE = "55ea3ec0-4971-48b7-96ff-e580fab871d4";
+				PROVISIONING_PROFILE_SPECIFIER = WT_DEV_new;
 				SWIFT_OBJC_BRIDGING_HEADER = "WinningTicket/WinningTicket_Universal-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1915,11 +1979,11 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Carmatec IT Solutions Private Limited (4MCGAH3G26)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Carmatec IT Solutions Private Limited (4MCGAH3G26)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Aromal P. Rajagopal (CPRZV94W5U)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Aromal P. Rajagopal (CPRZV94W5U)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 4MCGAH3G26;
+				DEVELOPMENT_TEAM = AKL9EV8FSY;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1939,7 +2003,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "a2278d91-f9a4-46dd-9b30-32dfaacee582";
+				PROVISIONING_PROFILE = "0007f77e-8780-4009-97f4-a8cb28049e01";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1967,11 +2031,11 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Carmatec IT Solutions Private Limited (4MCGAH3G26)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Carmatec IT Solutions Private Limited (4MCGAH3G26)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Aromal P. Rajagopal (CPRZV94W5U)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Aromal P. Rajagopal (CPRZV94W5U)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 4MCGAH3G26;
+				DEVELOPMENT_TEAM = AKL9EV8FSY;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1984,7 +2048,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "a2278d91-f9a4-46dd-9b30-32dfaacee582";
+				PROVISIONING_PROFILE = "0007f77e-8780-4009-97f4-a8cb28049e01";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

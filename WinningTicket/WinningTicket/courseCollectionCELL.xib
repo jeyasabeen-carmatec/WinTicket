@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Gotham Bold Regular.ttf">
+            <string>GothamBold</string>
+        </array>
+        <array key="GothamMedium Regular.otf">
+            <string>GothamMedium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" restorationIdentifier="courseceldentifier" reuseIdentifier="courseceldentifier" id="gTV-IL-0wX" customClass="courseCollectionCELL" customModule="WinningTicket_Universal" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="93"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="93"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RKv-gV-kNm">
+                        <rect key="frame" x="8" y="13" width="62" height="62"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="62" id="xed-9f-k5f"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="private.png" translatesAutoresizingMaskIntoConstraints="NO" id="FOw-fn-Pkf">
+                        <rect key="frame" x="180" y="-2" width="140" height="58"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="140" id="i1V-Hu-X3G"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="6" translatesAutoresizingMaskIntoConstraints="NO" id="3MM-je-hIC">
+                        <rect key="frame" x="78" y="30" width="48" height="15"/>
+                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PRIVATE" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8eZ-Ti-tX2">
+                        <rect key="frame" x="254" y="11" width="59" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="Jhs-N5-WMp"/>
+                            <constraint firstAttribute="width" constant="59" id="je3-vI-z9I"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="13"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="3MM-je-hIC" firstAttribute="top" secondItem="8eZ-Ti-tX2" secondAttribute="bottom" constant="4" id="1VN-1e-dq5"/>
+                <constraint firstAttribute="bottom" secondItem="FOw-fn-Pkf" secondAttribute="bottom" constant="37" id="5c2-gt-1zf"/>
+                <constraint firstItem="RKv-gV-kNm" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="13" id="855-mM-PNb"/>
+                <constraint firstAttribute="trailing" secondItem="8eZ-Ti-tX2" secondAttribute="trailing" constant="7" id="ORf-3u-dFH"/>
+                <constraint firstItem="8eZ-Ti-tX2" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="11" id="ZPD-9F-U8J"/>
+                <constraint firstItem="3MM-je-hIC" firstAttribute="leading" secondItem="RKv-gV-kNm" secondAttribute="trailing" constant="8" symbolic="YES" id="b65-eG-pZ9"/>
+                <constraint firstAttribute="trailing" secondItem="FOw-fn-Pkf" secondAttribute="trailing" id="id9-i9-XqX"/>
+                <constraint firstItem="RKv-gV-kNm" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leadingMargin" id="knh-Yt-q9Z"/>
+                <constraint firstAttribute="bottom" secondItem="RKv-gV-kNm" secondAttribute="bottom" constant="18" id="qGj-fz-fF5"/>
+                <constraint firstItem="FOw-fn-Pkf" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="-2" id="xjj-6y-Ixc"/>
+            </constraints>
+            <connections>
+                <outlet property="lbl_corsename" destination="3MM-je-hIC" id="nIP-HM-xJf"/>
+            </connections>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="private.png" width="100" height="51"/>
+    </resources>
+</document>

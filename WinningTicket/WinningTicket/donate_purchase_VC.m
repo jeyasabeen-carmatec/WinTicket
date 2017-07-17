@@ -289,24 +289,23 @@
     _lbl_address.numberOfLines = 0;
     [_lbl_address sizeToFit];
     
-    frame_rect = _lbl_email.frame;
-    frame_rect.size.height = _lbl_email.frame.size.height;
-    _lbl_email.frame = frame_rect;
+//    frame_rect = _lbl_email.frame;
+//    frame_rect.size.height = _lbl_email.frame.size.height;
+//    _lbl_email.frame = frame_rect;
     
-    frame_rect = _VW_line0.frame;
-    frame_rect.origin.y = _lbl_email.frame.origin.y + _lbl_email.frame.size.height + 10;
-    _VW_line0.frame = frame_rect;
+//    frame_rect = _VW_line0.frame;
+//    frame_rect.origin.y = _lbl_email.frame.origin.y + _lbl_email.frame.size.height + 10;
+//    _VW_line0.frame = frame_rect;
     
-    frame_rect = _lbl_titlBillingADDR.frame;
-    frame_rect.origin.y = _VW_line0.frame.origin.y + _VW_line0.frame.size.height + 10;
-    _lbl_titlBillingADDR.frame = frame_rect;
+//    frame_rect = _lbl_titlBillingADDR.frame;
+//    frame_rect.origin.y = _VW_line0.frame.origin.y + _VW_line0.frame.size.height + 10;
+//    _lbl_titlBillingADDR.frame = frame_rect;
     
 //    frame_rect = 
     
-    frame_rect = _lbl_address.frame;
-    frame_rect.origin.y = _lbl_titlBillingADDR.frame.origin.y + _lbl_titlBillingADDR.frame.size.height + 10;
-    frame_rect.size.height = _lbl_address.frame.size.height;
-    _lbl_address.frame = frame_rect;
+//    frame_rect = _lbl_address.frame;
+//    frame_rect.origin.y = _lbl_titlBillingADDR.frame.origin.y + _lbl_titlBillingADDR.frame.size.height + 10;
+//    _lbl_address.frame = frame_rect;
     
     
     frame_rect = _lbl_titl_payment_info.frame;
@@ -516,6 +515,9 @@
 #pragma mark - Session OUT
 - (void) sessionOUT
 {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Session out" message:@"In some other device same user logged in. Please login again" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+    [alert show];
+    
     ViewController *tncView = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
     [tncView setModalInPopover:YES];
     [tncView setModalPresentationStyle:UIModalPresentationFormSheet];

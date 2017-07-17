@@ -179,7 +179,7 @@
     // Define general attributes for the entire text
     NSDictionary *attribs = @{
                               NSForegroundColorAttributeName:[UIColor blackColor],
-                              NSFontAttributeName: [UIFont fontWithName:@"Helvetica" size:12]
+                              NSFontAttributeName: [UIFont fontWithName:@"Gotham-LightItalic" size:17]
                               };
     NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:text attributes:attribs];
     
@@ -190,9 +190,10 @@
                                     NSFontAttributeName:boldFont} range:range];
 
     
-   UIFont *unboldFont = _lbl_title.font;
+   UIFont *unboldFont = [UIFont fontWithName:@"Gotham-LightItalic" size:17]; //
     NSRange greenTextRange = [text rangeOfString:role];
-    [attributedText setAttributes:@{NSForegroundColorAttributeName: [UIColor blackColor],NSFontAttributeName:unboldFont}range:greenTextRange];
+    [attributedText setAttributes:@{NSForegroundColorAttributeName: [UIColor blackColor],
+                                    NSFontAttributeName:unboldFont} range:greenTextRange];
     
     self.lbl_title.attributedText = attributedText;
 }

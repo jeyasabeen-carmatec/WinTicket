@@ -494,7 +494,7 @@
         
         [UIView beginAnimations:@"LeftFlip" context:nil];
         [UIView setAnimationDuration:0.5];
-        _VW_address.frame=CGRectMake(_VW_titladdress.frame.origin.x,_VW_titladdress.frame.origin.y+60,self.scroll_Contents.frame.size.width,_VW_address.frame.size.height);
+        _VW_address.frame=CGRectMake(_VW_titladdress.frame.origin.x,_VW_titladdress.frame.origin.y+40,self.scroll_Contents.frame.size.width,_VW_address.frame.size.height);
         [self.scroll_Contents addSubview:_VW_address];
         _VW_address.hidden=NO;
         [UIView setAnimationCurve:UIViewAnimationCurveLinear];
@@ -869,7 +869,7 @@
             
             //        [UIView beginAnimations:@"LeftFlip" context:nil];
             [UIView setAnimationDuration:0.5];
-            _VW_address.frame=CGRectMake(_VW_titladdress.frame.origin.x,_VW_titladdress.frame.origin.y+60,self.scroll_Contents.frame.size.width,_VW_address.frame.size.height);
+            _VW_address.frame=CGRectMake(_VW_titladdress.frame.origin.x,_VW_titladdress.frame.origin.y+40,self.scroll_Contents.frame.size.width,_VW_address.frame.size.height);
             [self.scroll_Contents addSubview:_VW_address];
             _VW_address.hidden=NO;
             [UIView setAnimationCurve:UIViewAnimationCurveLinear];
@@ -1018,7 +1018,7 @@
         
 //        [UIView beginAnimations:@"LeftFlip" context:nil];
         [UIView setAnimationDuration:0.5];
-        _VW_address.frame=CGRectMake(_VW_titladdress.frame.origin.x,_VW_titladdress.frame.origin.y+60,self.scroll_Contents.frame.size.width,_VW_address.frame.size.height);
+        _VW_address.frame=CGRectMake(_VW_titladdress.frame.origin.x,_VW_titladdress.frame.origin.y+40,self.scroll_Contents.frame.size.width,_VW_address.frame.size.height);
         [self.scroll_Contents addSubview:_VW_address];
         _VW_address.hidden=NO;
         [UIView setAnimationCurve:UIViewAnimationCurveLinear];
@@ -1719,6 +1719,9 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
 #pragma mark - Session OUT
 - (void) sessionOUT
 {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Session out" message:@"In some other device same user logged in. Please login again" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+    [alert show];
+    
     ViewController *tncView = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
     [tncView setModalInPopover:YES];
     [tncView setModalPresentationStyle:UIModalPresentationFormSheet];
