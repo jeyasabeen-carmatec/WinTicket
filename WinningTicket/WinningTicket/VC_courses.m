@@ -12,6 +12,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "HMSegmentedControl.h"
 
+#import "UIImageView+WebCache.h"
+
 #import "WinningTicket_Universal-Swift.h"
 
 @interface VC_courses ()<CLLocationManagerDelegate>
@@ -21,6 +23,10 @@
     CLLocationManager *locationManager;
     
     UIColor *color_OLD;
+
+    NSArray *ARR_map_data;
+    NSMutableArray *ARR_colection_data,*ARR_list_data;
+    
 }
 @property (nonatomic, strong) HMSegmentedControl *segmentedControl4;
 //@property (nonatomic, retain) IBOutlet courseCollectionCELL *Collection_cell;
@@ -32,6 +38,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    _Collection_course.hidden = YES;
     
     [self setup_VIEW];
     
@@ -156,22 +164,23 @@
 - (void)segmentedControlChangedValue:(HMSegmentedControl *)segmentedControl4
 {
     NSLog(@"Selected index %ld (via UIControlEventValueChanged) aaa", (long)segmentedControl4.selectedSegmentIndex);
-    switch (segmentedControl4.selectedSegmentIndex) {
-        case 0:
-            NSLog(@"Index 0");
-            break;
-            
-        case 1:
-            NSLog(@"Index 1");
-            break;
-            
-        case 2:
-            NSLog(@"Index 2");
-            break;
-            
-        default:
-            break;
-    }
+    [self ADD_marker];
+//    switch (segmentedControl4.selectedSegmentIndex) {
+//        case 0:
+//            NSLog(@"Index 0");
+//            break;
+//            
+//        case 1:
+//            NSLog(@"Index 1");
+//            break;
+//            
+//        case 2:
+//            NSLog(@"Index 2");
+//            break;
+//            
+//        default:
+//            break;
+//    }
 }
 
 #pragma mark - Tabbar deligate
@@ -283,7 +292,7 @@
 {
     locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
-    locationManager.distanceFilter = kCLDistanceFilterNone;
+    locationManager.distanceFilter = 100.0;
     locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
@@ -299,13 +308,20 @@
     NSLog(@"OldLocation %f %f", oldLocation.coordinate.latitude, oldLocation.coordinate.longitude);
     NSLog(@"NewLocation %f %f", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
     
-    [locationManager stopUpdatingLocation];
+//    LOC_user = newLocation;
+    manager.delegate = nil;
+    
+    
+    VW_overlay.hidden = NO;
+    [activityIndicatorView startAnimating];
+    [self performSelector:@selector(API_getCOURSES:) withObject:newLocation afterDelay:0.01];
     
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:newLocation.coordinate.latitude
                                                             longitude:newLocation.coordinate.longitude
                                                                  zoom:6];
 //    _mapView = [GMSMapView mapWithFrame:CGRectZero camera:camera];
     [self.mapView animateToCameraPosition:camera];
+    
 }
 
 #pragma mark - UIButton Methords
@@ -313,15 +329,69 @@
 {
     if (_tbl_courses.hidden == YES)
     {
-        _mapView.hidden = YES;
+        [UIView transitionWithView:_mapView
+                          duration:0.4
+                           options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^{
+                            _mapView.hidden = YES;
+                        }
+                        completion:NULL];
+        
+        [UIView transitionWithView:_Collection_course
+                          duration:0.4
+                           options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^{
+                            _Collection_course.hidden = YES;
+                        }
+                        completion:NULL];
+        
+        
+        [UIView beginAnimations:@"LeftFlip" context:nil];
+        [UIView setAnimationDuration:0.4];
         _tbl_courses.hidden = NO;
-        [_BTN_toggle setTitle:@"MAP\t" forState:UIControlStateNormal];
+        [UIView setAnimationCurve:UIViewAnimationCurveLinear];
+        [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:_tbl_courses cache:YES];
+        [UIView commitAnimations];
+        
+        
+        [UIView transitionWithView:_BTN_toggle duration:0.4 options:UIViewAnimationOptionTransitionFlipFromRight animations:^{
+            
+            [_BTN_toggle setTitle:@"MAP\t" forState:UIControlStateNormal];
+            
+        } completion:nil];
+        
     }
     else
     {
-        _tbl_courses.hidden = YES;
+        [UIView transitionWithView:_tbl_courses
+                          duration:0.4
+                           options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^{
+                            _tbl_courses.hidden = YES;
+                        }
+                        completion:NULL];
+        
+        [UIView beginAnimations:@"LeftFlip" context:nil];
+        [UIView setAnimationDuration:0.4];
         _mapView.hidden = NO;
-        [_BTN_toggle setTitle:@"LIST\t" forState:UIControlStateNormal];
+        [UIView setAnimationCurve:UIViewAnimationCurveLinear];
+        [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:_mapView cache:YES];
+        [UIView commitAnimations];
+        
+        [UIView beginAnimations:@"LeftFlip" context:nil];
+        [UIView setAnimationDuration:0.4];
+        _Collection_course.hidden = NO;
+        [UIView setAnimationCurve:UIViewAnimationCurveLinear];
+        [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:_Collection_course cache:YES];
+        [UIView commitAnimations];
+        
+        
+        [UIView transitionWithView:_BTN_toggle duration:0.4 options:UIViewAnimationOptionTransitionFlipFromRight animations:^{
+            
+            [_BTN_toggle setTitle:@"LIST\t" forState:UIControlStateNormal];
+            
+        } completion:nil];
+        
     }
 }
 
@@ -410,7 +480,7 @@
 #pragma mark - Tableview Datasource/Deligate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 20;
+    return [ARR_list_data count];
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -429,13 +499,128 @@
         }
         cell = [nib objectAtIndex:0];
     }
+    
+    NSDictionary *temp_dictin = [ARR_list_data objectAtIndex:indexPath.row];
+    NSString *course_type = [temp_dictin valueForKey:@"course_type"];
+    course_type = [course_type stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    course_type = [course_type stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    
+    NSString *course_name = [temp_dictin valueForKey:@"name"];
+    course_name = [course_name stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    course_name = [course_name stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    NSString *address = [temp_dictin valueForKey:@"address"];
+    address = [address stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    address = [address stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+   
+    NSString *text = [NSString stringWithFormat:@"%@\n%@",course_name,address];
+    
+    
+    // If attributed text is supported (iOS6+)
+    if ([cell.lbl_courseName respondsToSelector:@selector(setAttributedText:)]) {
+        
+        // Define general attributes for the entire text
+        NSDictionary *attribs = @{
+                                  NSForegroundColorAttributeName: cell.lbl_courseName.textColor,
+                                  NSFontAttributeName: cell.lbl_courseName.font
+                                  };
+        NSMutableAttributedString *attributedText =
+        [[NSMutableAttributedString alloc] initWithString:text
+                                               attributes:attribs];
+        
+        // Red text attributes
+        //            UIColor *redColor = [UIColor redColor];
+        NSRange cmp = [text rangeOfString:address];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        {
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Gotham-BoldItalic" size:15.0]}
+                                    range:cmp];
+        }
+        else
+        {
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Gotham-MediumItalic" size:12.0]}
+                                    range:cmp];
+        }
+        
+        
+        cell.lbl_courseName.attributedText = attributedText;
+    }
+    else
+    {
+        cell.lbl_courseName.text = text;
+    }
+    
+    cell.lbl_courseName.numberOfLines = 0;
+    [cell.lbl_courseName sizeToFit];
+    
+    if ([course_type isEqualToString:@"private"])
+    {
+        UIImage *newImage = [cell.IMG_privacy.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        UIGraphicsBeginImageContextWithOptions(cell.IMG_privacy.image.size, NO, newImage.scale);
+        [[UIColor colorWithRed:0.00 green:0.00 blue:1.00 alpha:1.0] set];
+        [newImage drawInRect:CGRectMake(0, 0, cell.IMG_privacy.image.size.width, newImage.size.height)];
+        newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        cell.IMG_privacy.image = newImage;
+    }
+    else if ([course_type isEqualToString:@"public"])
+    {
+        UIImage *newImage = [cell.IMG_privacy.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        UIGraphicsBeginImageContextWithOptions(cell.IMG_privacy.image.size, NO, newImage.scale);
+        [[UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0] set];
+        [newImage drawInRect:CGRectMake(0, 0, cell.IMG_privacy.image.size.width, newImage.size.height)];
+        newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        cell.IMG_privacy.image = newImage;
+    }
+    else
+    {
+        UIImage *newImage = [cell.IMG_privacy.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        UIGraphicsBeginImageContextWithOptions(cell.IMG_privacy.image.size, NO, newImage.scale);
+        [[UIColor whiteColor] set];
+        [newImage drawInRect:CGRectMake(0, 0, cell.IMG_privacy.image.size.width, newImage.size.height)];
+        newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        cell.IMG_privacy.image = newImage;
+    }
+    
+    cell.lbl_privacy.text = [course_type uppercaseString];
+    
+    NSString *website_url = [temp_dictin valueForKey:@"course_image"];
+    if (website_url)
+    {
+        website_url = [NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_dictin valueForKey:@"course_image"]];
+        [cell.IMG_courseimage sd_setImageWithURL:[NSURL URLWithString:website_url]
+                                placeholderImage:[UIImage imageNamed:@"profile_pic.png"]];
+    }
+    
+    cell.IMG_courseimage.layer.cornerRadius = cell.IMG_courseimage.frame.size.width/2;
+    cell.IMG_courseimage.layer.masksToBounds = YES;
+    
+//    else
+//    {
+//
+//    }
+    
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;
 }
 
 //-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 //{
-//    return 93;
+//    return 100;
 //}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *temp_dictin = [ARR_list_data objectAtIndex:indexPath.row];
+    NSLog(@"Selected index id = %@",[temp_dictin valueForKey:@"id"]);
+    
+    VW_overlay.hidden = NO;
+    [activityIndicatorView startAnimating];
+    
+    [self performSelector:@selector(get_selectedCourse:) withObject:[temp_dictin valueForKey:@"id"] afterDelay:0.01];
+}
 
 #pragma mark - UIsearchbar Deligates
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -446,7 +631,7 @@
 #pragma mark - Uicollection view Datasource/ Deligate
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 20;
+    return [ARR_colection_data count];
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
@@ -460,7 +645,6 @@
 - (courseCollectionCELL *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     courseCollectionCELL *cell = (courseCollectionCELL*)[self.Collection_course dequeueReusableCellWithReuseIdentifier:@"courseceldentifier" forIndexPath:indexPath];
-    cell.lbl_corsename.text = @"Testing";
     
     cell.layer.shadowColor = [UIColor blackColor].CGColor;
     cell.layer.shadowOffset = CGSizeMake(0, 2.0f);
@@ -468,6 +652,120 @@
     cell.layer.shadowOpacity = 1.0f;
     cell.layer.masksToBounds = NO;
     cell.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:cell.bounds cornerRadius:cell.contentView.layer.cornerRadius].CGPath;
+    
+    NSDictionary *temp_dictin = [ARR_colection_data objectAtIndex:indexPath.row];
+    NSString *course_type = [temp_dictin valueForKey:@"course_type"];
+    course_type = [course_type stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    course_type = [course_type stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    
+    NSString *course_name = [temp_dictin valueForKey:@"name"];
+    course_name = [course_name stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    course_name = [course_name stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    NSString *address = [temp_dictin valueForKey:@"address"];
+    address = [address stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    address = [address stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    
+    NSString *text = [NSString stringWithFormat:@"%@\n%@",course_name,address];
+    
+    
+    // If attributed text is supported (iOS6+)
+    if ([cell.lbl_courseName respondsToSelector:@selector(setAttributedText:)]) {
+        
+        // Define general attributes for the entire text
+        NSDictionary *attribs = @{
+                                  NSForegroundColorAttributeName: cell.lbl_courseName.textColor,
+                                  NSFontAttributeName: cell.lbl_courseName.font
+                                  };
+        NSMutableAttributedString *attributedText =
+        [[NSMutableAttributedString alloc] initWithString:text
+                                               attributes:attribs];
+        
+        // Red text attributes
+        //            UIColor *redColor = [UIColor redColor];
+        NSRange cmp = [text rangeOfString:address];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        {
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Gotham-BoldItalic" size:15.0]}
+                                    range:cmp];
+        }
+        else
+        {
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Gotham-MediumItalic" size:12.0]}
+                                    range:cmp];
+        }
+        
+        
+        cell.lbl_courseName.attributedText = attributedText;
+    }
+    else
+    {
+        cell.lbl_courseName.text = text;
+    }
+    
+    cell.lbl_courseName.numberOfLines = 0;
+    [cell.lbl_courseName sizeToFit];
+    
+    float heiht_p = cell.lbl_courseName.frame.size.height;
+    
+    CGRect frame_lbl = cell.lbl_courseName.frame;
+    frame_lbl.size.width = cell.layer.frame.size.width - 60;
+    if (heiht_p > 47) {
+        frame_lbl.origin.y = 20;
+        frame_lbl.size.height = 66;
+    }
+    
+    cell.lbl_courseName.frame = frame_lbl;
+    
+    if ([course_type isEqualToString:@"private"])
+    {
+        UIImage *newImage = [cell.IMG_privacy.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        UIGraphicsBeginImageContextWithOptions(cell.IMG_privacy.image.size, NO, newImage.scale);
+        [[UIColor colorWithRed:0.00 green:0.00 blue:1.00 alpha:1.0] set];
+        [newImage drawInRect:CGRectMake(0, 0, cell.IMG_privacy.image.size.width, newImage.size.height)];
+        newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        cell.IMG_privacy.image = newImage;
+    }
+    else if ([course_type isEqualToString:@"public"])
+    {
+        UIImage *newImage = [cell.IMG_privacy.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        UIGraphicsBeginImageContextWithOptions(cell.IMG_privacy.image.size, NO, newImage.scale);
+        [[UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0] set];
+        [newImage drawInRect:CGRectMake(0, 0, cell.IMG_privacy.image.size.width, newImage.size.height)];
+        newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        cell.IMG_privacy.image = newImage;
+    }
+    else
+    {
+        UIImage *newImage = [cell.IMG_privacy.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        UIGraphicsBeginImageContextWithOptions(cell.IMG_privacy.image.size, NO, newImage.scale);
+        [[UIColor whiteColor] set];
+        [newImage drawInRect:CGRectMake(0, 0, cell.IMG_privacy.image.size.width, newImage.size.height)];
+        newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        cell.IMG_privacy.image = newImage;
+    }
+    
+    cell.lbl_privacy.text = [course_type uppercaseString];
+    
+    NSString *website_url = [temp_dictin valueForKey:@"course_image"];
+    if (website_url)
+    {
+        website_url = [NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_dictin valueForKey:@"course_image"]];
+        [cell.IMG_courseimage sd_setImageWithURL:[NSURL URLWithString:website_url]
+                                placeholderImage:[UIImage imageNamed:@"profile_pic.png"]];
+    }
+    
+    cell.IMG_courseimage.layer.cornerRadius = cell.IMG_courseimage.frame.size.width/2;
+    cell.IMG_courseimage.layer.masksToBounds = YES;
+    
+    //    else
+    //    {
+    //
+    //    }
+    
     
     
     return cell;
@@ -507,4 +805,167 @@
     [scrollView setContentOffset:CGPointMake(newTargetOffset, scrollView.contentOffset.y) animated:YES];
 }
 
+#pragma mark - API Calling
+-(void) API_getCOURSES :(CLLocation *) get_LOC
+{
+    NSHTTPURLResponse *response = nil;
+    NSError *error;
+    
+    NSString *lat_STR = @"26.7307";//[NSString stringWithFormat:@"%f",get_LOC.coordinate.latitude];
+    NSString *long_STR = @"-80.1001";//[NSString stringWithFormat:@"%f",get_LOC.coordinate.longitude];
+    
+    
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@golfcourse/search_courses?lat=%@&lng=%@",SERVER_URL,lat_STR,long_STR];
+    
+    NSLog(@"Course url = \n%@",urlGetuser);
+    
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
+    
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if(aData)
+    {
+        [[NSUserDefaults standardUserDefaults] setValue:aData forKey:@"COURSESDICTIN"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [self ADD_marker];
+    }
+    
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden = YES;
+}
+
+-(void) get_selectedCourse:(NSString *)course_ID
+{
+    NSHTTPURLResponse *response = nil;
+    NSError *error;
+    
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@golfcourse/course_detail?id=%@",SERVER_URL,course_ID];
+    
+    NSLog(@"Course url = \n%@",urlGetuser);
+    
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
+    
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if(aData)
+    {
+        NSMutableDictionary *temp_dictin = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:kNilOptions error:&error];
+        NSLog(@"Selected course \n%@",temp_dictin);
+    }
+    
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden = YES;
+}
+
+#pragma mark - Add Marker on GMAP
+-(void) ADD_marker
+{
+    NSError *error;
+    NSMutableDictionary *temp_dictin = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"COURSESDICTIN"] options:kNilOptions error:&error];
+    NSDictionary *all_course_arr = [temp_dictin valueForKey:@"courses"];
+    ARR_colection_data = [[NSMutableArray alloc] init];
+    ARR_list_data = [[NSMutableArray alloc] init];
+    
+    switch (_segmentedControl4.selectedSegmentIndex) {
+        case 0:
+            ARR_map_data = [all_course_arr valueForKey:@"all"];
+            break;
+            
+        case 1:
+            ARR_map_data = [all_course_arr valueForKey:@"public"];
+            break;
+        
+        case 2:
+            ARR_map_data = [all_course_arr valueForKey:@"private"];
+            break;
+        
+        default:
+            break;
+    }
+    [self.mapView clear];
+    for (int i = 0; i < [ARR_map_data count]; i++)
+    {
+        NSDictionary *temp_dictin = [ARR_map_data objectAtIndex:i];
+        
+        double latitude_val = [[NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"lat"]] doubleValue];
+        double longitude_val = [[NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"lng"]] doubleValue];
+        
+        NSDictionary *store_val = [NSDictionary dictionaryWithObjectsAndKeys:[temp_dictin valueForKey:@"course_type"],@"course_type",[temp_dictin valueForKey:@"name"],@"name",[temp_dictin valueForKey:@"address"],@"address",[temp_dictin valueForKey:@"course_image"],@"course_image",[temp_dictin valueForKey:@"id"],@"id", nil];
+        
+        [ARR_list_data addObject:store_val];
+        [ARR_colection_data addObject:store_val];
+        
+        NSError *err;
+        NSDictionary *parameters = @{ @"index":[NSString stringWithFormat:@"%i",i]};
+        NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&err];
+        
+        GMSMarker *marker = [[GMSMarker alloc] init];
+        marker.position = CLLocationCoordinate2DMake(latitude_val, longitude_val);
+        marker.title = [temp_dictin valueForKey:@"name"];
+        marker.userData = postData;
+        marker.icon = [UIImage imageNamed:@"GOlf-Icon"];
+        marker.map = _mapView;
+    }
+    
+    if ([ARR_map_data count] != 0)
+    {
+        
+        NSLog(@"count tbl%lu",(unsigned long)[ARR_list_data count]);
+        
+        if (_tbl_courses.hidden == NO) {
+            _Collection_course.hidden = YES;
+        }
+        else
+        {
+            _Collection_course.hidden = NO;
+        }
+        
+        [_tbl_courses reloadData];
+        [_Collection_course reloadData];
+        [_Collection_course scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+        
+        _BTN_toggle.enabled = YES;
+    }
+    else
+    {
+        _BTN_toggle.enabled = NO;
+        _tbl_courses.hidden = YES;
+        _Collection_course.hidden = YES;
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No course found" message:@"" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+        [alert show];
+    }
+
+}
+
+#pragma mark - Google map Deligate
+- (BOOL)mapView:(GMSMapView *)mapView didTapMarker:(GMSMarker *)marker
+{
+    NSError *error;
+    NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:marker.userData options:NSASCIIStringEncoding error:&error];
+//    NSLog(@"Marker tapped Gmap :%@",dict);
+    [_Collection_course scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:[[dict valueForKey:@"index"] intValue] inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    return YES;
+}
+
+#pragma mark - Dealloc
+-(void)dealloc
+{
+    [super dealloc];
+    _tbl_courses.delegate = nil;
+    _Collection_course.delegate = nil;
+}
 @end

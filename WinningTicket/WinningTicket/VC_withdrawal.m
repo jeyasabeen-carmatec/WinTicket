@@ -295,11 +295,19 @@
     //    }
     _VW_paypal.hidden = YES;
     
-    [[_BTN_banktransfer layer] setBorderWidth:3.0f];
-    [[_BTN_banktransfer layer] setBorderColor:[UIColor greenColor].CGColor];
+    [[_BTN_banktransfer layer] setBorderWidth:5.0f];
+    [[_BTN_banktransfer layer] setBorderColor:[UIColor whiteColor].CGColor];
+    
+    
+//    CALayer *rightBorder = [CALayer layer];
+//    rightBorder.borderColor = [UIColor greenColor].CGColor;
+//    rightBorder.borderWidth = 1;
+//    rightBorder.frame = CGRectMake(-1, -1, CGRectGetWidth(_BTN_banktransfer.frame) , CGRectGetHeight(_BTN_banktransfer.frame));
+
+//    [_BTN_banktransfer.layer addSublayer:rightBorder];
     
     [[_BTN_paypal layer] setBorderWidth:0.0f];
-  
+//    _BTN_paypal.layer.sublayers = nil;
 }
 
 -(void) action_Paypal
@@ -310,11 +318,18 @@
     _VW_paypal.hidden = NO;
     //    }
     
-    [[_BTN_paypal layer] setBorderWidth:3.0f];
-    [[_BTN_paypal layer] setBorderColor:[UIColor greenColor].CGColor];
+    [[_BTN_paypal layer] setBorderWidth:5.0f];
+    [[_BTN_paypal layer] setBorderColor:[UIColor whiteColor].CGColor];
+    
+//    CALayer *rightBorder = [CALayer layer];
+//    rightBorder.borderColor = [UIColor greenColor].CGColor;
+//    rightBorder.borderWidth = 1;
+//    rightBorder.frame = CGRectMake(-1, -1, CGRectGetWidth(_BTN_paypal.frame), CGRectGetHeight(_BTN_paypal.frame));
+//    
+//    [_BTN_paypal.layer addSublayer:rightBorder];
     
     [[_BTN_banktransfer layer] setBorderWidth:0.0f];
-    
+//    _BTN_banktransfer.layer.sublayers = nil;
 }
 -(void)submitClicked_paypal
 {

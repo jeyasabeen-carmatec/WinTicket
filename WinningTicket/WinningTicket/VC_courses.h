@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <GoogleMaps/GoogleMaps.h>
 
-@interface VC_courses : UIViewController <UITabBarDelegate, UITableViewDataSource, UITableViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
+@interface VC_courses : UIViewController <UITabBarDelegate, UITableViewDataSource, UITableViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, GMSMapViewDelegate>
 
 @property (nonatomic, retain) IBOutlet UITabBar *tab_HOME;
 @property (nonatomic, retain) IBOutlet UISegmentedControl *segment_bottom;

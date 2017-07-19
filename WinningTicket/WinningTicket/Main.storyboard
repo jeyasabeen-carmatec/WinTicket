@@ -2360,7 +2360,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="$" textAlignment="right" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="5" id="jB9-Fa-JXv">
-                                        <rect key="frame" x="186" y="47" width="126" height="21"/>
+                                        <rect key="frame" x="218" y="47" width="94" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="19"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -4323,7 +4323,7 @@
             </objects>
             <point key="canvasLocation" x="2326" y="2385"/>
         </scene>
-        <!--courses-->
+        <!--Delegate-->
         <scene sceneID="5Az-bd-OPl">
             <objects>
                 <viewController id="7SZ-MJ-n1e" customClass="VC_courses" sceneMemberID="viewController">
@@ -4377,6 +4377,9 @@
                                 <rect key="frame" x="0.0" y="113" width="320" height="282"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="delegate" destination="7SZ-MJ-n1e" id="Jjd-dv-9kx"/>
+                                </connections>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="ojW-4T-0Hq">
                                 <rect key="frame" x="0.0" y="113" width="320" height="282"/>
@@ -5894,7 +5897,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="D2f-xd-0V5"/>
         <segue reference="aDF-05-jfq"/>
-        <segue reference="AmC-Xg-ce2"/>
+        <segue reference="KU5-Xe-DT4"/>
         <segue reference="m5f-k9-dzd"/>
         <segue reference="kVz-KM-DVq"/>
         <segue reference="6Iw-xR-hwg"/>

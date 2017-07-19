@@ -737,9 +737,9 @@
                 name_STR = [name_STR stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
                 
                 self.first_name.text = name_STR;
-                [self.first_name sizeToFit];
+//                [self.first_name sizeToFit];
                 self.last_name.text=[temp_dict valueForKey:@"email"];
-                [self.last_name sizeToFit];
+//                [self.last_name sizeToFit];
                 NSString *amount=[NSString stringWithFormat:@"%.2f",[[account_data valueForKey:@"wallet"] floatValue]];
                 self.amount.text =[NSString stringWithFormat:@"$%@",amount];
                 

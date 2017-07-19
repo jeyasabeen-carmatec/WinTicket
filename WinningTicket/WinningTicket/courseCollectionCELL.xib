@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -27,52 +26,38 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="93"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RKv-gV-kNm">
-                        <rect key="frame" x="8" y="13" width="62" height="62"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="62" id="xed-9f-k5f"/>
-                        </constraints>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3EJ-0W-YCp">
+                        <rect key="frame" x="8" y="15" width="62" height="62"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="private.png" translatesAutoresizingMaskIntoConstraints="NO" id="FOw-fn-Pkf">
-                        <rect key="frame" x="180" y="-2" width="140" height="58"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="140" id="i1V-Hu-X3G"/>
-                        </constraints>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="private.png" translatesAutoresizingMaskIntoConstraints="NO" id="Jsm-99-J3e">
+                        <rect key="frame" x="183" y="0.0" width="137" height="43"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="6" translatesAutoresizingMaskIntoConstraints="NO" id="3MM-je-hIC">
-                        <rect key="frame" x="78" y="30" width="48" height="15"/>
-                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="17"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PRIVATE" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8eZ-Ti-tX2">
-                        <rect key="frame" x="254" y="11" width="59" height="15"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="15" id="Jhs-N5-WMp"/>
-                            <constraint firstAttribute="width" constant="59" id="je3-vI-z9I"/>
-                        </constraints>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="PRIVATE" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RvP-QM-aSB">
+                        <rect key="frame" x="257" y="7" width="59" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="13"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l9k-aW-huR">
+                        <rect key="frame" x="78" y="39" width="238" height="47"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="15"/>
+                        <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
             </view>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-            <constraints>
-                <constraint firstItem="3MM-je-hIC" firstAttribute="top" secondItem="8eZ-Ti-tX2" secondAttribute="bottom" constant="4" id="1VN-1e-dq5"/>
-                <constraint firstAttribute="bottom" secondItem="FOw-fn-Pkf" secondAttribute="bottom" constant="37" id="5c2-gt-1zf"/>
-                <constraint firstItem="RKv-gV-kNm" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="13" id="855-mM-PNb"/>
-                <constraint firstAttribute="trailing" secondItem="8eZ-Ti-tX2" secondAttribute="trailing" constant="7" id="ORf-3u-dFH"/>
-                <constraint firstItem="8eZ-Ti-tX2" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="11" id="ZPD-9F-U8J"/>
-                <constraint firstItem="3MM-je-hIC" firstAttribute="leading" secondItem="RKv-gV-kNm" secondAttribute="trailing" constant="8" symbolic="YES" id="b65-eG-pZ9"/>
-                <constraint firstAttribute="trailing" secondItem="FOw-fn-Pkf" secondAttribute="trailing" id="id9-i9-XqX"/>
-                <constraint firstItem="RKv-gV-kNm" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leadingMargin" id="knh-Yt-q9Z"/>
-                <constraint firstAttribute="bottom" secondItem="RKv-gV-kNm" secondAttribute="bottom" constant="18" id="qGj-fz-fF5"/>
-                <constraint firstItem="FOw-fn-Pkf" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="-2" id="xjj-6y-Ixc"/>
-            </constraints>
             <connections>
-                <outlet property="lbl_corsename" destination="3MM-je-hIC" id="nIP-HM-xJf"/>
+                <outlet property="IMG_courseimage" destination="3EJ-0W-YCp" id="Yin-qu-1jS"/>
+                <outlet property="IMG_privacy" destination="Jsm-99-J3e" id="h87-fm-WIU"/>
+                <outlet property="lbl_courseName" destination="l9k-aW-huR" id="xjf-mf-cba"/>
+                <outlet property="lbl_privacy" destination="RvP-QM-aSB" id="DVb-hs-Sg3"/>
             </connections>
+            <point key="canvasLocation" x="33" y="86.5"/>
         </collectionViewCell>
     </objects>
     <resources>

@@ -1,9 +1,9 @@
 //
 //  InfoWindow.m
-//  UnoHire
+//  WinningTicket
 //
-//  Created by carmatec on 26/04/16.
-//  Copyright © 2016 carmatec. All rights reserved.
+//  Created by Test User on 02/03/17.
+//  Copyright © 2017 Test User. All rights reserved.
 //
 
 #import "InfoWindow.h"
