@@ -142,6 +142,10 @@
 		BEC3E7EE1F1E12CA000ACB97 /* hh.png in Resources */ = {isa = PBXBuildFile; fileRef = BEC3E7ED1F1E12CA000ACB97 /* hh.png */; };
 		BEC3E7F01F1E12E5000ACB97 /* GOlf-Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = BEC3E7EF1F1E12E5000ACB97 /* GOlf-Icon.png */; };
 		BEC3E8331F1F7369000ACB97 /* VC_courseDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = BEC3E8321F1F7369000ACB97 /* VC_courseDetail.m */; };
+		BEC3E8631F22160E000ACB97 /* Call.png in Resources */ = {isa = PBXBuildFile; fileRef = BEC3E85F1F22160E000ACB97 /* Call.png */; };
+		BEC3E8641F22160E000ACB97 /* Clock.png in Resources */ = {isa = PBXBuildFile; fileRef = BEC3E8601F22160E000ACB97 /* Clock.png */; };
+		BEC3E8651F22160E000ACB97 /* Location.png in Resources */ = {isa = PBXBuildFile; fileRef = BEC3E8611F22160E000ACB97 /* Location.png */; };
+		BEC3E8661F22160E000ACB97 /* World.png in Resources */ = {isa = PBXBuildFile; fileRef = BEC3E8621F22160E000ACB97 /* World.png */; };
 		BEC548621EA4D9A500FF2114 /* auction_CellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BEC548611EA4D9A500FF2114 /* auction_CellTableViewCell.m */; };
 		BEC5486B1EA72C8500FF2114 /* VC_qty_detail.m in Sources */ = {isa = PBXBuildFile; fileRef = BEC5486A1EA72C8500FF2114 /* VC_qty_detail.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		BEC5486E1EA78EA100FF2114 /* purchase_Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = BEC5486D1EA78EA100FF2114 /* purchase_Cell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -433,6 +437,10 @@
 		BEC3E7EF1F1E12E5000ACB97 /* GOlf-Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GOlf-Icon.png"; sourceTree = "<group>"; };
 		BEC3E8311F1F7369000ACB97 /* VC_courseDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_courseDetail.h; sourceTree = "<group>"; };
 		BEC3E8321F1F7369000ACB97 /* VC_courseDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_courseDetail.m; sourceTree = "<group>"; };
+		BEC3E85F1F22160E000ACB97 /* Call.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Call.png; sourceTree = "<group>"; };
+		BEC3E8601F22160E000ACB97 /* Clock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Clock.png; sourceTree = "<group>"; };
+		BEC3E8611F22160E000ACB97 /* Location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Location.png; sourceTree = "<group>"; };
+		BEC3E8621F22160E000ACB97 /* World.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = World.png; sourceTree = "<group>"; };
 		BEC548601EA4D9A500FF2114 /* auction_CellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = auction_CellTableViewCell.h; sourceTree = "<group>"; };
 		BEC548611EA4D9A500FF2114 /* auction_CellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = auction_CellTableViewCell.m; sourceTree = "<group>"; };
 		BEC548691EA72C8500FF2114 /* VC_qty_detail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_qty_detail.h; sourceTree = "<group>"; };
@@ -1057,7 +1065,6 @@
 				BE9DCFA81EE5788D00E92FD8 /* VC_all_events.h */,
 				BE7E21E61EC040630016E316 /* VC_all_events.m */,
 				BE872BFE1E8292E3003024F4 /* Event_detail */,
-				BED71F861EEA8C5000492E97 /* Swift_codes */,
 			);
 			name = All_events;
 			sourceTree = "<group>";
@@ -1132,6 +1139,10 @@
 		BEC3E8301F1F72BA000ACB97 /* course_Detail */ = {
 			isa = PBXGroup;
 			children = (
+				BEC3E85F1F22160E000ACB97 /* Call.png */,
+				BEC3E8601F22160E000ACB97 /* Clock.png */,
+				BEC3E8611F22160E000ACB97 /* Location.png */,
+				BEC3E8621F22160E000ACB97 /* World.png */,
 				BEC3E8311F1F7369000ACB97 /* VC_courseDetail.h */,
 				BEC3E8321F1F7369000ACB97 /* VC_courseDetail.m */,
 			);
@@ -1366,6 +1377,7 @@
 				BE0055D21EC2DA1100E95941 /* ViewController.m */,
 				BECD7CBC1EF78C350037A968 /* Main.storyboard */,
 				BE5F8DE91F132C2500280683 /* Main~ipad.storyboard */,
+				BED71F861EEA8C5000492E97 /* Swift_codes */,
 				BED71F2C1EE7CB4400492E97 /* Required_IMG */,
 				BEC548631EA719A100FF2114 /* Affiliate */,
 				BEE665A01E5EBDDC00DF9235 /* Sighn_UP */,
@@ -1634,6 +1646,7 @@
 				BE3721EE1F17920A001DA70A /* Course_tblCELL.xib in Resources */,
 				BEB49DC71E76B3A900209E63 /* User-36X36.png in Resources */,
 				BEA875DC1E8CEB5A00EFBB7F /* sec1_8.png in Resources */,
+				BEC3E8641F22160E000ACB97 /* Clock.png in Resources */,
 				BEA875E01E8CEE6300EFBB7F /* Gotham Bold Regular.ttf in Resources */,
 				BECD7C801EF141990037A968 /* cell_add_referral.xib in Resources */,
 				BED71F9B1EEACF0700492E97 /* TBL_VW_Cell_EVENTS.xib in Resources */,
@@ -1647,6 +1660,7 @@
 				BEB49DCA1E76B3A900209E63 /* User-24X24.png in Resources */,
 				BED71F301EE7EDCF00492E97 /* gotham-bold-italic.otf in Resources */,
 				BE4EEEB81ED2AAB9003C1C24 /* dotActive.png in Resources */,
+				BEC3E8661F22160E000ACB97 /* World.png in Resources */,
 				BEFC20691F0619290067717D /* Montserrat-ThinItalic.ttf in Resources */,
 				BE4EEEB51ED2AAB9003C1C24 /* image4.jpg in Resources */,
 				BEFC203E1F0243DE0067717D /* Default-568h@2x.png in Resources */,
@@ -1659,6 +1673,7 @@
 				BEA875DE1E8CEE3E00EFBB7F /* Gotham Condensed Book Regular.otf in Resources */,
 				BEFCD3241F1C96410005D82D /* InfoWindow.xib in Resources */,
 				BE0055FE1EC44BF800E95941 /* purchase_Cell.xib in Resources */,
+				BEC3E8631F22160E000ACB97 /* Call.png in Resources */,
 				BEB49DCB1E76B3A900209E63 /* fontawesome-webfont.ttf in Resources */,
 				BECD7C811EF141990037A968 /* cell_add_referral~ipad.xib in Resources */,
 				BEA875DB1E8CEB5A00EFBB7F /* sec1_7.png in Resources */,
@@ -1676,6 +1691,7 @@
 				BEA875E81E8D06CA00EFBB7F /* sec0_0.png in Resources */,
 				BED71F321EE7F0C200492E97 /* gotham-medium-italic.otf in Resources */,
 				BECD7CBE1EF78C350037A968 /* Main.storyboard in Resources */,
+				BEC3E8651F22160E000ACB97 /* Location.png in Resources */,
 				BEFC20681F0619290067717D /* Montserrat-Thin.ttf in Resources */,
 				BEB702F61ECEE6CB004CB729 /* blueArrow@2x.png in Resources */,
 				BEFC20641F0619290067717D /* Montserrat-MediumItalic.ttf in Resources */,

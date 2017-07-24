@@ -16,6 +16,7 @@
 
 #pragma mark - Google MAP
 @property (nonatomic, retain) IBOutlet GMSMapView *mapView;
+
 #pragma mark - List courses
 @property (nonatomic, retain) IBOutlet UITableView *tbl_courses;
 

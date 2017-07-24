@@ -40,7 +40,6 @@
     // Do any additional setup after loading the view.
     
     _Collection_course.hidden = YES;
-    
     [self setup_VIEW];
     
     color_OLD = _VW_navBAR.backgroundColor;
@@ -148,8 +147,8 @@
     self.segmentedControl4.sectionTitles = @[@"  ALL  ", @" PUBLIC ",@"PRIVATE"];
     
     self.segmentedControl4.backgroundColor = [UIColor colorWithRed:0.97 green:0.96 blue:0.96 alpha:1.0];
-    self.segmentedControl4.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor colorWithRed:0.71 green:0.71 blue:0.71 alpha:1.0],NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:18]};
-    self.segmentedControl4.selectedTitleTextAttributes = @{NSForegroundColorAttributeName : _segment_bottom.tintColor,NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:17]};
+    self.segmentedControl4.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor colorWithRed:0.71 green:0.71 blue:0.71 alpha:1.0],NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:15]};
+    self.segmentedControl4.selectedTitleTextAttributes = @{NSForegroundColorAttributeName : _segment_bottom.tintColor,NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:15]};
     self.segmentedControl4.selectionIndicatorColor = _segment_bottom.tintColor;
     //    self.segmentedControl4.selectionIndicatorColor
     self.segmentedControl4.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe;
@@ -316,11 +315,11 @@
     [activityIndicatorView startAnimating];
     [self performSelector:@selector(API_getCOURSES:) withObject:newLocation afterDelay:0.01];
     
-    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:newLocation.coordinate.latitude
+   /* GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:newLocation.coordinate.latitude
                                                             longitude:newLocation.coordinate.longitude
                                                                  zoom:6];
 //    _mapView = [GMSMapView mapWithFrame:CGRectZero camera:camera];
-    [self.mapView animateToCameraPosition:camera];
+    [self.mapView animateToCameraPosition:camera];*/
     
 }
 
@@ -517,7 +516,6 @@
     
     // If attributed text is supported (iOS6+)
     if ([cell.lbl_courseName respondsToSelector:@selector(setAttributedText:)]) {
-        
         // Define general attributes for the entire text
         NSDictionary *attribs = @{
                                   NSForegroundColorAttributeName: cell.lbl_courseName.textColor,
@@ -533,7 +531,7 @@
         
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         {
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Gotham-BoldItalic" size:15.0]}
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Gotham-MediumItalic" size:15.0]}
                                     range:cmp];
         }
         else
@@ -541,8 +539,6 @@
             [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Gotham-MediumItalic" size:12.0]}
                                     range:cmp];
         }
-        
-        
         cell.lbl_courseName.attributedText = attributedText;
     }
     else
@@ -614,7 +610,6 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *temp_dictin = [ARR_list_data objectAtIndex:indexPath.row];
-    NSLog(@"Selected index id = %@",[temp_dictin valueForKey:@"id"]);
     
     VW_overlay.hidden = NO;
     [activityIndicatorView startAnimating];
@@ -709,10 +704,15 @@
     float heiht_p = cell.lbl_courseName.frame.size.height;
     
     CGRect frame_lbl = cell.lbl_courseName.frame;
-    frame_lbl.size.width = cell.layer.frame.size.width - 60;
+    frame_lbl.size.width = cell.layer.frame.size.width - 70;
     if (heiht_p > 47) {
         frame_lbl.origin.y = 20;
         frame_lbl.size.height = 66;
+    }
+    else
+    {
+        frame_lbl.origin.y = 39;
+        frame_lbl.size.height = 47;
     }
     
     cell.lbl_courseName.frame = frame_lbl;
@@ -775,6 +775,15 @@
 {
     return 1;
 }
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *temp_dictin = [ARR_list_data objectAtIndex:indexPath.row];
+    
+    VW_overlay.hidden = NO;
+    [activityIndicatorView startAnimating];
+    
+    [self performSelector:@selector(get_selectedCourse:) withObject:[temp_dictin valueForKey:@"id"] afterDelay:0.01];
+}
 
 - (void)viewDidLayoutSubviews
 {
@@ -814,6 +823,15 @@
     NSString *lat_STR = @"26.7307";//[NSString stringWithFormat:@"%f",get_LOC.coordinate.latitude];
     NSString *long_STR = @"-80.1001";//[NSString stringWithFormat:@"%f",get_LOC.coordinate.longitude];
     
+    double latitude_val = [[NSString stringWithFormat:@"%@",lat_STR] doubleValue];
+    double longitude_val = [[NSString stringWithFormat:@"%@",long_STR] doubleValue];
+    
+    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:latitude_val
+                                                            longitude:longitude_val
+                                                                 zoom:12];
+    //    _mapView = [GMSMapView mapWithFrame:CGRectZero camera:camera];
+    [self.mapView animateToCameraPosition:camera];
+    self.mapView.settings.compassButton = YES;
     
     NSString *urlGetuser =[NSString stringWithFormat:@"%@golfcourse/search_courses?lat=%@&lng=%@",SERVER_URL,lat_STR,long_STR];
     
@@ -862,8 +880,11 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if(aData)
     {
-        NSMutableDictionary *temp_dictin = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:kNilOptions error:&error];
-        NSLog(@"Selected course \n%@",temp_dictin);
+       // NSMutableDictionary *temp_dictin = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:kNilOptions error:&error];
+        //NSLog(@"Selected course \n%@",temp_dictin); //coursetocousedetail
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"CourseDetailcontent"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self performSegueWithIdentifier:@"coursetocousedetail" sender:self];
     }
     
     [activityIndicatorView stopAnimating];
@@ -903,7 +924,9 @@
         double latitude_val = [[NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"lat"]] doubleValue];
         double longitude_val = [[NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"lng"]] doubleValue];
         
-        NSDictionary *store_val = [NSDictionary dictionaryWithObjectsAndKeys:[temp_dictin valueForKey:@"course_type"],@"course_type",[temp_dictin valueForKey:@"name"],@"name",[temp_dictin valueForKey:@"address"],@"address",[temp_dictin valueForKey:@"course_image"],@"course_image",[temp_dictin valueForKey:@"id"],@"id", nil];
+        NSString *address = [NSString stringWithFormat:@"%@, %@",[temp_dictin valueForKey:@"city"],[temp_dictin valueForKey:@"state_or_province"]];
+        
+        NSDictionary *store_val = [NSDictionary dictionaryWithObjectsAndKeys:[temp_dictin valueForKey:@"course_type"],@"course_type",[temp_dictin valueForKey:@"name"],@"name",address,@"address",[temp_dictin valueForKey:@"course_image"],@"course_image",[temp_dictin valueForKey:@"id"],@"id", nil];
         
         [ARR_list_data addObject:store_val];
         [ARR_colection_data addObject:store_val];
@@ -922,7 +945,6 @@
     
     if ([ARR_map_data count] != 0)
     {
-        
         NSLog(@"count tbl%lu",(unsigned long)[ARR_list_data count]);
         
         if (_tbl_courses.hidden == NO) {
@@ -958,7 +980,7 @@
     NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:marker.userData options:NSASCIIStringEncoding error:&error];
 //    NSLog(@"Marker tapped Gmap :%@",dict);
     [_Collection_course scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:[[dict valueForKey:@"index"] intValue] inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
-    return YES;
+    return NO;
 }
 
 #pragma mark - Dealloc
