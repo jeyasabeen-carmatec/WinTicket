@@ -8,6 +8,8 @@
 
 #import "VC_courseDetail.h"
 #import "UIImageView+WebCache.h"
+#import "WinningTicket_Universal-Swift.h"
+#import <UIKit/UIView.h>
 
 @interface VC_courseDetail ()
 {
@@ -17,6 +19,8 @@
     float initial_ht,original_ht,button_ht,lbl_descrip_ht;
     CGRect initial_frame,original_frame,button_frame;
     float layout_height;
+    
+    NSArray *ARR_near_courselist;
 }
 
 @end
@@ -26,6 +30,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    _tbl_nearbycourse.estimatedRowHeight = 10.0;
+    _tbl_nearbycourse.rowHeight = UITableViewAutomaticDimension;
     
     VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
@@ -119,7 +126,7 @@
                          }];
         
         CGRect frame_scroll = _Scroll_contents.frame;
-        frame_scroll.origin.y = _VW_navBAR.frame.size.height + frame_map.size.height - _BTN_swipeUP_DN.frame.size.height;
+        frame_scroll.origin.y = _VW_navBAR.frame.size.height + frame_map.size.height - _BTN_swipeUP_DN.frame.size.height;//_mapView.frame.origin.y;
         frame_scroll.size.height = [UIScreen mainScreen].bounds.size.height - frame_map.size.height;
         
         [UIView beginAnimations:@"bucketsOff" context:NULL];
@@ -127,8 +134,26 @@
         _Scroll_contents.frame = frame_scroll;
         [UIView commitAnimations];
         
-        layout_height = _VW_couseDesc.frame.origin.y + _VW_couseDesc.frame.size.height;
+        float height_cell = 0.0;
         
+        for (int i = 0; i < [ARR_near_courselist count]; i++)
+        {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0] ;
+            CGRect frame = [_tbl_nearbycourse rectForRowAtIndexPath:indexPath];
+            NSLog(@"row height : %f", frame.size.height);
+        
+            height_cell = height_cell + frame.size.height;
+        }
+        
+        CGRect frame_vw = _VW_nearby_courses.frame;
+        frame_vw.size.height = _VW_nearby_courses.frame.origin.y + height_cell + _BTN_swipeUP_DN.frame.size.height/2 + 13;
+        _VW_nearby_courses.frame = frame_vw;
+        
+        CGRect tbl_frame = _tbl_nearbycourse.frame;
+        tbl_frame.size.height = _VW_nearby_courses.frame.origin.y + height_cell + _BTN_swipeUP_DN.frame.size.height/2 + 13;
+        _tbl_nearbycourse.frame = tbl_frame;
+        
+        layout_height = _VW_nearby_courses.frame.origin.y + height_cell + _BTN_swipeUP_DN.frame.size.height/2 + 13; //30000;
         [_BTN_swipeUP_DN setTitle:@"" forState:UIControlStateNormal];
     }
     else
@@ -146,14 +171,81 @@
         [UIView commitAnimations];
         
         layout_height = initial_frame.size.height;
-        
         [_BTN_swipeUP_DN setTitle:@"" forState:UIControlStateNormal];
     }
 }
 
+
 - (void) button_More_TApped
 {
-    
+   /* if ([_BTN_more.titleLabel.text isEqualToString:@"MORE "])
+    {
+        CGRect frame_oold = _Lbl_course_Description.frame;
+        _Lbl_course_Description.numberOfLines = 0;
+        [_Lbl_course_Description sizeToFit];
+        
+        if (frame_oold.size.height < lbl_descrip_ht) {
+            _Lbl_course_Description.frame = frame_oold;
+        }
+        else
+        {
+            NSLog(@"More button");
+            
+            float diff = _Lbl_course_Description.frame.size.height - lbl_descrip_ht;
+            if (diff > 0) {
+                layout_height = layout_height + diff;
+            }
+            
+            CGRect BTN_more_frame = _BTN_more.frame;
+            BTN_more_frame.origin.y = _Lbl_course_Description.frame.origin.y + _Lbl_course_Description.frame.size.height;
+            _BTN_more.frame = BTN_more_frame;
+            
+            CGRect VW_subcouseDesc_frame = _VW_subcouseDesc.frame;
+            VW_subcouseDesc_frame.size.height = _BTN_more.frame.origin.y + _BTN_more.frame.size.height;
+            //    VW_subcouseDesc_frame.size.width = _Scroll_contents.frame.size.width;
+            _VW_subcouseDesc.frame = VW_subcouseDesc_frame;
+            
+            CGRect frame_setup = _VW_couseDesc.frame;
+            frame_setup.origin.y = _VW_course_Info.frame.origin.y + _VW_course_Info.frame.size.height;
+            frame_setup.size.height = _VW_subcouseDesc.frame.size.height + 13;
+            frame_setup.size.width = _Scroll_contents.frame.size.width;
+            _VW_couseDesc.frame = frame_setup;
+            
+            frame_setup = _VW_nearby_courses.frame;
+            frame_setup.origin.y = _VW_couseDesc.frame.origin.y + _VW_couseDesc.frame.size.height;
+            frame_setup.size.width = _Scroll_contents.frame.size.width;
+            frame_setup.size.height = _tbl_nearbycourse.frame.origin.y + [_tbl_nearbycourse contentSize].height;
+            _VW_nearby_courses.frame = frame_setup;
+        }
+    }
+    else
+    {
+        CGRect lab_frame = _Lbl_course_Description.frame;
+        lab_frame.size.height = lbl_descrip_ht;
+        _Lbl_course_Description.frame = lab_frame;
+        
+        //        lbl_descrip_ht
+        CGRect BTN_more_frame = _BTN_more.frame;
+        BTN_more_frame.origin.y = _Lbl_course_Description.frame.origin.y + _Lbl_course_Description.frame.size.height;
+        _BTN_more.frame = BTN_more_frame;
+        
+        CGRect VW_subcouseDesc_frame = _VW_subcouseDesc.frame;
+        VW_subcouseDesc_frame.size.height = _BTN_more.frame.origin.y + _BTN_more.frame.size.height;
+        //    VW_subcouseDesc_frame.size.width = _Scroll_contents.frame.size.width;
+        _VW_subcouseDesc.frame = VW_subcouseDesc_frame;
+        
+        CGRect frame_setup = _VW_couseDesc.frame;
+        frame_setup.origin.y = _VW_course_Info.frame.origin.y + _VW_course_Info.frame.size.height;
+        frame_setup.size.height = _VW_subcouseDesc.frame.size.height + 13;
+        frame_setup.size.width = _Scroll_contents.frame.size.width;
+        _VW_couseDesc.frame = frame_setup;
+        
+        frame_setup = _VW_nearby_courses.frame;
+        frame_setup.origin.y = _VW_couseDesc.frame.origin.y + _VW_couseDesc.frame.size.height;
+        frame_setup.size.width = _Scroll_contents.frame.size.width;
+        frame_setup.size.height = _tbl_nearbycourse.frame.origin.y + [_tbl_nearbycourse contentSize].height;
+        _VW_nearby_courses.frame = frame_setup;
+    }*/
 }
 
 #pragma mark - API Integration
@@ -197,8 +289,12 @@
     
     [self setup_View];
     NSDictionary *selected_course = [temp_dictin valueForKey:@"course_detail"];
+    NSDictionary *nearby_course = [temp_dictin valueForKey:@"nearby_courses"];
+    ARR_near_courselist = [[NSArray alloc]init];
+    ARR_near_courselist = [nearby_course valueForKey:@"list"];
     
-    NSLog(@"Value from VC couse detail selected_course = \n%@",selected_course);
+    
+    NSLog(@"Value from VC couse detail nearby courses = \n%@",temp_dictin);
     
     NSString *selected_coursename = [selected_course valueForKey:@"name"];
     
@@ -256,7 +352,7 @@
         // Define general attributes for the entire text
         NSDictionary *attribs = @{
                                   NSForegroundColorAttributeName: _Lbl_course_name.textColor,
-                                  NSFontAttributeName: _Lbl_course_name.font,
+                                  NSFontAttributeName: [UIFont fontWithName:@"GothamBold" size:15.0],
                                   NSBaselineOffsetAttributeName : @3.0f
                                   };
         NSMutableAttributedString *attributedText =
@@ -346,8 +442,7 @@
     CGRect frame_setup = _VW_course.frame;
     frame_setup.size.width = _Scroll_contents.frame.size.width;
     
-   
-    
+
 //    CGRect frame_subview = _Lbl_course_name.frame;
     if (_Lbl_course_name.frame.size.height > _IMG_course_image.frame.size.height) {
         old_frame_lbl.origin.y = (_IMG_course_image.frame.origin.y + _IMG_course_image.frame.size.height)/2;
@@ -425,6 +520,20 @@
     frame_setup.size.width = _Scroll_contents.frame.size.width;
     _VW_couseDesc.frame = frame_setup;
     
+//    _tbl_nearbycourse.scrollEnabled = NO;
+    [_tbl_nearbycourse layoutIfNeeded];
+    
+    
+//    CGRect frame_tbl = _tbl_nearbycourse.frame;
+//    frame_tbl.size.height = 250000.0f;
+//    _tbl_nearbycourse.frame = frame_tbl;
+    
+    frame_setup = _VW_nearby_courses.frame;
+    frame_setup.origin.y = _VW_couseDesc.frame.origin.y + _VW_couseDesc.frame.size.height;
+    frame_setup.size.width = _Scroll_contents.frame.size.width;
+    frame_setup.size.height = _tbl_nearbycourse.frame.origin.y + [_tbl_nearbycourse contentSize].height;
+    _VW_nearby_courses.frame = frame_setup;
+    
     CGRect frame_scroll = _Scroll_contents.frame;
     frame_scroll.origin.y = _VW_navBAR.frame.size.height + _mapView.frame.size.height - _VW_course.frame.size.height;
     frame_scroll.size.height = _VW_course.frame.size.height;
@@ -434,6 +543,7 @@
     [_Scroll_contents addSubview:_VW_course];
     [_Scroll_contents addSubview:_VW_course_Info];
     [_Scroll_contents addSubview:_VW_couseDesc];
+    [_Scroll_contents addSubview:_VW_nearby_courses];
     
     initial_frame = _Scroll_contents.frame;
     initial_ht = _mapView.frame.size.height;
@@ -444,6 +554,166 @@
 {
     [super viewDidLayoutSubviews];
     _Scroll_contents.contentSize = CGSizeMake(_Scroll_contents.frame.size.width, layout_height);
+}
+
+
+#pragma mark - UITableview Datasource/Deligate
+//ARR_near_courselist
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [ARR_near_courselist count];
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *simpleTableIdentifier = @"SimpleTableItem";
+    Course_tblCELL *cell = (Course_tblCELL *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    if (cell == nil)
+    {
+        NSArray *nib;
+        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+        {
+            nib = [[NSBundle mainBundle] loadNibNamed:@"Course_tblCELL~iPad" owner:self options:nil];
+        }
+        else
+        {
+            nib = [[NSBundle mainBundle] loadNibNamed:@"Course_tblCELL" owner:self options:nil];
+        }
+        cell = [nib objectAtIndex:0];
+    }
+    
+    NSDictionary *temp_dictin = [ARR_near_courselist objectAtIndex:indexPath.row];
+    NSString *course_type = [temp_dictin valueForKey:@"course_type"];
+    course_type = [course_type stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    course_type = [course_type stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    
+    NSString *course_name = [temp_dictin valueForKey:@"name"];
+    course_name = [course_name stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    course_name = [course_name stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    
+    NSString *address_sel = [NSString stringWithFormat:@"%@, %@",[temp_dictin valueForKey:@"city"],[temp_dictin valueForKey:@"state_or_province"]];
+    
+    NSString *address = address_sel;
+    address = [address stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    address = [address stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    
+    NSString *text = [NSString stringWithFormat:@"%@\n%@",course_name,address];
+    
+    
+    // If attributed text is supported (iOS6+)
+    if ([cell.lbl_courseName respondsToSelector:@selector(setAttributedText:)]) {
+        // Define general attributes for the entire text
+        NSDictionary *attribs = @{
+                                  NSForegroundColorAttributeName: cell.lbl_courseName.textColor,
+                                  NSFontAttributeName: cell.lbl_courseName.font
+                                  };
+        NSMutableAttributedString *attributedText =
+        [[NSMutableAttributedString alloc] initWithString:text
+                                               attributes:attribs];
+        
+        // Red text attributes
+        //            UIColor *redColor = [UIColor redColor];
+        NSRange cmp = [text rangeOfString:address];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        {
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Gotham-MediumItalic" size:15.0]}
+                                    range:cmp];
+        }
+        else
+        {
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Gotham-MediumItalic" size:12.0]}
+                                    range:cmp];
+        }
+        cell.lbl_courseName.attributedText = attributedText;
+    }
+    else
+    {
+        cell.lbl_courseName.text = text;
+    }
+    
+    cell.lbl_courseName.numberOfLines = 0;
+    [cell.lbl_courseName sizeToFit];
+    
+    if ([course_type isEqualToString:@"private"])
+    {
+        UIImage *newImage = [cell.IMG_privacy.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        UIGraphicsBeginImageContextWithOptions(cell.IMG_privacy.image.size, NO, newImage.scale);
+        [[UIColor colorWithRed:0.00 green:0.00 blue:1.00 alpha:1.0] set];
+        [newImage drawInRect:CGRectMake(0, 0, cell.IMG_privacy.image.size.width, newImage.size.height)];
+        newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        cell.IMG_privacy.image = newImage;
+    }
+    else if ([course_type isEqualToString:@"public"])
+    {
+        UIImage *newImage = [cell.IMG_privacy.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        UIGraphicsBeginImageContextWithOptions(cell.IMG_privacy.image.size, NO, newImage.scale);
+        [[UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0] set];
+        [newImage drawInRect:CGRectMake(0, 0, cell.IMG_privacy.image.size.width, newImage.size.height)];
+        newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        cell.IMG_privacy.image = newImage;
+    }
+    else
+    {
+        UIImage *newImage = [cell.IMG_privacy.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        UIGraphicsBeginImageContextWithOptions(cell.IMG_privacy.image.size, NO, newImage.scale);
+        [[UIColor whiteColor] set];
+        [newImage drawInRect:CGRectMake(0, 0, cell.IMG_privacy.image.size.width, newImage.size.height)];
+        newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        cell.IMG_privacy.image = newImage;
+    }
+    
+    cell.lbl_privacy.text = [course_type uppercaseString];
+    
+    NSString *website_url = [temp_dictin valueForKey:@"course_image"];
+    if (website_url)
+    {
+        website_url = [NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_dictin valueForKey:@"course_image"]];
+        [cell.IMG_courseimage sd_setImageWithURL:[NSURL URLWithString:website_url]
+                                placeholderImage:[UIImage imageNamed:@"profile_pic.png"]];
+    }
+    
+    cell.IMG_courseimage.layer.cornerRadius = cell.IMG_courseimage.frame.size.width/2;
+    cell.IMG_courseimage.layer.masksToBounds = YES;
+    
+    
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        [cell setSeparatorInset:UIEdgeInsetsZero];
+    }
+    
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
+    }
+    
+    return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGRect frame_map = _mapView.frame;
+    frame_map.size.height = initial_ht;
+    [UIView animateWithDuration:0.4f
+                     animations:^{
+                         _mapView.frame = frame_map;
+                     }];
+    
+    [UIView beginAnimations:@"bucketsOff" context:NULL];
+    [UIView setAnimationDuration:0.4f];
+    _Scroll_contents.frame = initial_frame;
+    [UIView commitAnimations];
+    
+    layout_height = initial_frame.size.height;
+    [_BTN_swipeUP_DN setTitle:@"" forState:UIControlStateNormal];
+    
+    NSLog(@"Cell selected at indexpath %ld",(long)indexPath.row);
+    NSDictionary *temp_dictin = [ARR_near_courselist objectAtIndex:indexPath.row];
+    ARR_near_courselist = nil;
+    VW_overlay.hidden = NO;
+    [activityIndicatorView startAnimating];
+    [self performSelector:@selector(get_selectedCourse:) withObject:[temp_dictin valueForKey:@"id"] afterDelay:0.01];
 }
 
 @end

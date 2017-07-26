@@ -299,6 +299,21 @@
         [locationManager requestWhenInUseAuthorization];
     }
     [locationManager startUpdatingLocation];
+    
+    
+   /* if ([CLLocationManager locationServicesEnabled]){
+        
+        NSLog(@"Location Services Enabled");
+        
+        if ([CLLocationManager authorizationStatus]==kCLAuthorizationStatusDenied){
+            alert = [[UIAlertView alloc] initWithTitle:@"App Permission Denied"
+                                               message:@"To re-enable, please go to Settings and turn on Location Service for this app."
+                                              delegate:nil
+                                     cancelButtonTitle:@"OK"
+                                     otherButtonTitles:nil];
+            [alert show];
+        }
+    }*/
 }
 
 #pragma mark - Location Manager
@@ -599,6 +614,14 @@
 //    }
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        [cell setSeparatorInset:UIEdgeInsetsZero];
+    }
+    
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
+    }
+    
     return cell;
 }
 
@@ -789,6 +812,14 @@
 {
     [super viewDidLayoutSubviews];
     [_Collection_course.collectionViewLayout invalidateLayout];
+    
+    if ([self.tbl_courses respondsToSelector:@selector(setSeparatorInset:)]) {
+        [self.tbl_courses setSeparatorInset:UIEdgeInsetsZero];
+    }
+    
+    if ([self.tbl_courses respondsToSelector:@selector(setLayoutMargins:)]) {
+        [self.tbl_courses setLayoutMargins:UIEdgeInsetsZero];
+    }
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset

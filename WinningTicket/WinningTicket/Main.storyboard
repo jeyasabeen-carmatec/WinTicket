@@ -4409,12 +4409,38 @@
                         <outlet property="VW_course_Info" destination="F6H-wQ-SnU" id="7Ll-DD-8u8"/>
                         <outlet property="VW_couseDesc" destination="Moc-K7-VCN" id="t8r-wZ-dRt"/>
                         <outlet property="VW_navBAR" destination="22d-gQ-fdV" id="yB2-7f-FsU"/>
+                        <outlet property="VW_nearby_courses" destination="vxX-rZ-jm3" id="z4J-0Y-fsZ"/>
                         <outlet property="VW_subcouseDesc" destination="2ee-oP-j5x" id="Ai0-k1-9vO"/>
                         <outlet property="mapView" destination="k3e-lk-Bpd" id="bwF-CC-BBz"/>
                         <outlet property="search_BAR" destination="8jc-D7-PzW" id="x4n-ya-5O0"/>
+                        <outlet property="tbl_nearbycourse" destination="LxC-eB-Grq" id="8JO-qf-6nV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kuD-Cm-YE1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" misplaced="YES" id="vxX-rZ-jm3">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="801"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="  Nearby Courses" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nO2-RM-vex">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="39"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="LxC-eB-Grq">
+                            <rect key="frame" x="0.0" y="40" width="320" height="761"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="dataSource" destination="kzI-xq-tDH" id="rgS-2m-qaS"/>
+                                <outlet property="delegate" destination="kzI-xq-tDH" id="4cd-5w-AaM"/>
+                            </connections>
+                        </tableView>
+                    </subviews>
+                    <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
                 <view contentMode="scaleToFill" misplaced="YES" id="Moc-K7-VCN">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="173"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>

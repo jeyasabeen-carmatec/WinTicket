@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <GoogleMaps/GoogleMaps.h>
 
-@interface VC_courseDetail : UIViewController <GMSMapViewDelegate>
+@interface VC_courseDetail : UIViewController <GMSMapViewDelegate, UITableViewDelegate, UITableViewDataSource>
 
 #pragma mark - Manage UI searchbar/Navigation bar
 @property (nonatomic, retain) IBOutlet UILabel *Lbl_navTITLE;
@@ -41,5 +41,9 @@
 @property (nonatomic, retain) IBOutlet UIView *VW_subcouseDesc;
 @property (nonatomic, retain) IBOutlet UILabel *Lbl_course_Description; //MORE 
 @property (nonatomic, retain) IBOutlet UIButton *BTN_more;
+
+#pragma mark - Nearby Courses
+@property (nonatomic, retain) IBOutlet UIView *VW_nearby_courses;
+@property (nonatomic, retain) IBOutlet UITableView *tbl_nearbycourse;
 
 @end

@@ -5,3 +5,4 @@
 #import "VC_all_events.h"
 #import "VC_home.h"
 #import "VC_courses.h"
+#import "VC_courseDetail.h"
