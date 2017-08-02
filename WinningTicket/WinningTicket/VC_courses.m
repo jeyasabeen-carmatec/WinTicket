@@ -102,6 +102,7 @@
     activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
     
+    
     //    loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 170, 200, 22)];
     //    loadingLabel.backgroundColor = [UIColor clearColor];
     //    loadingLabel.textColor = [UIColor whiteColor];
@@ -120,7 +121,18 @@
     VW_overlay.hidden = YES;
     
     [self addSEgmentedControl];
-    [self add_GMAP];
+    
+    NSString *vw_stat = [[NSUserDefaults standardUserDefaults] valueForKey:@"SEARCH_STAT"];
+    if (vw_stat) {
+        [self ADD_marker];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SEARCH_STAT"];
+        [[NSUserDefaults standardUserDefaults]synchronize];
+    }
+    else
+    {
+        [self add_GMAP];
+    }
+    
     
     _tbl_courses.estimatedRowHeight = 10.0;
     _tbl_courses.rowHeight = UITableViewAutomaticDimension;
@@ -412,7 +424,7 @@
 -(void) MET_serch_TAP
 {
     
-    [UIView transitionWithView:_Lbl_navTITLE
+   /* [UIView transitionWithView:_Lbl_navTITLE
                       duration:0.4
                        options:UIViewAnimationOptionTransitionCrossDissolve
                     animations:^{
@@ -448,7 +460,9 @@
     [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:_BTN_close cache:YES];
     [UIView commitAnimations];
     
-    [[UIApplication sharedApplication] setStatusBarStyle: UIStatusBarStyleDefault];
+    [[UIApplication sharedApplication] setStatusBarStyle: UIStatusBarStyleDefault];*/
+    
+    [self performSegueWithIdentifier:@"coursestosearch" sender:self];
 }
 
 -(void) MET_nav_Close
@@ -954,6 +968,14 @@
         
         double latitude_val = [[NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"lat"]] doubleValue];
         double longitude_val = [[NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"lng"]] doubleValue];
+        
+        if (i == 0) {
+            GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:latitude_val
+                                                                    longitude:longitude_val
+                                                                         zoom:12];
+            [self.mapView animateToCameraPosition:camera];
+            self.mapView.settings.compassButton = YES;
+        }
         
         NSString *address = [NSString stringWithFormat:@"%@, %@",[temp_dictin valueForKey:@"city"],[temp_dictin valueForKey:@"state_or_province"]];
         

@@ -20,7 +20,7 @@
     CGRect initial_frame,original_frame,button_frame;
     float layout_height;
     
-    NSArray *ARR_near_courselist;
+    NSMutableArray *ARR_near_courselist;
 }
 
 @end
@@ -87,6 +87,8 @@
     _BTN_close.hidden = YES;
     [_BTN_back addTarget:self action:@selector(METH_back) forControlEvents:UIControlEventTouchUpInside];
     
+    [_BTN_search addTarget:self action:@selector(METH_search) forControlEvents:UIControlEventTouchUpInside];
+    
    // _Scroll_contents.hidden = YES;
     
    /* CGRect BTN_frame = _BTN_swipeUP_DN.frame;
@@ -111,6 +113,10 @@
 -(void) METH_back
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+-(void) METH_search
+{
+    [self performSegueWithIdentifier:@"courseDetailtosearch" sender:self];
 }
 -(void) METH_swipeUP_BTN
 {
@@ -284,14 +290,28 @@
 #pragma mark - JsonSerialisation
 -(void) serialize_jsonData
 {
+    [ARR_near_courselist removeAllObjects];
     NSError *error;
     NSMutableDictionary *temp_dictin = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults] valueForKey:@"CourseDetailcontent"] options:kNilOptions error:&error];
     
     [self setup_View];
     NSDictionary *selected_course = [temp_dictin valueForKey:@"course_detail"];
     NSDictionary *nearby_course = [temp_dictin valueForKey:@"nearby_courses"];
-    ARR_near_courselist = [[NSArray alloc]init];
-    ARR_near_courselist = [nearby_course valueForKey:@"list"];
+    ARR_near_courselist = [[NSMutableArray alloc]init];
+//    ARR_near_courselist = [nearby_course valueForKey:@"list"];
+    
+    NSArray *temp_arr = [nearby_course valueForKey:@"list"];
+    
+    for (int i = 0; i < [temp_arr count]; i++)
+    {
+        NSDictionary *temp_dictin = [temp_arr objectAtIndex:i];
+        
+        NSString *address = [NSString stringWithFormat:@"%@, %@",[temp_dictin valueForKey:@"city"],[temp_dictin valueForKey:@"state_or_province"]];
+        
+        NSDictionary *store_val = [NSDictionary dictionaryWithObjectsAndKeys:[temp_dictin valueForKey:@"course_type"],@"course_type",[temp_dictin valueForKey:@"name"],@"name",address,@"address",[temp_dictin valueForKey:@"course_image"],@"course_image",[temp_dictin valueForKey:@"id"],@"id", nil];
+        
+        [ARR_near_courselist addObject:store_val];
+    }
     
     
     NSLog(@"Value from VC couse detail nearby courses = \n%@",temp_dictin);
@@ -590,13 +610,13 @@
     course_name = [course_name stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
     course_name = [course_name stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
     
-    NSString *address_sel = [NSString stringWithFormat:@"%@, %@",[temp_dictin valueForKey:@"city"],[temp_dictin valueForKey:@"state_or_province"]];
+    NSString *address_sel = [NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"address"]];
     
-    NSString *address = address_sel;
-    address = [address stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-    address = [address stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+//    NSString *address = address_sel;
+    address_sel = [address_sel stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+    address_sel = [address_sel stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
     
-    NSString *text = [NSString stringWithFormat:@"%@\n%@",course_name,address];
+    NSString *text = [NSString stringWithFormat:@"%@\n%@",course_name,address_sel];
     
     
     // If attributed text is supported (iOS6+)
@@ -612,7 +632,7 @@
         
         // Red text attributes
         //            UIColor *redColor = [UIColor redColor];
-        NSRange cmp = [text rangeOfString:address];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+        NSRange cmp = [text rangeOfString:address_sel];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
         
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         {
@@ -632,7 +652,9 @@
     }
     
     cell.lbl_courseName.numberOfLines = 0;
-    [cell.lbl_courseName sizeToFit];
+//    [cell.lbl_courseName sizeToFit];
+    
+    cell.lbl_id.text = [NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"id"]];
     
     if ([course_type isEqualToString:@"private"])
     {
@@ -708,12 +730,19 @@
     layout_height = initial_frame.size.height;
     [_BTN_swipeUP_DN setTitle:@"" forState:UIControlStateNormal];
     
-    NSLog(@"Cell selected at indexpath %ld",(long)indexPath.row);
+   /* NSLog(@"Cell selected at indexpath %ld",(long)indexPath.row);
     NSDictionary *temp_dictin = [ARR_near_courselist objectAtIndex:indexPath.row];
-    ARR_near_courselist = nil;
     VW_overlay.hidden = NO;
     [activityIndicatorView startAnimating];
-    [self performSelector:@selector(get_selectedCourse:) withObject:[temp_dictin valueForKey:@"id"] afterDelay:0.01];
+    [self performSelector:@selector(get_selectedCourse:) withObject:[temp_dictin valueForKey:@"id"] afterDelay:0.01];*/
+    
+    Course_tblCELL *cell = (Course_tblCELL *)[_tbl_nearbycourse cellForRowAtIndexPath:indexPath];
+    NSLog(@"Cell property = %@",cell.lbl_id.text);
+    
+    
+    VW_overlay.hidden = NO;
+    [activityIndicatorView startAnimating];
+    [self performSelector:@selector(get_selectedCourse:) withObject:cell.lbl_id.text afterDelay:0.01];
 }
 
 @end
