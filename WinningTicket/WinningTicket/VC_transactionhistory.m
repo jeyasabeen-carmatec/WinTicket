@@ -155,7 +155,7 @@
     static NSString *simpleTableIdentifier = @"SimpleTableItem";
     
     CELL_trans_hstry *cell = (CELL_trans_hstry *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-     NSMutableDictionary *temp_dictin=[transaction_history objectAtIndex:indexPath.row];
+    NSMutableDictionary *temp_dictin = [transaction_history objectAtIndex:indexPath.row];
     
     
     NSLog(@"the data count is:%lu",(unsigned long)temp_dictin.count);
@@ -177,7 +177,7 @@
 //    [NSDictionary dictionaryWithObjectsAndKeys:@"#0003125",@"ticket_number",@"Nov 29, 2016 5:12pm EST",@"date",@"Donation",@"purpose",@"-200.00",@"amount", nil];
     
     
-    NSString *ticket_number = [NSString stringWithFormat:@"#%@",[temp_dictin valueForKey:@"order_id"]];
+    NSString *ticket_number = [NSString stringWithFormat:@"#%@",[temp_dictin valueForKey:@"id"]];
     NSString *date = [self getLocalDateTimeFromUTC:[temp_dictin valueForKey:@"created_at"]];
     NSString *purpose = [temp_dictin valueForKey:@"transaction_type"];
     
@@ -196,15 +196,20 @@
     NSString *amount = [NSString stringWithFormat:@"%.02f",[[temp_dictin valueForKey:@"amount"] floatValue]];
     if([purpose isEqualToString:@"donation"] || [purpose isEqualToString:@"Ticket Purchase"] || [purpose isEqualToString:@"withdrawal"])
     {
-        cell.lbl_amount.textColor = [UIColor redColor];
+        cell.lbl_amount.textColor = [UIColor colorWithRed:0.98 green:0.00 blue:0.04 alpha:1.0];
         cell.lbl_amount.text = [NSString stringWithFormat:@"$%@",amount];
         
     }
     else
     {
-        cell.lbl_amount.textColor = [UIColor colorWithRed:0.00 green:0.65 blue:0.32 alpha:1.0];
+        cell.lbl_amount.textColor = [UIColor colorWithRed:0.03 green:0.65 blue:0.32 alpha:1.0];
         cell.lbl_amount.text = [NSString stringWithFormat:@"$%@",amount];
     }
+    
+//    if ([purpose isEqualToString:@"withdrawal"])
+//    {
+//        ticket_number = [NSString stringWithFormat:@"#%@",[temp_dictin valueForKey:@"id"]];
+//    }
     
     ticket_number = [ticket_number stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
     date = [date stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
@@ -264,6 +269,16 @@
         return 95;
     }
 }
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *temp_dictn = [transaction_history objectAtIndex:indexPath.row];
+    NSString *STR_id = [temp_dictn valueForKey:@"id"];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:STR_id forKey:@"transID"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self performSegueWithIdentifier:@"transactionDeatail" sender:self];
+}
+
 -(NSString *)getLocalDateTimeFromUTC:(NSString *)strDate
 {
     

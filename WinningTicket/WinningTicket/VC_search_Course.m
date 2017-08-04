@@ -18,6 +18,7 @@
     
     NSArray *ARR_states,*ARR_courses,*ARR_sorted_states,*ARR_sorted_courses;
     UIButton *clearButton_places,*clearButton_courses;
+    
 }
 @end
 
@@ -27,11 +28,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    
     [self setup_VIEW];
     
     /*Text field event listener*/
-    [_TXT_places addTarget:self action:@selector(TXT_Place_change) forControlEvents:UIControlEventEditingChanged];
-    [_TXT_courses addTarget:self action:@selector(TXT_Course_chage) forControlEvents:UIControlEventEditingChanged];
+//    [_TXT_places addTarget:self action:@selector(TXT_Place_change) forControlEvents:UIControlEventEditingChanged];
+//    [_TXT_courses addTarget:self action:@selector(TXT_Course_chage) forControlEvents:UIControlEventEditingChanged];
     /*Text field event listener*/
     
     /*Add clear button in text field*/
@@ -121,6 +123,12 @@
     _TBL_courses.rowHeight = UITableViewAutomaticDimension;
     _TBL_courses.hidden = YES;
     
+    _TXT_courses.layer.borderWidth = 1.0f;
+    _TXT_courses.layer.borderColor = [UIColor blackColor].CGColor;
+    
+    _TXT_places.layer.borderWidth = 1.0f;
+    _TXT_places.layer.borderColor = [UIColor blackColor].CGColor;
+    
     [_BTN_search_course addTarget:self action:@selector(API_search_BTN) forControlEvents:UIControlEventTouchUpInside];
 }
 
@@ -135,10 +143,13 @@
     [_TXT_places resignFirstResponder];
     _TXT_places.text = @"";
     _TBL_places.hidden = YES;
-    [_TXT_places becomeFirstResponder];
+//    [_TXT_places becomeFirstResponder];
     [_TXT_places resignFirstResponder];
     _TXT_places.text = @"";
     _TBL_places.hidden = YES;
+    
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden = YES;
 }
 -(void) clearTextField_courses
 {
@@ -146,10 +157,13 @@
     [_TXT_courses resignFirstResponder];
     _TXT_courses.text = @"";
     _TBL_courses.hidden = YES;
-    [_TXT_courses becomeFirstResponder];
+//    [_TXT_courses becomeFirstResponder];
     [_TXT_courses resignFirstResponder];
     _TXT_courses.text = @"";
     _TBL_courses.hidden = YES;
+    
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden = YES;
 }
 -(void) API_search_BTN
 {
@@ -177,6 +191,50 @@
         [activityIndicatorView startAnimating];
         [self performSelector:@selector(API_search_BTN_act:) withObject:Dictin_temp afterDelay:0.01];
     }
+}
+
+
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField == _TXT_places)
+    {
+        clearButton_places.hidden = NO;
+        if ([string isEqualToString:@""]) {
+            NSLog(@"Backspace");
+            
+            NSPredicate *bPredicate = [NSPredicate predicateWithFormat:@"SELF contains[cd] %@",_TXT_places.text];
+            ARR_sorted_states = [ARR_states filteredArrayUsingPredicate:bPredicate];
+            NSLog(@"HERE %@",ARR_sorted_states);
+            [_TBL_places reloadData];
+            
+            return YES;
+        }
+        else
+        {
+            [self TXT_Place_change];
+            return YES;
+        }
+    }
+    else
+    {
+        clearButton_courses.hidden = NO;
+        if ([string isEqualToString:@""]) {
+            NSLog(@"Backspace");
+            
+            NSPredicate *bPredicate = [NSPredicate predicateWithFormat:@"SELF contains[cd] %@",_TXT_courses.text];
+            ARR_sorted_courses = [ARR_courses filteredArrayUsingPredicate:bPredicate];
+            NSLog(@"HERE %@",ARR_sorted_courses);
+            [_TBL_courses reloadData];
+            
+            return YES;
+        }
+        else
+        {
+            [self TXT_Course_chage];
+            return YES;
+        }
+    }
+    return YES;
 }
 
 #pragma mark - Uitextfield event listener
@@ -288,6 +346,8 @@
         
         @try {
             ARR_states = [json_DATA valueForKey:@"course_locations"];
+            ARR_sorted_states = ARR_states;
+            [_TBL_places reloadData];
             [self API_searchbycourse];
         } @catch (NSException *exception) {
             NSLog(@"Exception %@",exception);
@@ -328,6 +388,8 @@
         
         @try {
             ARR_courses = [json_DATA valueForKey:@"course_names"];
+            ARR_sorted_courses = ARR_courses;
+            [_TBL_courses reloadData];
         } @catch (NSException *exception) {
             NSLog(@"Exception %@",exception);
         }
@@ -374,9 +436,24 @@
         @try {
             ARR_states = [json_DATA valueForKey:@"course_locations"];
             
-            NSPredicate *bPredicate = [NSPredicate predicateWithFormat:@"SELF contains[cd] %@",_TXT_places.text];
-            ARR_sorted_states = [ARR_states filteredArrayUsingPredicate:bPredicate];
-            [_TBL_places reloadData];
+            if ([_TXT_places.text length] == 0) {
+                ARR_sorted_states = ARR_states;
+            }
+            else
+            {
+                NSPredicate *bPredicate = [NSPredicate predicateWithFormat:@"SELF contains[cd] %@",_TXT_places.text];
+                ARR_sorted_states = [ARR_states filteredArrayUsingPredicate:bPredicate];
+            }
+            
+            if ([ARR_sorted_states count] !=0) {
+                _TBL_places.hidden = NO;
+                [_TBL_places reloadData];
+            }
+            else
+            {
+                _TBL_places.hidden = YES;
+            }
+            
             
         } @catch (NSException *exception) {
             NSLog(@"Exception %@",exception);
@@ -427,9 +504,23 @@
         @try {
             ARR_courses = [json_DATA valueForKey:@"course_names"];
             
-            NSPredicate *bPredicate = [NSPredicate predicateWithFormat:@"SELF contains[cd] %@",_TXT_courses.text];
-            ARR_sorted_courses = [ARR_courses filteredArrayUsingPredicate:bPredicate];
-            [_TBL_courses reloadData];
+            if ([_TXT_courses.text length] == 0) {
+                ARR_sorted_courses = ARR_courses;
+            }
+            else
+            {
+                NSPredicate *bPredicate = [NSPredicate predicateWithFormat:@"SELF contains[cd] %@",_TXT_courses.text];
+                ARR_sorted_courses = [ARR_courses filteredArrayUsingPredicate:bPredicate];
+            }
+            
+            if ([ARR_sorted_courses count] != 0) {
+                _TBL_courses.hidden = NO;
+                [_TBL_courses reloadData];
+            }
+            else
+            {
+                _TBL_courses.hidden = YES;
+            }
             
         } @catch (NSException *exception) {
             NSLog(@"Exception %@",exception);
@@ -494,18 +585,21 @@
             [[NSUserDefaults standardUserDefaults] setValue:aData forKey:@"COURSESDICTIN"];
             [[NSUserDefaults standardUserDefaults] setValue:@"SearchVC" forKey:@"SEARCH_STAT"];
             [[NSUserDefaults standardUserDefaults] synchronize];
+            [self navigate_courses];
         }
         else if ([private_course count] != 0)
         {
             [[NSUserDefaults standardUserDefaults] setValue:aData forKey:@"COURSESDICTIN"];
             [[NSUserDefaults standardUserDefaults] setValue:@"SearchVC" forKey:@"SEARCH_STAT"];
             [[NSUserDefaults standardUserDefaults] synchronize];
+            [self navigate_courses];
         }
         else if ([public count] !=0)
         {
             [[NSUserDefaults standardUserDefaults] setValue:aData forKey:@"COURSESDICTIN"];
             [[NSUserDefaults standardUserDefaults] setValue:@"SearchVC" forKey:@"SEARCH_STAT"];
             [[NSUserDefaults standardUserDefaults] synchronize];
+            [self navigate_courses];
         }
         else
         {
@@ -555,6 +649,7 @@
     {
         cell.lbl_eventName.text = [ARR_sorted_states objectAtIndex:indexPath.row];
     }
+    cell.lbl_eventName.numberOfLines = 0;
     [cell.lbl_eventName sizeToFit];
     return cell;
 }
@@ -599,18 +694,52 @@
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
     if (textField == _TXT_places) {
-        _TBL_places.hidden = NO;
-        _TBL_courses.hidden = YES;
-        ARR_sorted_states = ARR_states;
-        [_TBL_places reloadData];
+        if ([_TXT_courses.text length] == 0) {
+            _TBL_places.hidden = NO;
+            _TBL_courses.hidden = YES;
+            ARR_sorted_states = ARR_states;
+            
+            if ([ARR_sorted_states count] == 0) {
+                VW_overlay.hidden = NO;
+                [activityIndicatorView startAnimating];
+                [self performSelector:@selector(API_searchbylocation) withObject:activityIndicatorView afterDelay:0.01];
+            }
+            
+            [_TBL_places reloadData];
+        }
+        else
+        {
+            NSDictionary *Dictin_temp = [NSDictionary dictionaryWithObjectsAndKeys:@"",@"places",_TXT_courses.text,@"courses", nil];
+            VW_overlay.hidden = NO;
+            [activityIndicatorView startAnimating];
+            [self performSelector:@selector(API_autosuggest_location:) withObject:Dictin_temp afterDelay:0.01];
+        }
     }
     else
     {
-        _TBL_places.hidden = YES;
-        _TBL_courses.hidden = NO;
-        ARR_sorted_courses = ARR_courses;
-        [_TBL_courses reloadData];
+        if ([_TXT_places.text length] == 0) {
+            _TBL_places.hidden = YES;
+            _TBL_courses.hidden = NO;
+            ARR_sorted_courses = ARR_courses;
+            
+            if ([ARR_sorted_courses count] == 0) {
+                VW_overlay.hidden = NO;
+                [activityIndicatorView startAnimating];
+                [self performSelector:@selector(API_searchbycourse) withObject:activityIndicatorView afterDelay:0.01];
+            }
+            [_TBL_courses reloadData];
+        }
+        else
+        {
+            NSDictionary *Dictin_temp = [NSDictionary dictionaryWithObjectsAndKeys:_TXT_places.text,@"places",@"",@"courses", nil];
+            VW_overlay.hidden = NO;
+            [activityIndicatorView startAnimating];
+            [self performSelector:@selector(API_autosuggest_course:) withObject:Dictin_temp afterDelay:0.01];
+        }
     }
+    
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden = YES;
 }
 
 #pragma mark - navigate courses

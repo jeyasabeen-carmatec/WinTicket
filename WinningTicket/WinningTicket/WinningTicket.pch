@@ -19,17 +19,18 @@
 #define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
 
 //Tejeswi system
-//#define SERVER_URL @"http://192.168.3.135:3000/api/v1/"
-//#define SERVER_USR @"http://192.168.3.135:3000/api/v1/users/"
-//#define IMAGE_URL @"http://192.168.3.135:3000"
+#define SERVER_URL @"http://192.168.3.135:3000/api/v1/"
+#define SERVER_USR @"http://192.168.3.135:3000/api/v1/users/"
+#define IMAGE_URL @"http://192.168.3.135:3000"
 
 //http://192.168.3.40:3000
 
 //Venkatesh system
-#define SERVER_URL @"http://192.168.3.40:3000/api/v1/"
-#define SERVER_USR @"http://192.168.3.40:3000/api/v1/users/"
-#define IMAGE_URL @"http://192.168.3.40:3000"
+//#define SERVER_URL @"http://192.168.3.40:3000/api/v1/"
+//#define SERVER_USR @"http://192.168.3.40:3000/api/v1/users/"
+//#define IMAGE_URL @"http://192.168.3.40:3000"
 
+//Staging Server
 //#define SERVER_URL @"http://winningticket.carmatec.com/api/v1/"
 //#define SERVER_USR @"http://winningticket.carmatec.com/api/v1/users/"
 //#define IMAGE_URL @"http://winningticket.carmatec.com"

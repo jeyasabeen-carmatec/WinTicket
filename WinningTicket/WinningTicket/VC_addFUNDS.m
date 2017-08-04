@@ -51,9 +51,12 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    NSIndexPath *indexPathForFirstRow = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self.amount_collection selectItemAtIndexPath:indexPathForFirstRow animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-    [self collectionView:self.amount_collection didSelectItemAtIndexPath:indexPathForFirstRow];
+    if ([asc_denomarr count] != 0)
+    {
+        NSIndexPath *indexPathForFirstRow = [NSIndexPath indexPathForRow:0 inSection:0];
+        [self.amount_collection selectItemAtIndexPath:indexPathForFirstRow animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+        [self collectionView:self.amount_collection didSelectItemAtIndexPath:indexPathForFirstRow];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -100,7 +103,14 @@
     }];
     NSLog(@"Ascending: %@", asc_denomarr);
     
-    [_amount_collection reloadData];
+    if ([asc_denomarr count] == 0) {
+        _amount_collection.hidden = YES;
+    }
+    else
+    {
+        [_amount_collection reloadData];
+    }
+    
 //    [self.amount_collection
 //     s];
     
@@ -336,7 +346,6 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return _denom_arr.count;
-    
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -348,6 +357,9 @@
     cell.LBL_amount.layer.borderColor = [UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0].CGColor;
 //    [cell.LBL_amount setTitleColor:[UIColor colorWithRed:0.43 green:0.48 blue:0.51 alpha:1.0] forState:UIControlStateNormal];
 
+    if ([_denom_arr count] == 0) {
+        cell.LBL_amount.text=[NSString stringWithFormat:@"$0"];
+    }
     cell.LBL_amount.text=[NSString stringWithFormat:@"$%i",[[asc_denomarr objectAtIndex:indexPath.row]intValue]];
 //    [cell.LBL_amount sizeToFit];
 //    cell.LBL_amount.numberOfLines=0;

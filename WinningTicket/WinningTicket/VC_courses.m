@@ -124,9 +124,10 @@
     
     NSString *vw_stat = [[NSUserDefaults standardUserDefaults] valueForKey:@"SEARCH_STAT"];
     if (vw_stat) {
-        [self ADD_marker];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SEARCH_STAT"];
         [[NSUserDefaults standardUserDefaults]synchronize];
+        
+        [self ADD_marker];
     }
     else
     {
