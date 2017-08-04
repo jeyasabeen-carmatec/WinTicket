@@ -77,6 +77,9 @@
 #pragma mark - UIView Customisation
 -(void) setup_view
 {
+    _LBLwallet_balence.hidden = YES;
+    _VW_wallet.hidden = YES;
+    
     CGRect final_frame = _TXTVW_organisationname.frame;
     final_frame.size.height = _TXTVW_organisationname.contentSize.height;
     _TXTVW_organisationname.frame = final_frame;
@@ -93,8 +96,18 @@
     final_frame.origin.y = _lbl_currencyTYP.frame.origin.y;
     _TXT_getamount.frame = final_frame;
     
+    final_frame = _BTN_deduct_wallet.frame;
+    final_frame.origin.y = _TXT_getamount.frame.origin.y + _TXT_getamount.frame.size.height + 10;
+    _BTN_deduct_wallet.frame = final_frame;
+    
+    [_BTN_deduct_wallet addTarget:self action:@selector(BTN_walletTAPPED) forControlEvents:UIControlEventTouchUpInside];
+    
+    final_frame = _LBL_arrow_wallet.frame;
+    final_frame.origin.y = _BTN_deduct_wallet.frame.origin.y;
+    _LBL_arrow_wallet.frame = final_frame;
+    
     CGRect VW_frame = _VW_organisationdetail.frame;
-    VW_frame.size.height = _lbl_currencyTYP.frame.origin.y + _lbl_currencyTYP.frame.size.height + 10;
+    VW_frame.size.height = _BTN_deduct_wallet.frame.origin.y + _BTN_deduct_wallet.frame.size.height;
     VW_frame.size.width = _scroll_Contents.frame.size.width;
     _VW_organisationdetail.frame = VW_frame;
     
@@ -846,8 +859,16 @@
             final_frame.origin.y = _lbl_currencyTYP.frame.origin.y;
             _TXT_getamount.frame = final_frame;
             
+            final_frame = _BTN_deduct_wallet.frame;
+            final_frame.origin.y = _TXT_getamount.frame.origin.y + _TXT_getamount.frame.size.height + 10;
+            _BTN_deduct_wallet.frame = final_frame;
+            
+            final_frame = _LBL_arrow_wallet.frame;
+            final_frame.origin.y = _BTN_deduct_wallet.frame.origin.y;
+            _LBL_arrow_wallet.frame = final_frame;
+            
             CGRect VW_frame = _VW_organisationdetail.frame;
-            VW_frame.size.height = _lbl_currencyTYP.frame.origin.y + _lbl_currencyTYP.frame.size.height + 10;
+            VW_frame.size.height = _BTN_deduct_wallet.frame.origin.y + _BTN_deduct_wallet.frame.size.height;
             VW_frame.size.width = _scroll_Contents.frame.size.width;
             _VW_organisationdetail.frame = VW_frame;
             
@@ -911,8 +932,16 @@
             final_frame.origin.y = _lbl_currencyTYP.frame.origin.y;
             _TXT_getamount.frame = final_frame;
             
+            final_frame = _BTN_deduct_wallet.frame;
+            final_frame.origin.y = _TXT_getamount.frame.origin.y + _TXT_getamount.frame.size.height + 10;
+            _BTN_deduct_wallet.frame = final_frame;
+            
+            final_frame = _LBL_arrow_wallet.frame;
+            final_frame.origin.y = _BTN_deduct_wallet.frame.origin.y;
+            _LBL_arrow_wallet.frame = final_frame;
+            
             CGRect VW_frame = _VW_organisationdetail.frame;
-            VW_frame.size.height = _lbl_currencyTYP.frame.origin.y + _lbl_currencyTYP.frame.size.height + 10;
+            VW_frame.size.height = _BTN_deduct_wallet.frame.origin.y + _BTN_deduct_wallet.frame.size.height;
             VW_frame.size.width = _scroll_Contents.frame.size.width;
             _VW_organisationdetail.frame = VW_frame;
             
@@ -993,8 +1022,16 @@
         final_frame.origin.y = _lbl_currencyTYP.frame.origin.y;
         _TXT_getamount.frame = final_frame;
         
+        final_frame = _BTN_deduct_wallet.frame;
+        final_frame.origin.y = _TXT_getamount.frame.origin.y + _TXT_getamount.frame.size.height + 10;
+        _BTN_deduct_wallet.frame = final_frame;
+        
+        final_frame = _LBL_arrow_wallet.frame;
+        final_frame.origin.y = _BTN_deduct_wallet.frame.origin.y;
+        _LBL_arrow_wallet.frame = final_frame;
+        
         CGRect VW_frame = _VW_organisationdetail.frame;
-        VW_frame.size.height = _lbl_currencyTYP.frame.origin.y + _lbl_currencyTYP.frame.size.height + 10;
+        VW_frame.size.height = _BTN_deduct_wallet.frame.origin.y + _BTN_deduct_wallet.frame.size.height;
         VW_frame.size.width = _scroll_Contents.frame.size.width;
         _VW_organisationdetail.frame = VW_frame;
         
@@ -1060,8 +1097,16 @@
         final_frame.origin.y = _lbl_currencyTYP.frame.origin.y;
         _TXT_getamount.frame = final_frame;
         
+        final_frame = _BTN_deduct_wallet.frame;
+        final_frame.origin.y = _TXT_getamount.frame.origin.y + _TXT_getamount.frame.size.height + 10;
+        _BTN_deduct_wallet.frame = final_frame;
+        
+        final_frame = _LBL_arrow_wallet.frame;
+        final_frame.origin.y = _BTN_deduct_wallet.frame.origin.y;
+        _LBL_arrow_wallet.frame = final_frame;
+        
         CGRect VW_frame = _VW_organisationdetail.frame;
-        VW_frame.size.height = _lbl_currencyTYP.frame.origin.y + _lbl_currencyTYP.frame.size.height + 10;
+        VW_frame.size.height = _BTN_deduct_wallet.frame.origin.y + _BTN_deduct_wallet.frame.size.height;
         VW_frame.size.width = _scroll_Contents.frame.size.width;
         _VW_organisationdetail.frame = VW_frame;
         
@@ -1728,6 +1773,20 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
     [tncView setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
     
     [self presentViewController:tncView animated:YES completion:NULL];
+}
+
+#pragma mark - Add wallet Code
+-(void) BTN_walletTAPPED
+{
+    NSLog(@"Wallet amout button tap detected");
+    
+    if (![_LBL_arrow_wallet.text isEqualToString:@""]) {
+        _LBL_arrow_wallet.text = @"";
+    }
+    else
+    {
+        _LBL_arrow_wallet.text = @"";
+    }
 }
 
 @end
