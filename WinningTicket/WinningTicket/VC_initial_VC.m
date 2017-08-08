@@ -8,7 +8,7 @@
 
 #import "VC_initial_VC.h"
 
-@interface VC_initial_VC ()
+@interface VC_initial_VC ()<UIScrollViewDelegate>
 {
     UIView *VW_overlay;
     UIActivityIndicatorView *activityIndicatorView;
@@ -21,6 +21,32 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    ALScrollViewPaging *scrollView = [[ALScrollViewPaging alloc] initWithFrame:_main_view.frame];
+    
+    NSMutableArray *arr_vws = [[NSMutableArray alloc]init];
+    _home_view.frame = CGRectMake(0, 0,_main_view.frame.size.width, _main_view.frame.size.height);
+    
+    _event_code_view.frame = CGRectMake(0, 0,_main_view.frame.size.width, _main_view.frame.size.height);
+   
+    _purchase_view.frame = CGRectMake(0, 0,_main_view.frame.size.width, _main_view.frame.size.height);
+    
+    _fearuresview.frame = CGRectMake(0, 0,_main_view.frame.size.width, _main_view.frame.size.height);
+    
+    arr_vws = [NSMutableArray arrayWithObjects:_home_view,_event_code_view,_purchase_view,_fearuresview, nil];
+//    [_main_view addPages:arr_vws];
+//    
+//    [_main_view setHasPageControl:YES];
+    
+    //add pages to scrollview
+    [scrollView addPages:arr_vws];
+    
+    //add scrollview to the view
+    [_main_view addSubview:scrollView];
+    
+    [scrollView setHasPageControl:YES];
+   
+    
     VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
 //    VW_overlay.clipsToBounds = YES;
@@ -62,6 +88,20 @@
                        afterDelay:0.0];
         }
     }
+    
+     _lbl_titlel.text = [NSString stringWithFormat:@"GET ACCESS TO ALL WINNING\nTICKET FEATURES"];
+    _txt1.layer.borderColor = [UIColor whiteColor].CGColor;
+    _txt1.layer.borderWidth = 2.0f;
+    _txt2.layer.borderColor = [UIColor whiteColor].CGColor;
+    _txt2.layer.borderWidth = 2.0f;
+    _txt3.layer.borderColor = [UIColor whiteColor].CGColor;
+    _txt3.layer.borderWidth = 2.0f;
+    _txt4.layer.borderColor = [UIColor whiteColor].CGColor;
+    _txt4.layer.borderWidth = 2.0f;
+    _txt5.layer.borderColor = [UIColor whiteColor].CGColor;
+    _txt5.layer.borderWidth = 2.0f;
+    _txt6.layer.borderColor = [UIColor whiteColor].CGColor;
+    _txt6.layer.borderWidth = 2.0f;
 }
 -(void)loadinitialhome
 {
@@ -113,6 +153,7 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+     [super didReceiveMemoryWarning];
 }
 
 -(void)viewWillAppear:(BOOL)animated

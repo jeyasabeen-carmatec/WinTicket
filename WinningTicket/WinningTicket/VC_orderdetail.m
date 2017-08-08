@@ -129,6 +129,7 @@
     [_scroll_contents addSubview:_VW_contents];
     
     [self set_FRAME];
+    [_BTN_liveSCR addTarget:self action:@selector(live_score_page) forControlEvents:UIControlEventTouchUpInside];
 }
 
 -(void) set_FRAME
@@ -150,6 +151,9 @@
             CGRect old_frame = _lbl_eventname.frame;
             
             _lbl_eventname.text = [[temp_dict valueForKey:@"name"] capitalizedString];
+            [[NSUserDefaults standardUserDefaults] setValue:_lbl_eventname.text forKey:@"event_name"];
+            [[NSUserDefaults standardUserDefaults]synchronize];
+            
             _lbl_eventname.numberOfLines = 0;
             [_lbl_eventname sizeToFit];
             
@@ -283,6 +287,7 @@
     {
         [self sessionOUT];
     }
+    
 }
 
 /*#pragma mark - Tabbar deligate
@@ -379,6 +384,10 @@
 }
 
 #pragma mark - Session OUT
+-(void)live_score_page
+{
+    [self performSegueWithIdentifier:@"live_scrore_identifier" sender:self];
+}
 - (void) sessionOUT
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Session out" message:@"In some other device same user logged in. Please login again" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];

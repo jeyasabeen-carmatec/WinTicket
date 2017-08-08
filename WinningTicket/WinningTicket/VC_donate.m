@@ -1780,12 +1780,159 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
 {
     NSLog(@"Wallet amout button tap detected");
     
-    if (![_LBL_arrow_wallet.text isEqualToString:@""]) {
-        _LBL_arrow_wallet.text = @"";
+    if ([_LBL_arrow_wallet.text isEqualToString:@""]) {
+        _LBL_arrow_wallet.text = @"";
+        
+        _LBLwallet_balence.hidden = YES;
+        _VW_wallet.hidden = YES;
+        
+//        CGRect frame_new = _LBLwallet_balence.frame;
+//        frame_new.origin.y = _BTN_deduct_wallet.frame.origin.y + _BTN_deduct_wallet.frame.size.height + 10;
+//        _LBLwallet_balence.frame = frame_new;
+        
+//        frame_new = _VW_wallet.frame;
+//        frame_new.origin.y = _LBLwallet_balence.frame.origin.y + _LBLwallet_balence.frame.size.height + 10;
+//        _VW_wallet.frame = frame_new;
+        
+        CGRect frame_ap = _VW_organisationdetail.frame;
+        frame_ap.size.height = _BTN_deduct_wallet.frame.origin.y + _BTN_deduct_wallet.frame.size.height + 10;
+        [UIView animateWithDuration:0.4f
+                         animations:^{
+                             _VW_organisationdetail.frame = frame_ap;
+                         }];
+        [UIView commitAnimations];
+        
+        CGRect frame_bill_addr = _VW_titladdress.frame;
+        frame_bill_addr.origin.y = frame_ap.origin.y + frame_ap.size.height;
+        [UIView beginAnimations:@"bucketsOff" context:NULL];
+        [UIView setAnimationDuration:0.4f];
+        _VW_titladdress.frame = frame_bill_addr;
+        [UIView commitAnimations];
+        
+        
+        CGRect frame_addr = _VW_address.frame;
+        CGRect frme_lbl = _lbl_address.frame;
+        
+        if (_lbl_address.hidden == YES) {
+            frame_addr.origin.y = _VW_titladdress.frame.origin.y + _VW_titladdress.frame.size.height;
+        }
+        else
+        {
+            frme_lbl.origin.y = _VW_titladdress.frame.origin.y + _VW_titladdress.frame.size.height + 10;
+        }
+        
+        
+        if (_lbl_address.hidden == NO) {
+            [UIView animateWithDuration:0.4f
+                             animations:^{
+                                 _lbl_address.frame = frme_lbl;
+                             }];
+            [UIView commitAnimations];
+        }
+        else
+        {
+            [UIView animateWithDuration:0.4f
+                             animations:^{
+                                 _VW_address.frame = frame_addr;
+                             }];
+            [UIView commitAnimations];
+        }
+        
+        CGRect frame_BTN = _BTN_deposit.frame;
+        if (_lbl_address.hidden == YES) {
+            frame_BTN.origin.y = _VW_address.frame.origin.y + _VW_address.frame.size.height + 10;
+        }
+        else
+        {
+            frame_BTN.origin.y = _lbl_address.frame.origin.y + _lbl_address.frame.size.height + 10;
+        }
+        
+        [UIView animateWithDuration:0.4f
+                         animations:^{
+                             _BTN_deposit.frame = frame_BTN;
+                         }];
+        [UIView commitAnimations];
+        
+        original_height =  self.BTN_deposit.frame.origin.y + _BTN_deposit.frame.size.height + 20;
+        [self viewDidLayoutSubviews];
     }
     else
     {
-        _LBL_arrow_wallet.text = @"";
+        _LBL_arrow_wallet.text = @"";
+        
+        //Code drop down
+        _LBLwallet_balence.hidden = NO;
+        _VW_wallet.hidden = NO;
+        
+        CGRect frame_new = _LBLwallet_balence.frame;
+        frame_new.origin.y = _BTN_deduct_wallet.frame.origin.y + _BTN_deduct_wallet.frame.size.height + 10;
+        _LBLwallet_balence.frame = frame_new;
+        
+        frame_new = _VW_wallet.frame;
+        frame_new.origin.y = _LBLwallet_balence.frame.origin.y + _LBLwallet_balence.frame.size.height + 10;
+        _VW_wallet.frame = frame_new;
+        
+        CGRect frame_ap = _VW_organisationdetail.frame;
+        frame_ap.size.height = _VW_wallet.frame.origin.y + _VW_wallet.frame.size.height + 10;
+        [UIView animateWithDuration:0.4f
+                         animations:^{
+                             _VW_organisationdetail.frame = frame_ap;
+                         }];
+        [UIView commitAnimations];
+        
+        CGRect frame_bill_addr = _VW_titladdress.frame;
+        frame_bill_addr.origin.y = frame_ap.origin.y + frame_ap.size.height;
+        [UIView beginAnimations:@"bucketsOff" context:NULL];
+        [UIView setAnimationDuration:0.4f];
+        _VW_titladdress.frame = frame_bill_addr;
+        [UIView commitAnimations];
+        
+        
+        CGRect frame_addr = _VW_address.frame;
+        CGRect frme_lbl = _lbl_address.frame;
+        
+        if (_lbl_address.hidden == YES) {
+            frame_addr.origin.y = _VW_titladdress.frame.origin.y + _VW_titladdress.frame.size.height;
+        }
+        else
+        {
+            frme_lbl.origin.y = _VW_titladdress.frame.origin.y + _VW_titladdress.frame.size.height + 10;
+        }
+        
+        
+        if (_lbl_address.hidden == NO) {
+            [UIView animateWithDuration:0.4f
+                             animations:^{
+                                 _lbl_address.frame = frme_lbl;
+                             }];
+            [UIView commitAnimations];
+        }
+        else
+        {
+            [UIView animateWithDuration:0.4f
+                             animations:^{
+                                 _VW_address.frame = frame_addr;
+                             }];
+            [UIView commitAnimations];
+        }
+        
+        CGRect frame_BTN = _BTN_deposit.frame;
+        if (_lbl_address.hidden == YES) {
+            frame_BTN.origin.y = _VW_address.frame.origin.y + _VW_address.frame.size.height + 10;
+        }
+        else
+        {
+            frame_BTN.origin.y = _lbl_address.frame.origin.y + _lbl_address.frame.size.height + 10;
+        }
+        
+        [UIView animateWithDuration:0.4f
+                         animations:^{
+                             _BTN_deposit.frame = frame_BTN;
+                         }];
+        [UIView commitAnimations];
+        
+        original_height =  self.BTN_deposit.frame.origin.y + _BTN_deposit.frame.size.height + 20;
+        [self viewDidLayoutSubviews];
     }
 }
 
