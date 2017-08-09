@@ -61,4 +61,6 @@
 @property (retain, nonatomic) IBOutlet UIButton *BTN_apply;
 @property (retain, nonatomic) IBOutlet NEWCurrencyTextField *TXT_currency;
 
+@property (retain, nonatomic) IBOutlet UISwitch *SWITCH_wallet;
+
 @end

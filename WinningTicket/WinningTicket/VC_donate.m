@@ -146,7 +146,7 @@
 
     if(aData)
     {
-        NSMutableDictionary *user_DICTIN = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"User_data"] options:NSASCIIStringEncoding error:&error];
+        NSMutableDictionary *user_DICTIN = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         
         @try
         {
@@ -298,11 +298,42 @@
                 _TXT_zip.text = [user_data valueForKey:@"zipcode"];
                 _TXT_state.text = [user_DICTIN valueForKey:@"state"];
                 _TXT_phonenumber.text = [user_data valueForKey:@"phone"];
+                
+                [_SWITCH_wallet setOn:NO animated:YES];
+                NSString *chk_btn = [NSString stringWithFormat:@"%@",[user_DICTIN valueForKey:@"wallet"]];
+                if ([chk_btn isEqualToString:@"0"]) {
+//                    [_SWITCH_wallet setOn:NO animated:YES];
+                    _SWITCH_wallet.enabled = NO;
+                }
+                
+                NSString *STR_curBalance = [NSString stringWithFormat:@"$%.2f",[[user_DICTIN valueForKey:@"wallet"] floatValue]];
+                NSString *STR_to_display = [NSString stringWithFormat:@"Current Balance: %@",STR_curBalance];
+                
+                if ([_LBLwallet_balence respondsToSelector:@selector(setAttributedText:)]) {
+                    NSDictionary *attribs = @{
+                                              NSForegroundColorAttributeName: _LBLwallet_balence.textColor,
+                                              NSFontAttributeName: _LBLwallet_balence.font
+                                              };
+                    NSMutableAttributedString *attributedText =
+                    [[NSMutableAttributedString alloc] initWithString:STR_to_display
+                                                           attributes:attribs];
+                    
+                    NSRange cmp = [STR_to_display rangeOfString:STR_curBalance];
+                    [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:18.0]}
+                                            range:cmp];
+                    
+                    _LBLwallet_balence.attributedText = attributedText;
+                }
+                else
+                {
+                    _LBLwallet_balence.text = STR_to_display;
+                }
             }
         }
         @catch (NSException *exception)
         {
-            [self sessionOUT];
+//            [self sessionOUT];
+            NSLog(@"Exception VC donate %@",exception);
         }
     }
     else
@@ -441,6 +472,7 @@
     _TXT_phonenumber.delegate=self;
 
     [_BTN_deposit addTarget:self action:@selector(Deposit_Pressed) forControlEvents:UIControlEventTouchUpInside];
+    [_SWITCH_wallet addTarget:self action:@selector(Switch_ACtion:) forControlEvents:UIControlEventValueChanged];
     
     VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
@@ -464,9 +496,6 @@
     [self.view addSubview:VW_overlay];
     
     VW_overlay.hidden = YES;
-        
-    
-      
     
 }
 -(void)closebuttonClick
@@ -1404,7 +1433,20 @@
     NSError *error;
     NSHTTPURLResponse *response = nil;
     NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
-    NSDictionary *parameters = @{ @"billing_address":@{@"first_name":fname,@"last_name":lastName,@"address_line1":address1,@"address_line2":address2,@"city":city,@"country":contry_Code,@"zip_code":zip,@"state":state_code,@"phone":phonenumber},@"event_id":number_eventID,@"price":number_amount };
+    NSDictionary *parameters;
+    
+    NSNumberFormatter *fmt = [[NSNumberFormatter alloc] init];
+    [fmt setPositiveFormat:@"0.##"];
+    float Float_amt = [[fmt numberFromString:_TXT_getamount.text] floatValue];
+    
+    if ([_SWITCH_wallet isOn] && (Float_amt != 0)) {
+        parameters = @{ @"billing_address":@{@"first_name":fname,@"last_name":lastName,@"address_line1":address1,@"address_line2":address2,@"city":city,@"country":contry_Code,@"zip_code":zip,@"state":state_code,@"phone":phonenumber},@"event_id":number_eventID,@"price":number_amount,@"fund_amount":@"yes"};
+    }
+    else
+    {
+        parameters = @{ @"billing_address":@{@"first_name":fname,@"last_name":lastName,@"address_line1":address1,@"address_line2":address2,@"city":city,@"country":contry_Code,@"zip_code":zip,@"state":state_code,@"phone":phonenumber},@"event_id":number_eventID,@"price":number_amount};
+    }
+    
     NSLog(@"the post data is:%@",parameters);
     NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&error];
     NSString *urlGetuser =[NSString stringWithFormat:@"%@contributors/donation_order",SERVER_URL];
@@ -1445,7 +1487,21 @@
                     [[NSUserDefaults standardUserDefaults] setObject:json_DATA_one forKey:@"donate_Deatils"];
                     [[NSUserDefaults standardUserDefaults]synchronize];
                     
-                    [self get_client_TOKEN];
+                    NSArray *ARR_tmp = [_LBLwallet_balence.text componentsSeparatedByString:@"$"];
+                    NSNumberFormatter *fmt = [[NSNumberFormatter alloc] init];
+                    [fmt setPositiveFormat:@"0.##"];
+                    float Float_amt = [[fmt numberFromString:_TXT_getamount.text] floatValue];
+                    float Float_wallet_val = [[NSNumber numberWithFloat:[[ARR_tmp objectAtIndex:[ARR_tmp count]-1] floatValue]] floatValue];
+                    
+                    if ([_SWITCH_wallet isOn] && (Float_wallet_val > Float_amt)) {
+                        VW_overlay.hidden = NO;
+                        [activityIndicatorView startAnimating];
+                        [self performSelector:@selector(create_payment) withObject:activityIndicatorView afterDelay:0.01];
+                    }
+                    else
+                    {
+                        [self get_client_TOKEN];
+                    }
                 }
                 else
                 {
@@ -1559,6 +1615,7 @@
                             //                               withObject:nil
                             //                               afterDelay:1.0];
                             [self postNonceToServer:result.paymentMethod.nonce];
+                            [self dismissViewControllerAnimated:YES completion:NULL];
                         }
                     }];
                     [self presentViewController:dropIn animated:YES completion:nil];
@@ -1622,7 +1679,7 @@
 
 -(void) create_payment
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+//    [self dismissViewControllerAnimated:YES completion:nil];
     
     NSError *error;
     NSHTTPURLResponse *response = nil;
@@ -1640,7 +1697,28 @@
     [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
-    [request setHTTPBody:postData];
+    
+    NSArray *ARR_tmp = [_LBLwallet_balence.text componentsSeparatedByString:@"$"];
+    NSNumberFormatter *fmt = [[NSNumberFormatter alloc] init];
+    [fmt setPositiveFormat:@"0.##"];
+    float Float_amt = [[fmt numberFromString:_TXT_getamount.text] floatValue];
+    float Float_wallet_val = [[NSNumber numberWithFloat:[[ARR_tmp objectAtIndex:[ARR_tmp count]-1] floatValue]] floatValue];
+    
+    if ([_SWITCH_wallet isOn]) {
+    
+        if (Float_wallet_val < Float_amt) {
+            [request setHTTPBody:postData];
+        }
+
+    }
+    else
+    {
+        [request setHTTPBody:postData];
+    }
+    
+    
+    
+    
     [request setHTTPShouldHandleCookies:NO];
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (aData)
@@ -1692,6 +1770,12 @@
 }
 
 -(void)load_donatepurchase
+{
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden = YES;
+    [self performSelector:@selector(donate_sucess) withObject:nil afterDelay:0.2];
+}
+-(void)donate_sucess
 {
     [self performSegueWithIdentifier:@"donate_purchase" sender:self];
 }
@@ -1767,6 +1851,11 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Session out" message:@"In some other device same user logged in. Please login again" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
     [alert show];
     
+    [self performSelector:@selector(log_out) withObject:nil afterDelay:0.2];
+}
+
+-(void)log_out
+{
     ViewController *tncView = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
     [tncView setModalInPopover:YES];
     [tncView setModalPresentationStyle:UIModalPresentationFormSheet];
@@ -1934,6 +2023,14 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
         original_height =  self.BTN_deposit.frame.origin.y + _BTN_deposit.frame.size.height + 20;
         [self viewDidLayoutSubviews];
     }
+}
+
+#pragma mark - Switch Action
+- (void)Switch_ACtion:(id)sender
+{
+    BOOL state = [sender isOn];
+    NSString *rez = state == YES ? @"YES" : @"NO";
+    NSLog(@"Switch state = %@", rez);
 }
 
 @end

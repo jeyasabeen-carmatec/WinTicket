@@ -873,6 +873,7 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
                             //                               withObject:nil
                             //                               afterDelay:0.0];
                             [self postNonceToServer:result.paymentMethod.nonce];
+                            [self dismissViewControllerAnimated:YES completion:NULL];
                         }
                     }];
                     [self presentViewController:dropIn animated:YES completion:nil];
@@ -903,13 +904,12 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
 
 -(void) create_payment
 {
-    [self dismissViewControllerAnimated:YES completion:NULL];
-    
     NSString  *temp_str;
     NSError *error;
     NSHTTPURLResponse *response = nil;
     NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
     NSString *naunce_STR = [[NSUserDefaults standardUserDefaults] valueForKey:@"NAUNCETOK"];
+    
     if([amount_str isEqualToString:@""])
     {
         temp_str = _TXT_amount.text ;
@@ -922,9 +922,11 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
     NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
     f.numberStyle = NSNumberFormatterDecimalStyle;
     NSNumber *number_amount = [f numberFromString:temp_str];
-    NSDictionary *parameters = @{ @"nonce":naunce_STR ,
-                                  @"transaction_type": @"add_funds",
-                                  @"price":number_amount  };
+    NSDictionary *parameters;
+    
+    parameters = @{ @"nonce":naunce_STR ,
+                       @"transaction_type": @"add_funds",
+                       @"price":number_amount  };
 
     
     NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&error];

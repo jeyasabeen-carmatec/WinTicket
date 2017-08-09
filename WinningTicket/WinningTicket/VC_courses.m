@@ -13,8 +13,9 @@
 #import "HMSegmentedControl.h"
 
 #import "UIImageView+WebCache.h"
-
 #import "WinningTicket_Universal-Swift.h"
+
+#import "ViewController.h"
 
 @interface VC_courses ()<CLLocationManagerDelegate>
 {
@@ -128,6 +129,14 @@
         [[NSUserDefaults standardUserDefaults]synchronize];
         
         [self ADD_marker];
+        
+        if ([ARR_map_data count] != 0) {
+            _Collection_course.hidden = NO;
+        }
+        else
+        {
+            _Collection_course.hidden = YES;
+        }
     }
     else
     {
@@ -284,6 +293,19 @@
         [activityIndicatorView stopAnimating];
         VW_overlay.hidden = YES;
         
+        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSString *STR_error;
+        
+        @try {
+             STR_error = [dict valueForKey:@"error"];
+            if (STR_error) {
+                [self sessionOUT];
+            }
+        } @catch (NSException *exception) {
+            NSLog(@"Exception in courses %@",exception);
+            [self sessionOUT];
+        }
+            
         [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"JsonEventlist"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
@@ -895,6 +917,22 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if(aData)
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSString *STR_error;
+        
+        @try {
+            STR_error = [dict valueForKey:@"error"];
+            if (STR_error) {
+                [self sessionOUT];
+            }
+        } @catch (NSException *exception) {
+            NSLog(@"Exception in courses %@",exception);
+            [self sessionOUT];
+        }
+        
         [[NSUserDefaults standardUserDefaults] setValue:aData forKey:@"COURSESDICTIN"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
@@ -926,6 +964,22 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if(aData)
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSString *STR_error;
+        
+        @try {
+            STR_error = [dict valueForKey:@"error"];
+            if (STR_error) {
+                [self sessionOUT];
+            }
+        } @catch (NSException *exception) {
+            NSLog(@"Exception in courses %@",exception);
+            [self sessionOUT];
+        }
+        
        // NSMutableDictionary *temp_dictin = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:kNilOptions error:&error];
         //NSLog(@"Selected course \n%@",temp_dictin); //coursetocousedetail
         [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"CourseDetailcontent"];
@@ -1044,4 +1098,19 @@
     _tbl_courses.delegate = nil;
     _Collection_course.delegate = nil;
 }
+
+#pragma mark - Session OUT
+- (void) sessionOUT
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Session out" message:@"In some other device same user logged in. Please login again" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+    [alert show];
+    
+    ViewController *tncView = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
+    [tncView setModalInPopover:YES];
+    [tncView setModalPresentationStyle:UIModalPresentationFormSheet];
+    [tncView setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    
+    [self presentViewController:tncView animated:YES completion:NULL];
+}
+
 @end

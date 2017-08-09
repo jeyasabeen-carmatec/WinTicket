@@ -8,8 +8,10 @@
 
 #import "VC_search_Course.h"
 #import "VC_courses.h"
+#import "ViewController.h"
 
 #import "WinningTicket_Universal-Swift.h"
+
 
 @interface VC_search_Course ()
 {
@@ -342,6 +344,22 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if(aData)
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSString *STR_error;
+        
+        @try {
+            STR_error = [dict valueForKey:@"error"];
+            if (STR_error) {
+                [self sessionOUT];
+            }
+        } @catch (NSException *exception) {
+            NSLog(@"Exception in courses %@",exception);
+            [self sessionOUT];
+        }
+        
         NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:kNilOptions error:&error];
         
         @try {
@@ -384,6 +402,22 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if(aData)
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSString *STR_error;
+        
+        @try {
+            STR_error = [dict valueForKey:@"error"];
+            if (STR_error) {
+                [self sessionOUT];
+            }
+        } @catch (NSException *exception) {
+            NSLog(@"Exception in courses %@",exception);
+            [self sessionOUT];
+        }
+        
         NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:kNilOptions error:&error];
         
         @try {
@@ -432,6 +466,22 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if(aData)
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSString *STR_error;
+        
+        @try {
+            STR_error = [dict valueForKey:@"error"];
+            if (STR_error) {
+                [self sessionOUT];
+            }
+        } @catch (NSException *exception) {
+            NSLog(@"Exception in courses %@",exception);
+            [self sessionOUT];
+        }
+        
         NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:kNilOptions error:&error];
         @try {
             ARR_states = [json_DATA valueForKey:@"course_locations"];
@@ -500,6 +550,22 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if(aData)
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSString *STR_error;
+        
+        @try {
+            STR_error = [dict valueForKey:@"error"];
+            if (STR_error) {
+                [self sessionOUT];
+            }
+        } @catch (NSException *exception) {
+            NSLog(@"Exception in courses %@",exception);
+            [self sessionOUT];
+        }
+        
         NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:kNilOptions error:&error];
         @try {
             ARR_courses = [json_DATA valueForKey:@"course_names"];
@@ -567,6 +633,22 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if(aData)
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSString *STR_error;
+        
+        @try {
+            STR_error = [dict valueForKey:@"error"];
+            if (STR_error) {
+                [self sessionOUT];
+            }
+        } @catch (NSException *exception) {
+            NSLog(@"Exception in courses %@",exception);
+            [self sessionOUT];
+        }
+        
         NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:kNilOptions error:&error];
         
         NSArray *all_courses,*private_course,*public;
@@ -756,7 +838,19 @@
     [self presentViewController:tncView animated:YES completion:NULL];
 }
 
-
+#pragma mark - Session OUT
+- (void) sessionOUT
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Session out" message:@"In some other device same user logged in. Please login again" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+    [alert show];
+    
+    ViewController *tncView = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
+    [tncView setModalInPopover:YES];
+    [tncView setModalPresentationStyle:UIModalPresentationFormSheet];
+    [tncView setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    
+    [self presentViewController:tncView animated:YES completion:NULL];
+}
 
 
 @end

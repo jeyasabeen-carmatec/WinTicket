@@ -11,6 +11,8 @@
 #import "WinningTicket_Universal-Swift.h"
 #import <UIKit/UIView.h>
 
+#import "ViewController.h"
+
 @interface VC_courseDetail ()
 {
     UIView *VW_overlay;
@@ -276,6 +278,21 @@
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if(aData)
     {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
+        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSString *STR_error;
+        
+        @try {
+            STR_error = [dict valueForKey:@"error"];
+            if (STR_error) {
+                [self sessionOUT];
+            }
+        } @catch (NSException *exception) {
+            NSLog(@"Exception in courses %@",exception);
+            [self sessionOUT];
+        }
         
         [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"CourseDetailcontent"];
         [[NSUserDefaults standardUserDefaults] synchronize];
@@ -404,7 +421,7 @@
             {
                 [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:13.0],NSBackgroundColorAttributeName: [UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0],NSForegroundColorAttributeName : [UIColor whiteColor],NSBaselineOffsetAttributeName : @3.0f,NSParagraphStyleAttributeName : paragraphStyle} range:rnge_coursename];
                 [attributedText setAttributes:@{NSFontAttributeName:small_text_font,NSBackgroundColorAttributeName: [UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0],NSForegroundColorAttributeName : [UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0],NSBaselineOffsetAttributeName : @3.0f,NSParagraphStyleAttributeName : paragraphStyle} range:range_one_char1];
-                [attributedText setAttributes:@{NSFontAttributeName:small_text_font,NSBackgroundColorAttributeName: [UIColor greenColor],NSForegroundColorAttributeName : [UIColor greenColor],NSBaselineOffsetAttributeName : @3.0f} range:range_one_char2];
+                [attributedText setAttributes:@{NSFontAttributeName:small_text_font,NSBackgroundColorAttributeName: [UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0],NSForegroundColorAttributeName : [UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0],NSBaselineOffsetAttributeName : @3.0f} range:range_one_char2];
             }
             else
             {
@@ -743,6 +760,20 @@
     VW_overlay.hidden = NO;
     [activityIndicatorView startAnimating];
     [self performSelector:@selector(get_selectedCourse:) withObject:cell.lbl_id.text afterDelay:0.01];
+}
+
+#pragma mark - Session OUT
+- (void) sessionOUT
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Session out" message:@"In some other device same user logged in. Please login again" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+    [alert show];
+    
+    ViewController *tncView = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
+    [tncView setModalInPopover:YES];
+    [tncView setModalPresentationStyle:UIModalPresentationFormSheet];
+    [tncView setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    
+    [self presentViewController:tncView animated:YES completion:NULL];
 }
 
 @end

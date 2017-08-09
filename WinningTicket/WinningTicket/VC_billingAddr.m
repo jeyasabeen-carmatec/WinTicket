@@ -886,6 +886,7 @@
 //                           withObject:nil
 //                           afterDelay:0.0];
                 [self postNonceToServer:result.paymentMethod.nonce];
+                [self dismissViewControllerAnimated:YES completion:NULL];
             }
         }];
         [self presentViewController:dropIn animated:YES completion:nil];
@@ -1323,7 +1324,7 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
 
 -(void) billing_Address
 {
-    [self dismissViewControllerAnimated:YES completion:NULL];
+//    [self dismissViewControllerAnimated:YES completion:NULL];
     
     NSError *error;
     NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"QUANTITY"] options:NSASCIIStringEncoding error:&error];
