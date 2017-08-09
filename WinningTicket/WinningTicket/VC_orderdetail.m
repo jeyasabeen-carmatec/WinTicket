@@ -167,8 +167,9 @@
             float lbl_event_name_ht = _lbl_eventname.frame.size.height;
             
             _lbl_code.text=[temp_dict valueForKey:@"code"];
-            NSString *location = @"Grand Cypress Country Club";//[NSString stringWithFormat:@"%@",[temp_dict valueForKey:@"location"]];
-            NSString *address = @"1 N Jacaranda ST, Orlando, FL 32836";
+            NSString *location = [NSString stringWithFormat:@"%@",[temp_dict valueForKey:@"organization_name"]];// @"Grand Cypress Country Club";
+            NSString *address = [NSString stringWithFormat:@"%@",[temp_dict valueForKey:@"get_golf_location"]];//@"1 N Jacaranda ST, Orlando, FL 32836";
+            address = [address stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
             NSString *date = [self getLocalDateFromUTC:[temp_dict valueForKey:@"start_date"]];
             NSString *time = [self getLocalTimeFromUTC:[temp_dict valueForKey:@"start_date"]];
             

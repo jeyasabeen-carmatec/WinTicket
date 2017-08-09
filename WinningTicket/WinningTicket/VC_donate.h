@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 //#import <Braintree/Braintree.h>
 #import "ACFloatingTextField.h"
-#import "NEWCurrencyTextField.h"
+//#import "NEWCurrencyTextField.h"
 
 @interface VC_donate : UIViewController<UIGestureRecognizerDelegate>
 
@@ -59,7 +59,7 @@
 @property (retain, nonatomic) IBOutlet UILabel *LBLwallet_balence;
 @property (retain, nonatomic) IBOutlet UIView *VW_wallet;
 @property (retain, nonatomic) IBOutlet UIButton *BTN_apply;
-@property (retain, nonatomic) IBOutlet NEWCurrencyTextField *TXT_currency;
+//@property (retain, nonatomic) IBOutlet NEWCurrencyTextField *TXT_currency;
 
 @property (retain, nonatomic) IBOutlet UISwitch *SWITCH_wallet;
 

@@ -18,7 +18,7 @@
 @interface VC_billingAddr ()
 {
     float original_height;
-    float BTN_originY;
+    float BTN_originY,total;
     
     CGRect lbl_origin_FRAME;
     NSMutableDictionary *states,*countryS;
@@ -783,7 +783,22 @@
         
       VW_overlay.hidden = NO;
       [activityIndicatorView startAnimating];
-      [self performSelector:@selector(get_client_TOKEN) withObject:activityIndicatorView afterDelay:0.01];
+        
+       total = [[[NSUserDefaults standardUserDefaults] valueForKey:@"total_balance"] floatValue];
+        
+        
+      if(total == 0.00 )
+      {
+          [self performSelector:@selector(billing_Address) withObject:activityIndicatorView afterDelay:0.01];
+
+        
+      }
+      else
+      {
+          [self performSelector:@selector(get_client_TOKEN) withObject:activityIndicatorView afterDelay:0.01];
+
+      }
+        
     }
 }
 
@@ -1314,6 +1329,8 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
         VW_overlay.hidden = NO;
         [activityIndicatorView startAnimating];
         [self performSelector:@selector(billing_Address) withObject:activityIndicatorView afterDelay:0.01];
+//         [self dismissViewControllerAnimated:YES completion:NULL];
+
     }
     else
     {
@@ -1324,7 +1341,7 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
 
 -(void) billing_Address
 {
-//    [self dismissViewControllerAnimated:YES completion:NULL];
+   // [self dismissViewControllerAnimated:YES completion:NULL];
     
     NSError *error;
     NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"QUANTITY"] options:NSASCIIStringEncoding error:&error];
@@ -1356,9 +1373,18 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
             }
             
             NSHTTPURLResponse *response = nil;
+            NSDictionary *parameters;
             
-            
-            NSDictionary *parameters = @{@"billing_address":@{ @"first_name": first_name,@"last_name": last_name,@"address_line1": address_line1,@"address_line2": address_line2,@"city": city,@"country": contry_Code,@"zip_code": zip_code,@"state": state_code,@"order_id": order_ID,@"phone": phone }};
+            if(total == 0.00 )
+            {
+                 parameters = @{@"billing_address":@{ @"first_name": first_name,@"last_name": last_name,@"address_line1": address_line1,@"address_line2": address_line2,@"city": city,@"country": contry_Code,@"zip_code": zip_code,@"state": state_code,@"order_id": order_ID,@"phone": phone,@"fund_amount":@"yes" }};
+                
+                
+            }
+            else
+            {
+                 parameters = @{@"billing_address":@{ @"first_name": first_name,@"last_name": last_name,@"address_line1": address_line1,@"address_line2": address_line2,@"city": city,@"country": contry_Code,@"zip_code": zip_code,@"state": state_code,@"order_id": order_ID,@"phone": phone }};
+            }
             
             NSLog(@"Post contents VC Billing Address %@",parameters);
             

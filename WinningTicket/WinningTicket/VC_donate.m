@@ -897,14 +897,23 @@
             _LBL_arrow_wallet.frame = final_frame;
             
             CGRect VW_frame = _VW_organisationdetail.frame;
-            VW_frame.size.height = _BTN_deduct_wallet.frame.origin.y + _BTN_deduct_wallet.frame.size.height;
+            if (_VW_wallet.hidden == YES) {
+                VW_frame.size.height = _BTN_deduct_wallet.frame.origin.y + _BTN_deduct_wallet.frame.size.height;
+            }
+            else
+            {
+                CGRect frame_lbl = _LBLwallet_balence.frame;
+                frame_lbl.origin.y = _BTN_deduct_wallet.frame.origin.y + _BTN_deduct_wallet.frame.size.height + 10;
+                _LBLwallet_balence.frame = frame_lbl;
+                
+                frame_lbl = _VW_wallet.frame;
+                frame_lbl.origin.y = _LBLwallet_balence.frame.origin.y + _LBLwallet_balence.frame.size.height + 10;
+                _VW_wallet.frame = frame_lbl;
+                
+                VW_frame.size.height = _VW_wallet.frame.origin.y + _VW_wallet.frame.size.height;
+            }
             VW_frame.size.width = _scroll_Contents.frame.size.width;
             _VW_organisationdetail.frame = VW_frame;
-            
-            VW_frame = _VW_titladdress.frame;
-            VW_frame.origin.y = _VW_organisationdetail.frame.origin.y + _VW_organisationdetail.frame.size.height + 10;
-            VW_frame.size.width = _scroll_Contents.frame.size.width;
-            _VW_titladdress.frame = VW_frame;
             
             CGRect frame_old;
             frame_old = _lbl_address.frame;
@@ -970,7 +979,21 @@
             _LBL_arrow_wallet.frame = final_frame;
             
             CGRect VW_frame = _VW_organisationdetail.frame;
-            VW_frame.size.height = _BTN_deduct_wallet.frame.origin.y + _BTN_deduct_wallet.frame.size.height;
+            if (_VW_wallet.hidden == YES) {
+                VW_frame.size.height = _BTN_deduct_wallet.frame.origin.y + _BTN_deduct_wallet.frame.size.height;
+            }
+            else
+            {
+                CGRect frame_lbl = _LBLwallet_balence.frame;
+                frame_lbl.origin.y = _BTN_deduct_wallet.frame.origin.y + _BTN_deduct_wallet.frame.size.height + 10;
+                _LBLwallet_balence.frame = frame_lbl;
+                
+                frame_lbl = _VW_wallet.frame;
+                frame_lbl.origin.y = _LBLwallet_balence.frame.origin.y + _LBLwallet_balence.frame.size.height + 10;
+                _VW_wallet.frame = frame_lbl;
+                
+                VW_frame.size.height = _VW_wallet.frame.origin.y + _VW_wallet.frame.size.height;
+            }
             VW_frame.size.width = _scroll_Contents.frame.size.width;
             _VW_organisationdetail.frame = VW_frame;
             
@@ -1060,14 +1083,23 @@
         _LBL_arrow_wallet.frame = final_frame;
         
         CGRect VW_frame = _VW_organisationdetail.frame;
-        VW_frame.size.height = _BTN_deduct_wallet.frame.origin.y + _BTN_deduct_wallet.frame.size.height;
+        if (_VW_wallet.hidden == YES) {
+            VW_frame.size.height = _BTN_deduct_wallet.frame.origin.y + _BTN_deduct_wallet.frame.size.height;
+        }
+        else
+        {
+            CGRect frame_lbl = _LBLwallet_balence.frame;
+            frame_lbl.origin.y = _BTN_deduct_wallet.frame.origin.y + _BTN_deduct_wallet.frame.size.height + 10;
+            _LBLwallet_balence.frame = frame_lbl;
+            
+            frame_lbl = _VW_wallet.frame;
+            frame_lbl.origin.y = _LBLwallet_balence.frame.origin.y + _LBLwallet_balence.frame.size.height + 10;
+            _VW_wallet.frame = frame_lbl;
+            
+            VW_frame.size.height = _VW_wallet.frame.origin.y + _VW_wallet.frame.size.height;
+        }
         VW_frame.size.width = _scroll_Contents.frame.size.width;
         _VW_organisationdetail.frame = VW_frame;
-        
-        VW_frame = _VW_titladdress.frame;
-        VW_frame.origin.y = _VW_organisationdetail.frame.origin.y + _VW_organisationdetail.frame.size.height + 10;
-        VW_frame.size.width = _scroll_Contents.frame.size.width;
-        _VW_titladdress.frame = VW_frame;
         
         CGRect frame_old;
         frame_old = _lbl_address.frame;
@@ -1135,7 +1167,21 @@
         _LBL_arrow_wallet.frame = final_frame;
         
         CGRect VW_frame = _VW_organisationdetail.frame;
-        VW_frame.size.height = _BTN_deduct_wallet.frame.origin.y + _BTN_deduct_wallet.frame.size.height;
+        if (_VW_wallet.hidden == YES) {
+            VW_frame.size.height = _BTN_deduct_wallet.frame.origin.y + _BTN_deduct_wallet.frame.size.height;
+        }
+        else
+        {
+            CGRect frame_lbl = _LBLwallet_balence.frame;
+            frame_lbl.origin.y = _BTN_deduct_wallet.frame.origin.y + _BTN_deduct_wallet.frame.size.height + 10;
+            _LBLwallet_balence.frame = frame_lbl;
+            
+            frame_lbl = _VW_wallet.frame;
+            frame_lbl.origin.y = _LBLwallet_balence.frame.origin.y + _LBLwallet_balence.frame.size.height + 10;
+            _VW_wallet.frame = frame_lbl;
+            
+            VW_frame.size.height = _VW_wallet.frame.origin.y + _VW_wallet.frame.size.height;
+        }
         VW_frame.size.width = _scroll_Contents.frame.size.width;
         _VW_organisationdetail.frame = VW_frame;
         
@@ -1872,8 +1918,22 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
     if ([_LBL_arrow_wallet.text isEqualToString:@""]) {
         _LBL_arrow_wallet.text = @"";
         
-        _LBLwallet_balence.hidden = YES;
-        _VW_wallet.hidden = YES;
+//        _LBLwallet_balence.hidden = YES;
+//        _VW_wallet.hidden = YES;
+        
+        [UIView transitionWithView:_LBLwallet_balence
+                          duration:0.4
+                           options:UIViewAnimationOptionTransitionCurlUp
+                        animations:NULL
+                        completion:NULL];
+        [_LBLwallet_balence  setHidden:YES];
+        
+        [UIView transitionWithView:_VW_wallet
+                          duration:0.4
+                           options:UIViewAnimationOptionTransitionCurlUp
+                        animations:NULL
+                        completion:NULL];
+        [_VW_wallet  setHidden:YES];
         
 //        CGRect frame_new = _LBLwallet_balence.frame;
 //        frame_new.origin.y = _BTN_deduct_wallet.frame.origin.y + _BTN_deduct_wallet.frame.size.height + 10;
@@ -1949,9 +2009,20 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
     {
         _LBL_arrow_wallet.text = @"";
         
-        //Code drop down
+        [UIView beginAnimations:@"LeftFlip" context:nil];
+        [UIView setAnimationDuration:0.8];
         _LBLwallet_balence.hidden = NO;
+        [UIView setAnimationCurve:UIViewAnimationCurveLinear];
+        [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:_LBLwallet_balence cache:YES];
+        [UIView commitAnimations];
+        
+        [UIView beginAnimations:@"LeftFlip" context:nil];
+        [UIView setAnimationDuration:0.8];
         _VW_wallet.hidden = NO;
+        [UIView setAnimationCurve:UIViewAnimationCurveLinear];
+        [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:_VW_wallet cache:YES];
+        [UIView commitAnimations];
+        
         
         CGRect frame_new = _LBLwallet_balence.frame;
         frame_new.origin.y = _BTN_deduct_wallet.frame.origin.y + _BTN_deduct_wallet.frame.size.height + 10;

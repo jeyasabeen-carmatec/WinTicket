@@ -575,10 +575,18 @@
     NSString *a = [NSString stringWithFormat:@"%.2f", total];
     
     NSString *nanunce = [[NSUserDefaults standardUserDefaults] valueForKey:@"NAUNCETOK"];
-    
-    NSDictionary *parameters = @{@"nonce":nanunce, @"transaction_type":@"purchase", @"price":[NSNumber numberWithFloat:[a floatValue]]};
-    
-    NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&error];
+     float total_amount = [[[NSUserDefaults standardUserDefaults] valueForKey:@"total_balance"] floatValue];
+    NSDictionary *parameters;
+    if(total_amount == 0.00)
+    {
+         parameters = @{ @"transaction_type":@"purchase", @"price":[NSNumber numberWithFloat:[a floatValue]]};
+    }
+    else
+    {
+        
+         parameters = @{@"nonce":nanunce, @"transaction_type":@"purchase", @"price":[NSNumber numberWithFloat:[a floatValue]]};
+    }
+   NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&error];
     NSString *urlGetuser =[NSString stringWithFormat:@"%@payments/create",SERVER_URL];
     NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
     NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
@@ -609,7 +617,9 @@
                 NSString *STR_error = [dict valueForKey:@"error"];
                 if (STR_error)
                 {
-                    [self sessionOUT];
+//                    [self sessionOUT];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Transaction failed" message:@"Please retry later" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                    [alert show];
                 }
                 else
                 {
