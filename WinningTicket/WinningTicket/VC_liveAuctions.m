@@ -10,7 +10,14 @@
 #import <Foundation/Foundation.h>
 #import "auction_CellTableViewCell.h"
 
+#pragma mark - Image Cache
+#import "SDWebImage/UIImageView+WebCache.h"
+
 @interface VC_liveAuctions ()
+{
+    UIView *VW_overlay;
+    UIActivityIndicatorView *activityIndicatorView;
+}
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *liveauction;
 @property(nonatomic,strong)NSMutableArray *sec_one_ARR;
@@ -27,6 +34,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self setup_VIEW];
+    
+    VW_overlay.hidden = NO;
+    [activityIndicatorView startAnimating];
+    [self performSelector:@selector(API_liveAuctions:) withObject:@"auction/list/" afterDelay:0.01];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -96,22 +107,22 @@
     [self.navigationItem setLeftBarButtonItems:@[negativeSpacer, anotherButton ] animated:NO];
 //    [self.navigationItem setRightBarButtonItems:@[anotherButton1, negativeSpacer]animated:NO];
     
-    _sec_one_ARR = [[NSMutableArray alloc]init];
-    NSDictionary *temp_dictin;
-    temp_dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"Jordanspeith Auographed Golf ball with cerficate of authenticity",@"key1",@"US $59.99",@"key2",@"startingbid",@"key3",@"IMG_0002.PNG",@"key4", nil];
-    [_sec_one_ARR addObject:temp_dictin];
-    temp_dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"Jordanspeith Auographed Tiltlelist",@"key1",@"US $100.00",@"key2",@"startingbid",@"key3",@"IMG_0003.PNG",@"key4", nil];
-    [_sec_one_ARR addObject:temp_dictin];
-    temp_dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"Jordanspeith Auographed Towel From the masters",@"key1",@"US $24.99",@"key2",@"startingbid",@"key3",@"IMG_0004.PNG",@"key4", nil];
-    [_sec_one_ARR addObject:temp_dictin];
-    temp_dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"Jordanspeith Auographed Under Armor GolfShoes",@"key1",@"US $15.00",@"key2",@"startingbid",@"key3",@"IMG_0009.PNG",@"key4", nil];
-    [_sec_one_ARR addObject:temp_dictin];temp_dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"TigerWoods Auographed Towel From the masters",@"key1",@"US $24.99",@"key2",@"startingbid",@"key3",@"IMG_0010.PNG",@"key4", nil];
-    [_sec_one_ARR addObject:temp_dictin];
-    temp_dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"TigerWoods Auographed Under Armor GolfShoes",@"key1",@"US $54.50",@"key2",@"startingbid",@"key3",@"IMG_0011.PNG",@"key4", nil];
-    [_sec_one_ARR addObject:temp_dictin];
+//    _sec_one_ARR = [[NSMutableArray alloc]init];
+//    NSDictionary *temp_dictin;
+//    temp_dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"Jordanspeith Auographed Golf ball with cerficate of authenticity",@"key1",@"US $59.99",@"key2",@"startingbid",@"key3",@"IMG_0002.PNG",@"key4", nil];
+//    [_sec_one_ARR addObject:temp_dictin];
+//    temp_dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"Jordanspeith Auographed Tiltlelist",@"key1",@"US $100.00",@"key2",@"startingbid",@"key3",@"IMG_0003.PNG",@"key4", nil];
+//    [_sec_one_ARR addObject:temp_dictin];
+//    temp_dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"Jordanspeith Auographed Towel From the masters",@"key1",@"US $24.99",@"key2",@"startingbid",@"key3",@"IMG_0004.PNG",@"key4", nil];
+//    [_sec_one_ARR addObject:temp_dictin];
+//    temp_dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"Jordanspeith Auographed Under Armor GolfShoes",@"key1",@"US $15.00",@"key2",@"startingbid",@"key3",@"IMG_0009.PNG",@"key4", nil];
+//    [_sec_one_ARR addObject:temp_dictin];temp_dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"TigerWoods Auographed Towel From the masters",@"key1",@"US $24.99",@"key2",@"startingbid",@"key3",@"IMG_0010.PNG",@"key4", nil];
+//    [_sec_one_ARR addObject:temp_dictin];
+//    temp_dictin = [NSDictionary dictionaryWithObjectsAndKeys:@"TigerWoods Auographed Under Armor GolfShoes",@"key1",@"US $54.50",@"key2",@"startingbid",@"key3",@"IMG_0011.PNG",@"key4", nil];
+//    [_sec_one_ARR addObject:temp_dictin];
     self.navigationController.navigationBar.titleTextAttributes=@{NSForegroundColorAttributeName:[UIColor whiteColor]};
     
-    NSLog(@"the arrayelemts are:%@",_sec_one_ARR);
+//    NSLog(@"the arrayelemts are:%@",_sec_one_ARR);
     //    NSSortDescriptor *descriptor=[[NSSortDescriptor alloc] initWithKey:@"self" ascending:YES];
     //    NSArray *descriptors=[NSArray arrayWithObject: descriptor];
     //   _reverse_order=[_sec_one_ARR sortedArrayUsingDescriptors:descriptors];
@@ -126,6 +137,29 @@
     
     [numberToolbar addSubview:close];
     _search_bar.inputAccessoryView = numberToolbar;
+    
+    VW_overlay = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    VW_overlay.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    VW_overlay.clipsToBounds = YES;
+    //    VW_overlay.layer.cornerRadius = 10.0;
+    
+    activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    activityIndicatorView.frame = CGRectMake(0, 0, activityIndicatorView.bounds.size.width, activityIndicatorView.bounds.size.height);
+    
+    //    loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 170, 200, 22)];
+    //    loadingLabel.backgroundColor = [UIColor clearColor];
+    //    loadingLabel.textColor = [UIColor whiteColor];
+    //    loadingLabel.adjustsFontSizeToFitWidth = YES;
+    //    loadingLabel.textAlignment = NSTextAlignmentCenter;
+    //    loadingLabel.text = @"Loading...";
+    //
+    //    [VW_overlay addSubview:loadingLabel];
+    activityIndicatorView.center = VW_overlay.center;
+    [VW_overlay addSubview:activityIndicatorView];
+    VW_overlay.center = self.view.center;
+    [self.view addSubview:VW_overlay];
+    
+    VW_overlay.hidden = YES;
 }
 
 -(void)buttonClick
@@ -180,19 +214,24 @@
     {
         self.cpy_dict=[_search_arr objectAtIndex:indexPath.row];
         
-        auc_cell.image_display.image=[UIImage imageNamed:[_cpy_dict objectForKey:@"key4"]];
-        auc_cell.name_lbl.text=[_cpy_dict objectForKey:@"key1"];
-        auc_cell.currency_lbl.text=[_cpy_dict objectForKey:@"key2"];
-        auc_cell.bid_Lbl.text=[_cpy_dict objectForKey:@"key3"];
+//        auc_cell.image_display.image =[UIImage imageNamed:[_cpy_dict objectForKey:@"key4"]];
+        NSString *url_str = [NSString stringWithFormat:@"%@%@",IMAGE_URL,[_cpy_dict valueForKey:@"item_image"]];
+        [auc_cell.image_display sd_setImageWithURL:[NSURL URLWithString:url_str]
+                      placeholderImage:[UIImage imageNamed:@"Logo_WT.png"]];
+        auc_cell.name_lbl.text = [_cpy_dict objectForKey:@"name"];
+        auc_cell.currency_lbl.text = [NSString stringWithFormat:@"US $%.2f",[[_cpy_dict objectForKey:@"starting_bid"] floatValue]];
+        auc_cell.bid_Lbl.text= @"Startingbid";//[_cpy_dict objectForKey:@"key3"];
         return auc_cell;
         
     }
     
-    NSDictionary *remain=[_sec_one_ARR objectAtIndex:indexPath.row];
-    auc_cell.image_display.image=[UIImage imageNamed:[remain objectForKey:@"key4"]];
-    auc_cell.name_lbl.text=[remain objectForKey:@"key1"];
-    auc_cell.currency_lbl.text=[remain objectForKey:@"key2"];
-    auc_cell.bid_Lbl.text=[remain objectForKey:@"key3"];
+    NSDictionary *remain = [_sec_one_ARR objectAtIndex:indexPath.row];
+    NSString *url_str = [NSString stringWithFormat:@"%@%@",IMAGE_URL,[remain valueForKey:@"item_image"]];
+    [auc_cell.image_display sd_setImageWithURL:[NSURL URLWithString:url_str]
+                              placeholderImage:[UIImage imageNamed:@"Logo_WT.png"]];
+    auc_cell.name_lbl.text = [remain objectForKey:@"name"];
+    auc_cell.currency_lbl.text = [NSString stringWithFormat:@"US $%.2f",[[remain objectForKey:@"starting_bid"] floatValue]];
+    auc_cell.bid_Lbl.text = @"Startingbid";//[remain objectForKey:@"key3"];
     return auc_cell;
 }
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
@@ -216,6 +255,38 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self performSegueWithIdentifier:@"auctionstoitemdetailidentifier" sender:self];
+}
+
+#pragma mark - API implementation
+-(void) API_liveAuctions :(NSString *)url_STR
+{
+    NSHTTPURLResponse *response = nil;
+    NSError *error;
+    
+//    NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
+//    NSDictionary *Dictin_event = [dict valueForKey:@"event"];
+    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@%@%@",SERVER_URL,url_STR,@"309"];//[Dictin_event valueForKey:@"id"]
+    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setURL:urlProducts];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
+    [request setHTTPShouldHandleCookies:NO];
+    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (aData) {
+        NSMutableDictionary *jsonReponse = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        NSLog(@"The response Live auctions %@",jsonReponse);
+        
+        _sec_one_ARR = [[NSMutableArray alloc] initWithArray:[jsonReponse valueForKey:@"auction_items"]];
+        NSLog(@"the arrayelemts are:%@",_sec_one_ARR);
+        
+        [self.auctiontab reloadData];
+    }
+    
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden = YES;
 }
 
 @end
