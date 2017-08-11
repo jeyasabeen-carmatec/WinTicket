@@ -284,8 +284,8 @@
                 self.lbl_current_bal.text = wallet_text;
             }
             
-            _lbl_acbalance_amount.text = [NSString stringWithFormat:@"-$%.2f",[[dict valueForKey:@"price"] floatValue]];
-            price_deduct = [[dict valueForKey:@"wallet"] floatValue] -[[dict valueForKey:@"price"] floatValue];
+//            _lbl_acbalance_amount.text = [NSString stringWithFormat:@"-$%.2f",[[dict valueForKey:@"price"] floatValue]];
+//            price_deduct = [[dict valueForKey:@"wallet"] floatValue] -[[dict valueForKey:@"price"] floatValue];
 
             
             self.lbl_ticketdetail.numberOfLines = 0;
@@ -411,6 +411,7 @@
             
 
             [_Switch_Ac addTarget:self action:@selector(switch_ction) forControlEvents:UIControlEventTouchUpInside];
+            _Switch_Ac.on = NO;
         }
     }
     @catch (NSException *exception)
@@ -652,13 +653,13 @@
         [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:_VW_promo cache:YES];
         [UIView commitAnimations];
         
-        original_height = original_height + 100;
+        original_height = _BTN_checkout.frame.origin.y + _BTN_checkout.frame.size.height + 40;
         [self viewDidLayoutSubviews];
     }
     else
     {
         [self hide_PROMO];
-        original_height = original_height - 100;
+        original_height = _BTN_checkout.frame.origin.y + _BTN_checkout.frame.size.height + 40;
         [self viewDidLayoutSubviews];
     }
 }
@@ -815,13 +816,13 @@
         [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown forView:_VW_Account cache:YES];
         [UIView commitAnimations];
         
-        original_height = original_height + 100;
+        original_height = _BTN_checkout.frame.origin.y + _BTN_checkout.frame.size.height + 40;
         [self viewDidLayoutSubviews];
     }
     else
     {
         [self hide_account];
-        original_height = original_height - 100;
+        original_height = _BTN_checkout.frame.origin.y + _BTN_checkout.frame.size.height + 40;
         [self viewDidLayoutSubviews];
     }
 }
@@ -878,18 +879,41 @@
 //                       ];
      //   _lbl_current_bal.text = [NSString stringWithFormat:@"%@",wallet_text];
         
-        NSArray *arr = [_lbl_datasubtotal.text componentsSeparatedByString:@"$"];
-        NSArray *arr1 = [_lbl_acbalance_amount.text componentsSeparatedByString:@"$"];
-        float amount = [[arr objectAtIndex:1] floatValue] - [[arr1 objectAtIndex:1] floatValue];
-        NSString *str = [NSString stringWithFormat:@"%.2f",amount];
-        _lbl_dataTotal.text = str;
-        NSLog(@"the swiych of text:%@",_lbl_dataTotal.text);
-        [[NSUserDefaults standardUserDefaults] setValue:str forKey:@"total_balance"];
+//        NSArray *arr = [_lbl_datasubtotal.text componentsSeparatedByString:@"$"];
+//        NSArray *arr1 = [_lbl_current_bal.text componentsSeparatedByString:@"$"];
+//        float amount = [[arr objectAtIndex:[arr count]-1] floatValue] - [[arr1 objectAtIndex:[arr1 count]-1] floatValue];
+//        NSString *str = [NSString stringWithFormat:@"%.2f",amount];
+//        _lbl_dataTotal.text = str;
+//        NSLog(@"the swiych of text:%@",_lbl_dataTotal.text);
+        
+        float total;
+        NSArray *ARR_waletmoney = [_lbl_current_bal.text componentsSeparatedByString:@"$"];
+        float waletMoney = [[ARR_waletmoney objectAtIndex:[ARR_waletmoney count]-1]floatValue];
+        
+        NSArray *ARR_subtotal = [_lbl_datasubtotal.text componentsSeparatedByString:@"$"];
+        float subtotal = [[ARR_subtotal objectAtIndex:[ARR_subtotal count]-1]floatValue];
+        
+        float difference;
+        
+        if (waletMoney > subtotal) {
+            total = 0.00f;
+            difference = subtotal;
+        }
+        else
+        {
+            total = subtotal - waletMoney;
+            difference = subtotal - total;
+        }
+
+        _lbl_acbalance_amount.text = [NSString stringWithFormat:@"-$%.2f",difference];
+        price_deduct = total;
+        NSString *STR_total = [NSString stringWithFormat:@"%.2f",total];
+        _lbl_dataTotal.text = STR_total;
+        
+        [[NSUserDefaults standardUserDefaults] setValue:STR_total forKey:@"total_balance"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
         [UIView animateWithDuration:0.4 animations:^{
-           
-
         CGRect switchframe = _VW_line2.frame ;
         switchframe.origin.y = _lbl_titleSubtotal.frame.origin.y + _lbl_titleSubtotal.frame.size.height + 10;
         _VW_line2.frame = switchframe;
@@ -918,13 +942,12 @@
         switchframe = _BTN_checkout.frame;
         switchframe.origin.y = _lbl_titleTotal.frame.origin.y + _lbl_titleTotal.frame.size.height + 10;
         _BTN_checkout.frame = switchframe;
-
-        
          }];
+        
         [UIView beginAnimations:@"LeftFlip" context:nil];
         [UIView commitAnimations];
         
-        original_height = original_height + 100;
+        original_height = _BTN_checkout.frame.origin.y + _BTN_checkout.frame.size.height + 40;
         [self viewDidLayoutSubviews];
     }
     else if(_Switch_Ac.on == NO)
@@ -934,19 +957,20 @@
         _VW_line2.hidden = YES;
         _lbl_acbalance.hidden = YES;
         _lbl_acbalance_amount.hidden = YES;
-        _lbl_dataTotal.text = total_text;
-        NSLog(@"the swiych of text:%@",total_text);
-        [[NSUserDefaults standardUserDefaults] setValue:_lbl_dataTotal.text forKey:@"total_balance"];
+//        _lbl_dataTotal.text = total_text;
+        
+        NSArray *ARR_subtotal = [_lbl_datasubtotal.text componentsSeparatedByString:@"$"];
+        float total =[[ARR_subtotal objectAtIndex:[ARR_subtotal count]-1] floatValue];
+        NSString *STR_total = [NSString stringWithFormat:@"%.2f",total];
+        _lbl_dataTotal.text = STR_total;
+        
+        [[NSUserDefaults standardUserDefaults] setValue:STR_total forKey:@"total_balance"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-
         [UIView animateWithDuration:0.4 animations:^{
-            
-            
         CGRect switchframe = _VW_line3.frame;
         switchframe.origin.y = _lbl_titleSubtotal.frame.origin.y + _lbl_titleSubtotal.frame.size.height + 10;
         _VW_line3.frame = switchframe;
-        
         
         switchframe = _lbl_titleTotal.frame;
         switchframe.origin.y = _VW_line3.frame.origin.y + _VW_line3.frame.size.height + 10;
@@ -964,7 +988,7 @@
         [UIView beginAnimations:@"LeftFlip" context:nil];
         [UIView commitAnimations];
         
-        original_height = original_height + 100;
+        original_height = _BTN_checkout.frame.origin.y + _BTN_checkout.frame.size.height + 40;
         [self viewDidLayoutSubviews];
 
         
@@ -977,7 +1001,33 @@
 -(void)get_caluculated_text
 {
     NSArray *arr = [_lbl_price.text componentsSeparatedByString:@"$"];
-    _lbl_dataTotal.text = [NSString stringWithFormat:@"$%.02f",[_TXT_qty.text floatValue] * [[arr objectAtIndex:1] floatValue]];
+    if (_Switch_Ac.on) {
+        float total;
+        NSArray *ARR_waletmoney = [_lbl_current_bal.text componentsSeparatedByString:@"$"];
+        float waletMoney = [[ARR_waletmoney objectAtIndex:[ARR_waletmoney count]-1]floatValue];
+        
+        NSArray *ARR_subtotal = [_lbl_price.text componentsSeparatedByString:@"$"];
+        float subtotal = [[ARR_subtotal objectAtIndex:[ARR_subtotal count]-1]floatValue] * [_TXT_qty.text floatValue];
+        
+        float difference;
+        
+        if (waletMoney > subtotal) {
+            total = 0.00f;
+            difference = subtotal;
+        }
+        else
+        {
+            total = subtotal - waletMoney;
+            difference = total - subtotal;
+        }
+        
+        _lbl_dataTotal.text = [NSString stringWithFormat:@"%.2f",difference];
+    }
+    else
+    {
+        _lbl_dataTotal.text = [NSString stringWithFormat:@"$%.02f",[_TXT_qty.text floatValue] * [[arr objectAtIndex:1] floatValue]];
+    }
+    
     _lbl_datasubtotal.text = [NSString stringWithFormat:@"$%.02f",[_TXT_qty.text floatValue] * [[arr objectAtIndex:1] floatValue]];
 }
 
