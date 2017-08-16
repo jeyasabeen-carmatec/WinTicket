@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES" initialViewController="97K-sf-4BT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES" initialViewController="97K-sf-4BT">
     <device id="retina3_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -2599,7 +2599,7 @@
                             </collectionViewFlowLayout>
                             <cells>
                                 <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="cellIdentifier" id="szU-Eh-0x1">
-                                    <rect key="frame" x="0.0" y="2" width="183" height="255"/>
+                                    <rect key="frame" x="0.0" y="1.5" width="183" height="255"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                         <rect key="frame" x="0.0" y="0.0" width="183" height="255"/>
@@ -3425,8 +3425,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="BTN_banktransfer" destination="hGM-ay-LeQ" id="hZU-8r-DV6"/>
-                        <outlet property="BTN_paypal" destination="gUZ-11-kly" id="icR-CQ-91t"/>
+                        <outlet property="BTN_banktransfer" destination="Dlp-GD-e9d" id="6qe-uy-j8F"/>
+                        <outlet property="BTN_paypal" destination="d5g-Oq-dec" id="0nh-Pc-BoQ"/>
                         <outlet property="BTN_submit_account" destination="wqB-lO-Mae" id="WB5-z2-hyc"/>
                         <outlet property="BTN_submit_paypal" destination="Ur4-IW-u7G" id="g9Y-NT-ytj"/>
                         <outlet property="TXT_accholdername" destination="4FY-MT-jZs" id="pDo-CO-eez"/>
@@ -3439,9 +3439,11 @@
                         <outlet property="VW_banktransfer" destination="Gej-fa-vF6" id="Ttk-Mj-dXW"/>
                         <outlet property="VW_holdBTN" destination="UXQ-aG-Cxs" id="Rqi-OV-EuM"/>
                         <outlet property="VW_paypal" destination="Mof-fN-rB5" id="Vqb-Lc-fDh"/>
+                        <outlet property="bank_transfer_BG" destination="och-c1-9AT" id="YSD-hl-n7H"/>
                         <outlet property="lbl_availableBAL" destination="1Jg-Wx-fAm" id="Xuq-Yx-dVe"/>
                         <outlet property="lbl_titleAMT" destination="mz7-3u-aID" id="tjI-HF-ZeB"/>
                         <outlet property="lbl_titleAMT1" destination="gVT-ma-ClT" id="rvf-xX-2Qo"/>
+                        <outlet property="pay_pal_BG" destination="XVo-lW-mTv" id="K9I-Lw-qaa"/>
                         <outlet property="scroll_contents" destination="vdu-xZ-6Zh" id="955-Tt-zse"/>
                     </connections>
                 </viewController>
@@ -3599,24 +3601,38 @@
                             <rect key="frame" x="12" y="52" width="292" height="70"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="hGM-ay-LeQ" customClass="BTN_Winnig_TKT">
-                                    <rect key="frame" x="11" y="10" width="128" height="50"/>
+                                <view contentMode="scaleToFill" misplaced="YES" id="och-c1-9AT">
+                                    <rect key="frame" x="0.0" y="4" width="139" height="62"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
-                                    <state key="normal" title="BANK TRANSFER">
-                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="gUZ-11-kly" customClass="BTN_Winnig_TKT">
-                                    <rect key="frame" x="153" y="10" width="128" height="50"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Dlp-GD-e9d" customClass="BTN_Winnig_TKT">
+                                            <rect key="frame" x="6" y="6" width="128" height="50"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
+                                            <state key="normal" title="BANK TRANSFER">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </view>
+                                <view contentMode="scaleToFill" misplaced="YES" id="XVo-lW-mTv">
+                                    <rect key="frame" x="157" y="4" width="139" height="62"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
-                                    <fontDescription key="fontDescription" name="HelveticaNeue-BoldItalic" family="Helvetica Neue" pointSize="22"/>
-                                    <state key="normal" title="PayPal">
-                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                </button>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="d5g-Oq-dec" customClass="BTN_Winnig_TKT">
+                                            <rect key="frame" x="6" y="6" width="128" height="50"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-BoldItalic" family="Helvetica Neue" pointSize="22"/>
+                                            <state key="normal" title="PayPal">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                        </button>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </view>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>

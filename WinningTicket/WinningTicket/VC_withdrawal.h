@@ -38,4 +38,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *TXT_accountnumber;
 @property (weak, nonatomic) IBOutlet ACFloatingTextField *TXT_email;
 
+@property(nonatomic,weak) IBOutlet UIView *bank_transfer_BG;
+
+@property(nonatomic,weak) IBOutlet UIView *pay_pal_BG;
+
 @end

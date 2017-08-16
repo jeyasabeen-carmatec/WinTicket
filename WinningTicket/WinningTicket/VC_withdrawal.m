@@ -14,7 +14,7 @@
 @interface VC_withdrawal ()<UIAlertViewDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate>
 {
     float scroll_View_HT;
-    UIView *VW_overlay;
+    UIView *VW_overlay,*BTN_bg;
     UIActivityIndicatorView *activityIndicatorView;
 //    UILabel *loadingLabel;
 }
@@ -265,6 +265,8 @@
     [self.view addSubview:VW_overlay];
     
     VW_overlay.hidden = YES;
+    [_BTN_paypal setBackgroundImage:[UIImage imageNamed:@"hh"] forState:UIControlStateHighlighted];
+   
     
 }
 
@@ -295,8 +297,13 @@
     //    }
     _VW_paypal.hidden = YES;
     
-    [[_BTN_banktransfer layer] setBorderWidth:5.0f];
-    [[_BTN_banktransfer layer] setBorderColor:[UIColor whiteColor].CGColor];
+    
+    [[_bank_transfer_BG layer] setBorderWidth:2.0f];
+    [[_bank_transfer_BG layer] setBorderColor:[UIColor greenColor].CGColor];
+    [[_pay_pal_BG layer] setBorderWidth:2.0f];
+    [[_pay_pal_BG layer] setBorderColor:[UIColor whiteColor].CGColor];
+    
+    
     
     
 //    CALayer *rightBorder = [CALayer layer];
@@ -306,7 +313,7 @@
 
 //    [_BTN_banktransfer.layer addSublayer:rightBorder];
     
-    [[_BTN_paypal layer] setBorderWidth:0.0f];
+   //   [[_BTN_paypal layer] setBorderWidth:0.0f];
 //    _BTN_paypal.layer.sublayers = nil;
 }
 
@@ -316,10 +323,15 @@
     //    if (_VW_paypal.hidden == YES)
     //    {
     _VW_paypal.hidden = NO;
+    
     //    }
     
-    [[_BTN_paypal layer] setBorderWidth:5.0f];
-    [[_BTN_paypal layer] setBorderColor:[UIColor whiteColor].CGColor];
+    [[_pay_pal_BG layer] setBorderWidth:2.0f];
+    [[_pay_pal_BG layer] setBorderColor:[UIColor greenColor].CGColor];
+    [[_bank_transfer_BG layer] setBorderWidth:2.0f];
+    [[_bank_transfer_BG layer] setBorderColor:[UIColor whiteColor].CGColor];
+
+    
     
 //    CALayer *rightBorder = [CALayer layer];
 //    rightBorder.borderColor = [UIColor greenColor].CGColor;
@@ -328,7 +340,6 @@
 //    
 //    [_BTN_paypal.layer addSublayer:rightBorder];
     
-    [[_BTN_banktransfer layer] setBorderWidth:0.0f];
 //    _BTN_banktransfer.layer.sublayers = nil;
 }
 -(void)submitClicked_paypal

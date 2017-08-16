@@ -834,9 +834,10 @@
                     animations:NULL
                     completion:NULL];
     [_VW_Account  setHidden:YES];
+    _Switch_Ac.on = NO;
     
-     _lbl_dataTotal.text = total_text;
-    
+     _lbl_dataTotal.text = _lbl_datasubtotal.text;
+   
     [UIView animateWithDuration:0.5 animations:^{
         
         
@@ -907,7 +908,7 @@
 
         _lbl_acbalance_amount.text = [NSString stringWithFormat:@"-$%.2f",difference];
         price_deduct = total;
-        NSString *STR_total = [NSString stringWithFormat:@"%.2f",total];
+        NSString *STR_total = [NSString stringWithFormat:@"$%.2f",total];
         _lbl_dataTotal.text = STR_total;
         
         [[NSUserDefaults standardUserDefaults] setValue:STR_total forKey:@"total_balance"];
@@ -961,7 +962,7 @@
         
         NSArray *ARR_subtotal = [_lbl_datasubtotal.text componentsSeparatedByString:@"$"];
         float total =[[ARR_subtotal objectAtIndex:[ARR_subtotal count]-1] floatValue];
-        NSString *STR_total = [NSString stringWithFormat:@"%.2f",total];
+        NSString *STR_total = [NSString stringWithFormat:@"$%.2f",total];
         _lbl_dataTotal.text = STR_total;
         
         [[NSUserDefaults standardUserDefaults] setValue:STR_total forKey:@"total_balance"];
@@ -1012,16 +1013,21 @@
         float difference;
         
         if (waletMoney > subtotal) {
+            _lbl_datasubtotal.text = [NSString stringWithFormat:@"$%.02f",[_TXT_qty.text floatValue] * [[arr objectAtIndex:1] floatValue]];
+            _lbl_acbalance_amount.text = _lbl_datasubtotal.text;
+            
             total = 0.00f;
+            
             difference = subtotal;
         }
         else
         {
             total = subtotal - waletMoney;
+        _lbl_acbalance_amount.text =[NSString stringWithFormat:@"-$%.02f",waletMoney];
             difference = total - subtotal;
         }
         
-        _lbl_dataTotal.text = [NSString stringWithFormat:@"%.2f",difference];
+        _lbl_dataTotal.text = [NSString stringWithFormat:@"$%.2f",total];
     }
     else
     {

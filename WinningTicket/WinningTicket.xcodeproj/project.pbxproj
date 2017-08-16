@@ -47,7 +47,6 @@
 		BE52DF4D1E9B3E3B0055E914 /* IMG_0010.PNG in Resources */ = {isa = PBXBuildFile; fileRef = BE52DF471E9B3E3B0055E914 /* IMG_0010.PNG */; };
 		BE52DF4E1E9B3E3B0055E914 /* IMG_0011.PNG in Resources */ = {isa = PBXBuildFile; fileRef = BE52DF481E9B3E3B0055E914 /* IMG_0011.PNG */; };
 		BE5F8DE61F0E66DF00280683 /* WinningTicket_Universal-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BE5F8DE51F0E66DF00280683 /* WinningTicket_Universal-Info.plist */; };
-		BE5F8DEA1F132C2500280683 /* Main~ipad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE5F8DE91F132C2500280683 /* Main~ipad.storyboard */; };
 		BE60C1A01EB1CC4000C4B522 /* left_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = BE60C19F1EB1CC3F00C4B522 /* left_arrow.png */; };
 		BE60C1A21EB1CE7A00C4B522 /* cross.png in Resources */ = {isa = PBXBuildFile; fileRef = BE60C1A11EB1CE7A00C4B522 /* cross.png */; };
 		BE7E21E71EC040630016E316 /* VC_all_events.m in Sources */ = {isa = PBXBuildFile; fileRef = BE7E21E61EC040630016E316 /* VC_all_events.m */; };
@@ -58,7 +57,6 @@
 		BE811F741EBC4FD9003D7C0B /* GET_states.m in Sources */ = {isa = PBXBuildFile; fileRef = BE811F731EBC4FD9003D7C0B /* GET_states.m */; };
 		BE812A361E94C77500D58DDA /* VC_termsofUSE.m in Sources */ = {isa = PBXBuildFile; fileRef = BE812A351E94C77500D58DDA /* VC_termsofUSE.m */; };
 		BE812A3A1E94D1FB00D58DDA /* VC_privacypolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = BE812A391E94D1FB00D58DDA /* VC_privacypolicy.m */; };
-		BE812A491E96069100D58DDA /* VC_liveAuctions.m in Sources */ = {isa = PBXBuildFile; fileRef = BE812A481E96069100D58DDA /* VC_liveAuctions.m */; };
 		BE812A821E9673A600D58DDA /* similar_collectioncell.m in Sources */ = {isa = PBXBuildFile; fileRef = BE812A811E9673A600D58DDA /* similar_collectioncell.m */; };
 		BE888A261E926EF000656580 /* CELL_trans_hstry.m in Sources */ = {isa = PBXBuildFile; fileRef = BE888A241E926EF000656580 /* CELL_trans_hstry.m */; };
 		BE888A271E926EF000656580 /* CELL_trans_hstry.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE888A251E926EF000656580 /* CELL_trans_hstry.xib */; };
@@ -124,7 +122,6 @@
 		BEB49DF71E8248D600209E63 /* detail_baground.png in Resources */ = {isa = PBXBuildFile; fileRef = BEB49DF61E8248D600209E63 /* detail_baground.png */; };
 		BEB49E171F3B1A240087E5BE /* VC_billingAddr.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB49E161F3B1A230087E5BE /* VC_billingAddr.m */; };
 		BEB49E191F3B1AF80087E5BE /* VC_checkoutdetail.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB49E181F3B1AF80087E5BE /* VC_checkoutdetail.m */; };
-		BEB49E1C1F3B1B0F0087E5BE /* VC_TKT_qty.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB49E1B1F3B1B0F0087E5BE /* VC_TKT_qty.m */; };
 		BEB702B51ECD636D004CB729 /* Cell_search.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB702B31ECD636D004CB729 /* Cell_search.swift */; };
 		BEB702B61ECD636D004CB729 /* Cell_search.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEB702B41ECD636D004CB729 /* Cell_search.xib */; };
 		BEB702C21ECDC135004CB729 /* TBL_VW_Cell_EVENTS~iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEB702C01ECDC135004CB729 /* TBL_VW_Cell_EVENTS~iPad.xib */; };
@@ -143,6 +140,11 @@
 		BEB702F91ECF0479004CB729 /* DGActivityIndicatorTriplePulseAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB702F81ECF0479004CB729 /* DGActivityIndicatorTriplePulseAnimation.m */; };
 		BEB702FC1ECF06AF004CB729 /* DGActivityIndicatorTwoDotsAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB702FB1ECF06AF004CB729 /* DGActivityIndicatorTwoDotsAnimation.m */; };
 		BEB702FF1ECF09FB004CB729 /* DGActivityIndicatorBallPulseAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB702FE1ECF09FB004CB729 /* DGActivityIndicatorBallPulseAnimation.m */; };
+		BEB745481F44290100C39359 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEB745461F44290100C39359 /* Main.storyboard */; };
+		BEB745491F44290100C39359 /* Main~ipad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEB745471F44290100C39359 /* Main~ipad.storyboard */; };
+		BEB7454B1F44294F00C39359 /* VC_liveAuctions.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB7454A1F44294F00C39359 /* VC_liveAuctions.m */; };
+		BEB7454D1F44299800C39359 /* VC_TKT_qty.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB7454C1F44299800C39359 /* VC_TKT_qty.m */; };
+		BEB7454F1F4429BD00C39359 /* VC_withdrawal.m in Sources */ = {isa = PBXBuildFile; fileRef = BEB7454E1F4429BD00C39359 /* VC_withdrawal.m */; };
 		BEBF799F1F286B1B00C390ED /* VC_srch_Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBF799E1F286B1B00C390ED /* VC_srch_Course.swift */; };
 		BEBF79A21F2F540A00C390ED /* VC_search_Course.m in Sources */ = {isa = PBXBuildFile; fileRef = BEBF79A11F2F540A00C390ED /* VC_search_Course.m */; };
 		BEC3BDBE1EAA255700AD97E4 /* GothamBook Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = BEC3BDBD1EAA255700AD97E4 /* GothamBook Regular.otf */; };
@@ -178,11 +180,9 @@
 		BECD7C9F1EF269FD0037A968 /* ACFloatingTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = BECD7C9E1EF269FD0037A968 /* ACFloatingTextField.m */; };
 		BECD7CA61EF284320037A968 /* TXT_alighn_style.m in Sources */ = {isa = PBXBuildFile; fileRef = BECD7CA51EF284320037A968 /* TXT_alighn_style.m */; };
 		BECD7CB81EF404EB0037A968 /* TSCurrencyTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = BECD7CB71EF404EB0037A968 /* TSCurrencyTextField.m */; };
-		BECD7CBE1EF78C350037A968 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BECD7CBC1EF78C350037A968 /* Main.storyboard */; };
 		BECD7CC51EF78CBB0037A968 /* VC_accounts.m in Sources */ = {isa = PBXBuildFile; fileRef = BECD7CC41EF78CBB0037A968 /* VC_accounts.m */; };
 		BECD7CC81EF78CD60037A968 /* VC_addFUNDS.m in Sources */ = {isa = PBXBuildFile; fileRef = BECD7CC71EF78CD60037A968 /* VC_addFUNDS.m */; };
 		BECD7CCB1EF78CF90037A968 /* donate_purchase_VC.m in Sources */ = {isa = PBXBuildFile; fileRef = BECD7CCA1EF78CF90037A968 /* donate_purchase_VC.m */; };
-		BECD7CD11EF78D300037A968 /* VC_withdrawal.m in Sources */ = {isa = PBXBuildFile; fileRef = BECD7CD01EF78D300037A968 /* VC_withdrawal.m */; };
 		BECD7CD41EF78D800037A968 /* VC_transactionhistory.m in Sources */ = {isa = PBXBuildFile; fileRef = BECD7CD31EF78D800037A968 /* VC_transactionhistory.m */; };
 		BECD7CDD1EF7EF950037A968 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BECD7CDC1EF7EF950037A968 /* UserNotifications.framework */; };
 		BED71F2E1EE7CBB300492E97 /* login_transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = BED71F2D1EE7CBB300492E97 /* login_transparent.png */; };
@@ -325,7 +325,6 @@
 		BE52DF471E9B3E3B0055E914 /* IMG_0010.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IMG_0010.PNG; sourceTree = "<group>"; };
 		BE52DF481E9B3E3B0055E914 /* IMG_0011.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IMG_0011.PNG; sourceTree = "<group>"; };
 		BE5F8DE51F0E66DF00280683 /* WinningTicket_Universal-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WinningTicket_Universal-Info.plist"; sourceTree = "<group>"; };
-		BE5F8DE91F132C2500280683 /* Main~ipad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Main~ipad.storyboard"; sourceTree = "<group>"; };
 		BE60C19F1EB1CC3F00C4B522 /* left_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_arrow.png; sourceTree = "<group>"; };
 		BE60C1A11EB1CE7A00C4B522 /* cross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cross.png; sourceTree = "<group>"; };
 		BE7E21E61EC040630016E316 /* VC_all_events.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_all_events.m; sourceTree = "<group>"; };
@@ -345,7 +344,6 @@
 		BE812A381E94D1FB00D58DDA /* VC_privacypolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_privacypolicy.h; sourceTree = "<group>"; };
 		BE812A391E94D1FB00D58DDA /* VC_privacypolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_privacypolicy.m; sourceTree = "<group>"; };
 		BE812A471E96069100D58DDA /* VC_liveAuctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_liveAuctions.h; sourceTree = "<group>"; };
-		BE812A481E96069100D58DDA /* VC_liveAuctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_liveAuctions.m; sourceTree = "<group>"; };
 		BE812A801E9673A600D58DDA /* similar_collectioncell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = similar_collectioncell.h; sourceTree = "<group>"; };
 		BE812A811E9673A600D58DDA /* similar_collectioncell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = similar_collectioncell.m; sourceTree = "<group>"; };
 		BE888A231E926EF000656580 /* CELL_trans_hstry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CELL_trans_hstry.h; sourceTree = "<group>"; };
@@ -413,7 +411,6 @@
 		BEB49E161F3B1A230087E5BE /* VC_billingAddr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_billingAddr.m; sourceTree = "<group>"; };
 		BEB49E181F3B1AF80087E5BE /* VC_checkoutdetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_checkoutdetail.m; sourceTree = "<group>"; };
 		BEB49E1A1F3B1B0F0087E5BE /* VC_TKT_qty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_TKT_qty.h; sourceTree = "<group>"; };
-		BEB49E1B1F3B1B0F0087E5BE /* VC_TKT_qty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_TKT_qty.m; sourceTree = "<group>"; };
 		BEB702B21ECD6369004CB729 /* WinningTicket_Universal-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WinningTicket_Universal-Bridging-Header.h"; sourceTree = "<group>"; };
 		BEB702B31ECD636D004CB729 /* Cell_search.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cell_search.swift; sourceTree = "<group>"; };
 		BEB702B41ECD636D004CB729 /* Cell_search.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Cell_search.xib; sourceTree = "<group>"; };
@@ -448,6 +445,12 @@
 		BEB702FB1ECF06AF004CB729 /* DGActivityIndicatorTwoDotsAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DGActivityIndicatorTwoDotsAnimation.m; sourceTree = "<group>"; };
 		BEB702FD1ECF09FB004CB729 /* DGActivityIndicatorBallPulseAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DGActivityIndicatorBallPulseAnimation.h; sourceTree = "<group>"; };
 		BEB702FE1ECF09FB004CB729 /* DGActivityIndicatorBallPulseAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DGActivityIndicatorBallPulseAnimation.m; sourceTree = "<group>"; };
+		BEB745461F44290100C39359 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		BEB745471F44290100C39359 /* Main~ipad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Main~ipad.storyboard"; sourceTree = "<group>"; };
+		BEB7454A1F44294F00C39359 /* VC_liveAuctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_liveAuctions.m; sourceTree = "<group>"; };
+		BEB7454C1F44299800C39359 /* VC_TKT_qty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_TKT_qty.m; sourceTree = "<group>"; };
+		BEB7454E1F4429BD00C39359 /* VC_withdrawal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_withdrawal.m; sourceTree = "<group>"; };
+		BEB745501F4429E300C39359 /* VC_withdrawal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VC_withdrawal.h; sourceTree = "<group>"; };
 		BEBF799E1F286B1B00C390ED /* VC_srch_Course.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VC_srch_Course.swift; sourceTree = "<group>"; };
 		BEBF79A01F2F540900C390ED /* VC_search_Course.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_search_Course.h; sourceTree = "<group>"; };
 		BEBF79A11F2F540A00C390ED /* VC_search_Course.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_search_Course.m; sourceTree = "<group>"; };
@@ -502,7 +505,6 @@
 		BECD7CA51EF284320037A968 /* TXT_alighn_style.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TXT_alighn_style.m; sourceTree = "<group>"; };
 		BECD7CB61EF404EB0037A968 /* TSCurrencyTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCurrencyTextField.h; sourceTree = "<group>"; };
 		BECD7CB71EF404EB0037A968 /* TSCurrencyTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCurrencyTextField.m; sourceTree = "<group>"; };
-		BECD7CBC1EF78C350037A968 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		BECD7CC01EF78C880037A968 /* VC_billingAddr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_billingAddr.h; sourceTree = "<group>"; };
 		BECD7CC31EF78CBB0037A968 /* VC_accounts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_accounts.h; sourceTree = "<group>"; };
 		BECD7CC41EF78CBB0037A968 /* VC_accounts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_accounts.m; sourceTree = "<group>"; };
@@ -510,8 +512,6 @@
 		BECD7CC71EF78CD60037A968 /* VC_addFUNDS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_addFUNDS.m; sourceTree = "<group>"; };
 		BECD7CC91EF78CF90037A968 /* donate_purchase_VC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = donate_purchase_VC.h; sourceTree = "<group>"; };
 		BECD7CCA1EF78CF90037A968 /* donate_purchase_VC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = donate_purchase_VC.m; sourceTree = "<group>"; };
-		BECD7CCF1EF78D300037A968 /* VC_withdrawal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_withdrawal.h; sourceTree = "<group>"; };
-		BECD7CD01EF78D300037A968 /* VC_withdrawal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_withdrawal.m; sourceTree = "<group>"; };
 		BECD7CD21EF78D800037A968 /* VC_transactionhistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VC_transactionhistory.h; sourceTree = "<group>"; };
 		BECD7CD31EF78D800037A968 /* VC_transactionhistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VC_transactionhistory.m; sourceTree = "<group>"; };
 		BECD7CDB1EF7EF700037A968 /* WinningTicket_Universal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WinningTicket_Universal.entitlements; sourceTree = "<group>"; };
@@ -802,7 +802,7 @@
 				BEC548601EA4D9A500FF2114 /* auction_CellTableViewCell.h */,
 				BEC548611EA4D9A500FF2114 /* auction_CellTableViewCell.m */,
 				BE812A471E96069100D58DDA /* VC_liveAuctions.h */,
-				BE812A481E96069100D58DDA /* VC_liveAuctions.m */,
+				BEB7454A1F44294F00C39359 /* VC_liveAuctions.m */,
 				BEFCD3141F18A72C0005D82D /* private.png */,
 				BE812A4A1E9629CC00D58DDA /* item_detail */,
 				BEA9C3191EAE289700930A7F /* Bidding_history */,
@@ -954,7 +954,7 @@
 			isa = PBXGroup;
 			children = (
 				BEB49E1A1F3B1B0F0087E5BE /* VC_TKT_qty.h */,
-				BEB49E1B1F3B1B0F0087E5BE /* VC_TKT_qty.m */,
+				BEB7454C1F44299800C39359 /* VC_TKT_qty.m */,
 			);
 			name = Ticket_QTY;
 			sourceTree = "<group>";
@@ -1036,8 +1036,8 @@
 		BEA875FB1E921B9F00EFBB7F /* Withdrawal */ = {
 			isa = PBXGroup;
 			children = (
-				BECD7CCF1EF78D300037A968 /* VC_withdrawal.h */,
-				BECD7CD01EF78D300037A968 /* VC_withdrawal.m */,
+				BEB745501F4429E300C39359 /* VC_withdrawal.h */,
+				BEB7454E1F4429BD00C39359 /* VC_withdrawal.m */,
 				BEC3E7ED1F1E12CA000ACB97 /* hh.png */,
 			);
 			name = Withdrawal;
@@ -1424,8 +1424,8 @@
 				BEE6C39A1F386CC80001F00A /* VC_initial_VC.m */,
 				BE0055D11EC2DA1100E95941 /* ViewController.h */,
 				BE0055D21EC2DA1100E95941 /* ViewController.m */,
-				BECD7CBC1EF78C350037A968 /* Main.storyboard */,
-				BE5F8DE91F132C2500280683 /* Main~ipad.storyboard */,
+				BEB745461F44290100C39359 /* Main.storyboard */,
+				BEB745471F44290100C39359 /* Main~ipad.storyboard */,
 				BED71F861EEA8C5000492E97 /* Swift_codes */,
 				BED71F2C1EE7CB4400492E97 /* Required_IMG */,
 				BEC548631EA719A100FF2114 /* Affiliate */,
@@ -1738,7 +1738,6 @@
 				BEA875EA1E8D06CA00EFBB7F /* sec0_3.png in Resources */,
 				BEFC20591F0619290067717D /* Montserrat-BlackItalic.ttf in Resources */,
 				BEB702F51ECEE6CB004CB729 /* blueArrow.png in Resources */,
-				BE5F8DEA1F132C2500280683 /* Main~ipad.storyboard in Resources */,
 				BEA875921E89007B00EFBB7F /* UI_01.png in Resources */,
 				BEC3E7EE1F1E12CA000ACB97 /* hh.png in Resources */,
 				BEA875DE1E8CEE3E00EFBB7F /* Gotham Condensed Book Regular.otf in Resources */,
@@ -1763,7 +1762,6 @@
 				BEA875D81E8CEB5A00EFBB7F /* sec1_4.png in Resources */,
 				BEA875E81E8D06CA00EFBB7F /* sec0_0.png in Resources */,
 				BED71F321EE7F0C200492E97 /* gotham-medium-italic.otf in Resources */,
-				BECD7CBE1EF78C350037A968 /* Main.storyboard in Resources */,
 				BEC3E8651F22160E000ACB97 /* Location.png in Resources */,
 				BEFC20681F0619290067717D /* Montserrat-Thin.ttf in Resources */,
 				BEB702F61ECEE6CB004CB729 /* blueArrow@2x.png in Resources */,
@@ -1820,6 +1818,7 @@
 				BED71F901EEA8D8F00492E97 /* Cell_search~iPad.xib in Resources */,
 				BE52DF4B1E9B3E3B0055E914 /* IMG_0004.PNG in Resources */,
 				BE4EEEBD1ED2AAB9003C1C24 /* dotInactive@3x.png in Resources */,
+				BEB745481F44290100C39359 /* Main.storyboard in Resources */,
 				BED71F921EEA8DDB00492E97 /* cell_EMPTY_val~iPad.xib in Resources */,
 				BEFCD3151F18A72C0005D82D /* private.png in Resources */,
 				BE60C1A21EB1CE7A00C4B522 /* cross.png in Resources */,
@@ -1829,6 +1828,7 @@
 				BED71F341EE8228A00492E97 /* cross_black.png in Resources */,
 				BEB702B61ECD636D004CB729 /* Cell_search.xib in Resources */,
 				BEFC20671F0619290067717D /* Montserrat-SemiBoldItalic.ttf in Resources */,
+				BEB745491F44290100C39359 /* Main~ipad.storyboard in Resources */,
 				BEFC205C1F0619290067717D /* Montserrat-ExtraBold.ttf in Resources */,
 				BE4EEEBB1ED2AAB9003C1C24 /* dotInactive.png in Resources */,
 				BE1F1DC61F135FFA00B06903 /* referal_cell_ipad.xib in Resources */,
@@ -1919,7 +1919,7 @@
 				BE888A261E926EF000656580 /* CELL_trans_hstry.m in Sources */,
 				BECD7CC51EF78CBB0037A968 /* VC_accounts.m in Sources */,
 				BECD7CC81EF78CD60037A968 /* VC_addFUNDS.m in Sources */,
-				BEB49E1C1F3B1B0F0087E5BE /* VC_TKT_qty.m in Sources */,
+				BEB7454D1F44299800C39359 /* VC_TKT_qty.m in Sources */,
 				BE812A3A1E94D1FB00D58DDA /* VC_privacypolicy.m in Sources */,
 				BEB702F21ECEC7D7004CB729 /* UITableView+NewCategory.m in Sources */,
 				BECD7C7F1EF141990037A968 /* add_referal_detail_cell.m in Sources */,
@@ -1931,7 +1931,6 @@
 				BEB49DEB1E7960E300209E63 /* TBL_VW_Cell_EVENTS.m in Sources */,
 				BED71F681EE91FED00492E97 /* SDWebImageDownloader.m in Sources */,
 				BE811F6C1EBB6335003D7C0B /* DGActivityIndicatorBallSpinFadeLoader.m in Sources */,
-				BE812A491E96069100D58DDA /* VC_liveAuctions.m in Sources */,
 				BEFCD31A1F1C93860005D82D /* courseCollectionCELL.swift in Sources */,
 				BE888A301E927FD000656580 /* VC_notificationsettings.m in Sources */,
 				BEB49DC01E76B3A900209E63 /* VC_courses.m in Sources */,
@@ -1940,7 +1939,6 @@
 				BEFCD3231F1C96410005D82D /* InfoWindow.m in Sources */,
 				BED71F6B1EE91FED00492E97 /* SDWebImagePrefetcher.m in Sources */,
 				BEB702FC1ECF06AF004CB729 /* DGActivityIndicatorTwoDotsAnimation.m in Sources */,
-				BECD7CD11EF78D300037A968 /* VC_withdrawal.m in Sources */,
 				BEB702EE1ECEC660004CB729 /* ComOpenThreadOTScreenshotHelperSwizzleHelpertable.m in Sources */,
 				BEB49DF51E81540C00209E63 /* BTN_Winnig_TKT.m in Sources */,
 				BEB49E191F3B1AF80087E5BE /* VC_checkoutdetail.m in Sources */,
@@ -1989,6 +1987,7 @@
 				BEE6C3981F386C0D0001F00A /* ALScrollViewPaging.m in Sources */,
 				BEA875B81E8CE01000EFBB7F /* cellACCOUNTS.m in Sources */,
 				BED71F6D1EE91FED00492E97 /* UIImage+GIF.m in Sources */,
+				BEB7454B1F44294F00C39359 /* VC_liveAuctions.m in Sources */,
 				BEB49E171F3B1A240087E5BE /* VC_billingAddr.m in Sources */,
 				BEC3E8331F1F7369000ACB97 /* VC_courseDetail.m in Sources */,
 				BEB49DC31E76B3A900209E63 /* main.m in Sources */,
@@ -2002,6 +2001,7 @@
 				BECD7C9F1EF269FD0037A968 /* ACFloatingTextField.m in Sources */,
 				BE888A431E937AB100656580 /* VC_aboutus.m in Sources */,
 				BE811F741EBC4FD9003D7C0B /* GET_states.m in Sources */,
+				BEB7454F1F4429BD00C39359 /* VC_withdrawal.m in Sources */,
 				BEB702EC1ECEC660004CB729 /* DragTableGestureObserver_ot.m in Sources */,
 				BE888A351E93639D00656580 /* Cell_notifications.m in Sources */,
 				BE811F671EBB632B003D7C0B /* DGActivityIndicatorAnimation.m in Sources */,
