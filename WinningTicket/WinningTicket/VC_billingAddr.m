@@ -786,8 +786,9 @@
         
        total = [[[NSUserDefaults standardUserDefaults] valueForKey:@"total_balance"] floatValue];
         
+       NSString *switch_STAT = [[NSUserDefaults standardUserDefaults] valueForKey:@"SWITCHSTAT"];
         
-      if(total == 0.00 )
+      if(total == 0.00 && ![switch_STAT isEqualToString:@"SWITCH_ON"])
       {
           [self performSelector:@selector(billing_Address) withObject:activityIndicatorView afterDelay:0.01];
 
@@ -1375,9 +1376,12 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
             NSHTTPURLResponse *response = nil;
             NSDictionary *parameters;
             
-            if(total == 0.00 )
+            
+            NSString *switch_STAT = [[NSUserDefaults standardUserDefaults] valueForKey:@"SWITCHSTAT"];
+            
+            if([switch_STAT isEqualToString:@"SWITCH_ON"])
             {
-                 parameters = @{@"billing_address":@{ @"first_name": first_name,@"last_name": last_name,@"address_line1": address_line1,@"address_line2": address_line2,@"city": city,@"country": contry_Code,@"zip_code": zip_code,@"state": state_code,@"order_id": order_ID,@"phone": phone,@"fund_amount":@"yes" }};
+                 parameters = @{@"billing_address":@{ @"first_name": first_name,@"last_name": last_name,@"address_line1": address_line1,@"address_line2": address_line2,@"city": city,@"country": contry_Code,@"zip_code": zip_code,@"state": state_code,@"order_id": order_ID,@"phone": phone},@"fund_amount":@"yes"};
                 
                 
             }

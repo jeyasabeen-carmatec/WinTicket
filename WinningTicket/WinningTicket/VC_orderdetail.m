@@ -129,7 +129,9 @@
     [_scroll_contents addSubview:_VW_contents];
     
     [self set_FRAME];
+    
     [_BTN_liveSCR addTarget:self action:@selector(live_score_page) forControlEvents:UIControlEventTouchUpInside];
+    [_BTN_liveAUCTN addTarget:self action:@selector(Btn_liveAction) forControlEvents:UIControlEventTouchUpInside];
 }
 
 -(void) set_FRAME
@@ -385,10 +387,6 @@
 }
 
 #pragma mark - Session OUT
--(void)live_score_page
-{
-    [self performSegueWithIdentifier:@"live_scrore_identifier" sender:self];
-}
 - (void) sessionOUT
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Session out" message:@"In some other device same user logged in. Please login again" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
@@ -400,6 +398,16 @@
     [tncView setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
     
     [self presentViewController:tncView animated:YES completion:NULL];
+}
+
+#pragma mark - Button Methods
+-(void)live_score_page
+{
+    [self performSegueWithIdentifier:@"live_scrore_identifier" sender:self];
+}
+-(void) Btn_liveAction
+{
+    [self performSegueWithIdentifier:@"liveauctionIdentifier" sender:self];
 }
 
 @end

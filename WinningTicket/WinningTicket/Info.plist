@@ -89,5 +89,9 @@
         <string>googlechromes</string>
         <string>comgooglemaps</string>
     </array>
+<!--    <key>LSApplicationQueriesSchemes</key>-->
+<!--    <array>-->
+<!--        <string>whatsapp</string>-->
+<!--    </array>-->
 </dict>
 </plist>

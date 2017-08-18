@@ -874,7 +874,8 @@
       if(_Switch_Ac.on)
     {
     
-        
+        [[NSUserDefaults standardUserDefaults] setValue:@"SWITCH_ON" forKey:@"SWITCHSTAT"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
         
 //        wallet_text = [NSString stringWithFormat:@"Current Balance: $%.2f",price_deduct
 //                       ];
@@ -954,6 +955,9 @@
     else if(_Switch_Ac.on == NO)
     {
    
+        
+        [[NSUserDefaults standardUserDefaults] setValue:@"SWITCH_OFF" forKey:@"SWITCHSTAT"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
         
         _VW_line2.hidden = YES;
         _lbl_acbalance.hidden = YES;

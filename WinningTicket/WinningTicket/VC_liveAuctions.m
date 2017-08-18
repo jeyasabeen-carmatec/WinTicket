@@ -41,6 +41,8 @@
     // Do any additional setup after loading the view.
     [self setup_VIEW];
     
+    _lbl_NoData.hidden = YES;
+    
     VW_overlay.hidden = NO;
     [activityIndicatorView startAnimating];
     [self performSelector:@selector(API_liveAuctions:) withObject:@"auction/list/" afterDelay:0.01];
@@ -218,7 +220,7 @@
     auction_CellTableViewCell *auc_cell=[tableView dequeueReusableCellWithIdentifier:@"auc_cell"];
 //    if(indexPath.section==0)
 //    {
-        self.cpy_dict=[_sec_one_ARR objectAtIndex:indexPath.row];
+        self.cpy_dict = [_sec_one_ARR objectAtIndex:indexPath.row];
         
 //        auc_cell.image_display.image =[UIImage imageNamed:[_cpy_dict objectForKey:@"key4"]];
         NSString *url_str = [NSString stringWithFormat:@"%@%@",IMAGE_URL,[_cpy_dict valueForKey:@"item_image"]];
@@ -261,6 +263,9 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSDictionary *temp_DICTIN = [_sec_one_ARR objectAtIndex:indexPath.row];
+    [[NSUserDefaults standardUserDefaults] setValue:[temp_DICTIN valueForKey:@"id"] forKey:@"prev_ID"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     [self performSegueWithIdentifier:@"auctionstoitemdetailidentifier" sender:self];
 }
 
@@ -270,10 +275,11 @@
     NSHTTPURLResponse *response = nil;
     NSError *error;
     
-//    NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
-//    NSDictionary *Dictin_event = [dict valueForKey:@"event"];
+    NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
+    NSDictionary *Dictin_event = [dict valueForKey:@"event"];
+    
     NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
-    NSString *urlGetuser =[NSString stringWithFormat:@"%@%@%@",SERVER_URL,url_STR,@"309"];//[Dictin_event valueForKey:@"id"]
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@%@%@",SERVER_URL,url_STR,[Dictin_event valueForKey:@"id"]];//@"309"
     NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:urlProducts];
@@ -289,7 +295,14 @@
         _sec_one_ARR = [[NSMutableArray alloc] initWithArray:[jsonReponse valueForKey:@"auction_items"]];
         NSLog(@"the arrayelemts are:%@",_sec_one_ARR);
         
-        [self.auctiontab reloadData];
+        if ([_sec_one_ARR count] == 0) {
+            _auctiontab.hidden = YES;
+            _lbl_NoData.hidden = NO;
+        }
+        else{
+            _lbl_NoData.hidden = YES;
+            [self.auctiontab reloadData];
+        }
     }
     
     [activityIndicatorView stopAnimating];
@@ -299,19 +312,8 @@
 
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    //    NSString *search_text = _search_bar.text;
-  //  search_label.text = @"";//[NSString stringWithFormat:@"%@",search_text];
-    
     UITextField *searchBarTextField = [self findTextFieldFromControl:_search_bar];
     [searchBarTextField addTarget:self action:@selector(getSearch_TXT) forControlEvents:UIControlEventEditingChanged];
-    
-    
-    if([searchText length] != 0)
-    {
-        VW_overlay.hidden = NO;
-        [activityIndicatorView startAnimating];
-        [self performSelector:@selector(searcH_API) withObject:activityIndicatorView afterDelay:0.01];
-    }
 }
 
 -(void) getSearch_TXT
@@ -327,8 +329,7 @@
         VW_overlay.hidden = YES;
         [activityIndicatorView stopAnimating];
     }
-    
-    if([str length] != 0)
+    else
     {
         [self performSelector:@selector(searcH_API) withObject:activityIndicatorView afterDelay:0.01];
     }
@@ -362,7 +363,11 @@
     NSString *search_char = _search_bar.text;
     NSHTTPURLResponse *response = nil;
     NSError *error;
-    NSString *urlGetuser =[NSString stringWithFormat:@"%@auction/list/309?query=%@",SERVER_URL,search_char];
+        
+        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
+        NSDictionary *Dictin_event = [dict valueForKey:@"event"];
+        
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@auction/list/%@?query=%@",SERVER_URL,[Dictin_event valueForKey:@"id"],search_char];
     urlGetuser = [urlGetuser stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
     NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -387,6 +392,8 @@
         
         if(!json_DATA)
         {
+            [activityIndicatorView stopAnimating];
+            VW_overlay.hidden = YES;
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
             [alert show];
             
@@ -407,6 +414,8 @@
     @catch (NSException *exception) {
         [self sessionOUT];
     }
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden = YES;
 }
 #pragma mark - Session OUT
 - (void) sessionOUT
@@ -423,7 +432,7 @@
 }
 -(void)get_DATA
 {
-    NSMutableArray *temp_ARR = [json_DATA valueForKey:@"referrals"];
+    NSMutableArray *temp_ARR = [json_DATA valueForKey:@"auction_items"];
     [_sec_one_ARR removeAllObjects];
     [_sec_one_ARR addObjectsFromArray:temp_ARR];
     NSString *str = _search_bar.text;

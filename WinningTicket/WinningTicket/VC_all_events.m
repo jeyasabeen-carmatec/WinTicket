@@ -894,6 +894,9 @@
             cell.lbl_emptycell.text = @"No Events Found";
             cell.lbl_emptycell.numberOfLines = 0;
             [cell.lbl_emptycell sizeToFit];
+        
+        
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             
             return cell;
         }
@@ -925,6 +928,9 @@
             
             [cell.BTN_View_detail setTag:indexPath.row];
             [cell.BTN_View_detail addTarget:self action:@selector(BTN_ALL_EVENT:) forControlEvents:UIControlEventTouchUpInside];
+            
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            
             
             return cell;
     }
@@ -1025,8 +1031,6 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Failed" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
         [alert show];
     }
-    
-    
 }
 
 -(void) BTN_ALL_EVENT : (UIButton *) sender

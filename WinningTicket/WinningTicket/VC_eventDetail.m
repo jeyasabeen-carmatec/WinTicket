@@ -387,7 +387,7 @@
 }
 
 
-#pragma mark - Event Detail
+#pragma mark - Date Detail
 -(NSString *) change_date : (NSString *) date_STR
 {
     //Getting date from string

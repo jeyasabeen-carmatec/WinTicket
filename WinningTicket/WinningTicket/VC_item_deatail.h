@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface VC_item_deatail : UIViewController <UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIActionSheetDelegate>
+{
+     NSTimer* golfTimer;
+}
 //{
 //    UIScrollView *scrollView;
 //    UIPageControl *pageControl;
@@ -30,15 +33,13 @@
 @property (weak, nonatomic) IBOutlet UIButton *BTN_watech;
 
 @property (weak, nonatomic) IBOutlet UIView *VW_line1;
-
 @property (weak, nonatomic) IBOutlet UILabel *lbl_item_descrip;
-
 @property (weak, nonatomic) IBOutlet UIView *VW_line2;
-
 @property (weak, nonatomic) IBOutlet UILabel *lbl_title_silar_item;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collection_similar_item;
-
 @property (weak, nonatomic) IBOutlet UILabel *lbl_count;
+
+@property (retain, nonatomic) IBOutlet UILabel *lbl_CountDown;
 
 @end

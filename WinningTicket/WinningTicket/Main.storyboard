@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES" initialViewController="97K-sf-4BT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES" initialViewController="97K-sf-4BT">
     <device id="retina3_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -2080,6 +2080,7 @@
                         <outlet property="lbl_time" destination="3Iz-GO-y6E" id="iqI-6O-H4b"/>
                         <outlet property="scroll_contents" destination="pqw-Oj-lr3" id="DcJ-qs-dtm"/>
                         <segue destination="iVB-2I-4gf" kind="modal" identifier="live_scrore_identifier" id="ef6-Zb-nM9"/>
+                        <segue destination="A47-CB-14q" kind="push" identifier="liveauctionIdentifier" animates="NO" id="0VV-tr-m4K"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Stt-b5-QTW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2209,9 +2210,6 @@
                             <state key="normal" title="LIVE AUCTIONS">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
-                            <connections>
-                                <segue destination="A47-CB-14q" kind="push" animates="NO" id="Ifp-55-fSB"/>
-                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" red="0.92156862745098034" green="0.92156862745098034" blue="0.92156862745098034" alpha="1" colorSpace="calibratedRGB"/>
@@ -2412,6 +2410,13 @@
                                     <outlet property="delegate" destination="A47-CB-14q" id="x7G-9y-brw"/>
                                 </connections>
                             </searchBar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="No Auctions Found" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9K2-ia-xUc">
+                                <rect key="frame" x="16" y="108" width="288" height="62"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="18"/>
+                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="132" sectionHeaderHeight="28" sectionFooterHeight="28" id="ieP-Wj-hBS">
                                 <rect key="frame" x="0.0" y="108" width="320" height="372"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2421,7 +2426,7 @@
                                         <rect key="frame" x="0.0" y="28" width="320" height="132"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jfN-zs-8ic" id="Poa-RB-ZMz">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="132"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="131.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" id="Yxw-u9-SAk">
@@ -2507,6 +2512,7 @@
                         <outlet property="VW_line2" destination="TZ8-AY-aIS" id="Ma1-2s-rfL"/>
                         <outlet property="collection_similar_item" destination="hNe-hq-CLq" id="gfH-N9-KY4"/>
                         <outlet property="customStoryboardPageControl" destination="BR9-dL-1MW" id="9k5-YX-tfw"/>
+                        <outlet property="lbl_CountDown" destination="wkc-fQ-ZLk" id="Rk0-if-EIe"/>
                         <outlet property="lbl_count" destination="0A1-Sn-SgD" id="zx6-Gp-Y53"/>
                         <outlet property="lbl_itemNAME" destination="tOu-Br-2Qk" id="RyA-z6-Cml"/>
                         <outlet property="lbl_item_descrip" destination="H7D-qz-iY2" id="ePs-LF-18C"/>
@@ -2519,15 +2525,15 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mTB-u0-lZr" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <view contentMode="scaleToFill" misplaced="YES" id="Ruk-Fe-VX1">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="733"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="781"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="3p9-WI-5E1">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="220"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="234"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                         </scrollView>
                         <view contentMode="scaleToFill" misplaced="YES" id="BR9-dL-1MW" customClass="TAPageControl">
-                            <rect key="frame" x="8" y="179" width="301" height="40"/>
+                            <rect key="frame" x="8" y="191" width="301" height="40"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="7 of 7" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0A1-Sn-SgD">
@@ -2539,14 +2545,14 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tOu-Br-2Qk">
-                            <rect key="frame" x="16" y="228" width="288" height="27"/>
+                            <rect key="frame" x="16" y="239" width="288" height="27"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="18"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="WQL-VD-syJ" customClass="BTN_Winnig_TKT">
-                            <rect key="frame" x="16" y="263" width="288" height="50"/>
+                            <rect key="frame" x="16" y="318" width="288" height="50"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.078431372549019607" green="0.62745098039215685" blue="0.84705882352941175" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="18"/>
@@ -2555,7 +2561,7 @@
                             </state>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Yzo-CU-xS1" customClass="BTN_Winnig_TKT">
-                            <rect key="frame" x="16" y="321" width="288" height="50"/>
+                            <rect key="frame" x="16" y="376" width="288" height="50"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="18"/>
@@ -2564,31 +2570,31 @@
                             </state>
                         </button>
                         <view contentMode="scaleToFill" misplaced="YES" id="6xp-rx-E02">
-                            <rect key="frame" x="10" y="379" width="300" height="1"/>
+                            <rect key="frame" x="10" y="434" width="300" height="1"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="H7D-qz-iY2">
-                            <rect key="frame" x="16" y="388" width="288" height="21"/>
+                            <rect key="frame" x="16" y="443" width="288" height="21"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="18"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" misplaced="YES" id="TZ8-AY-aIS">
-                            <rect key="frame" x="10" y="417" width="300" height="1"/>
+                            <rect key="frame" x="10" y="472" width="300" height="1"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Similar Items" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ebK-Ij-5Gt">
-                            <rect key="frame" x="16" y="426" width="288" height="21"/>
+                            <rect key="frame" x="16" y="481" width="288" height="21"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" showsVerticalScrollIndicator="NO" dataMode="prototypes" id="hNe-hq-CLq">
-                            <rect key="frame" x="0.0" y="455" width="320" height="258"/>
+                            <rect key="frame" x="0.0" y="510" width="320" height="258"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="hux-8i-Hm4">
@@ -2632,6 +2638,13 @@
                                 <outlet property="delegate" destination="FzN-SZ-LeG" id="zzd-aW-0qu"/>
                             </connections>
                         </collectionView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="6" id="wkc-fQ-ZLk">
+                            <rect key="frame" x="16" y="274" width="288" height="27"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="18"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
@@ -2680,7 +2693,7 @@
                                         <rect key="frame" x="0.0" y="28" width="320" height="103"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9eZ-Rf-3Cz" id="kyL-Ax-4wy">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="103"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="102.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aND-CH-hZs">
@@ -6841,16 +6854,16 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="AmC-Xg-ce2"/>
-        <segue reference="jMh-2b-WDa"/>
+        <segue reference="dUH-ov-6LH"/>
         <segue reference="95q-65-OkS"/>
         <segue reference="yxA-85-JlB"/>
-        <segue reference="dUH-ov-6LH"/>
+        <segue reference="jMh-2b-WDa"/>
         <segue reference="I1e-PC-gD9"/>
+        <segue reference="AmC-Xg-ce2"/>
         <segue reference="D2f-xd-0V5"/>
         <segue reference="wI7-Ti-9mU"/>
-        <segue reference="pDZ-0U-Rag"/>
         <segue reference="7yl-5E-R4B"/>
+        <segue reference="pDZ-0U-Rag"/>
         <segue reference="JQ9-ka-Ozf"/>
         <segue reference="Bvk-xC-oni"/>
     </inferredMetricsTieBreakers>

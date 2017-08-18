@@ -576,15 +576,22 @@
     
     NSString *nanunce = [[NSUserDefaults standardUserDefaults] valueForKey:@"NAUNCETOK"];
      float total_amount = [[[NSUserDefaults standardUserDefaults] valueForKey:@"total_balance"] floatValue];
-    NSDictionary *parameters;
-    if(total_amount == 0.00)
+    
+    NSString *switch_STAT = [[NSUserDefaults standardUserDefaults] valueForKey:@"SWITCHSTAT"];
+    NSDictionary *parameters;   
+    if([switch_STAT isEqualToString:@"SWITCH_ON"] || total_amount != 0.00)
     {
-         parameters = @{ @"transaction_type":@"purchase", @"price":[NSNumber numberWithFloat:[a floatValue]]};
+        parameters = @{@"nonce":nanunce, @"transaction_type":@"purchase", @"price":[NSNumber numberWithFloat:[a floatValue]]};
     }
+    
+
+//    if(total_amount == 0.00)
+//    {
+//         parameters = @{ @"transaction_type":@"purchase", @"price":[NSNumber numberWithFloat:[a floatValue]]};
+//    }
     else
     {
-        
-         parameters = @{@"nonce":nanunce, @"transaction_type":@"purchase", @"price":[NSNumber numberWithFloat:[a floatValue]]};
+        parameters = @{ @"transaction_type":@"purchase", @"price":[NSNumber numberWithFloat:[a floatValue]]};
     }
    NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&error];
     NSString *urlGetuser =[NSString stringWithFormat:@"%@payments/create",SERVER_URL];

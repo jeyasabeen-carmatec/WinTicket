@@ -803,7 +803,6 @@
 				BEC548611EA4D9A500FF2114 /* auction_CellTableViewCell.m */,
 				BE812A471E96069100D58DDA /* VC_liveAuctions.h */,
 				BEB7454A1F44294F00C39359 /* VC_liveAuctions.m */,
-				BEFCD3141F18A72C0005D82D /* private.png */,
 				BE812A4A1E9629CC00D58DDA /* item_detail */,
 				BEA9C3191EAE289700930A7F /* Bidding_history */,
 			);
@@ -1572,6 +1571,7 @@
 			children = (
 				BEE9B3061E684D3C00AD83C6 /* VC_courses.h */,
 				BEE9B3071E684D3C00AD83C6 /* VC_courses.m */,
+				BEFCD3141F18A72C0005D82D /* private.png */,
 				BEC3E7EF1F1E12E5000ACB97 /* GOlf-Icon.png */,
 				BEC3E8301F1F72BA000ACB97 /* course_Detail */,
 				BEBF799D1F286ABA00C390ED /* SearchCourse */,
