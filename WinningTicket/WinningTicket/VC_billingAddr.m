@@ -785,14 +785,11 @@
       [activityIndicatorView startAnimating];
         
        total = [[[NSUserDefaults standardUserDefaults] valueForKey:@"total_balance"] floatValue];
-        
        NSString *switch_STAT = [[NSUserDefaults standardUserDefaults] valueForKey:@"SWITCHSTAT"];
         
-      if(total == 0.00 && ![switch_STAT isEqualToString:@"SWITCH_ON"])
+      if(total == 0.00 && [switch_STAT isEqualToString:@"SWITCH_ON"])
       {
           [self performSelector:@selector(billing_Address) withObject:activityIndicatorView afterDelay:0.01];
-
-        
       }
       else
       {

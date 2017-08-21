@@ -139,12 +139,13 @@
         
     }
     else{
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                                message:@"Already turned on"
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
-                [alert show];
+//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+//                                                                message:@"Already turned on"
+//                                                               delegate:nil
+//                                                      cancelButtonTitle:@"OK"
+//                                                      otherButtonTitles:nil];
+//                [alert show];
+        [self performSegueWithIdentifier:@"start_score_segue" sender:self];
 
     }
 }

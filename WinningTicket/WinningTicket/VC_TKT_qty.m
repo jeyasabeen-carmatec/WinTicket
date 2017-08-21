@@ -425,6 +425,16 @@
     NSString *STR_chk = _TXT_qty.text;
     NSCharacterSet *myCharSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
     
+    if (_Switch_Ac.isOn) {
+        [[NSUserDefaults standardUserDefaults] setValue:@"SWITCH_ON" forKey:@"SWITCHSTAT"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    else
+    {
+        [[NSUserDefaults standardUserDefaults] setValue:@"SWITCH_OFF" forKey:@"SWITCHSTAT"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    
     int count = 0;
     
     if (STR_chk.length !=0 )
@@ -873,11 +883,8 @@
     _lbl_acbalance_amount.hidden = NO;
       if(_Switch_Ac.on)
     {
-    
-        [[NSUserDefaults standardUserDefaults] setValue:@"SWITCH_ON" forKey:@"SWITCHSTAT"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
         
-//        wallet_text = [NSString stringWithFormat:@"Current Balance: $%.2f",price_deduct
+//        wallet_text = [NSString stringWithFormat:@"Current Balance: $%.2f",price_deduct decide_VC
 //                       ];
      //   _lbl_current_bal.text = [NSString stringWithFormat:@"%@",wallet_text];
         
@@ -912,7 +919,7 @@
         NSString *STR_total = [NSString stringWithFormat:@"$%.2f",total];
         _lbl_dataTotal.text = STR_total;
         
-        [[NSUserDefaults standardUserDefaults] setValue:STR_total forKey:@"total_balance"];
+        [[NSUserDefaults standardUserDefaults] setValue:[NSString stringWithFormat:@"%.2f",total] forKey:@"total_balance"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
         [UIView animateWithDuration:0.4 animations:^{
