@@ -22,7 +22,8 @@
     _BG_vw.layer.borderWidth = 1.0f;
     _BG_vw.layer.borderColor = [UIColor whiteColor].CGColor;
     _event_dtl_lbl.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"event_name"];
-    _event_addr_lbl .text = [NSString stringWithFormat:@"Grand central Cypress Club\n1 N Jacaranda Street\nOrlando ,FL32836"];
+    _event_addr_lbl .text = [[NSUserDefaults standardUserDefaults] valueForKey:@"event_address"];
+//    _event_addr_lbl .text = [NSString stringWithFormat:@"Grand central Cypress Club\n1 N Jacaranda Street\nOrlando ,FL32836"];
     [_event_dtl_lbl sizeToFit];
     [_event_addr_lbl sizeToFit];
     CGRect newframe = _main_img.frame;

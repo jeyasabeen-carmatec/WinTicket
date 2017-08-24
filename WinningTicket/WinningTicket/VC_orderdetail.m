@@ -215,6 +215,9 @@
             self.lbl_eventdetail.numberOfLines = 0;
             [self.lbl_eventdetail sizeToFit];
             
+            [[NSUserDefaults standardUserDefaults] setValue:_lbl_eventdetail.text forKey:@"event_address"];
+            [[NSUserDefaults standardUserDefaults]synchronize];
+            
             float difference;
             
             if (image_height < lbl_event_name_ht)
