@@ -15,5 +15,7 @@
 @property (nonatomic,weak) IBOutlet UICollectionView *num_vw;
 @property (nonatomic,weak) IBOutlet UIView *name_vw,*vw_nav;
 @property (nonatomic,weak) IBOutlet UILabel *LBL_gross;
+@property (nonatomic,weak) IBOutlet UILabel *LBL_Heading;
+
 
 @end

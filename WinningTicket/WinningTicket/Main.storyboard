@@ -2207,7 +2207,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="18"/>
-                            <state key="normal" title="LIVE AUCTIONS">
+                            <state key="normal" title="SILENT AUCTIONS">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                         </button>
@@ -2402,8 +2402,8 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hole - 2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="p0I-Bw-HkU">
-                                        <rect key="frame" x="86" y="15" width="95" height="36"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Hole - 2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="p0I-Bw-HkU">
+                                        <rect key="frame" x="79" y="15" width="202" height="36"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="23"/>
                                         <nil key="highlightedColor"/>
@@ -2419,12 +2419,6 @@
                                             <action selector="BTN_back:" destination="c3I-ln-XJt" eventType="touchUpInside" id="a3h-WL-9Di"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="- Par - 4" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Kbg-xn-V4q">
-                                        <rect key="frame" x="172" y="19" width="104" height="27"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -2503,6 +2497,7 @@ Team1</string>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <connections>
+                        <outlet property="LBL_Heading" destination="p0I-Bw-HkU" id="3jK-u6-g6A"/>
                         <outlet property="LBL_gross" destination="NGy-fH-jnX" id="ldZ-sR-oa1"/>
                         <outlet property="name_vw" destination="zp3-gY-KsC" id="gHg-EQ-31Z"/>
                         <outlet property="num_vw" destination="dbA-BC-BiM" id="FJ4-K8-oEF"/>
@@ -2541,36 +2536,36 @@ Team1</string>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="132" sectionHeaderHeight="28" sectionFooterHeight="28" id="ieP-Wj-hBS">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="109" sectionHeaderHeight="28" sectionFooterHeight="28" id="ieP-Wj-hBS">
                                 <rect key="frame" x="0.0" y="108" width="320" height="372"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="auc_cell" rowHeight="132" id="jfN-zs-8ic" customClass="auction_CellTableViewCell">
-                                        <rect key="frame" x="0.0" y="28" width="320" height="132"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="auc_cell" rowHeight="109" id="jfN-zs-8ic" customClass="auction_CellTableViewCell">
+                                        <rect key="frame" x="0.0" y="28" width="320" height="109"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jfN-zs-8ic" id="Poa-RB-ZMz">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="132"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="109"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" id="Yxw-u9-SAk">
-                                                    <rect key="frame" x="8" y="13" width="108" height="86"/>
+                                                    <rect key="frame" x="8" y="8" width="90" height="90"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="blL-Ot-oaa">
-                                                    <rect key="frame" x="124" y="0.0" width="188" height="37"/>
+                                                    <rect key="frame" x="106" y="16" width="206" height="23"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="16"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tqB-e9-YAk">
-                                                    <rect key="frame" x="124" y="45" width="188" height="21"/>
+                                                    <rect key="frame" x="106" y="40" width="206" height="26"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZGy-oS-r6g">
-                                                    <rect key="frame" x="124" y="74" width="188" height="21"/>
+                                                    <rect key="frame" x="106" y="67" width="206" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="16"/>
                                                     <nil key="highlightedColor"/>
@@ -2590,13 +2585,24 @@ Team1</string>
                                     <outlet property="delegate" destination="A47-CB-14q" id="TjK-Wy-9PW"/>
                                 </connections>
                             </tableView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Vma-FE-0fY">
+                                <rect key="frame" x="0.0" y="108" width="320" height="372"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="A47-CB-14q" id="ybz-cM-a2t"/>
+                                    <outlet property="delegate" destination="A47-CB-14q" id="EaI-fD-keV"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="3vf-Bw-yYD"/>
                     <connections>
                         <outlet property="auctiontab" destination="ieP-Wj-hBS" id="wwc-Gs-zfP"/>
+                        <outlet property="lbl_NoData" destination="9K2-ia-xUc" id="lpD-y9-vIF"/>
                         <outlet property="search_bar" destination="0rd-Dc-vS0" id="KDo-aK-AWS"/>
+                        <outlet property="tbl_search" destination="Vma-FE-0fY" id="iao-FM-pQd"/>
                         <segue destination="FzN-SZ-LeG" kind="push" identifier="auctionstoitemdetailidentifier" animates="NO" id="2Uw-1p-oyj"/>
                     </connections>
                 </viewController>
@@ -2729,7 +2735,7 @@ Team1</string>
                             </collectionViewFlowLayout>
                             <cells>
                                 <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="cellIdentifier" id="szU-Eh-0x1">
-                                    <rect key="frame" x="0.0" y="2" width="183" height="255"/>
+                                    <rect key="frame" x="0.0" y="1.5" width="183" height="255"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                         <rect key="frame" x="0.0" y="0.0" width="183" height="255"/>
@@ -2762,7 +2768,7 @@ Team1</string>
                                 <outlet property="delegate" destination="FzN-SZ-LeG" id="zzd-aW-0qu"/>
                             </connections>
                         </collectionView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="6" id="wkc-fQ-ZLk">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="natural" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="6" id="wkc-fQ-ZLk">
                             <rect key="frame" x="16" y="274" width="288" height="27"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="18"/>
@@ -6978,18 +6984,18 @@ Team1</string>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="dUH-ov-6LH"/>
-        <segue reference="95q-65-OkS"/>
-        <segue reference="yxA-85-JlB"/>
+        <segue reference="ODo-qD-iEi"/>
         <segue reference="jMh-2b-WDa"/>
-        <segue reference="I1e-PC-gD9"/>
+        <segue reference="jsW-pc-cw1"/>
+        <segue reference="yxA-85-JlB"/>
         <segue reference="AmC-Xg-ce2"/>
+        <segue reference="I1e-PC-gD9"/>
+        <segue reference="Bvk-xC-oni"/>
         <segue reference="D2f-xd-0V5"/>
         <segue reference="wI7-Ti-9mU"/>
-        <segue reference="7yl-5E-R4B"/>
         <segue reference="pDZ-0U-Rag"/>
+        <segue reference="7yl-5E-R4B"/>
         <segue reference="JQ9-ka-Ozf"/>
-        <segue reference="Bvk-xC-oni"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
 </document>

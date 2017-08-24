@@ -10,6 +10,7 @@
 
 @interface VC_liveAuctions : UIViewController <UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate>
 
+@property (nonatomic, retain) IBOutlet UITableView *tbl_search;
 @property (nonatomic, retain) IBOutlet UILabel *lbl_NoData;
 
 @end

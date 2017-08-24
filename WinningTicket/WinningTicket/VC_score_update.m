@@ -34,6 +34,17 @@
     
    _num_vw.transform = CGAffineTransformMakeRotation(-M_PI);
 }
+-(void)viewWillAppear:(BOOL)animated
+{
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - COllection view
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return 15;
@@ -80,12 +91,12 @@
   //  cell.layer.cornerRadius = cell.contentView.frame.size.width / 2;
     cell.contentView.backgroundColor = [UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1.0];
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+
+
+#pragma mark - Button Actions
 -(IBAction)BTN_back:(id)sender
 {
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)update_frame
@@ -95,25 +106,7 @@
     
     
     CGRect myframe;
-    
-    //NSLog(@"the screen height is: %@",self.view.frame);
     NSLog(@"%@", NSStringFromCGRect(self.view.frame));
-//    if(collection_ht < _name_vw.frame.origin.y + _name_vw.frame.size.height)
-//    {
-//        
-//        myframe = _num_vw.frame;
-//        myframe.origin.y = self.view.frame.size.height - collection_ht ;
-//        //_name_vw.frame.origin.y + _name_vw.frame.size.height + 10;
-//        myframe.size.height = collection_ht ;// - _name_vw.frame.size.height;
-//        _num_vw.frame = myframe;
-//          NSLog(@"%@", NSStringFromCGRect(self.num_vw.frame));
-//        myframe = _LBL_gross.frame ;
-//        myframe.origin.y = _num_vw.frame.origin.y - 30;
-//        _LBL_gross.frame = myframe;
-//        
-//    }
-//    else
-//    {
     
         float difference = collection_ht - (_num_vw.frame.origin.y + _num_vw.frame.size.height);
             myframe = _num_vw.frame;
@@ -149,7 +142,43 @@
         _LBL_gross.frame = myframe;
     }
     
+    NSString *hole_name = @"Hole - 2";
+    NSString *par_name = @"par - 4";
+    NSString *Hole_text = [NSString stringWithFormat:@"%@ - %@",hole_name,par_name];
     
+    if ([self.LBL_Heading respondsToSelector:@selector(setAttributedText:)]) {
+        
+        // Define general attributes for the entire text
+        NSDictionary *attribs = @{
+                                  NSForegroundColorAttributeName: self.LBL_Heading.textColor,
+                                  NSFontAttributeName: self.LBL_Heading.font
+                                  };
+        NSMutableAttributedString *attributedText =
+        [[NSMutableAttributedString alloc] initWithString:Hole_text
+                                               attributes:attribs];
+        
+        // Red text attributes
+        //            UIColor *redColor = [UIColor redColor];
+        NSRange cmp = [Hole_text rangeOfString:par_name];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+        {
+        [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:25.0f],NSForegroundColorAttributeName : [UIColor blackColor]}
+                                range:cmp];
+        }
+        else
+        {
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:19.0f],NSForegroundColorAttributeName : [UIColor blackColor]}
+                                    range:cmp];
+
+        }
+        
+        
+        self.LBL_Heading.attributedText = attributedText;
+    }
+    else
+    {
+        self.LBL_Heading.text = Hole_text;
+    }
 
         
        

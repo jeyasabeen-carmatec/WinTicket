@@ -14,13 +14,16 @@
 #pragma mark - Image Cache
 #import "SDWebImage/UIImageView+WebCache.h"
 
+#import "WinningTicket_Universal-Swift.h"
+
 @interface VC_liveAuctions ()
 {
     UIView *VW_overlay;
     UIActivityIndicatorView *activityIndicatorView;
     UIBarButtonItem *anotherButton;
     NSString *titleName;
-     NSMutableDictionary *json_DATA;
+    NSMutableDictionary *json_DATA;
+    NSArray *ARR_search;
 }
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *liveauction;
@@ -39,13 +42,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.auctiontab.tableFooterView = [UIView new];
+    _tbl_search.tableFooterView = [UIView new];
+    
     [self setup_VIEW];
     
     _lbl_NoData.hidden = YES;
+    _tbl_search.hidden = YES;
     
     VW_overlay.hidden = NO;
     [activityIndicatorView startAnimating];
-    [self performSelector:@selector(API_liveAuctions:) withObject:@"auction/list/" afterDelay:0.01];
+
+    NSError *error;
+    NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
+    NSDictionary *Dictin_event = [dict valueForKey:@"event"];
+    NSString *STR_sent_TXT = [NSString stringWithFormat:@"auction/list/%@",[Dictin_event valueForKey:@"id"]];
+    
+    [self performSelector:@selector(API_liveAuctions:) withObject:STR_sent_TXT afterDelay:0.01];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -107,7 +120,7 @@
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:22.0f]}];
-    self.navigationItem.title = @"Live Auction";
+    self.navigationItem.title = @"Silent Auction";
     
 //    UIBarButtonItem *anotherButton1 = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain
 //                                                                     target:self action:@selector(more_ACTION)];
@@ -193,54 +206,99 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//    NSString *substring = [NSString stringWithString:_search_bar.text];
-//    
-//    NSArray *arr = [_sec_one_ARR mutableCopy];
-//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF['key1'] CONTAINS %@",substring];
-//    
-//    _search_arr = [arr filteredArrayUsingPredicate:predicate];
-//    NSLog(@"Siegfried %@", _search_arr);
-//    
-    
-//    if(section==0)
-//    {
-//        return _search_arr.count ;
-//    }
-//    else
-//    {
-        return _sec_one_ARR.count;
-   // }
-    //  return  0;
-    
+    if (tableView == _tbl_search) {
+        return [ARR_search count];
+    }
+    return _sec_one_ARR.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    auction_CellTableViewCell *auc_cell=[tableView dequeueReusableCellWithIdentifier:@"auc_cell"];
-//    if(indexPath.section==0)
-//    {
-        self.cpy_dict = [_sec_one_ARR objectAtIndex:indexPath.row];
+    if (tableView == _tbl_search) {
+        static NSString *simpleTableIdentifier = @"SimpleTableItem";
+        Search_cell *cell = (Search_cell *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+        if (cell == nil)
+        {
+            NSArray *nib;
+            if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+            {
+                nib = [[NSBundle mainBundle] loadNibNamed:@"Search_cell~iPad" owner:self options:nil];
+            }
+            else
+            {
+                nib = [[NSBundle mainBundle] loadNibNamed:@"Search_cell" owner:self options:nil];
+            }
+            cell = [nib objectAtIndex:0];
+        }
         
-//        auc_cell.image_display.image =[UIImage imageNamed:[_cpy_dict objectForKey:@"key4"]];
-        NSString *url_str = [NSString stringWithFormat:@"%@%@",IMAGE_URL,[_cpy_dict valueForKey:@"item_image"]];
-        [auc_cell.image_display sd_setImageWithURL:[NSURL URLWithString:url_str]
-                      placeholderImage:[UIImage imageNamed:@"Logo_WT.png"]];
-        auc_cell.name_lbl.text = [_cpy_dict objectForKey:@"name"];
-        auc_cell.currency_lbl.text = [NSString stringWithFormat:@"US $%.2f",[[_cpy_dict objectForKey:@"starting_bid"] floatValue]];
-        auc_cell.bid_Lbl.text= @"Startingbid";//[_cpy_dict objectForKey:@"key3"];
-       // return auc_cell;
-//        
-//    }
-//    
-//    NSDictionary *remain = [_sec_one_ARR objectAtIndex:indexPath.row];
-//    NSString *url_str = [NSString stringWithFormat:@"%@%@",IMAGE_URL,[remain valueForKey:@"item_image"]];
-//    [auc_cell.image_display sd_setImageWithURL:[NSURL URLWithString:url_str]
-//                              placeholderImage:[UIImage imageNamed:@"Logo_WT.png"]];
-//    auc_cell.name_lbl.text = [remain objectForKey:@"name"];
-//    auc_cell.currency_lbl.text = [NSString stringWithFormat:@"US $%.2f",[[remain objectForKey:@"starting_bid"] floatValue]];
-//    auc_cell.bid_Lbl.text = @"Startingbid";//[remain objectForKey:@"key3"];
-    return auc_cell;
+//        NSDictionary *Dictin_temp = 
+        cell.lbl_item_name.text = [ARR_search objectAtIndex:indexPath.row];;
+        return cell;
+    }
+    else
+    {
+        auction_CellTableViewCell *auc_cell=[tableView dequeueReusableCellWithIdentifier:@"auc_cell"];
+        //    if(indexPath.section==0)
+        //    {
+        
+        @try {
+            self.cpy_dict = [_sec_one_ARR objectAtIndex:indexPath.row];
+            
+            //        auc_cell.image_display.image =[UIImage imageNamed:[_cpy_dict objectForKey:@"key4"]];
+            NSString *url_str = [NSString stringWithFormat:@"%@%@",IMAGE_URL,[_cpy_dict valueForKey:@"item_image"]];
+            [auc_cell.image_display sd_setImageWithURL:[NSURL URLWithString:url_str]
+                                      placeholderImage:[UIImage imageNamed:@"Logo_WT.png"]];
+            auc_cell.name_lbl.text = [_cpy_dict objectForKey:@"name"];
+            
+            //[_cpy_dict objectForKey:@"key3"]; @"Startingbid"
+            
+            
+            NSString *STR_Expired = [NSString stringWithFormat:@"%@",[_cpy_dict objectForKey:@"is_expired?"]];
+            NSString *STR_live = [NSString stringWithFormat:@"%@",[_cpy_dict objectForKey:@"is_live?"]];
+            
+            if ([STR_live isEqualToString:@"0"] && [STR_Expired isEqualToString:@"0"]) {
+                auc_cell.bid_Lbl.text = @"Starting Bid";
+                auc_cell.currency_lbl.text = [NSString stringWithFormat:@"US $%.2f",[[_cpy_dict objectForKey:@"starting_bid"] floatValue]];
+            }
+            else if ([STR_live isEqualToString:@"1"])
+            {
+                auc_cell.bid_Lbl.text = @"Current Bid";
+                @try {
+                    auc_cell.currency_lbl.text = [NSString stringWithFormat:@"US $%.2f",[[_cpy_dict objectForKey:@"current_bid_amount"] floatValue]];
+                } @catch (NSException *exception) {
+                    auc_cell.currency_lbl.text = [NSString stringWithFormat:@"US $%.2f",[[_cpy_dict objectForKey:@"starting_bid"] floatValue]];
+                }
+            }
+            else
+            {
+                auc_cell.bid_Lbl.textColor = [UIColor redColor];
+                auc_cell.bid_Lbl.text = @"Sold";
+                
+                @try {
+                    auc_cell.currency_lbl.text = [NSString stringWithFormat:@"US $%.2f",[[_cpy_dict objectForKey:@"current_bid_amount"] floatValue]];
+                } @catch (NSException *exception) {
+                    auc_cell.currency_lbl.text = [NSString stringWithFormat:@"US $%.2f",[[_cpy_dict objectForKey:@"starting_bid"] floatValue]];
+                }
+            }
+        } @catch (NSException *exception) {
+            NSLog(@"Exception %@",exception);
+        }
+        
+        
+        
+        // return auc_cell;
+        //
+        //    }
+        //
+        //    NSDictionary *remain = [_sec_one_ARR objectAtIndex:indexPath.row];
+        //    NSString *url_str = [NSString stringWithFormat:@"%@%@",IMAGE_URL,[remain valueForKey:@"item_image"]];
+        //    [auc_cell.image_display sd_setImageWithURL:[NSURL URLWithString:url_str]
+        //                              placeholderImage:[UIImage imageNamed:@"Logo_WT.png"]];
+        //    auc_cell.name_lbl.text = [remain objectForKey:@"name"];
+        //    auc_cell.currency_lbl.text = [NSString stringWithFormat:@"US $%.2f",[[remain objectForKey:@"starting_bid"] floatValue]];
+        //    auc_cell.bid_Lbl.text = @"Startingbid";//[remain objectForKey:@"key3"];
+        return auc_cell;
+    }
 }
 //-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 //{
@@ -249,6 +307,9 @@
 //}
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
+    if (tableView == _tbl_search) {
+        return [NSString stringWithFormat:@"%lu results For %@",(unsigned long)ARR_search.count,_search_bar.text];;
+    }
     
    // titleName = @"";
 //    if (section == 0) {
@@ -263,23 +324,87 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *temp_DICTIN = [_sec_one_ARR objectAtIndex:indexPath.row];
-    [[NSUserDefaults standardUserDefaults] setValue:[temp_DICTIN valueForKey:@"id"] forKey:@"prev_ID"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    [self performSegueWithIdentifier:@"auctionstoitemdetailidentifier" sender:self];
+    if (tableView == _tbl_search)
+    {
+        NSLog(@"selected Item %@",[ARR_search objectAtIndex:indexPath.row]);
+        [_search_bar resignFirstResponder];
+        _tbl_search.hidden = YES;
+        NSError *error;
+        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
+        NSDictionary *Dictin_event = [dict valueForKey:@"event"];
+        NSString *STR_sent_TXT = [NSString stringWithFormat:@"auction/list/%@?query=%@",[Dictin_event valueForKey:@"id"],[ARR_search objectAtIndex:indexPath.row]];
+        
+        VW_overlay.hidden = NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(API_liveAuctions:) withObject:STR_sent_TXT afterDelay:0.01];
+    }
+    else
+    {
+        NSString *STR_Expired = [NSString stringWithFormat:@"%@",[_cpy_dict objectForKey:@"is_expired?"]];
+        NSString *STR_live = [NSString stringWithFormat:@"%@",[_cpy_dict objectForKey:@"is_live?"]];
+        NSString *STR_bidSTAT;
+        
+        if ([STR_live isEqualToString:@"0"] && [STR_Expired isEqualToString:@"0"]) {
+            STR_bidSTAT = @"Starting Bid";
+        }
+        else if ([STR_live isEqualToString:@"1"])
+        {
+            STR_bidSTAT = @"Current Bid";
+        }
+        else
+        {
+            STR_bidSTAT = @"Closed";
+        }
+        
+        NSDictionary *temp_DICTIN = [_sec_one_ARR objectAtIndex:indexPath.row];
+        [[NSUserDefaults standardUserDefaults] setValue:STR_bidSTAT forKey:@"STR_bidSTAT"];
+        [[NSUserDefaults standardUserDefaults] setValue:[temp_DICTIN valueForKey:@"id"] forKey:@"prev_ID"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self performSegueWithIdentifier:@"auctionstoitemdetailidentifier" sender:self];
+    }
+}-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        [cell setSeparatorInset:UIEdgeInsetsZero];
+    }
+    
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
+    }
+}
+
+-(void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    if ([self.auctiontab respondsToSelector:@selector(setSeparatorInset:)]) {
+        [self.auctiontab setSeparatorInset:UIEdgeInsetsZero];
+    }
+    
+    if ([self.auctiontab respondsToSelector:@selector(setLayoutMargins:)]) {
+        [self.auctiontab setLayoutMargins:UIEdgeInsetsZero];
+    }
+    
+    if ([_tbl_search respondsToSelector:@selector(setSeparatorInset:)]) {
+        [_tbl_search setSeparatorInset:UIEdgeInsetsZero];
+    }
+    
+    if ([_tbl_search respondsToSelector:@selector(setLayoutMargins:)]) {
+        [_tbl_search setLayoutMargins:UIEdgeInsetsZero];
+    }
 }
 
 #pragma mark - API implementation
 -(void) API_liveAuctions :(NSString *)url_STR
 {
+    [_sec_one_ARR removeAllObjects];
+    _tbl_search.hidden = YES;
+    _auctiontab.hidden = YES;
     NSHTTPURLResponse *response = nil;
     NSError *error;
     
-    NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
-    NSDictionary *Dictin_event = [dict valueForKey:@"event"];
-    
     NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
-    NSString *urlGetuser =[NSString stringWithFormat:@"%@%@%@",SERVER_URL,url_STR,[Dictin_event valueForKey:@"id"]];//@"309"
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@%@",SERVER_URL,url_STR];//@"309"
+    urlGetuser = [urlGetuser stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
     NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:urlProducts];
@@ -288,12 +413,22 @@
     [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
     [request setHTTPShouldHandleCookies:NO];
     NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    if (aData) {
+    if (aData)
+    {
+        [activityIndicatorView stopAnimating];
+        VW_overlay.hidden = YES;
+        
         NSMutableDictionary *jsonReponse = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"The response Live auctions %@",jsonReponse);
         
-        _sec_one_ARR = [[NSMutableArray alloc] initWithArray:[jsonReponse valueForKey:@"auction_items"]];
-        NSLog(@"the arrayelemts are:%@",_sec_one_ARR);
+        @try {
+            _sec_one_ARR = [[NSMutableArray alloc] initWithArray:[jsonReponse valueForKey:@"auction_items"]];
+            NSLog(@"the arrayelemts are:%@",_sec_one_ARR);
+        } @catch (NSException *exception) {
+            _auctiontab.hidden = YES;
+            _lbl_NoData.hidden = NO;
+        }
+        
         
         if ([_sec_one_ARR count] == 0) {
             _auctiontab.hidden = YES;
@@ -301,6 +436,7 @@
         }
         else{
             _lbl_NoData.hidden = YES;
+            _auctiontab.hidden = NO;
             [self.auctiontab reloadData];
         }
     }
@@ -309,12 +445,30 @@
     VW_overlay.hidden = YES;
 }
 #pragma search action
-
--(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+- (void)searchBarTextDidBeginEditing:(UISearchBar*)searchBar
 {
+    [self performSelector:@selector(searcH_Qurey) withObject:activityIndicatorView afterDelay:0.01];
+    
     UITextField *searchBarTextField = [self findTextFieldFromControl:_search_bar];
     [searchBarTextField addTarget:self action:@selector(getSearch_TXT) forControlEvents:UIControlEventEditingChanged];
 }
+-(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+    if (searchBar.text.length == 0) {
+        NSError *error;
+        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
+        NSDictionary *Dictin_event = [dict valueForKey:@"event"];
+        NSString *STR_sent_TXT = [NSString stringWithFormat:@"auction/list/%@",[Dictin_event valueForKey:@"id"]];
+        
+        [self performSelector:@selector(API_liveAuctions:) withObject:STR_sent_TXT afterDelay:0.01];
+    }
+}
+
+//-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+//{
+//    UITextField *searchBarTextField = [self findTextFieldFromControl:_search_bar];
+//    [searchBarTextField addTarget:self action:@selector(getSearch_TXT) forControlEvents:UIControlEventEditingChanged];
+//}
 
 -(void) getSearch_TXT
 {
@@ -323,16 +477,16 @@
     VW_overlay.hidden = NO;
     [activityIndicatorView startAnimating];
     
-    if([str isEqualToString:@""])
-    {
-        [self performSelector:@selector(API_liveAuctions:) withObject:@"auction/list/" afterDelay:0.01];
-        VW_overlay.hidden = YES;
-        [activityIndicatorView stopAnimating];
-    }
-    else
-    {
-        [self performSelector:@selector(searcH_API) withObject:activityIndicatorView afterDelay:0.01];
-    }
+//    if([str isEqualToString:@""])
+//    {
+//        [self performSelector:@selector(searcH_Qurey:) withObject:@"auction/list/" afterDelay:0.01];
+//        VW_overlay.hidden = YES;
+//        [activityIndicatorView stopAnimating];
+//    }
+//    else
+//    {
+        [self performSelector:@selector(searcH_Qurey) withObject:activityIndicatorView afterDelay:0.01];
+//    }
 }
 
 - (UITextField *) findTextFieldFromControl:(UIView *) view
@@ -359,56 +513,55 @@
 {
     @try {
         
-    NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
-    NSString *search_char = _search_bar.text;
-    NSHTTPURLResponse *response = nil;
-    NSError *error;
+        NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+        NSString *search_char = _search_bar.text;
+        NSHTTPURLResponse *response = nil;
+        NSError *error;
         
         NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
         NSDictionary *Dictin_event = [dict valueForKey:@"event"];
         
-    NSString *urlGetuser =[NSString stringWithFormat:@"%@auction/list/%@?query=%@",SERVER_URL,[Dictin_event valueForKey:@"id"],search_char];
-    urlGetuser = [urlGetuser stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
-    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:urlProducts];
-    [request setHTTPMethod:@"GET"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
-    [request setHTTPShouldHandleCookies:NO];
     
-    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        NSString *urlGetuser =[NSString stringWithFormat:@"%@auction/list/%@?query=%@",SERVER_URL,[Dictin_event valueForKey:@"id"],search_char];
+        urlGetuser = [urlGetuser stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+        NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setURL:urlProducts];
+        [request setHTTPMethod:@"GET"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+        [request setHTTPShouldHandleCookies:NO];
+        
+        NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
    
         
         if (aData)
         {
-        [activityIndicatorView stopAnimating];
-        VW_overlay.hidden = YES;
-        json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-            [self get_DATA];
-        NSLog(@"The response %@",json_DATA);
-       
-        
-        
-        if(!json_DATA)
-        {
             [activityIndicatorView stopAnimating];
             VW_overlay.hidden = YES;
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-            [alert show];
+            json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+            [self get_DATA];
+            NSLog(@"The response %@",json_DATA);
             
-        }
+            if(!json_DATA)
+            {
+                [activityIndicatorView stopAnimating];
+                VW_overlay.hidden = YES;
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                [alert show];
+                
+            }
         }
         
     
-    else
-    {
-        [activityIndicatorView stopAnimating];
-        VW_overlay.hidden = YES;
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-        [alert show];
-    }
+        else
+        {
+            [activityIndicatorView stopAnimating];
+            VW_overlay.hidden = YES;
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            [alert show];
+        }
         
     }
     @catch (NSException *exception) {
@@ -417,6 +570,107 @@
     [activityIndicatorView stopAnimating];
     VW_overlay.hidden = YES;
 }
+
+-(void) searcH_Qurey
+{
+    @try {
+        
+        NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+        NSString *search_char;
+        
+        @try {
+            search_char = _search_bar.text;
+        } @catch (NSException *exception) {
+            search_char = @"";
+        }
+        
+        NSHTTPURLResponse *response = nil;
+        NSError *error;
+        
+        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
+        NSDictionary *Dictin_event = [dict valueForKey:@"event"];
+        
+        
+        NSString *urlGetuser =[NSString stringWithFormat:@"%@auction/autocomplete/%@?query=%@",SERVER_URL,[Dictin_event valueForKey:@"id"],search_char];
+        urlGetuser = [urlGetuser stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+        NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setURL:urlProducts];
+        [request setHTTPMethod:@"GET"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+        [request setHTTPShouldHandleCookies:NO];
+        
+        NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        
+        
+        if (aData)
+        {
+            [activityIndicatorView stopAnimating];
+            VW_overlay.hidden = YES;
+            NSMutableDictionary *temp_dictin = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+            NSLog(@"The response %@",temp_dictin);
+            
+            if(!temp_dictin)
+            {
+                [activityIndicatorView stopAnimating];
+                VW_overlay.hidden = YES;
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                [alert show];
+                
+            }
+            else
+            {
+                
+                
+//                NSDictionary *ORiginal_dictin = [temp_dictin valueForKey:@"auction_items"];
+                
+//                NSMutableDictionary * newDict = [NSMutableDictionary dictionaryWithCapacity:[ORiginal_dictin count]];
+//                for(id item in [ORiginal_dictin allValues]){
+//                    NSArray * keys = [dict allKeysForObject:item];
+//                    [newDict setObject:item forKey:[keys objectAtIndex:0]];
+//                }
+                NSArray *values = [[temp_dictin valueForKey:@"auction_items"] valueForKeyPath: @"@unionOfArrays.@allValues"];
+                
+                NSCountedSet *namesSet = [[NSCountedSet alloc] initWithArray:values];
+                NSMutableArray *namesArray = [[NSMutableArray alloc] initWithCapacity:[values count]];
+                
+                [namesSet enumerateObjectsUsingBlock:^(id obj, BOOL *stop){
+                    if ([namesSet countForObject:obj] == 1) {
+                        [namesArray addObject:obj];
+                    }
+                }];
+                
+                ARR_search = [namesArray mutableCopy];
+            }
+            
+            if ([ARR_search count] == 0)
+            {
+                _tbl_search.hidden = YES;
+            }
+            else
+            {
+                _tbl_search.hidden = NO;
+                [_tbl_search reloadData];
+            }
+        }
+        else
+        {
+            [activityIndicatorView stopAnimating];
+            VW_overlay.hidden = YES;
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection Error" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            [alert show];
+        }
+        
+    }
+    @catch (NSException *exception) {
+        [self sessionOUT];
+    }
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden = YES;
+}
+
 #pragma mark - Session OUT
 - (void) sessionOUT
 {
@@ -439,5 +693,6 @@
     titleName = [NSString stringWithFormat:@" %lu Results for' %@ '",(unsigned long)[_sec_one_ARR count],str];
     [_auctiontab reloadData];
 }
+
 
 @end

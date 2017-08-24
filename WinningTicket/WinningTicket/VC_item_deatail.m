@@ -10,11 +10,17 @@
 #import "similar_collectioncell.h"
 #import "TAExampleDotView.h"
 #import "TAPageControl.h"
+#import "ViewController.h"
 
 #pragma mark - Image Cache
 #import "SDWebImage/UIImageView+WebCache.h"
 
-@interface VC_item_deatail () <UIScrollViewDelegate, TAPageControlDelegate>
+@interface VC_item_deatail () <UIScrollViewDelegate, TAPageControlDelegate, UITextFieldDelegate>
+{
+    UIAlertController * alertController;
+    NSString *alert_TXT_price;
+    UITextField *amount_field;
+}
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView1;
 @property (strong, nonatomic) IBOutletCollection(UIScrollView) NSArray *scrollViews;
@@ -109,6 +115,7 @@
                 UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(scrollView.frame) * idx, 0, CGRectGetWidth(scrollView.frame)+80, CGRectGetHeight(scrollView.frame))];
 //                imageView.contentMode = UIViewContentModeScaleAspectFill;
 //                imageView.image = [UIImage imageNamed:imageName];
+                imageView.contentMode = UIViewContentModeScaleAspectFit;
                 [imageView sd_setImageWithURL:[NSURL URLWithString:imageName]
                                           placeholderImage:[UIImage imageNamed:@"Logo_WT.png"]];
                 [scrollView addSubview:imageView];
@@ -121,6 +128,7 @@
                         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(scrollView.frame) * idx, 0, CGRectGetWidth(scrollView.frame)+30, CGRectGetHeight(scrollView.frame))];
 //                        imageView.contentMode = UIViewContentModeScaleAspectFill;
 //                        imageView.image = [UIImage imageNamed:imageName];
+                        imageView.contentMode = UIViewContentModeScaleAspectFit;
                         [imageView sd_setImageWithURL:[NSURL URLWithString:imageName]
                                      placeholderImage:[UIImage imageNamed:@"Logo_WT.png"]];
                         [scrollView addSubview:imageView];
@@ -206,7 +214,7 @@
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:22.0f]}];
-    self.navigationItem.title = @"Live Auction";
+    self.navigationItem.title = @"Silent Auction";
     
     //    UIBarButtonItem *anotherButton1 = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain
     //                                                                     target:self action:@selector(more_ACTION)];
@@ -262,14 +270,42 @@
 //    
     
     NSDictionary *auction_item = [jsonReponse valueForKey:@"auction_item"];
-    
+    NSString *STR_bidSTAT = [[NSUserDefaults standardUserDefaults] valueForKey:@"STR_bidSTAT"];
     NSString *STR_event_name = [auction_item valueForKey:@"name"];//@"Jordan Spieth Autographed Golf Ball with Certificate of Authenticity";
-    NSString *STR_price = [NSString stringWithFormat:@"%.2f",[[auction_item valueForKey:@"starting_bid"] floatValue]];//@"US $59.99";
-//    NSString *STR_bid = @"Starting bid";
-//    NSString *STR_sporater = @"|";
-//    NSString *STR_time = @"10h 39m remaining";
+//    NSString *STR_event_desc = [auction_item valueForKey:@"description"];
     
-    NSString *text = [NSString stringWithFormat:@"%@\n%@",STR_event_name,STR_price];//,STR_bid,STR_sporater,STR_time];\n%@ %@ %@
+    
+    NSString *STR_price;
+    NSString *STR_bids;
+    NSString *text;
+    
+    if ([STR_bidSTAT isEqualToString:@"Starting Bid"]) {
+        STR_price = [NSString stringWithFormat:@"$ %.2f",[[auction_item valueForKey:@"starting_bid"] floatValue]];//@"US $59.99";
+      //  STR_bids = @"\b";//[NSString stringWithFormat:@"%@ BIDS %@ Watching",[auction_item valueForKey:@"bid_count"],[auction_item valueForKey:@"watchers_count"]];
+        text = [NSString stringWithFormat:@"%@\n%@",STR_event_name,STR_price];//,STR_bid,STR_sporater,STR_time];\n%@ %@ %@ STR_event_desc
+    }
+    else if ([STR_bidSTAT isEqualToString:@"Current Bid"])
+    {
+        @try {
+            STR_price = [NSString stringWithFormat:@"$ %.2f",[[auction_item valueForKey:@"current_bid_amount"] floatValue]];//@"US $59.99";
+            STR_bids = [NSString stringWithFormat:@"%@-BIDS %@-Watching",[auction_item valueForKey:@"bid_count"],[auction_item valueForKey:@"watchers_count"]];
+        } @catch (NSException *exception) {
+            STR_price = [NSString stringWithFormat:@"$ %.2f",[[auction_item valueForKey:@"starting_bid"] floatValue]];//@"US $59.99";
+            STR_bids = [NSString stringWithFormat:@"%@-BIDS %@-Watching",[auction_item valueForKey:@"bid_count"],[auction_item valueForKey:@"watchers_count"]];
+        }
+        text = [NSString stringWithFormat:@"%@\n%@\n%@",STR_event_name,STR_price,STR_bids];
+    }
+    else
+    {
+        @try {
+            STR_price = [NSString stringWithFormat:@"$ %.2f",[[auction_item valueForKey:@"current_bid_amount"] floatValue]];//@"US $59.99";
+            STR_bids = [NSString stringWithFormat:@"%@-BIDS %@-Watching",[auction_item valueForKey:@"bid_count"],[auction_item valueForKey:@"watchers_count"]];
+        } @catch (NSException *exception) {
+            STR_price = [NSString stringWithFormat:@"$ %.2f",[[auction_item valueForKey:@"starting_bid"] floatValue]];//@"US $59.99";
+            STR_bids = [NSString stringWithFormat:@"%@-BIDS %@-Watching",[auction_item valueForKey:@"bid_count"],[auction_item valueForKey:@"watchers_count"]];
+        }
+        text = [NSString stringWithFormat:@"%@\n%@\n%@",STR_event_name,STR_price,STR_bids];
+    }
     
     if ([self.lbl_itemNAME respondsToSelector:@selector(setAttributedText:)]) {
         NSDictionary *attribs = @{
@@ -280,6 +316,7 @@
         [[NSMutableAttributedString alloc] initWithString:text
                                                attributes:attribs];
         NSRange cmp = [text rangeOfString:STR_price];
+//        NSRange range_event_desc = [text rangeOfString:<#(nonnull NSString *)#>];
         if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
         {
             [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:21.0]}
@@ -340,6 +377,8 @@
     
     new_frame = _BTN_watech.frame;
     new_frame.origin.y = _BTN_place_BID.frame.origin.y + _BTN_place_BID.frame.size.height + 12;
+    [_BTN_place_BID addTarget:self action:@selector(place_BID_VW) forControlEvents:UIControlEventTouchUpInside];
+    
     _BTN_watech.frame = new_frame;
     _BTN_watech.layer.borderWidth = 2.0f;
     _BTN_watech.layer.borderColor = [UIColor blackColor].CGColor;
@@ -354,13 +393,25 @@
     
 //    golfTimer = [NSTimer scheduledTimerWithTimeInterval: 1.0 target:self selector:@selector(count_downTimer) userInfo:nil repeats: YES];
     
-    [[NSUserDefaults standardUserDefaults] setValue:[auction_item valueForKey:@"event_end_date"] forKey:@"bid_date"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+//    [self Check_Date:[auction_item valueForKey:@"event_start_date"]:[auction_item valueForKey:@"event_end_date"]];
     
-    golfTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target: self selector: @selector(count_downTimer) userInfo: nil repeats: YES];
+    //Starting Bid,Current Bid,Closed
+    if ([STR_bidSTAT isEqualToString:@"Starting Bid"]) {
+        [[NSUserDefaults standardUserDefaults] setValue:[auction_item valueForKey:@"event_start_date"] forKey:@"bid_date"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        golfTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target: self selector: @selector(count_downTimer) userInfo: nil repeats: YES];
+    }
+    else if ([STR_bidSTAT isEqualToString:@"Current Bid"])
+    {
+        [[NSUserDefaults standardUserDefaults] setValue:[auction_item valueForKey:@"event_end_date"] forKey:@"bid_date"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        golfTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target: self selector: @selector(count_downTimer) userInfo: nil repeats: YES];
+    }
+    else
+    {
+        _lbl_CountDown.text = @"Auction Closed";
+    }
 
-    
-    
     NSString *text2 = [NSString stringWithFormat:@"%@\n%@",STR_titl_iten_des,STR_descrip_detail];
     
     if ([self.lbl_item_descrip respondsToSelector:@selector(setAttributedText:)]) {
@@ -703,7 +754,6 @@ self.countdownLabel.text = [NSString stringWithFormat:@"%@/%@/%@ %@:%@:%@", days
  */
 
 #pragma mark - Countdown timer
-
 -(void)count_downTimer
 {
     /*int hours, minutes, seconds;
@@ -725,15 +775,40 @@ self.countdownLabel.text = [NSString stringWithFormat:@"%@/%@/%@ %@:%@:%@", days
     NSDateFormatter *labelFormatter = [[NSDateFormatter alloc] init];
     [labelFormatter setDateFormat:@"HH-dd-MM"];
     
+    NSDate* currentDate = [NSDate date];
+//    NSTimeZone* currentTimeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
+//    NSTimeZone* nowTimeZone = [NSTimeZone systemTimeZone];
+//    
+//    NSInteger currentGMTOffset = [currentTimeZone secondsFromGMTForDate:currentDate];
+//    NSInteger nowGMTOffset = [nowTimeZone secondsFromGMTForDate:currentDate];
+//    
+//    NSTimeInterval interval = nowGMTOffset - currentGMTOffset;
+//    NSDate* nowDate = [[NSDate alloc] initWithTimeInterval:interval sinceDate:currentDate];
     
-    NSTimeInterval timeInterval = [date timeIntervalSinceNow];
+    NSTimeInterval timeInterval = [date timeIntervalSinceDate:currentDate];
     
     NSCalendar *sysCalendar = [NSCalendar currentCalendar];
     NSDate *date2 = [[NSDate alloc] initWithTimeInterval:timeInterval sinceDate:date];
     NSCalendarUnit unitFlags = NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitDay | NSCalendarUnitSecond;
     
     NSDateComponents *breakdownInfo = [sysCalendar components:unitFlags fromDate:date  toDate:date2  options:0];
-    NSString *STR_time = [NSString stringWithFormat:@"Starting bid | %li D : %li H : %li M : %li S", (long)[breakdownInfo day], (long)[breakdownInfo hour], (long)[breakdownInfo minute], (long)[breakdownInfo second]];
+    NSString *STR_time;
+    
+    NSString *STR_bidSTAT = [[NSUserDefaults standardUserDefaults] valueForKey:@"STR_bidSTAT"];
+    //Starting Bid,Current Bid,Closed
+    if ([STR_bidSTAT isEqualToString:@"Starting Bid"]) {
+         STR_time= [NSString stringWithFormat:@"Starting bid | %li D : %li H : %li M : %li S", (long)[breakdownInfo day], (long)[breakdownInfo hour], (long)[breakdownInfo minute], (long)[breakdownInfo second]];
+    }
+    else if ([STR_bidSTAT isEqualToString:@"Current Bid"])
+    {
+        STR_time= [NSString stringWithFormat:@"Current bid | %li D : %li H : %li M : %li S", (long)[breakdownInfo day], (long)[breakdownInfo hour], (long)[breakdownInfo minute], (long)[breakdownInfo second]];
+    }
+    else
+    {
+        _lbl_CountDown.text = @"Auction Closed";
+    }
+    
+   
     
     _lbl_CountDown.text = [NSString stringWithFormat:@"%@", STR_time];
 }
@@ -784,4 +859,244 @@ self.countdownLabel.text = [NSString stringWithFormat:@"%@/%@/%@ %@:%@:%@", days
     [self setup_VIEW];
 }
 
+/*
+#pragma mark - Date Comparison
+-(void) Check_Date :(NSString *)start_Date :(NSString *)end_DAte
+{
+    NSDateFormatter *dateStartParser = [[NSDateFormatter alloc] init];
+    [dateStartParser setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"GMT"]];
+    [dateStartParser setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ"];
+    
+    NSDate *start_date = [dateStartParser dateFromString:start_Date];
+   
+    NSDate* currentDate = [NSDate date];
+    
+    
+    if( [start_date timeIntervalSinceDate:currentDate] > 0 ) {
+        [[NSUserDefaults standardUserDefaults] setValue:start_Date forKey:@"bid_date"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    else
+    {
+        [[NSUserDefaults standardUserDefaults] setValue:end_DAte forKey:@"bid_date"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+*/
+
+#pragma mark - Place Bid
+-(void) place_BID_VW
+{
+    NSString *STR_bidSTAT = [[NSUserDefaults standardUserDefaults] valueForKey:@"STR_bidSTAT"];
+    //Starting Bid,Current Bid,Closed
+    if ([STR_bidSTAT isEqualToString:@"Starting Bid"]) {
+        NSLog(@"Bid Not yet started");
+    }
+    else if ([STR_bidSTAT isEqualToString:@"Current Bid"])
+    {
+        NSLog(@"Bid open");
+        alertController = [UIAlertController alertControllerWithTitle: @"Place Bid Amount"
+                                                              message: @"Amount should be increment of $10.00"
+                                                       preferredStyle:UIAlertControllerStyleAlert];
+
+        __weak VC_item_deatail *weakSelf = self;
+        [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+            textField.placeholder = @"Enter Amount";
+            textField.textColor = [UIColor blackColor];
+            textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+            textField.keyboardType = UIKeyboardTypeDecimalPad;
+            [textField addTarget:weakSelf action:@selector(textDidChange:) forControlEvents:UIControlEventEditingChanged];
+        }];
+        
+        self.submit_action = [UIAlertAction actionWithTitle:@"PLACE BID"
+                                                      style:UIAlertActionStyleDefault
+                                                    handler:^(UIAlertAction *action) {
+                                                        alert_TXT_price= alertController.textFields[0].text;
+                                                        //                                                    [self forgot_PWD];
+                                                        VW_overlay.hidden = NO;
+                                                        [activityIndicatorView startAnimating];
+                                                        [self performSelector:@selector(place_bid) withObject:activityIndicatorView afterDelay:0.01];
+                                                    }];
+        
+        [alertController addAction:self.submit_action];
+        self.submit_action.enabled = NO;
+        
+        [alertController addAction:[UIAlertAction actionWithTitle:@"CANCEL" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            
+        }]];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+    else
+    {
+        NSLog(@"Bid closed");
+    }
+}
+
+-(void)textDidChange:(UITextField *)textField {
+    NSDictionary *auction_item = [jsonReponse valueForKey:@"auction_item"];
+    float amount  = [textField.text floatValue];
+    float strt_bid = [[auction_item valueForKey:@"starting_bid"] floatValue];
+    float current_bid = [[auction_item valueForKey:@"current_bid_amount" ] floatValue];
+    
+    if(current_bid == 0)
+    {
+        if (amount >= strt_bid + 10.00)
+        {
+            self.submit_action.enabled = YES;
+        }
+        else
+        {
+            self.submit_action.enabled = NO;
+        }
+    }
+    else
+    {
+        if(amount >= current_bid + 10.00)
+        {
+            self.submit_action.enabled = YES;
+        }
+        else
+        {
+            self.submit_action.enabled = NO;
+        }
+    }
+    
+}
+
+#pragma mark - Place bid API
+-(void)place_bid
+{
+    //    UITextField *amount_field = alertController.textFields[0];
+    //    [amount_field resignFirstResponder];
+    [alertController dismissViewControllerAnimated:NO completion:nil];
+    
+    @try {
+        
+        NSString *amount_bid = alert_TXT_price;
+        amount_bid = [amount_bid stringByReplacingOccurrencesOfString:@"," withString:@""];
+        NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+        f.numberStyle = NSNumberFormatterDecimalStyle;
+        NSNumber *myNumber = [f numberFromString:amount_bid];
+        NSLog(@"the number is:%@",myNumber);
+        
+        
+        //  NSString *email = _TXT_email.text;
+        
+        
+        
+        NSError *error;
+        NSHTTPURLResponse *response = nil;
+        NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+        NSDictionary *parameters = @{@"current_bid":myNumber};
+        NSLog(@"the post data is:%@",parameters);
+        //    self->activityIndicatorView.hidden=NO;
+        //    [self->activityIndicatorView startAnimating];
+        //    [self.view addSubview:activityIndicatorView];
+        NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters options:NSASCIIStringEncoding error:&error];
+        NSDictionary *auction_item = [jsonReponse valueForKey:@"auction_item"];
+        
+        NSString *urlGetuser =[NSString stringWithFormat:@"%@auction/place_bid/%@",SERVER_URL,[auction_item valueForKey:@"id"]];
+        
+        NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setURL:urlProducts];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+        [request setHTTPBody:postData];
+        
+        [request setHTTPShouldHandleCookies:NO];
+        NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        if (aData)
+        {
+            //        self->activityIndicatorView.hidden=YES;
+            NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+            NSLog(@"The response %@",json_DATA);
+            
+            
+            
+            @try
+            {
+                NSString *STR_error1 = [json_DATA valueForKey:@"error"];
+                if (STR_error1)
+                {
+                    [self sessionOUT];
+                }
+                else
+                {
+                    NSString *status=[json_DATA valueForKey:@"status"];
+                    NSString *error=[json_DATA valueForKey:@"errors"];
+                    NSString *message=[json_DATA valueForKey:@"message"];
+                    
+                    if([status isEqualToString:@"Success"])
+                    {
+                        [activityIndicatorView stopAnimating];
+                        VW_overlay.hidden=YES;
+                        
+                        
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:status delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                        [alert show];
+                        //                    [self GETAuction_Item_details];
+                        //                    [self setup_Values];
+                        
+                        
+                        
+                        
+                    }
+                    else if(error)
+                    {
+                        [activityIndicatorView stopAnimating];
+                        VW_overlay.hidden=YES;
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection failed" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                        [alert show];
+                    }
+                    
+                    else
+                    {
+                        [activityIndicatorView stopAnimating];
+                        VW_overlay.hidden=YES;
+                        
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                        [alert show];
+                    }
+                }
+            }
+            @catch (NSException *exception)
+            {
+                [self sessionOUT];
+            }
+            
+        }
+        else
+        {
+            [activityIndicatorView stopAnimating];
+            VW_overlay.hidden=YES;
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection error" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+            
+        }
+    }
+    @catch (NSException *exception)
+    {
+        [self sessionOUT];
+    }
+    
+    
+    
+}
+
+#pragma mark - Session OUT
+- (void) sessionOUT
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Session out" message:@"In some other device same user logged in. Please login again" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+    [alert show];
+    
+    ViewController *tncView = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
+    [tncView setModalInPopover:YES];
+    [tncView setModalPresentationStyle:UIModalPresentationFormSheet];
+    [tncView setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    
+    [self presentViewController:tncView animated:YES completion:NULL];
+}
 @end
