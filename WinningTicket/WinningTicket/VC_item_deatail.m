@@ -12,6 +12,8 @@
 #import "TAPageControl.h"
 #import "ViewController.h"
 
+#import <QuartzCore/CAAnimation.h>
+
 #pragma mark - Image Cache
 #import "SDWebImage/UIImageView+WebCache.h"
 
@@ -44,6 +46,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    
     
     [self add_overlay];
     VW_overlay.hidden = NO;
@@ -109,32 +113,33 @@
 #pragma mark - Utils
 - (void)setupScrollViewImages
 {
-    for (UIScrollView *scrollView in self.scrollViews) {
+    float heiht = _lbl_itemNAME.frame.origin.y;
+    //for (UIScrollView *scrollView in self.scrollViews) {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             [self.imagesData enumerateObjectsUsingBlock:^(NSString *imageName, NSUInteger idx, BOOL *stop) {
-                UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(scrollView.frame) * idx, 0, CGRectGetWidth(scrollView.frame)+80, CGRectGetHeight(scrollView.frame))];
+                UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(_scrollView1.frame) * idx, 0, CGRectGetWidth(_scrollView1.frame)+80, heiht)];
 //                imageView.contentMode = UIViewContentModeScaleAspectFill;
 //                imageView.image = [UIImage imageNamed:imageName];
                 imageView.contentMode = UIViewContentModeScaleAspectFit;
                 [imageView sd_setImageWithURL:[NSURL URLWithString:imageName]
                                           placeholderImage:[UIImage imageNamed:@"Logo_WT.png"]];
-                [scrollView addSubview:imageView];
+                [_scrollView1 addSubview:imageView];
             }];
            
                 }
                 else
                 {
                     [self.imagesData enumerateObjectsUsingBlock:^(NSString *imageName, NSUInteger idx, BOOL *stop) {
-                        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(scrollView.frame) * idx, 0, CGRectGetWidth(scrollView.frame)+30, CGRectGetHeight(scrollView.frame))];
+                        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(_scrollView1.frame) * idx, 0, CGRectGetWidth(_scrollView1.frame)+30, heiht)];
 //                        imageView.contentMode = UIViewContentModeScaleAspectFill;
 //                        imageView.image = [UIImage imageNamed:imageName];
                         imageView.contentMode = UIViewContentModeScaleAspectFit;
                         [imageView sd_setImageWithURL:[NSURL URLWithString:imageName]
                                      placeholderImage:[UIImage imageNamed:@"Logo_WT.png"]];
-                        [scrollView addSubview:imageView];
+                        [_scrollView1 addSubview:imageView];
                     }];
                 }
-    }
+   // }
 }
 
 
@@ -270,6 +275,29 @@
 //    
     
     NSDictionary *auction_item = [jsonReponse valueForKey:@"auction_item"];
+    
+    
+    NSArray *auction_images = [auction_item valueForKey:@"auction_item_images"];
+    NSMutableArray *temp_arr = [[NSMutableArray alloc]init];
+    NSString *STR_image_url;
+    
+    NSString *id = [auction_item valueForKey:@"id"];
+    [[NSUserDefaults standardUserDefaults] setValue:id forKey:@"auction_item_id"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    for (int i = 0; i < [auction_images count]; i++) {
+        NSDictionary *temp_dictin = [auction_images objectAtIndex:i];
+        NSString *STR_img = [temp_dictin valueForKey:@"image_url"];
+        STR_image_url = [NSString stringWithFormat:@"%@%@",IMAGE_URL,STR_img];
+        [temp_arr addObject:STR_image_url];
+    }
+    
+    self.imagesData = [temp_arr copy];
+//    [self setupScrollViewImages];
+    _lbl_count.text = [NSString stringWithFormat:@"1 of %lu",(unsigned long)_imagesData.count];
+    
+    
+    
     NSString *STR_bidSTAT = [[NSUserDefaults standardUserDefaults] valueForKey:@"STR_bidSTAT"];
     NSString *STR_event_name = [auction_item valueForKey:@"name"];//@"Jordan Spieth Autographed Golf Ball with Certificate of Authenticity";
 //    NSString *STR_event_desc = [auction_item valueForKey:@"description"];
@@ -377,7 +405,7 @@
     
     new_frame = _BTN_watech.frame;
     new_frame.origin.y = _BTN_place_BID.frame.origin.y + _BTN_place_BID.frame.size.height + 12;
-    [_BTN_place_BID addTarget:self action:@selector(place_BID_VW) forControlEvents:UIControlEventTouchUpInside];
+
     
     _BTN_watech.frame = new_frame;
     _BTN_watech.layer.borderWidth = 2.0f;
@@ -396,22 +424,48 @@
 //    [self Check_Date:[auction_item valueForKey:@"event_start_date"]:[auction_item valueForKey:@"event_end_date"]];
     
     //Starting Bid,Current Bid,Closed
+    
+    NSString *winner_status = [NSString stringWithFormat:@"%@",[jsonReponse valueForKey:@"winner_status"]];
+    if ([winner_status isEqualToString:@"1"]) {
+        [_BTN_place_BID setTitle:@"CHECKOUT" forState:UIControlStateNormal];
+        [_BTN_place_BID addTarget:self action:@selector(checkout_API) forControlEvents:UIControlEventTouchUpInside];
+    }
+//    else if (<#expression#>)
+    
+    
+    
+    
     if ([STR_bidSTAT isEqualToString:@"Starting Bid"]) {
+//        [_BTN_place_BID addTarget:self action:@selector(place_BID_VW) forControlEvents:UIControlEventTouchUpInside];
+        [_BTN_place_BID setTitle:@"STARTING" forState:UIControlStateNormal];
+        
+        CABasicAnimation *theAnimation;
+        theAnimation=[CABasicAnimation animationWithKeyPath:@"opacity"];
+        theAnimation.duration = 1.0;
+        theAnimation.repeatCount = HUGE_VALF;
+        theAnimation.autoreverses = YES;
+        theAnimation.fromValue = [NSNumber numberWithFloat:1.0];
+        theAnimation.toValue = [NSNumber numberWithFloat:0.0];
+        [_BTN_place_BID.layer addAnimation:theAnimation forKey:@"animateOpacity"];
+        
         [[NSUserDefaults standardUserDefaults] setValue:[auction_item valueForKey:@"event_start_date"] forKey:@"bid_date"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         golfTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target: self selector: @selector(count_downTimer) userInfo: nil repeats: YES];
     }
     else if ([STR_bidSTAT isEqualToString:@"Current Bid"])
     {
+        [_BTN_place_BID addTarget:self action:@selector(place_BID_VW) forControlEvents:UIControlEventTouchUpInside];
         [[NSUserDefaults standardUserDefaults] setValue:[auction_item valueForKey:@"event_end_date"] forKey:@"bid_date"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         golfTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target: self selector: @selector(count_downTimer) userInfo: nil repeats: YES];
     }
     else
     {
+        [_BTN_place_BID setTitle:@"CLOSED" forState:UIControlStateNormal];
         _lbl_CountDown.text = @"Auction Closed";
     }
 
+    self.lbl_item_descrip.numberOfLines = 0;
     NSString *text2 = [NSString stringWithFormat:@"%@\n%@",STR_titl_iten_des,STR_descrip_detail];
     
     if ([self.lbl_item_descrip respondsToSelector:@selector(setAttributedText:)]) {
@@ -440,12 +494,13 @@
         self.lbl_item_descrip.text = text;
     }
     
+    [self.lbl_item_descrip sizeToFit];
+    _lbl_item_descrip.adjustsFontSizeToFitWidth = NO;
+    _lbl_item_descrip.lineBreakMode = NSLineBreakByTruncatingTail;
+    
     new_frame = _lbl_item_descrip.frame;
     new_frame.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
     _lbl_item_descrip.frame = new_frame;
-    
-    self.lbl_item_descrip.numberOfLines = 0;
-    [self.lbl_item_descrip sizeToFit];
     
     new_frame = _VW_line2.frame;
     new_frame.origin.y = _lbl_item_descrip.frame.origin.y + _lbl_item_descrip.frame.size.height + 10;
@@ -463,29 +518,14 @@
     CGRect frame_content;
     frame_content = _VW_contents.frame;
     frame_content.size.width = _scroll_contents.frame.size.width;
-    
     frame_content.size.height = _collection_similar_item.frame.origin.y + _collection_similar_item.frame.size.height + 20;
-    
     _VW_contents.frame = frame_content;
     
     [_scroll_contents addSubview:_VW_contents];
     
 //    self.imagesData = @[@"image1.jpg", @"image2.jpg", @"image3.jpg", @"image4.jpg", @"image5.jpg", @"image6.jpg"];
-    NSArray *auction_images = [auction_item valueForKey:@"auction_item_images"];
-    NSMutableArray *temp_arr = [[NSMutableArray alloc]init];
-    NSString *STR_image_url;
     
-    for (int i = 0; i < [auction_images count]; i++) {
-        NSDictionary *temp_dictin = [auction_images objectAtIndex:i];
-        NSString *STR_img = [temp_dictin valueForKey:@"image_url"];
-        STR_image_url = [NSString stringWithFormat:@"%@%@",IMAGE_URL,STR_img];
-        [temp_arr addObject:STR_image_url];
-    }
-    
-    self.imagesData = [temp_arr copy];
     [self setupScrollViewImages];
-    _lbl_count.text = [NSString stringWithFormat:@"%lu of %lu",(unsigned long)_imagesData.count,(unsigned long)_imagesData.count];
-    
     for (UIScrollView *scrollView in self.scrollViews) {
         scrollView.delegate = self;
     }
@@ -1036,10 +1076,9 @@ self.countdownLabel.text = [NSString stringWithFormat:@"%@/%@/%@ %@:%@:%@", days
                         
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:status delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
                         [alert show];
-                        //                    [self GETAuction_Item_details];
-                        //                    [self setup_Values];
                         
-                        
+                        [self GETAuction_Item_details];
+                        [self setup_Values];
                         
                         
                     }
@@ -1099,4 +1138,12 @@ self.countdownLabel.text = [NSString stringWithFormat:@"%@/%@/%@ %@:%@:%@", days
     
     [self presentViewController:tncView animated:YES completion:NULL];
 }
+
+#pragma mark - Checkout Action
+-(void) checkout_API
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Checkout" message:@"Continue checkout" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+    [alert show];
+}
+
 @end

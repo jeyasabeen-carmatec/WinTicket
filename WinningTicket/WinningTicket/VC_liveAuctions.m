@@ -50,15 +50,7 @@
     _lbl_NoData.hidden = YES;
     _tbl_search.hidden = YES;
     
-    VW_overlay.hidden = NO;
-    [activityIndicatorView startAnimating];
-
-    NSError *error;
-    NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
-    NSDictionary *Dictin_event = [dict valueForKey:@"event"];
-    NSString *STR_sent_TXT = [NSString stringWithFormat:@"auction/list/%@",[Dictin_event valueForKey:@"id"]];
-    
-    [self performSelector:@selector(API_liveAuctions:) withObject:STR_sent_TXT afterDelay:0.01];
+   
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,12 +58,21 @@
     // Dispose of any resources that can be recreated.
 }
 
-//-(void)viewWillAppear:(BOOL)animated
-//{
+-(void)viewWillAppear:(BOOL)animated
+{
 //    self.navigationItem.rightBarButtonItem = nil;
 //    self.navigationItem.leftBarButtonItem = nil;
 //    self.navigationItem.title = nil;
-//}
+    VW_overlay.hidden = NO;
+    [activityIndicatorView startAnimating];
+    
+    NSError *error;
+    NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"upcoming_events"] options:NSASCIIStringEncoding error:&error];
+    NSDictionary *Dictin_event = [dict valueForKey:@"event"];
+    NSString *STR_sent_TXT = [NSString stringWithFormat:@"auction/list/%@",[Dictin_event valueForKey:@"id"]];
+    
+    [self performSelector:@selector(API_liveAuctions:) withObject:STR_sent_TXT afterDelay:0.01];
+}
 
 /*
 #pragma mark - Navigation

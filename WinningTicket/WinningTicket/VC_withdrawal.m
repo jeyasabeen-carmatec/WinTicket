@@ -30,6 +30,16 @@
     [tap setCancelsTouchesInView:NO];
     tap.delegate = self;
     [self.view addGestureRecognizer:tap];
+    
+  /*  [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidShow:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidHide:)
+                                                 name:UIKeyboardDidHideNotification
+                                               object:nil]; */
 
     [self setup_View];
 }
@@ -545,5 +555,22 @@ else if ([_TXT_amtpaypal.text isEqualToString:@"0.00"] || [_TXT_amtpaypal.text i
     
     [self presentViewController:tncView animated:YES completion:NULL];
 }
+
+/*#pragma mark - Keyboard handling
+- (void)keyboardDidShow: (NSNotification *) notif{
+    //Keyboard becomes visible
+    self.view.frame = CGRectMake(self.view.frame.origin.x,
+                                  self.view.frame.origin.y - 220,
+                                  self.view.frame.size.width,
+                                  self.view.frame.size.height);   //move up
+}
+
+- (void)keyboardDidHide: (NSNotification *) notif{
+    //keyboard will hide
+    self.view.frame = CGRectMake(self.view.frame.origin.x,
+                                  self.view.frame.origin.y + 220,
+                                  self.view.frame.size.width,
+                                  self.view.frame.size.height);   //move down
+}*/
 
 @end

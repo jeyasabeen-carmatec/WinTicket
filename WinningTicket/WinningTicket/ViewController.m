@@ -381,32 +381,41 @@
             NSString *status = [json_DATA valueForKey:@"message"];
             
             
-            if([[json_DATA valueForKey:@"status"] isEqualToString:@"Failure"])
-            {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            if (!json_DATA) {
+                [activityIndicatorView stopAnimating];
+                VW_overlay.hidden = YES;
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Login" message:@"" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
                 [alert show];
             }
             else
-             {
-                if ([[json_DATA valueForKey:@"role"]isEqualToString:@"affiliate"])
+            {
+                if([[json_DATA valueForKey:@"status"] isEqualToString:@"Failure"])
                 {
-                    status = [json_DATA valueForKey:@"authentication_token"];
-                    [[NSUserDefaults standardUserDefaults] setValue:status forKey:@"auth_token"];
-                    [[NSUserDefaults standardUserDefaults] synchronize];                    
-                    [self performSegueWithIdentifier:@"logintoaffiliateidentifier" sender:self];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:[json_DATA valueForKey:@"message"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                    [alert show];
                 }
                 else
                 {
-                    status = [json_DATA valueForKey:@"authentication_token"];
-                    [[NSUserDefaults standardUserDefaults] setValue:status forKey:@"auth_token"];
-                    [[NSUserDefaults standardUserDefaults] synchronize];
-                    
-//                    [self performSegueWithIdentifier:@"logintohomeidentifier" sender:self];
-                    
-                    VW_overlay.hidden = NO;
-                    [activityIndicatorView startAnimating];
-                    [self performSelector:@selector(myprofileapicalling) withObject:activityIndicatorView afterDelay:0.01];
-                    
+                    if ([[json_DATA valueForKey:@"role"]isEqualToString:@"affiliate"])
+                    {
+                        status = [json_DATA valueForKey:@"authentication_token"];
+                        [[NSUserDefaults standardUserDefaults] setValue:status forKey:@"auth_token"];
+                        [[NSUserDefaults standardUserDefaults] synchronize];
+                        [self performSegueWithIdentifier:@"logintoaffiliateidentifier" sender:self];
+                    }
+                    else
+                    {
+                        status = [json_DATA valueForKey:@"authentication_token"];
+                        [[NSUserDefaults standardUserDefaults] setValue:status forKey:@"auth_token"];
+                        [[NSUserDefaults standardUserDefaults] synchronize];
+                        
+                        //  [self performSegueWithIdentifier:@"logintohomeidentifier" sender:self];
+                        
+                        VW_overlay.hidden = NO;
+                        [activityIndicatorView startAnimating];
+                        [self performSelector:@selector(myprofileapicalling) withObject:activityIndicatorView afterDelay:0.01];
+                        
+                    }
                 }
             }
         }

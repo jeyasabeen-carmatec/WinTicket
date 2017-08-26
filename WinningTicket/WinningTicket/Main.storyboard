@@ -2704,7 +2704,7 @@ Team1</string>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="H7D-qz-iY2">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" adjustsLetterSpacingToFitWidth="YES" id="H7D-qz-iY2" customClass="CSTM_cell_LBL">
                             <rect key="frame" x="16" y="443" width="288" height="21"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="18"/>
@@ -2818,51 +2818,32 @@ Team1</string>
                                 <rect key="frame" x="0.0" y="72" width="320" height="408"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="bidcell" selectionStyle="default" indentationWidth="10" reuseIdentifier="bidcell" rowHeight="103" id="9eZ-Rf-3Cz" customClass="bidding_Cell">
-                                        <rect key="frame" x="0.0" y="28" width="320" height="103"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9eZ-Rf-3Cz" id="kyL-Ax-4wy">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="103"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aND-CH-hZs">
-                                                    <rect key="frame" x="18" y="38" width="150" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Wmf-6F-y6b">
-                                                    <rect key="frame" x="18" y="67" width="294" height="20"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Donation" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Esk-wL-zci">
-                                                    <rect key="frame" x="18" y="0.0" width="150" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0y4-cO-Wq1">
-                                                    <rect key="frame" x="227" y="38" width="93" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="AC_no" destination="aND-CH-hZs" id="WvD-jg-3D1"/>
-                                            <outlet property="amount" destination="0y4-cO-Wq1" id="b2a-PM-xKP"/>
-                                            <outlet property="date" destination="Wmf-6F-y6b" id="boR-jF-5zU"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
+                                <view key="tableFooterView" contentMode="scaleToFill" misplaced="YES" id="BvK-mw-N9j">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="62"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" misplaced="YES" id="MQO-b4-gR2">
+                                            <rect key="frame" x="0.0" y="7" width="320" height="1"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Starting Bid" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LHM-fN-SJd">
+                                            <rect key="frame" x="13" y="17" width="155" height="29"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="Gotham-MediumItalic" family="Gotham" pointSize="17"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rFd-al-H22">
+                                            <rect key="frame" x="190" y="17" width="122" height="29"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="Gotham-MediumItalic" family="Gotham" pointSize="17"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </view>
                                 <connections>
                                     <outlet property="dataSource" destination="aXv-yX-4pz" id="ZUK-cJ-xV4"/>
                                     <outlet property="delegate" destination="aXv-yX-4pz" id="4lN-Nb-JKG"/>
@@ -2872,6 +2853,7 @@ Team1</string>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="LBL_amount_start" destination="rFd-al-H22" id="yKX-tz-pdj"/>
                         <outlet property="tbl_bidding" destination="poK-EC-vVB" id="2Ea-c7-ZMG"/>
                     </connections>
                 </viewController>
@@ -3615,7 +3597,7 @@ Team1</string>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
                                     <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -3628,7 +3610,7 @@ Team1</string>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
-                            <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
                                     <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -3671,7 +3653,7 @@ Team1</string>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
-                            <textInputTraits key="textInputTraits"/>
+                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
                                     <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -3684,7 +3666,7 @@ Team1</string>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
-                            <textInputTraits key="textInputTraits"/>
+                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
                                     <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -3697,7 +3679,7 @@ Team1</string>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
-                            <textInputTraits key="textInputTraits"/>
+                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
                                     <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -6984,10 +6966,10 @@ Team1</string>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="ODo-qD-iEi"/>
+        <segue reference="kVz-KM-DVq"/>
         <segue reference="jMh-2b-WDa"/>
-        <segue reference="jsW-pc-cw1"/>
-        <segue reference="yxA-85-JlB"/>
+        <segue reference="95q-65-OkS"/>
+        <segue reference="6Iw-xR-hwg"/>
         <segue reference="AmC-Xg-ce2"/>
         <segue reference="I1e-PC-gD9"/>
         <segue reference="Bvk-xC-oni"/>

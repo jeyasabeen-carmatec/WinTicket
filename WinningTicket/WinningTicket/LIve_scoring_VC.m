@@ -113,14 +113,12 @@
 }
 -(void)dismiss_view
 {
-     _location_view.hidden =YES;
-    
-   
+     _location_view.hidden = YES;
 }
 -(void)open_location
 {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-     _location_view.hidden =YES;
+     _location_view.hidden = YES;
 
 }
 - (void) checkLocationServicesTurnedOn {

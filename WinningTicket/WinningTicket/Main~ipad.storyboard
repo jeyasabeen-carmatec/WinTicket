@@ -2803,51 +2803,32 @@ Team1</string>
                                 <rect key="frame" x="0.0" y="72" width="768" height="952"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="bidcell" selectionStyle="default" indentationWidth="10" reuseIdentifier="bidcell" rowHeight="103" id="7fk-3L-hMI" customClass="bidding_Cell">
-                                        <rect key="frame" x="0.0" y="28" width="768" height="103"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7fk-3L-hMI" id="bSn-qD-7xL">
-                                            <rect key="frame" x="0.0" y="0.0" width="768" height="103"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="A54-WP-Utl">
-                                                    <rect key="frame" x="18" y="38" width="598" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Hcm-8m-ZEq">
-                                                    <rect key="frame" x="18" y="67" width="742" height="20"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Donation" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EFr-bO-TkN">
-                                                    <rect key="frame" x="18" y="0.0" width="150" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Tni-g9-3AR">
-                                                    <rect key="frame" x="675" y="38" width="93" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="AC_no" destination="A54-WP-Utl" id="56e-Jh-Q3K"/>
-                                            <outlet property="amount" destination="Tni-g9-3AR" id="bA2-gN-071"/>
-                                            <outlet property="date" destination="Hcm-8m-ZEq" id="Ixb-TU-AoV"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
+                                <view key="tableFooterView" contentMode="scaleToFill" misplaced="YES" id="Icv-eQ-ZdH">
+                                    <rect key="frame" x="0.0" y="0.0" width="768" height="79"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" misplaced="YES" id="vrs-gw-ySK">
+                                            <rect key="frame" x="0.0" y="16" width="768" height="1"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Starting Bid" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rc2-yJ-PfY">
+                                            <rect key="frame" x="8" y="32" width="381" height="29"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="Gotham-MediumItalic" family="Gotham" pointSize="24"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Nir-B5-0l0">
+                                            <rect key="frame" x="639" y="32" width="122" height="29"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="Gotham-MediumItalic" family="Gotham" pointSize="23"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </view>
                                 <connections>
                                     <outlet property="dataSource" destination="WUy-67-bfW" id="DPj-0J-T92"/>
                                     <outlet property="delegate" destination="WUy-67-bfW" id="MG4-PU-gAj"/>
@@ -2857,6 +2838,7 @@ Team1</string>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="LBL_amount_start" destination="Nir-B5-0l0" id="9xo-ZW-SGY"/>
                         <outlet property="tbl_bidding" destination="nEd-0K-eHV" id="UZq-E3-ZPQ"/>
                     </connections>
                 </viewController>
@@ -3834,7 +3816,7 @@ Team1</string>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="16"/>
-                            <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
                                     <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -3854,7 +3836,7 @@ Team1</string>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
                                     <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -3897,7 +3879,7 @@ Team1</string>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
                                     <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

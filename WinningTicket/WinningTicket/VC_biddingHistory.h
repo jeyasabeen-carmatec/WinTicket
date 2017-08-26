@@ -11,5 +11,6 @@
 @interface VC_biddingHistory : UIViewController <UITableViewDataSource,UITableViewDelegate>
 
 @property(nonatomic,weak)IBOutlet UITableView *tbl_bidding;
+@property (nonatomic,weak) IBOutlet UILabel *LBL_amount_start;
 
 @end

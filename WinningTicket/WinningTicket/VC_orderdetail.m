@@ -120,15 +120,23 @@
 {
 //    [_tab_HOME setSelectedItem:[_tab_HOME.items objectAtIndex:0]];
 //    [_segment_bottom setSelectedSegmentIndex:0];
-    
     CGRect content_frame;
     content_frame = _VW_contents.frame;
     content_frame.size.width = _scroll_contents.frame.size.width;
+//    content_frame.size.height = _BTN_liveAUCTN.frame.origin.y + _BTN_liveAUCTN.frame.size.height + 20;
     _VW_contents.frame = content_frame;
     
     [_scroll_contents addSubview:_VW_contents];
     
     [self set_FRAME];
+    
+//    CGRect content_frame;
+    content_frame = _VW_contents.frame;
+//    content_frame.size.width = _scroll_contents.frame.size.width;
+    content_frame.size.height = _BTN_liveAUCTN.frame.origin.y + _BTN_liveAUCTN.frame.size.height + 20;
+    _VW_contents.frame = content_frame;
+    
+    [_scroll_contents addSubview:_VW_contents];
     
     [_BTN_liveSCR addTarget:self action:@selector(live_score_page) forControlEvents:UIControlEventTouchUpInside];
     [_BTN_liveAUCTN addTarget:self action:@selector(Btn_liveAction) forControlEvents:UIControlEventTouchUpInside];
