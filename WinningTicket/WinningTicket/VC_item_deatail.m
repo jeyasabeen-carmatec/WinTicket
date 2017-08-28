@@ -272,10 +272,8 @@
 //    self.pageControl.currentPage = 0;
 //    self.pageControl.numberOfPages = images.count;
 //    
-//    
-    
+//
     NSDictionary *auction_item = [jsonReponse valueForKey:@"auction_item"];
-    
     
     NSArray *auction_images = [auction_item valueForKey:@"auction_item_images"];
     NSMutableArray *temp_arr = [[NSMutableArray alloc]init];
@@ -424,46 +422,6 @@
 //    [self Check_Date:[auction_item valueForKey:@"event_start_date"]:[auction_item valueForKey:@"event_end_date"]];
     
     //Starting Bid,Current Bid,Closed
-    
-    NSString *winner_status = [NSString stringWithFormat:@"%@",[jsonReponse valueForKey:@"winner_status"]];
-    if ([winner_status isEqualToString:@"1"]) {
-        [_BTN_place_BID setTitle:@"CHECKOUT" forState:UIControlStateNormal];
-        [_BTN_place_BID addTarget:self action:@selector(checkout_API) forControlEvents:UIControlEventTouchUpInside];
-    }
-//    else if (<#expression#>)
-    
-    
-    
-    
-    if ([STR_bidSTAT isEqualToString:@"Starting Bid"]) {
-//        [_BTN_place_BID addTarget:self action:@selector(place_BID_VW) forControlEvents:UIControlEventTouchUpInside];
-        [_BTN_place_BID setTitle:@"STARTING" forState:UIControlStateNormal];
-        
-        CABasicAnimation *theAnimation;
-        theAnimation=[CABasicAnimation animationWithKeyPath:@"opacity"];
-        theAnimation.duration = 1.0;
-        theAnimation.repeatCount = HUGE_VALF;
-        theAnimation.autoreverses = YES;
-        theAnimation.fromValue = [NSNumber numberWithFloat:1.0];
-        theAnimation.toValue = [NSNumber numberWithFloat:0.0];
-        [_BTN_place_BID.layer addAnimation:theAnimation forKey:@"animateOpacity"];
-        
-        [[NSUserDefaults standardUserDefaults] setValue:[auction_item valueForKey:@"event_start_date"] forKey:@"bid_date"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        golfTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target: self selector: @selector(count_downTimer) userInfo: nil repeats: YES];
-    }
-    else if ([STR_bidSTAT isEqualToString:@"Current Bid"])
-    {
-        [_BTN_place_BID addTarget:self action:@selector(place_BID_VW) forControlEvents:UIControlEventTouchUpInside];
-        [[NSUserDefaults standardUserDefaults] setValue:[auction_item valueForKey:@"event_end_date"] forKey:@"bid_date"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        golfTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target: self selector: @selector(count_downTimer) userInfo: nil repeats: YES];
-    }
-    else
-    {
-        [_BTN_place_BID setTitle:@"CLOSED" forState:UIControlStateNormal];
-        _lbl_CountDown.text = @"Auction Closed";
-    }
 
     self.lbl_item_descrip.numberOfLines = 0;
     NSString *text2 = [NSString stringWithFormat:@"%@\n%@",STR_titl_iten_des,STR_descrip_detail];
@@ -497,6 +455,54 @@
     [self.lbl_item_descrip sizeToFit];
     _lbl_item_descrip.adjustsFontSizeToFitWidth = NO;
     _lbl_item_descrip.lineBreakMode = NSLineBreakByTruncatingTail;
+    
+    
+    NSString *winner_status = [NSString stringWithFormat:@"%@",[jsonReponse valueForKey:@"winner_status"]];
+    if ([winner_status isEqualToString:@"1"]) {
+        [_BTN_place_BID setTitle:@"CHECKOUT" forState:UIControlStateNormal];
+        [_BTN_place_BID addTarget:self action:@selector(checkout_API) forControlEvents:UIControlEventTouchUpInside];
+    }
+    //    else if (<#expression#>)
+    
+    NSString *user_watching_status = [NSString stringWithFormat:@"%@",[jsonReponse valueForKey:@"user_watching_status"]];
+    if ([user_watching_status isEqualToString:@"1"]) {
+        [_BTN_watech setTitle:@"WATCHING" forState:UIControlStateNormal];
+    }
+    else
+    {
+        [_BTN_watech setTitle:@"WATCH" forState:UIControlStateNormal];
+    }
+    
+    if ([STR_bidSTAT isEqualToString:@"Starting Bid"]) {
+        //        [_BTN_place_BID addTarget:self action:@selector(place_BID_VW) forControlEvents:UIControlEventTouchUpInside];
+        [_BTN_place_BID setTitle:@"STARTING" forState:UIControlStateNormal];
+        
+        CABasicAnimation *theAnimation;
+        theAnimation=[CABasicAnimation animationWithKeyPath:@"opacity"];
+        theAnimation.duration = 1.0;
+        theAnimation.repeatCount = HUGE_VALF;
+        theAnimation.autoreverses = YES;
+        theAnimation.fromValue = [NSNumber numberWithFloat:1.0];
+        theAnimation.toValue = [NSNumber numberWithFloat:0.0];
+        [_BTN_place_BID.layer addAnimation:theAnimation forKey:@"animateOpacity"];
+        
+        [[NSUserDefaults standardUserDefaults] setValue:[auction_item valueForKey:@"event_start_date"] forKey:@"bid_date"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        golfTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target: self selector: @selector(count_downTimer) userInfo: nil repeats: YES];
+    }
+    else if ([STR_bidSTAT isEqualToString:@"Current Bid"])
+    {
+        [_BTN_place_BID setTitle:@"PLACE BID" forState:UIControlStateNormal];
+        [_BTN_place_BID addTarget:self action:@selector(place_BID_VW) forControlEvents:UIControlEventTouchUpInside];
+        [[NSUserDefaults standardUserDefaults] setValue:[auction_item valueForKey:@"event_end_date"] forKey:@"bid_date"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        golfTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target: self selector: @selector(count_downTimer) userInfo: nil repeats: YES];
+    }
+    else
+    {
+        [_BTN_place_BID setTitle:@"CLOSED" forState:UIControlStateNormal];
+        _lbl_CountDown.text = @"Auction Closed";
+    }
     
     new_frame = _lbl_item_descrip.frame;
     new_frame.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
@@ -644,12 +650,22 @@
 #pragma mark - Show action sheet
 -(void) showActionSHEET
 {
+    
+    NSString *user_watching_status = [NSString stringWithFormat:@"%@",[jsonReponse valueForKey:@"user_watching_status"]];
+    if ([user_watching_status isEqualToString:@"1"]) {
+        user_watching_status = @"Watching";
+    }
+    else
+    {
+        user_watching_status = @"Watch";
+    }
+    
     NSLog(@"Show action sheet tapped");
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                              delegate:self
                                                     cancelButtonTitle:@"Cancel"
                                                destructiveButtonTitle:nil
-                                                    otherButtonTitles:@"Watch",@"View Bidding History", @"Share This Item", nil];
+                                                    otherButtonTitles:user_watching_status,@"View Bidding History", @"Share This Item", nil];
     
 //    [actionSheet showInView:self.view];
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -668,6 +684,26 @@
     NSLog(@"Index = %ld - Title = %@", (long)buttonIndex, [actionSheet buttonTitleAtIndex:buttonIndex]);
     
     switch (buttonIndex) {
+            
+        case 0:
+        {
+            NSString *user_watching_status = [NSString stringWithFormat:@"%@",[jsonReponse valueForKey:@"user_watching_status"]];
+            if ([user_watching_status isEqualToString:@"1"]) {
+//                [_BTN_watech addTarget:self action:@selector(watching_API) forControlEvents:UIControlEventTouchUpInside];
+                VW_overlay.hidden = NO;
+                [activityIndicatorView startAnimating];
+                [self performSelector:@selector(watch_API_call) withObject:activityIndicatorView afterDelay:0.01];
+            }
+            else
+            {
+//                [_BTN_watech addTarget:self action:@selector(Watch_API) forControlEvents:UIControlEventTouchUpInside];
+                VW_overlay.hidden = NO;
+                [activityIndicatorView startAnimating];
+                [self performSelector:@selector(Watch_API_call) withObject:activityIndicatorView afterDelay:0.01];
+            }
+            break;
+        }
+            
         case 1:
         {
             [self performSegueWithIdentifier:@"itmdtailtobidhstryidentifier" sender:self];
@@ -1142,8 +1178,201 @@ self.countdownLabel.text = [NSString stringWithFormat:@"%@/%@/%@ %@:%@:%@", days
 #pragma mark - Checkout Action
 -(void) checkout_API
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Checkout" message:@"Continue checkout" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Checkout api" message:@"Continue checkout" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
     [alert show];
+    
+    
+    
+}
+#pragma mark - Watch & Waching API
+-(void) Watch_API_call
+{
+    @try {
+        
+        NSError *error;
+        NSHTTPURLResponse *response = nil;
+        NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+    
+        NSDictionary *auction_item = [jsonReponse valueForKey:@"auction_item"];
+        NSString *urlGetuser =[NSString stringWithFormat:@"%@auction/add_watch/%@",SERVER_URL,[auction_item valueForKey:@"id"]];
+        
+        NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setURL:urlProducts];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+        
+        [request setHTTPShouldHandleCookies:NO];
+        NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        if (aData)
+        {
+            //        self->activityIndicatorView.hidden=YES;
+            NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+            NSLog(@"The response %@",json_DATA);
+            
+            
+            
+//            @try
+//            {
+//                NSString *STR_error1 = [json_DATA valueForKey:@"error"];
+//                if (STR_error1)
+//                {
+//                    [self sessionOUT];
+//                }
+//                else
+//                {
+                    NSString *status=[json_DATA valueForKey:@"status"];
+//                    NSString *error=[json_DATA valueForKey:@"errors"];
+//                    NSString *message=[json_DATA valueForKey:@"message"];
+                    
+                    if([status isEqualToString:@"Success"])
+                    {
+                        [activityIndicatorView stopAnimating];
+                        VW_overlay.hidden=YES;
+                        
+                        
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:status delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                        [alert show];
+                        
+                        [self GETAuction_Item_details];
+                        [self setup_Values];
+                        
+                        
+                    }
+//                    else if(error)
+//                    {
+//                        [activityIndicatorView stopAnimating];
+//                        VW_overlay.hidden=YES;
+//                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection failed" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+//                        [alert show];
+//                    }
+//                    
+//                    else
+//                    {
+//                        [activityIndicatorView stopAnimating];
+//                        VW_overlay.hidden=YES;
+//                        
+//                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+//                        [alert show];
+//                    }
+//                }
+//            }
+//            @catch (NSException *exception)
+//            {
+//                [self sessionOUT];
+//            }
+        
+        }
+        else
+        {
+            [activityIndicatorView stopAnimating];
+            VW_overlay.hidden=YES;
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection error" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+            
+        }
+    }
+    @catch (NSException *exception)
+    {
+        [self sessionOUT];
+    }
+}
+
+-(void) watch_API_call
+{
+    @try {
+        
+        NSError *error;
+        NSHTTPURLResponse *response = nil;
+        NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+        
+        NSDictionary *auction_item = [jsonReponse valueForKey:@"auction_item"];
+        NSString *urlGetuser =[NSString stringWithFormat:@"%@auction/remove_watch/%@",SERVER_URL,[auction_item valueForKey:@"id"]];
+        
+        NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setURL:urlProducts];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+        
+        [request setHTTPShouldHandleCookies:NO];
+        NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        if (aData)
+        {
+            //        self->activityIndicatorView.hidden=YES;
+            NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+            NSLog(@"The response %@",json_DATA);
+            
+            
+            
+//            @try
+//            {
+//                NSString *STR_error1 = [json_DATA valueForKey:@"error"];
+//                if (STR_error1)
+//                {
+//                    [self sessionOUT];
+//                }
+//                else
+//                {
+                    NSString *status=[json_DATA valueForKey:@"status"];
+//                    NSString *error=[json_DATA valueForKey:@"errors"];
+//                    NSString *message=[json_DATA valueForKey:@"message"];
+                    
+                    if([status isEqualToString:@"Success"])
+                    {
+                        [activityIndicatorView stopAnimating];
+                        VW_overlay.hidden=YES;
+                        
+                        
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:status delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+                        [alert show];
+                        
+                        [self GETAuction_Item_details];
+                        [self setup_Values];
+                        
+                        
+                    }
+//                    else if(error)
+//                    {
+//                        [activityIndicatorView stopAnimating];
+//                        VW_overlay.hidden=YES;
+//                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection failed" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+//                        [alert show];
+//                    }
+//                    
+//                    else
+//                    {
+//                        [activityIndicatorView stopAnimating];
+//                        VW_overlay.hidden=YES;
+//                        
+//                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+//                        [alert show];
+//                    }
+//                }
+//            }
+//            @catch (NSException *exception)
+//            {
+//                [self sessionOUT];
+//            }
+            
+        }
+        else
+        {
+            [activityIndicatorView stopAnimating];
+            VW_overlay.hidden=YES;
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection error" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+            
+        }
+    }
+    @catch (NSException *exception)
+    {
+        [self sessionOUT];
+    }
 }
 
 @end
