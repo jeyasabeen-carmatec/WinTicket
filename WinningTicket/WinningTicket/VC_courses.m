@@ -11,11 +11,40 @@
 #import <CoreLocation/CoreLocation.h>
 #import <QuartzCore/QuartzCore.h>
 #import "HMSegmentedControl.h"
+#import "course_service.h"
 
 #import "UIImageView+WebCache.h"
 #import "WinningTicket_Universal-Swift.h"
 
 #import "ViewController.h"
+
+@interface ARR_singleTON : NSObject
+@property (nonatomic, retain) NSMutableArray *ARR_colection_data;
+@property (nonatomic, retain) NSMutableArray *ARR_list_data;
+@property (nonatomic, retain) NSDictionary *Dictin_course;
++(ARR_singleTON*)singleton;
++(void) clearData;
+@end
+@implementation ARR_singleTON
+@synthesize ARR_colection_data,ARR_list_data,Dictin_course;
++(ARR_singleTON *)singleton {
+    static dispatch_once_t pred;
+    static ARR_singleTON *shared = nil;
+    dispatch_once(&pred, ^{
+        shared = [[ARR_singleTON alloc] init];
+        shared.ARR_colection_data = [[NSMutableArray alloc]init];
+        shared.ARR_list_data = [[NSMutableArray alloc]init];
+        shared.Dictin_course = [[NSDictionary alloc]init];
+    });
+    return shared;
+}
++(void) clearData {
+    ARR_singleTON *appData = [ARR_singleTON singleton];
+    [appData.ARR_colection_data removeAllObjects];
+    [appData.ARR_list_data removeAllObjects];
+}
+
+@end
 
 @interface VC_courses ()<CLLocationManagerDelegate>
 {
@@ -26,7 +55,8 @@
     UIColor *color_OLD;
 
     NSArray *ARR_map_data;
-    NSMutableArray *ARR_colection_data,*ARR_list_data;
+//    NSDictionary *Dictin_course;
+//    NSMutableArray *ARR_colection_data,*ARR_list_data;
     
 }
 @property (nonatomic, strong) HMSegmentedControl *segmentedControl4;
@@ -73,6 +103,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+  
     
 }
 
@@ -531,7 +562,7 @@
 #pragma mark - Tableview Datasource/Deligate
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [ARR_list_data count];
+    return [[ARR_singleTON singleton].ARR_list_data count];
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -551,7 +582,7 @@
         cell = [nib objectAtIndex:0];
     }
     
-    NSDictionary *temp_dictin = [ARR_list_data objectAtIndex:indexPath.row];
+    NSDictionary *temp_dictin = [[ARR_singleTON singleton].ARR_list_data objectAtIndex:indexPath.row];
     NSString *course_type = [temp_dictin valueForKey:@"course_type"];
     course_type = [course_type stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
     course_type = [course_type stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
@@ -669,7 +700,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *temp_dictin = [ARR_list_data objectAtIndex:indexPath.row];
+    NSDictionary *temp_dictin = [[ARR_singleTON singleton].ARR_list_data objectAtIndex:indexPath.row];
     
     VW_overlay.hidden = NO;
     [activityIndicatorView startAnimating];
@@ -686,7 +717,7 @@
 #pragma mark - Uicollection view Datasource/ Deligate
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [ARR_colection_data count];
+    return [[ARR_singleTON singleton].ARR_colection_data count];
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
@@ -708,7 +739,7 @@
     cell.layer.masksToBounds = NO;
     cell.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:cell.bounds cornerRadius:cell.contentView.layer.cornerRadius].CGPath;
     
-    NSDictionary *temp_dictin = [ARR_colection_data objectAtIndex:indexPath.row];
+    NSDictionary *temp_dictin = [[ARR_singleTON singleton].ARR_colection_data objectAtIndex:indexPath.row];
     NSString *course_type = [temp_dictin valueForKey:@"course_type"];
     course_type = [course_type stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
     course_type = [course_type stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
@@ -837,7 +868,7 @@
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *temp_dictin = [ARR_list_data objectAtIndex:indexPath.row];
+    NSDictionary *temp_dictin = [[ARR_singleTON singleton].ARR_colection_data objectAtIndex:indexPath.row];
     
     VW_overlay.hidden = NO;
     [activityIndicatorView startAnimating];
@@ -885,8 +916,8 @@
 #pragma mark - API Calling
 -(void) API_getCOURSES :(CLLocation *) get_LOC
 {
-    NSHTTPURLResponse *response = nil;
-    NSError *error;
+//    NSHTTPURLResponse *response = nil;
+//    NSError *error;
     
     NSString *lat_STR = @"26.7307";//[NSString stringWithFormat:@"%f",get_LOC.coordinate.latitude];
     NSString *long_STR = @"-80.1001";//[NSString stringWithFormat:@"%f",get_LOC.coordinate.longitude];
@@ -903,9 +934,30 @@
     
     NSString *urlGetuser =[NSString stringWithFormat:@"%@golfcourse/search_courses?lat=%@&lng=%@",SERVER_URL,lat_STR,long_STR];
     
-    NSLog(@"Course url = \n%@",urlGetuser);
     
-    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+    course_service *API_course = [[course_service alloc]init];
+//    Dictin_course =
+    ARR_singleTON *globals = [ARR_singleTON singleton];
+    globals.Dictin_course = [API_course get_ID:urlGetuser];
+    NSString *STR_error;
+    
+    @try {
+        STR_error = [globals.Dictin_course valueForKey:@"error"];
+        if (STR_error) {
+            [self sessionOUT];
+        }
+        else
+        {
+            [self ADD_marker];
+        }
+    } @catch (NSException *exception) {
+        NSLog(@"Exception in courses %@",exception);
+        [self sessionOUT];
+    }
+    
+//    NSLog(@"Course url = \n%@",urlGetuser);
+    
+   /* NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:urlProducts];
     [request setHTTPMethod:@"GET"];
@@ -921,23 +973,15 @@
         VW_overlay.hidden = YES;
         
         NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-        NSString *STR_error;
+    
         
-        @try {
-            STR_error = [dict valueForKey:@"error"];
-            if (STR_error) {
-                [self sessionOUT];
-            }
-        } @catch (NSException *exception) {
-            NSLog(@"Exception in courses %@",exception);
-            [self sessionOUT];
-        }
+    
         
         [[NSUserDefaults standardUserDefaults] setValue:aData forKey:@"COURSESDICTIN"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
         [self ADD_marker];
-    }
+    }*/
     
     [activityIndicatorView stopAnimating];
     VW_overlay.hidden = YES;
@@ -992,13 +1036,22 @@
 }
 
 #pragma mark - Add Marker on GMAP
--(void) ADD_marker
+-(void) ADD_marker 
 {
-    NSError *error;
-    NSMutableDictionary *temp_dictin = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"COURSESDICTIN"] options:kNilOptions error:&error];
-    NSDictionary *all_course_arr = [temp_dictin valueForKey:@"courses"];
-    ARR_colection_data = [[NSMutableArray alloc] init];
-    ARR_list_data = [[NSMutableArray alloc] init];
+//    NSError *error;
+//    NSMutableDictionary *temp_dictin = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:@"COURSESDICTIN"] options:kNilOptions error:&error];
+
+//    ARR_colection_data = [[NSMutableArray alloc] init];
+//    ARR_list_data = [[NSMutableArray alloc] init];
+    
+    UIImage *image_icon = [UIImage imageNamed:@"GOlf-Icon"];
+    [ARR_singleTON clearData];
+    ARR_singleTON *globals = [ARR_singleTON singleton];
+    
+    NSLog(@"Dictin all coures %@",globals.Dictin_course);
+    NSDictionary *all_course_arr = [globals.Dictin_course valueForKey:@"courses"];
+    
+    
     
     switch (_segmentedControl4.selectedSegmentIndex) {
         case 0:
@@ -1017,6 +1070,7 @@
             break;
     }
     [self.mapView clear];
+    
     for (int i = 0; i < [ARR_map_data count]; i++)
     {
         NSDictionary *temp_dictin = [ARR_map_data objectAtIndex:i];
@@ -1036,8 +1090,8 @@
         
         NSDictionary *store_val = [NSDictionary dictionaryWithObjectsAndKeys:[temp_dictin valueForKey:@"course_type"],@"course_type",[temp_dictin valueForKey:@"name"],@"name",address,@"address",[temp_dictin valueForKey:@"course_image"],@"course_image",[temp_dictin valueForKey:@"id"],@"id", nil];
         
-        [ARR_list_data addObject:store_val];
-        [ARR_colection_data addObject:store_val];
+        [globals.ARR_list_data addObject:store_val];
+        [globals.ARR_colection_data addObject:store_val];
         
         NSError *err;
         NSDictionary *parameters = @{ @"index":[NSString stringWithFormat:@"%i",i]};
@@ -1047,14 +1101,12 @@
         marker.position = CLLocationCoordinate2DMake(latitude_val, longitude_val);
         marker.title = [temp_dictin valueForKey:@"name"];
         marker.userData = postData;
-        marker.icon = [UIImage imageNamed:@"GOlf-Icon"];
+        marker.icon = image_icon;
         marker.map = _mapView;
     }
     
     if ([ARR_map_data count] != 0)
     {
-        NSLog(@"count tbl%lu",(unsigned long)[ARR_list_data count]);
-        
         if (_tbl_courses.hidden == NO) {
             _Collection_course.hidden = YES;
         }
@@ -1097,6 +1149,8 @@
     [super dealloc];
     _tbl_courses.delegate = nil;
     _Collection_course.delegate = nil;
+    _mapView.delegate = nil;
+    
 }
 
 #pragma mark - Session OUT

@@ -39,7 +39,7 @@
     
     // Set root view controller and make windows visible
 //    self.window.rootViewController = vc;
-    self.window.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"BG_WT"]];
+    self.window.backgroundColor = [UIColor lightGrayColor];//[UIColor colorWithPatternImage:[UIImage imageNamed:@"BG_WT"]];
     [self.window makeKeyAndVisible];
     
     

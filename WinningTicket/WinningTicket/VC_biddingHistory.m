@@ -125,124 +125,125 @@
     
     @try
     {
-    NSString *bidder_name = [bidcit valueForKey:@"bidder_name"];
-    bidder_name = [bidder_name stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
-    NSString *date = [bidcit valueForKey:@"created_at"];
-    date = [date stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
-    NSString *bid_amount = [NSString stringWithFormat:@"%.2f",[[bidcit valueForKey:@"current_bid"] floatValue]];
-    bid_amount = [bid_amount stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
-
-    NSString *bid = [NSString stringWithFormat:@"%@",[bidcit valueForKey:@"user_id"]];
-    NSString *current_user_id = [NSString stringWithFormat:@"%@",[jsonReponse valueForKey:@"current_user_id"]];
-    
-    char c = '\0';
-    NSMutableString *final_bidder_name = [NSMutableString string];
-    for (int i = 0 ; i< bidder_name.length; i++)
-    {
-        if( i == 0)
+        NSString *bidder_name = [bidcit valueForKey:@"bidder_name"];
+        bidder_name = [bidder_name stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
+        NSString *date = [bidcit valueForKey:@"created_at"];
+        date = [date stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
+        NSString *bid_amount = [NSString stringWithFormat:@"%.2f",[[bidcit valueForKey:@"current_bid"] floatValue]];
+        bid_amount = [bid_amount stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
+        
+        NSString *bid = [NSString stringWithFormat:@"%@",[bidcit valueForKey:@"user_id"]];
+        NSString *current_user_id = [NSString stringWithFormat:@"%@",[jsonReponse valueForKey:@"current_user_id"]];
+        
+        char c = '\0';
+        NSMutableString *final_bidder_name = [NSMutableString string];
+        for (int i = 0 ; i< bidder_name.length; i++)
         {
-            c = [bidder_name characterAtIndex:i];
+            if( i == 0)
+            {
+                c = [bidder_name characterAtIndex:i];
+                
+            }
+            else if( i == bidder_name.length - 1)
+            {
+                c = [bidder_name characterAtIndex:i];
+            }
+            else{
+                c = '*';
+            }
+            [final_bidder_name appendFormat:@"%c",c];
             
         }
-        else if( i == bidder_name.length-1)
+        
+        NSLog(@"the string is%@",final_bidder_name);
+        
+        
+        
+        if([bid isEqualToString:current_user_id])
         {
-            c = [bidder_name characterAtIndex:i];
-        }
-        else{
-            c = '*';
-        }
-        [final_bidder_name appendFormat:@"%c",c];
-        
-    }
-    
-    NSLog(@"the string is%@",final_bidder_name);
-    
-
-    
-      if([bid isEqualToString:current_user_id])
-    {
-        bidcell.AC_no.text =  @"Your Bid" ;
-    }
-    else
-    {
-        
-        bidcell.AC_no.text =  final_bidder_name;
-        
-    }
-    
-    NSString *status_lbl,*date_lbl;
-    bidcell.date.textColor= [UIColor colorWithRed:0.58 green:0.58 blue:0.58 alpha:1.0];
-    bidcell.amount.text=[NSString stringWithFormat:@"$%.2f",[bid_amount floatValue]];
-      NSString *date_TXT =[self getLocalDateTimeFromUTC:date];
-    
-    NSString *status = [jsonReponse valueForKey:@"status"];
-    NSString *winner_status = [NSString stringWithFormat:@"%@",[jsonReponse valueForKey:@"winner_status"]];
-    
-    if([status isEqualToString:@"Success"] && [winner_status isEqualToString:@"1"] && [bid isEqualToString:current_user_id] )
-    {
-        bidcell.amount.textColor = [UIColor greenColor];
-         status_lbl = @"wininng bid";
-         date_lbl = [NSString stringWithFormat:@"%@\n\n%@",date_TXT,status_lbl];
-        
-    }
-    else
-    {
-        bidcell.amount.textColor = [UIColor blackColor];
-         status_lbl = @"";
-        date_lbl = [NSString stringWithFormat:@"%@\n%@",date_TXT,status_lbl];
-    }
-
-    
-  
-   
-   // NSString *date_lbl = [NSString stringWithFormat:@"%@\n\n%@",date_TXT,status_lbl];
-   // bidcell.date.text= [self getLocalDateTimeFromUTC:date];
-    if ([bidcell.date respondsToSelector:@selector(setAttributedText:)]) {
-        
-        // Define general attributes for the entire text
-        NSDictionary *attribs = @{
-                                  NSForegroundColorAttributeName: bidcell.date.textColor,
-                                  NSFontAttributeName: bidcell.date.font
-                                  };
-        NSMutableAttributedString *attributedText =
-        [[NSMutableAttributedString alloc] initWithString:date_lbl
-                                               attributes:attribs];
-        
-        // Red text attributes
-        //            UIColor *redColor = [UIColor redColor];
-        NSRange cmp = [date_lbl rangeOfString:status_lbl];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
-        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-        {
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:23.0f],NSForegroundColorAttributeName : [UIColor blackColor]}
-                                    range:cmp];
+            bidcell.AC_no.text =  @"Your Bid" ;
         }
         else
         {
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:15],NSForegroundColorAttributeName : [UIColor blackColor]}
-                                    range:cmp];
+            
+            bidcell.AC_no.text =  final_bidder_name;
             
         }
         
+        NSString *status_lbl,*date_lbl;
+        bidcell.date.textColor= [UIColor colorWithRed:0.58 green:0.58 blue:0.58 alpha:1.0];
+        bidcell.amount.text=[NSString stringWithFormat:@"$%.2f",[bid_amount floatValue]];
+        NSString *date_TXT =[self getLocalDateTimeFromUTC:date];
         
-        bidcell.date.attributedText = attributedText;
+        NSString *status = [jsonReponse valueForKey:@"status"];
+        NSString *winner_status = [NSString stringWithFormat:@"%@",[jsonReponse valueForKey:@"winner_status"]];
+        NSString *winning_bid_amount = [NSString stringWithFormat:@"%.2f",[[jsonReponse valueForKey:@"winning_bid_amount"] floatValue]];
+        
+        if([status isEqualToString:@"Success"] && [winner_status isEqualToString:@"1"] && [bid isEqualToString:current_user_id] && [bid_amount isEqualToString:winning_bid_amount])
+        {
+            bidcell.amount.textColor = [UIColor greenColor];
+            status_lbl = @"wininng bid";
+            date_lbl = [NSString stringWithFormat:@"%@\n%@",date_TXT,status_lbl];
+            
+        }
+        else
+        {
+            bidcell.amount.textColor = [UIColor blackColor];
+            status_lbl = @"";
+            date_lbl = [NSString stringWithFormat:@"%@%@",date_TXT,status_lbl];
+        }
+        
+        
+        
+        
+        // NSString *date_lbl = [NSString stringWithFormat:@"%@\n\n%@",date_TXT,status_lbl];
+        // bidcell.date.text= [self getLocalDateTimeFromUTC:date];
+        if ([bidcell.date respondsToSelector:@selector(setAttributedText:)]) {
+            
+            // Define general attributes for the entire text
+            NSDictionary *attribs = @{
+                                      NSForegroundColorAttributeName: bidcell.date.textColor,
+                                      NSFontAttributeName: bidcell.date.font
+                                      };
+            NSMutableAttributedString *attributedText =
+            [[NSMutableAttributedString alloc] initWithString:date_lbl
+                                                   attributes:attribs];
+            
+            // Red text attributes
+            //            UIColor *redColor = [UIColor redColor];
+            NSRange cmp = [date_lbl rangeOfString:status_lbl];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+            if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+            {
+                [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:20.0f],NSForegroundColorAttributeName : [UIColor blackColor]}
+                                        range:cmp];
+            }
+            else
+            {
+                [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamMedium" size:17.0f],NSForegroundColorAttributeName : [UIColor blackColor]}
+                                        range:cmp];
+                
+                
+            }
+            bidcell.date.attributedText = attributedText;
+            
+            
+        }
+        else
+        {
+            bidcell.date.text = date_lbl;
+        }
+        
+        
+        
+        bidcell.separatorInset = UIEdgeInsetsZero;
+        bidcell.layoutMargins = UIEdgeInsetsZero;
+        
     }
-    else
+    @catch (NSException *exception)
     {
-       bidcell.date.text = date_lbl;
+//        [self sessionOUT];
+        NSLog(@"Exception bidding history %@",exception);
     }
-    
-
-    
-    bidcell.separatorInset = UIEdgeInsetsZero;
-    bidcell.layoutMargins = UIEdgeInsetsZero;
-    
-    }
-     @catch (NSException *exception)
-    {
-        [self sessionOUT];
-    }
-
-
     
     return  bidcell;
 }
@@ -254,11 +255,11 @@
 {
     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
     {
-        return 93;
+        return 113;
     }
     else
     {
-        return 98;
+        return 78;
     }
 
 }

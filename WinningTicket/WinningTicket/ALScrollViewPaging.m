@@ -56,7 +56,7 @@ const int kDotWidth = 7;
         CGFloat scrollViewCenterPointX = self.frame.size.width / 2;
         //calculate the X and Y coordinates of the page control
         int pageControlX = scrollViewCenterPointX - (pWidth / 2);
-        int pageControlY = self.frame.origin.y + self.frame.size.height + 5;
+        int pageControlY = self.frame.origin.y + self.frame.size.height - 5;
         //set the frame of the page control
         [pageControl setFrame:CGRectMake(pageControlX, pageControlY, pWidth, 36)];
         //set target and selector for page control

@@ -1,20 +1,19 @@
 //
-//  VC_billingAddr.h
+//  VC_Auction_CHKOUT.h
 //  WinningTicket
 //
-//  Created by Test User on 09/05/17.
+//  Created by Test User on 30/08/17.
 //  Copyright © 2017 Test User. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-//#import <Braintree/Braintree.h>
 #import "ACFloatingTextField.h"
 
-@interface VC_billingAddr : UIViewController<UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,UIGestureRecognizerDelegate>
+@interface VC_Auction_CHKOUT : UIViewController<UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,UIGestureRecognizerDelegate>
 
 @property(nonatomic,weak)IBOutlet UIView *VW_main;
 @property(nonatomic,weak)IBOutlet UILabel *lbl_name_ticket;
-@property(nonatomic,weak)IBOutlet UILabel *lbl_qty;
+//@property(nonatomic,weak)IBOutlet UILabel *lbl_qty;
 @property(nonatomic,weak)IBOutlet UILabel *lbl_des_cription;
 @property(nonatomic,weak)IBOutlet UILabel *lbl_amount_des;
 @property(nonatomic,weak)IBOutlet UILabel *lbl_sub_total;

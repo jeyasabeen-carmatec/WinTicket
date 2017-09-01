@@ -19,7 +19,7 @@
     UIActivityIndicatorView *activityIndicatorView;
     
     float initial_ht,original_ht,button_ht,lbl_descrip_ht;
-    CGRect initial_frame,original_frame,button_frame;
+    CGRect initial_frame,original_frame,button_frame,map_VW_frame,scroll__VW_frame;
     float layout_height;
     
     NSMutableArray *ARR_near_courselist;
@@ -32,6 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _Scroll_contents.delegate = self;
     
     _tbl_nearbycourse.estimatedRowHeight = 10.0;
     _tbl_nearbycourse.rowHeight = UITableViewAutomaticDimension;
@@ -62,6 +63,11 @@
     [self serialize_jsonData];
     
     [_BTN_more addTarget:self action:@selector(button_More_TApped) forControlEvents:UIControlEventTouchUpInside];
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+//    [_BTN_more setTitle:@"MORE " forState:UIControlStateNormal];
+//    [self button_More_TApped];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -108,6 +114,13 @@
     
     [_BTN_swipeUP_DN addTarget:self action:@selector(METH_swipeUP_BTN) forControlEvents:UIControlEventAllEvents];
     lbl_descrip_ht = _Lbl_course_Description.frame.size.height;
+    UISwipeGestureRecognizer *swipeUp = [[UISwipeGestureRecognizer alloc]  initWithTarget:self action:@selector(didSwipe:)];
+    swipeUp.direction = UISwipeGestureRecognizerDirectionUp;
+    [self.view addGestureRecognizer:swipeUp];
+    
+    UISwipeGestureRecognizer *swipeDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(didSwipe:)];
+    swipeDown.direction = UISwipeGestureRecognizerDirectionDown;
+    [self.view addGestureRecognizer:swipeDown];
 }
 
 
@@ -123,11 +136,12 @@
 -(void) METH_swipeUP_BTN
 {
     NSLog(@"Tap detected ");
-    
+   // [self button_More_TApped];
     if ([_BTN_swipeUP_DN.titleLabel.text isEqualToString:@""])
     {
         CGRect frame_map = _mapView.frame;
         frame_map.size.height = _mapView.frame.size.height/4 + _VW_navBAR.frame.size.height + _BTN_swipeUP_DN.frame.size.height;
+     
         [UIView animateWithDuration:0.4f
                          animations:^{
                              _mapView.frame = frame_map;
@@ -137,6 +151,10 @@
         frame_scroll.origin.y = _VW_navBAR.frame.size.height + frame_map.size.height - _BTN_swipeUP_DN.frame.size.height;//_mapView.frame.origin.y;
         frame_scroll.size.height = [UIScreen mainScreen].bounds.size.height - frame_map.size.height;
         
+        
+        map_VW_frame = _mapView.frame;
+        scroll__VW_frame = _Scroll_contents.frame;
+   
         [UIView beginAnimations:@"bucketsOff" context:NULL];
         [UIView setAnimationDuration:0.4f];
         _Scroll_contents.frame = frame_scroll;
@@ -163,6 +181,8 @@
         
         layout_height = _VW_nearby_courses.frame.origin.y + height_cell + _BTN_swipeUP_DN.frame.size.height/2 + 13; //30000;
         [_BTN_swipeUP_DN setTitle:@"" forState:UIControlStateNormal];
+        
+        
     }
     else
     {
@@ -186,10 +206,14 @@
 
 - (void) button_More_TApped
 {
-   /* if ([_BTN_more.titleLabel.text isEqualToString:@"MORE "])
+    CGRect frame_oold = _Lbl_course_Description.frame;
+   
+   if ([_BTN_more.titleLabel.text isEqualToString:@"MORE "])
     {
-        CGRect frame_oold = _Lbl_course_Description.frame;
+        frame_oold = _Lbl_course_Description.frame;
         _Lbl_course_Description.numberOfLines = 0;
+        
+
         [_Lbl_course_Description sizeToFit];
         
         if (frame_oold.size.height < lbl_descrip_ht) {
@@ -204,44 +228,78 @@
                 layout_height = layout_height + diff;
             }
             
-            CGRect BTN_more_frame = _BTN_more.frame;
-            BTN_more_frame.origin.y = _Lbl_course_Description.frame.origin.y + _Lbl_course_Description.frame.size.height;
-            _BTN_more.frame = BTN_more_frame;
-            
+           
+           
             CGRect VW_subcouseDesc_frame = _VW_subcouseDesc.frame;
-            VW_subcouseDesc_frame.size.height = _BTN_more.frame.origin.y + _BTN_more.frame.size.height;
-            //    VW_subcouseDesc_frame.size.width = _Scroll_contents.frame.size.width;
+            VW_subcouseDesc_frame.size.height = _Lbl_course_Description.frame.origin.y + _Lbl_course_Description.frame.size.height + 15;
+            VW_subcouseDesc_frame.size.width = _Scroll_contents.frame.size.width;
             _VW_subcouseDesc.frame = VW_subcouseDesc_frame;
+            
+            CGRect BTN_more_frame = _BTN_more.frame;
+            BTN_more_frame.origin.y = _Lbl_course_Description.frame.origin.y  - 20;
+            _BTN_more.frame = BTN_more_frame;
             
             CGRect frame_setup = _VW_couseDesc.frame;
             frame_setup.origin.y = _VW_course_Info.frame.origin.y + _VW_course_Info.frame.size.height;
-            frame_setup.size.height = _VW_subcouseDesc.frame.size.height + 13;
+            frame_setup.size.height = _VW_subcouseDesc.frame.size.height + 15;
             frame_setup.size.width = _Scroll_contents.frame.size.width;
             _VW_couseDesc.frame = frame_setup;
             
             frame_setup = _VW_nearby_courses.frame;
             frame_setup.origin.y = _VW_couseDesc.frame.origin.y + _VW_couseDesc.frame.size.height;
             frame_setup.size.width = _Scroll_contents.frame.size.width;
-            frame_setup.size.height = _tbl_nearbycourse.frame.origin.y + [_tbl_nearbycourse contentSize].height;
+            frame_setup.size.height =  [_tbl_nearbycourse contentSize].height;
             _VW_nearby_courses.frame = frame_setup;
-        }
+            
+            
+            
+            
+            
+            //_BTN_more.titleLabel.text = @"MORE ";
+            
+            [_BTN_more setTitle:@"MORE " forState:UIControlStateNormal];
+
+            }
     }
     else
     {
-        CGRect lab_frame = _Lbl_course_Description.frame;
-        lab_frame.size.height = lbl_descrip_ht;
-        _Lbl_course_Description.frame = lab_frame;
         
-        //        lbl_descrip_ht
+         if ([_BTN_more.titleLabel.text isEqualToString:@"MORE "])
+         {
+              _Lbl_course_Description.numberOfLines = 1;
+           
+             if (frame_oold.size.height < lbl_descrip_ht) {
+                 _Lbl_course_Description.frame = frame_oold;
+             }
+             else
+             {
+                 NSLog(@"More button");
+                 
+                 float diff = _Lbl_course_Description.frame.size.height - lbl_descrip_ht;
+                 if (diff > 0) {
+                     layout_height = layout_height - diff;
+                 }
+             }
+             
+             
+         CGRect lab_frame = _Lbl_course_Description.frame;
+        lab_frame.size.height = lbl_descrip_ht;
+     //   lab_frame.size.width = _BTN_more.frame.origin.x+_BTN_more.frame.size.width;
+        _Lbl_course_Description.frame = lab_frame;
+
+       
+        
+        CGRect VW_subcouseDesc_frame = _VW_subcouseDesc.frame;
+        VW_subcouseDesc_frame.size.height = _Lbl_course_Description.frame.origin.y + _Lbl_course_Description.frame.size.height + 15;
+        VW_subcouseDesc_frame.size.width = _Scroll_contents.frame.size.width;
+        _VW_subcouseDesc.frame = VW_subcouseDesc_frame;
+             
         CGRect BTN_more_frame = _BTN_more.frame;
         BTN_more_frame.origin.y = _Lbl_course_Description.frame.origin.y + _Lbl_course_Description.frame.size.height;
         _BTN_more.frame = BTN_more_frame;
+   
         
-        CGRect VW_subcouseDesc_frame = _VW_subcouseDesc.frame;
-        VW_subcouseDesc_frame.size.height = _BTN_more.frame.origin.y + _BTN_more.frame.size.height;
-        //    VW_subcouseDesc_frame.size.width = _Scroll_contents.frame.size.width;
-        _VW_subcouseDesc.frame = VW_subcouseDesc_frame;
-        
+             
         CGRect frame_setup = _VW_couseDesc.frame;
         frame_setup.origin.y = _VW_course_Info.frame.origin.y + _VW_course_Info.frame.size.height;
         frame_setup.size.height = _VW_subcouseDesc.frame.size.height + 13;
@@ -251,9 +309,20 @@
         frame_setup = _VW_nearby_courses.frame;
         frame_setup.origin.y = _VW_couseDesc.frame.origin.y + _VW_couseDesc.frame.size.height;
         frame_setup.size.width = _Scroll_contents.frame.size.width;
-        frame_setup.size.height = _tbl_nearbycourse.frame.origin.y + [_tbl_nearbycourse contentSize].height;
+             frame_setup.size.height = _tbl_nearbycourse.frame.origin.y + [_tbl_nearbycourse contentSize].height;
         _VW_nearby_courses.frame = frame_setup;
-    }*/
+             
+             
+            
+    
+
+             
+
+      
+       [_BTN_more setTitle:@"MORE " forState:UIControlStateNormal];
+  
+         }
+    }
 }
 
 #pragma mark - API Integration
@@ -535,7 +604,7 @@
     
     NSString *STR_description = [selected_course valueForKey:@"description"];
     if (STR_description != (id)[NSNull null]) {
-        _Lbl_course_Description.text = STR_description;
+        _Lbl_course_Description.text = @"my name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakash";//STR_description;
     }
     else
     {
@@ -590,6 +659,8 @@
 -(void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
+    [self.view layoutIfNeeded];
+
     _Scroll_contents.contentSize = CGSizeMake(_Scroll_contents.frame.size.width, layout_height);
 }
 
@@ -618,114 +689,120 @@
         cell = [nib objectAtIndex:0];
     }
     
-    NSDictionary *temp_dictin = [ARR_near_courselist objectAtIndex:indexPath.row];
-    NSString *course_type = [temp_dictin valueForKey:@"course_type"];
-    course_type = [course_type stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-    course_type = [course_type stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-    
-    NSString *course_name = [temp_dictin valueForKey:@"name"];
-    course_name = [course_name stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-    course_name = [course_name stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-    
-    NSString *address_sel = [NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"address"]];
-    
-//    NSString *address = address_sel;
-    address_sel = [address_sel stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
-    address_sel = [address_sel stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-    
-    NSString *text = [NSString stringWithFormat:@"%@\n%@",course_name,address_sel];
-    
-    
-    // If attributed text is supported (iOS6+)
-    if ([cell.lbl_courseName respondsToSelector:@selector(setAttributedText:)]) {
-        // Define general attributes for the entire text
-        NSDictionary *attribs = @{
-                                  NSForegroundColorAttributeName: cell.lbl_courseName.textColor,
-                                  NSFontAttributeName: cell.lbl_courseName.font
-                                  };
-        NSMutableAttributedString *attributedText =
-        [[NSMutableAttributedString alloc] initWithString:text
-                                               attributes:attribs];
+    @try {
+        NSDictionary *temp_dictin = [ARR_near_courselist objectAtIndex:indexPath.row];
+        NSString *course_type = [temp_dictin valueForKey:@"course_type"];
+        course_type = [course_type stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+        course_type = [course_type stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
         
-        // Red text attributes
-        //            UIColor *redColor = [UIColor redColor];
-        NSRange cmp = [text rangeOfString:address_sel];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+        NSString *course_name = [temp_dictin valueForKey:@"name"];
+        course_name = [course_name stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+        course_name = [course_name stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
         
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        {
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Gotham-MediumItalic" size:15.0]}
-                                    range:cmp];
+        NSString *address_sel = [NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"address"]];
+        
+        //    NSString *address = address_sel;
+        address_sel = [address_sel stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
+        address_sel = [address_sel stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+        
+        NSString *text = [NSString stringWithFormat:@"%@\n%@",course_name,address_sel];
+        
+        
+        // If attributed text is supported (iOS6+)
+        if ([cell.lbl_courseName respondsToSelector:@selector(setAttributedText:)]) {
+            // Define general attributes for the entire text
+            NSDictionary *attribs = @{
+                                      NSForegroundColorAttributeName: cell.lbl_courseName.textColor,
+                                      NSFontAttributeName: cell.lbl_courseName.font
+                                      };
+            NSMutableAttributedString *attributedText =
+            [[NSMutableAttributedString alloc] initWithString:text
+                                                   attributes:attribs];
+            
+            // Red text attributes
+            //            UIColor *redColor = [UIColor redColor];
+            NSRange cmp = [text rangeOfString:address_sel];// * Notice that usage of rangeOfString in this case may cause some bugs - I use it here only for demonstration
+            
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            {
+                [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Gotham-MediumItalic" size:15.0]}
+                                        range:cmp];
+            }
+            else
+            {
+                [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Gotham-MediumItalic" size:12.0]}
+                                        range:cmp];
+            }
+            cell.lbl_courseName.attributedText = attributedText;
         }
         else
         {
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Gotham-MediumItalic" size:12.0]}
-                                    range:cmp];
+            cell.lbl_courseName.text = text;
         }
-        cell.lbl_courseName.attributedText = attributedText;
+        
+        cell.lbl_courseName.numberOfLines = 0;
+        //    [cell.lbl_courseName sizeToFit];
+        
+        cell.lbl_id.text = [NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"id"]];
+        
+        if ([course_type isEqualToString:@"private"])
+        {
+            UIImage *newImage = [cell.IMG_privacy.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            UIGraphicsBeginImageContextWithOptions(cell.IMG_privacy.image.size, NO, newImage.scale);
+            [[UIColor colorWithRed:0.00 green:0.00 blue:1.00 alpha:1.0] set];
+            [newImage drawInRect:CGRectMake(0, 0, cell.IMG_privacy.image.size.width, newImage.size.height)];
+            newImage = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            cell.IMG_privacy.image = newImage;
+        }
+        else if ([course_type isEqualToString:@"public"])
+        {
+            UIImage *newImage = [cell.IMG_privacy.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            UIGraphicsBeginImageContextWithOptions(cell.IMG_privacy.image.size, NO, newImage.scale);
+            [[UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0] set];
+            [newImage drawInRect:CGRectMake(0, 0, cell.IMG_privacy.image.size.width, newImage.size.height)];
+            newImage = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            cell.IMG_privacy.image = newImage;
+        }
+        else
+        {
+            UIImage *newImage = [cell.IMG_privacy.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            UIGraphicsBeginImageContextWithOptions(cell.IMG_privacy.image.size, NO, newImage.scale);
+            [[UIColor whiteColor] set];
+            [newImage drawInRect:CGRectMake(0, 0, cell.IMG_privacy.image.size.width, newImage.size.height)];
+            newImage = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            cell.IMG_privacy.image = newImage;
+        }
+        
+        cell.lbl_privacy.text = [course_type uppercaseString];
+        
+        NSString *website_url = [temp_dictin valueForKey:@"course_image"];
+        if (website_url)
+        {
+            website_url = [NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_dictin valueForKey:@"course_image"]];
+            [cell.IMG_courseimage sd_setImageWithURL:[NSURL URLWithString:website_url]
+                                    placeholderImage:[UIImage imageNamed:@"profile_pic.png"]];
+        }
+        
+        cell.IMG_courseimage.layer.cornerRadius = cell.IMG_courseimage.frame.size.width/2;
+        cell.IMG_courseimage.layer.masksToBounds = YES;
+        
+        
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+            [cell setSeparatorInset:UIEdgeInsetsZero];
+        }
+        
+        if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+            [cell setLayoutMargins:UIEdgeInsetsZero];
+        }
+    } @catch (NSException *exception) {
+        NSLog(@"Exception in course detail table cell for row");
     }
-    else
-    {
-        cell.lbl_courseName.text = text;
-    }
-    
-    cell.lbl_courseName.numberOfLines = 0;
-//    [cell.lbl_courseName sizeToFit];
-    
-    cell.lbl_id.text = [NSString stringWithFormat:@"%@",[temp_dictin valueForKey:@"id"]];
-    
-    if ([course_type isEqualToString:@"private"])
-    {
-        UIImage *newImage = [cell.IMG_privacy.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        UIGraphicsBeginImageContextWithOptions(cell.IMG_privacy.image.size, NO, newImage.scale);
-        [[UIColor colorWithRed:0.00 green:0.00 blue:1.00 alpha:1.0] set];
-        [newImage drawInRect:CGRectMake(0, 0, cell.IMG_privacy.image.size.width, newImage.size.height)];
-        newImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        cell.IMG_privacy.image = newImage;
-    }
-    else if ([course_type isEqualToString:@"public"])
-    {
-        UIImage *newImage = [cell.IMG_privacy.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        UIGraphicsBeginImageContextWithOptions(cell.IMG_privacy.image.size, NO, newImage.scale);
-        [[UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0] set];
-        [newImage drawInRect:CGRectMake(0, 0, cell.IMG_privacy.image.size.width, newImage.size.height)];
-        newImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        cell.IMG_privacy.image = newImage;
-    }
-    else
-    {
-        UIImage *newImage = [cell.IMG_privacy.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        UIGraphicsBeginImageContextWithOptions(cell.IMG_privacy.image.size, NO, newImage.scale);
-        [[UIColor whiteColor] set];
-        [newImage drawInRect:CGRectMake(0, 0, cell.IMG_privacy.image.size.width, newImage.size.height)];
-        newImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        cell.IMG_privacy.image = newImage;
-    }
-    
-    cell.lbl_privacy.text = [course_type uppercaseString];
-    
-    NSString *website_url = [temp_dictin valueForKey:@"course_image"];
-    if (website_url)
-    {
-        website_url = [NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_dictin valueForKey:@"course_image"]];
-        [cell.IMG_courseimage sd_setImageWithURL:[NSURL URLWithString:website_url]
-                                placeholderImage:[UIImage imageNamed:@"profile_pic.png"]];
-    }
-    
-    cell.IMG_courseimage.layer.cornerRadius = cell.IMG_courseimage.frame.size.width/2;
-    cell.IMG_courseimage.layer.masksToBounds = YES;
     
     
-    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
-        [cell setSeparatorInset:UIEdgeInsetsZero];
-    }
-    
-    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
-        [cell setLayoutMargins:UIEdgeInsetsZero];
-    }
     
     return cell;
 }
@@ -760,8 +837,187 @@
     VW_overlay.hidden = NO;
     [activityIndicatorView startAnimating];
     [self performSelector:@selector(get_selectedCourse:) withObject:cell.lbl_id.text afterDelay:0.01];
+   //  [_BTN_more setTitle:@"MORE " forState:UIControlStateNormal];
+    [self mydirection_map];
 }
 
+#pragma mark - Scroll view delegate
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    NSLog(@"Scroll view called");
+    CGFloat yVelocity = [scrollView.panGestureRecognizer velocityInView:scrollView].y;
+    CGRect map_frame,scroll_frame;
+    if (yVelocity < 0)
+    {
+        NSLog(@"Up");
+        if (_mapView.frame.size.height >= _mapView.frame.size.height/4)
+        {
+            
+            map_frame = _mapView.frame;
+            map_frame.size.height = 0;
+            scroll_frame = _Scroll_contents.frame;
+            scroll_frame.origin.y = _VW_navBAR.frame.origin.y + _VW_navBAR.frame.size.height;
+            
+           
+           scroll_frame.size.height = self.view.frame.size.height - scroll_frame.origin.y;
+            [UIView animateWithDuration:0.4f
+                             animations:^{
+                                 _mapView.frame = map_frame;
+                                 _Scroll_contents.frame = scroll_frame;
+                             }];
+
+            
+            [UIView beginAnimations:@"bucketsOff" context:NULL];
+            // [UIView setAnimationDuration:0.25];
+           // _scroll_content.frame = frame_scroll;
+            [UIView commitAnimations];
+           
+        }
+    }
+    else if (yVelocity > 0)
+    {
+        NSLog(@"Down");
+        if (_Scroll_contents.frame.origin.y <= (_VW_navBAR.frame.origin.y + _VW_navBAR.frame.size.height))
+        {
+            scroll_frame = _Scroll_contents.frame;
+            scroll_frame.origin.y = scroll__VW_frame.origin.y;
+            
+            
+   scroll_frame.size.height = self.view.frame.size.height - scroll_frame.origin.y;
+            
+            
+        [UIView animateWithDuration:0.4f
+                         animations:^{
+                             _mapView.frame = map_VW_frame;
+                             _Scroll_contents.frame = scroll_frame;
+                         }];
+        
+        
+        [UIView beginAnimations:@"bucketsOff" context:NULL];
+       
+        [UIView commitAnimations];
+     
+        }
+    }
+}
+#pragma mark swipe gestures
+- (void)didSwipe:(UISwipeGestureRecognizer*)swipe
+{
+     CGRect map_frame,scroll_frame;
+    if (swipe.direction == UISwipeGestureRecognizerDirectionUp)
+    {
+        NSLog(@"Swipe Up");
+        
+        if (_mapView.frame.size.height <= _mapView.frame.size.height/4)
+        {
+            
+            map_frame = _mapView.frame;
+            map_frame.size.height = 0;
+            scroll_frame = _Scroll_contents.frame;
+            scroll_frame.origin.y = _VW_navBAR.frame.origin.y + _VW_navBAR.frame.size.height;
+            scroll_frame.size.height = self.view.frame.size.height - scroll_frame.origin.y;
+            [UIView animateWithDuration:0.4f
+                             animations:^{
+                                 _mapView.frame = map_frame;
+                                 _Scroll_contents.frame = scroll_frame;
+                             }];
+            
+            
+            [UIView beginAnimations:@"bucketsOff" context:NULL];
+            // [UIView setAnimationDuration:0.25];
+            // _scroll_content.frame = frame_scroll;
+            [UIView commitAnimations];
+        }
+
+    }
+    else if (swipe.direction == UISwipeGestureRecognizerDirectionDown)
+    {
+        if (_Scroll_contents.frame.origin.y >= (_VW_navBAR.frame.origin.y + _VW_navBAR.frame.size.height))
+        {
+            scroll_frame = _Scroll_contents.frame;
+            scroll_frame.origin.y = scroll__VW_frame.origin.y;
+           scroll_frame.size.height = self.view.frame.size.height - scroll_frame.origin.y;
+            
+            
+            [UIView animateWithDuration:0.4f
+                             animations:^{
+                                 _mapView.frame = map_VW_frame;
+                                 _Scroll_contents.frame = scroll_frame;
+                             }];
+            
+            
+            [UIView beginAnimations:@"bucketsOff" context:NULL];
+            // [UIView setAnimationDuration:0.25];
+            // _scroll_content.frame = frame_scroll;
+            [UIView commitAnimations];
+            
+        }
+    }
+}
+
+-(void)mydirection_map
+{
+      if ([_BTN_more.titleLabel.text isEqualToString:@"MORE "])
+    {
+          CGRect frame_oold = _Lbl_course_Description.frame;
+  
+        
+        _Lbl_course_Description.numberOfLines = 1;
+        //  [_Lbl_course_Description sizeToFit];
+        
+        if (frame_oold.size.height > lbl_descrip_ht)
+        {
+            _Lbl_course_Description.frame = frame_oold;
+        }
+        else
+        {
+            NSLog(@"More button");
+            
+            float diff = _Lbl_course_Description.frame.size.height - lbl_descrip_ht;
+            if (diff > 0)
+            {
+                layout_height = layout_height + diff;
+            }
+        }
+        
+        CGRect lab_frame = _Lbl_course_Description.frame;
+        lab_frame.size.height = lbl_descrip_ht;
+     //   lab_frame.size.width = _BTN_more.frame.origin.x+_BTN_more.frame.size.width;
+        _Lbl_course_Description.frame = lab_frame;
+        
+        
+        
+        CGRect VW_subcouseDesc_frame = _VW_subcouseDesc.frame;
+        VW_subcouseDesc_frame.size.height = _Lbl_course_Description.frame.origin.y + _Lbl_course_Description.frame.size.height + 15;
+         VW_subcouseDesc_frame.size.width = _Scroll_contents.frame.size.width;
+        _VW_subcouseDesc.frame = VW_subcouseDesc_frame;
+        
+        CGRect BTN_more_frame = _BTN_more.frame;
+        BTN_more_frame.origin.y = _Lbl_course_Description.frame.origin.y + _Lbl_course_Description.frame.size.height;
+        _BTN_more.frame = BTN_more_frame;
+        
+        
+        
+        CGRect frame_setup = _VW_couseDesc.frame;
+        frame_setup.origin.y = _VW_course_Info.frame.origin.y + _VW_course_Info.frame.size.height;
+        frame_setup.size.height = _VW_subcouseDesc.frame.size.height + 13;
+        frame_setup.size.width = _Scroll_contents.frame.size.width;
+        _VW_couseDesc.frame = frame_setup;
+        
+        frame_setup = _VW_nearby_courses.frame;
+        frame_setup.origin.y = _VW_couseDesc.frame.origin.y + _VW_couseDesc.frame.size.height;
+        frame_setup.size.width = _Scroll_contents.frame.size.width;
+        frame_setup.size.height = _tbl_nearbycourse.frame.origin.y + [_tbl_nearbycourse contentSize].height;
+        _VW_nearby_courses.frame = frame_setup;
+        
+        
+
+        
+        [_BTN_more setTitle:@"MORE " forState:UIControlStateNormal];
+        //_BTN_more.titleLabel.text = @"MORE ";
+    }
+
+}
 #pragma mark - Session OUT
 - (void) sessionOUT
 {

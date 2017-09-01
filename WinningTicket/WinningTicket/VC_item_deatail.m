@@ -25,7 +25,7 @@
 }
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView1;
-@property (strong, nonatomic) IBOutletCollection(UIScrollView) NSArray *scrollViews;
+//@property (strong, nonatomic) IBOutletCollection(UIScrollView) NSArray *scrollViews;
 
 @property (weak, nonatomic) IBOutlet TAPageControl *customStoryboardPageControl;
 
@@ -43,11 +43,64 @@
 
 //@synthesize scrollView,pageControl;
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
+    [[NSUserDefaults standardUserDefaults] setObject:@"FIRST" forKey:@"Initial_STAT"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:[UIColor whiteColor],
+       NSFontAttributeName:[UIFont fontWithName:@"FontAwesome" size:32.0f]
+       } forState:UIControlStateNormal];
+    
+    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain
+                                                                     target:self action:@selector(backAction)];
+    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    {
+        CGSize result = [[UIScreen mainScreen] bounds].size;
+        if(result.height <= 480)
+        {
+            // iPhone Classic
+            negativeSpacer.width = 0;
+        }
+        else if(result.height <= 568)
+        {
+            // iPhone 5
+            negativeSpacer.width = -12;
+        }
+        else
+        {
+            negativeSpacer.width = -16;
+        }
+    }
+    else
+    {
+        negativeSpacer.width = -12;
+    }
+    
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     @{NSForegroundColorAttributeName:[UIColor whiteColor],
+       NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:22.0f]}];
+    self.navigationItem.title = @"Silent Auction";
+    
+    
+    UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setImage:[UIImage imageNamed:@"50"] forState:UIControlStateNormal];
+//    [button setTitle:@"Settings" forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(more_ACTION)forControlEvents:UIControlEventTouchUpInside];
+//    [button sizeToFit];
+    CGRect btnframe = CGRectMake(0, 0, 30, 25);
+    button.frame = btnframe;
+    UIBarButtonItem *anotherButton1 = [[UIBarButtonItem alloc] initWithCustomView:button];
+    
+    [self.navigationItem setLeftBarButtonItems:@[negativeSpacer, anotherButton ] animated:NO];
+    
+    [self.navigationItem setRightBarButtonItems:@[anotherButton1, negativeSpacer]animated:NO];
+
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    
     
     [self add_overlay];
     VW_overlay.hidden = NO;
@@ -89,12 +142,13 @@
 
 -(void) viewDidLayoutSubviews
 {
+    float heiht = _scrollView1.frame.size.height;
     [super viewDidLayoutSubviews];
     [_scroll_contents layoutIfNeeded];
     _scroll_contents.contentSize = CGSizeMake(_scroll_contents.frame.size.width, _VW_contents.frame.size.height);
-    for (UIScrollView *scrollView in self.scrollViews) {
-        scrollView.contentSize = CGSizeMake(CGRectGetWidth(scrollView.frame) * self.imagesData.count, CGRectGetHeight(scrollView.frame));
-    }
+//    for (UIScrollView *scrollView in self.scrollViews) {
+        _scrollView1.contentSize = CGSizeMake(CGRectGetWidth(_scrollView1.frame) * self.imagesData.count, heiht);
+//    }
 
 }
 #pragma mark - ScrollView delegate
@@ -113,11 +167,11 @@
 #pragma mark - Utils
 - (void)setupScrollViewImages
 {
-    float heiht = _lbl_itemNAME.frame.origin.y;
+    float heiht = _lbl_itemNAME.frame.origin.y - 50;
     //for (UIScrollView *scrollView in self.scrollViews) {
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             [self.imagesData enumerateObjectsUsingBlock:^(NSString *imageName, NSUInteger idx, BOOL *stop) {
-                UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(_scrollView1.frame) * idx, 0, CGRectGetWidth(_scrollView1.frame)+80, heiht)];
+                UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(_scrollView1.frame) * idx, 0, [UIScreen mainScreen].bounds.size.width, heiht)];
 //                imageView.contentMode = UIViewContentModeScaleAspectFill;
 //                imageView.image = [UIImage imageNamed:imageName];
                 imageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -130,7 +184,7 @@
                 else
                 {
                     [self.imagesData enumerateObjectsUsingBlock:^(NSString *imageName, NSUInteger idx, BOOL *stop) {
-                        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(_scrollView1.frame) * idx, 0, CGRectGetWidth(_scrollView1.frame)+30, heiht)];
+                        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(_scrollView1.frame) * idx, 0, [UIScreen mainScreen].bounds.size.width, heiht)];
 //                        imageView.contentMode = UIViewContentModeScaleAspectFill;
 //                        imageView.image = [UIImage imageNamed:imageName];
                         imageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -184,51 +238,6 @@
 #pragma mark - UIView Customisation
 -(void) setup_VIEW
 {
-    [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:
-     @{NSForegroundColorAttributeName:[UIColor whiteColor],
-       NSFontAttributeName:[UIFont fontWithName:@"FontAwesome" size:32.0f]
-       } forState:UIControlStateNormal];
-    
-    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain
-                                                                     target:self action:@selector(backAction)];
-    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-    {
-        CGSize result = [[UIScreen mainScreen] bounds].size;
-        if(result.height <= 480)
-        {
-            // iPhone Classic
-            negativeSpacer.width = 0;
-        }
-        else if(result.height <= 568)
-        {
-            // iPhone 5
-            negativeSpacer.width = -12;
-        }
-        else
-        {
-            negativeSpacer.width = -16;
-        }
-    }
-    else
-    {
-        negativeSpacer.width = -12;
-    }
-    
-    [self.navigationController.navigationBar setTitleTextAttributes:
-     @{NSForegroundColorAttributeName:[UIColor whiteColor],
-       NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:22.0f]}];
-    self.navigationItem.title = @"Silent Auction";
-    
-    //    UIBarButtonItem *anotherButton1 = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain
-    //                                                                     target:self action:@selector(more_ACTION)];
-    
-    [self.navigationItem setLeftBarButtonItems:@[negativeSpacer, anotherButton ] animated:NO];
-    //    [self.navigationItem setRightBarButtonItems:@[anotherButton1, negativeSpacer]animated:NO];
-    
-    
-    
         [self setup_Values];
 }
 //- (void)viewDidUnload {
@@ -240,40 +249,54 @@
 
 -(void) setup_Values
 {
+    [golfTimer invalidate];
+    golfTimer = nil;
     
-    _lbl_count.layer.cornerRadius = 5.0f;
-    _lbl_count.layer.masksToBounds = YES;
-    
-    
-    
-    // TAPageControl from storyboard
-    
-
-    _lbl_count.layer.backgroundColor = [UIColor whiteColor].CGColor;
-    
-//    NSArray *images = [[NSArray alloc] initWithObjects:[UIImage imageNamed:@"IMG_0002.PNG"],[UIImage imageNamed:@"IMG_0003.PNG"],[UIImage imageNamed:@"IMG_0004.PNG" ],[UIImage imageNamed:@"IMG_0009.PNG"],[UIImage imageNamed:@"IMG_0010.PNG"],[UIImage imageNamed:@"IMG_0011.PNG" ],[UIImage imageNamed:@"IMG_0002.PNG"], nil];
-    
-//    self.scrollView.contentSize = CGSizeMake(_scroll_contents.frame.size.width * images.count, self.scrollView.frame.size.height);
-//    
-//    
-//    
-//    for (int i = 0; i < images.count; i++) {
-//        CGRect frame;
-//        frame.origin.x = _scroll_contents.frame.size.width * i;
-//        frame.origin.y = 0;
-//        frame.size.width = _scroll_contents.frame.size.width;
-//        frame.size.height = scrollView.frame.size.height;
-//        UIImageView* imgView = [[UIImageView alloc] init];
-//        imgView.image = [images objectAtIndex:i];
-//        imgView.frame = frame;
-//        [scrollView addSubview:imgView];
-//    }
-//    
-//    self.pageControl.currentPage = 0;
-//    self.pageControl.numberOfPages = images.count;
-//    
-//
     NSDictionary *auction_item = [jsonReponse valueForKey:@"auction_item"];
+    
+//    NSString *STR_titl_iten_des = @"Item Description";
+    NSString *STR_descrip_detail = [NSString stringWithFormat:@"%@",[auction_item valueForKey:@"description"]];
+//    NSString *text2 = [NSString stringWithFormat:@"%@",STR_descrip_detail];
+//    self.lbl_item_descrip.numberOfLines = 0;
+//    if ([self.lbl_item_descrip respondsToSelector:@selector(setAttributedText:)]) {
+//        NSDictionary *attribs = @{
+//                                  NSForegroundColorAttributeName: self.lbl_item_descrip.textColor,
+//                                  NSFontAttributeName: self.lbl_item_descrip.font
+//                                  };
+//        NSMutableAttributedString *attributedText =
+//        [[NSMutableAttributedString alloc] initWithString:text2
+//                                               attributes:attribs];
+//        NSRange cmp = [text2 rangeOfString:STR_titl_iten_des];
+//        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+//        {
+//            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:21.0]}
+//                                    range:cmp];
+//        }
+//        else
+//        {
+//            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:17.0]}
+//                                    range:cmp];
+//        }
+//        self.lbl_item_descrip.attributedText = attributedText;
+//        
+//    }
+//    else
+//    {
+    
+    self.lbl_item_descrip.text = STR_descrip_detail;
+    CGRect txt_frame = _lbl_item_descrip.frame;
+    txt_frame.size.width = _scroll_contents.frame.size.width - 11;
+    txt_frame.size.height = _lbl_item_descrip.contentSize.height;
+    _lbl_item_descrip.frame = txt_frame;
+    
+    _lbl_item_descrip.scrollEnabled = NO;
+    
+//    }
+    
+//    _lbl_item_descrip.adjustsFontSizeToFitWidth = NO;
+//    _lbl_item_descrip.lineBreakMode = NSLineBreakByWordWrapping;
+    [_lbl_item_descrip sizeToFit];
+//    [_lbl_item_descrip setNeedsDisplay];
     
     NSArray *auction_images = [auction_item valueForKey:@"auction_item_images"];
     NSMutableArray *temp_arr = [[NSMutableArray alloc]init];
@@ -291,15 +314,8 @@
     }
     
     self.imagesData = [temp_arr copy];
-//    [self setupScrollViewImages];
-    _lbl_count.text = [NSString stringWithFormat:@"1 of %lu",(unsigned long)_imagesData.count];
-    
-    
-    
     NSString *STR_bidSTAT = [[NSUserDefaults standardUserDefaults] valueForKey:@"STR_bidSTAT"];
-    NSString *STR_event_name = [auction_item valueForKey:@"name"];//@"Jordan Spieth Autographed Golf Ball with Certificate of Authenticity";
-//    NSString *STR_event_desc = [auction_item valueForKey:@"description"];
-    
+    NSString *STR_event_name = [auction_item valueForKey:@"name"];
     
     NSString *STR_price;
     NSString *STR_bids;
@@ -307,7 +323,7 @@
     
     if ([STR_bidSTAT isEqualToString:@"Starting Bid"]) {
         STR_price = [NSString stringWithFormat:@"$ %.2f",[[auction_item valueForKey:@"starting_bid"] floatValue]];//@"US $59.99";
-      //  STR_bids = @"\b";//[NSString stringWithFormat:@"%@ BIDS %@ Watching",[auction_item valueForKey:@"bid_count"],[auction_item valueForKey:@"watchers_count"]];
+        //  STR_bids = @"\b";//[NSString stringWithFormat:@"%@ BIDS %@ Watching",[auction_item valueForKey:@"bid_count"],[auction_item valueForKey:@"watchers_count"]];
         text = [NSString stringWithFormat:@"%@\n%@",STR_event_name,STR_price];//,STR_bid,STR_sporater,STR_time];\n%@ %@ %@ STR_event_desc
     }
     else if ([STR_bidSTAT isEqualToString:@"Current Bid"])
@@ -333,6 +349,7 @@
         text = [NSString stringWithFormat:@"%@\n%@\n%@",STR_event_name,STR_price,STR_bids];
     }
     
+    _lbl_count.text = [NSString stringWithFormat:@"1 of %lu",(unsigned long)_imagesData.count];
     if ([self.lbl_itemNAME respondsToSelector:@selector(setAttributedText:)]) {
         NSDictionary *attribs = @{
                                   NSForegroundColorAttributeName: self.lbl_itemNAME.textColor,
@@ -342,7 +359,7 @@
         [[NSMutableAttributedString alloc] initWithString:text
                                                attributes:attribs];
         NSRange cmp = [text rangeOfString:STR_price];
-//        NSRange range_event_desc = [text rangeOfString:<#(nonnull NSString *)#>];
+        //        NSRange range_event_desc = [text rangeOfString:<#(nonnull NSString *)#>];
         if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
         {
             [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:21.0]}
@@ -362,107 +379,8 @@
     
     self.lbl_itemNAME.numberOfLines = 0;
     [self.lbl_itemNAME sizeToFit];
-    NSLog(@"Label  frame:%@",NSStringFromCGRect(_lbl_itemNAME.frame));
     
-    
-    NSLog(@"The origin y = %f height = %f",self.scrollView1.frame.origin.y,self.scrollView1.frame.size.height);
-    
-    CGRect new_frame;
-    new_frame=self.lbl_itemNAME.frame;
-    new_frame.origin.y = self.scrollView1.frame.origin.y + self.scrollView1.frame.size.height + 10 + self.navigationController.navigationBar.frame.size.height + 15;
-    _lbl_itemNAME.frame=new_frame;
-    
-//    new_frame = self.customStoryboardPageControl.frame;
-//    
-//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-//        
-//         new_frame.origin.y = _lbl_itemNAME.frame.origin.y - self.customStoryboardPageControl.frame.size.height-260;
-//    }
-//    else
-//    {
-//        new_frame.origin.y = _lbl_itemNAME.frame.origin.y - self.customStoryboardPageControl.frame.size.height;
-//    }
-//    
-//    self.customStoryboardPageControl.frame = new_frame;
-//
-    
-    new_frame = _lbl_CountDown.frame;
-    new_frame.origin.y = _lbl_itemNAME.frame.origin.y + _lbl_itemNAME.frame.size.height;
-    _lbl_CountDown.frame = new_frame;
-    
-    new_frame = _BTN_place_BID.frame;
-    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-    {
-        new_frame.origin.y = _lbl_CountDown.frame.origin.y + _lbl_CountDown.frame.size.height + 15;
-    }
-    else
-    {
-        new_frame.origin.y = _lbl_CountDown.frame.origin.y + _lbl_CountDown.frame.size.height + 5;
-    }
-    _BTN_place_BID.frame = new_frame;
-    
-    new_frame = _BTN_watech.frame;
-    new_frame.origin.y = _BTN_place_BID.frame.origin.y + _BTN_place_BID.frame.size.height + 12;
-
-    
-    _BTN_watech.frame = new_frame;
-    _BTN_watech.layer.borderWidth = 2.0f;
-    _BTN_watech.layer.borderColor = [UIColor blackColor].CGColor;
-    [_BTN_watech addTarget:self action:@selector(showActionSHEET) forControlEvents:UIControlEventTouchUpInside];
-    
-    new_frame = _VW_line1.frame;
-    new_frame.origin.y = _BTN_watech.frame.origin.y + _BTN_watech.frame.size.height + 10;
-    _VW_line1.frame = new_frame;
-    
-    NSString *STR_titl_iten_des = @"Item Description";
-    NSString *STR_descrip_detail = [auction_item valueForKey:@"description"];//@"Golf ball signed by Masters and U.S. Open champion, Jordan Spieth. This ball comes with a certificate of authenticity from Global Authentics.";
-    
-//    golfTimer = [NSTimer scheduledTimerWithTimeInterval: 1.0 target:self selector:@selector(count_downTimer) userInfo:nil repeats: YES];
-    
-//    [self Check_Date:[auction_item valueForKey:@"event_start_date"]:[auction_item valueForKey:@"event_end_date"]];
-    
-    //Starting Bid,Current Bid,Closed
-
-    self.lbl_item_descrip.numberOfLines = 0;
-    NSString *text2 = [NSString stringWithFormat:@"%@\n%@",STR_titl_iten_des,STR_descrip_detail];
-    
-    if ([self.lbl_item_descrip respondsToSelector:@selector(setAttributedText:)]) {
-        NSDictionary *attribs = @{
-                                  NSForegroundColorAttributeName: self.lbl_item_descrip.textColor,
-                                  NSFontAttributeName: self.lbl_item_descrip.font
-                                  };
-        NSMutableAttributedString *attributedText =
-        [[NSMutableAttributedString alloc] initWithString:text2
-                                               attributes:attribs];
-        NSRange cmp = [text2 rangeOfString:STR_titl_iten_des];
-        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-        {
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:21.0]}
-                                    range:cmp];
-        }
-        else
-        {
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold" size:17.0]}
-                                    range:cmp];
-        }
-        self.lbl_item_descrip.attributedText = attributedText;
-    }
-    else
-    {
-        self.lbl_item_descrip.text = text;
-    }
-    
-    [self.lbl_item_descrip sizeToFit];
-    _lbl_item_descrip.adjustsFontSizeToFitWidth = NO;
-    _lbl_item_descrip.lineBreakMode = NSLineBreakByTruncatingTail;
-    
-    
-    NSString *winner_status = [NSString stringWithFormat:@"%@",[jsonReponse valueForKey:@"winner_status"]];
-    if ([winner_status isEqualToString:@"1"]) {
-        [_BTN_place_BID setTitle:@"CHECKOUT" forState:UIControlStateNormal];
-        [_BTN_place_BID addTarget:self action:@selector(checkout_API) forControlEvents:UIControlEventTouchUpInside];
-    }
-    //    else if (<#expression#>)
+  
     
     NSString *user_watching_status = [NSString stringWithFormat:@"%@",[jsonReponse valueForKey:@"user_watching_status"]];
     if ([user_watching_status isEqualToString:@"1"]) {
@@ -475,20 +393,21 @@
     
     if ([STR_bidSTAT isEqualToString:@"Starting Bid"]) {
         //        [_BTN_place_BID addTarget:self action:@selector(place_BID_VW) forControlEvents:UIControlEventTouchUpInside];
-        [_BTN_place_BID setTitle:@"STARTING" forState:UIControlStateNormal];
-        
-        CABasicAnimation *theAnimation;
-        theAnimation=[CABasicAnimation animationWithKeyPath:@"opacity"];
-        theAnimation.duration = 1.0;
-        theAnimation.repeatCount = HUGE_VALF;
-        theAnimation.autoreverses = YES;
-        theAnimation.fromValue = [NSNumber numberWithFloat:1.0];
-        theAnimation.toValue = [NSNumber numberWithFloat:0.0];
-        [_BTN_place_BID.layer addAnimation:theAnimation forKey:@"animateOpacity"];
+//        [_BTN_place_BID setTitle:@"STARTING" forState:UIControlStateNormal];
+//        
+//        CABasicAnimation *theAnimation;
+//        theAnimation=[CABasicAnimation animationWithKeyPath:@"opacity"];
+//        theAnimation.duration = 1.0;
+//        theAnimation.repeatCount = HUGE_VALF;
+//        theAnimation.autoreverses = YES;
+//        theAnimation.fromValue = [NSNumber numberWithFloat:1.0];
+//        theAnimation.toValue = [NSNumber numberWithFloat:0.0];
+//        [_BTN_place_BID.layer addAnimation:theAnimation forKey:@"animateOpacity"];
         
         [[NSUserDefaults standardUserDefaults] setValue:[auction_item valueForKey:@"event_start_date"] forKey:@"bid_date"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         golfTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target: self selector: @selector(count_downTimer) userInfo: nil repeats: YES];
+        
     }
     else if ([STR_bidSTAT isEqualToString:@"Current Bid"])
     {
@@ -500,44 +419,240 @@
     }
     else
     {
-        [_BTN_place_BID setTitle:@"CLOSED" forState:UIControlStateNormal];
+//        [_BTN_place_BID setTitle:@"CLOSED" forState:UIControlStateNormal];
         _lbl_CountDown.text = @"Auction Closed";
     }
     
-    new_frame = _lbl_item_descrip.frame;
-    new_frame.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
-    _lbl_item_descrip.frame = new_frame;
-    
-    new_frame = _VW_line2.frame;
-    new_frame.origin.y = _lbl_item_descrip.frame.origin.y + _lbl_item_descrip.frame.size.height + 10;
-    _VW_line2.frame = new_frame;
-    
-    _lbl_title_silar_item.text = @"Similar Items";
-    new_frame = _lbl_title_silar_item.frame;
-    new_frame.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
-    _lbl_title_silar_item.frame = new_frame;
-    
-    new_frame = _collection_similar_item.frame;
-    new_frame.origin.y = _lbl_title_silar_item.frame.origin.y + _lbl_title_silar_item.frame.size.height + 10;
-    _collection_similar_item.frame = new_frame;
-    
-    CGRect frame_content;
-    frame_content = _VW_contents.frame;
-    frame_content.size.width = _scroll_contents.frame.size.width;
-    frame_content.size.height = _collection_similar_item.frame.origin.y + _collection_similar_item.frame.size.height + 20;
-    _VW_contents.frame = frame_content;
-    
-    [_scroll_contents addSubview:_VW_contents];
-    
-//    self.imagesData = @[@"image1.jpg", @"image2.jpg", @"image3.jpg", @"image4.jpg", @"image5.jpg", @"image6.jpg"];
-    
-    [self setupScrollViewImages];
-    for (UIScrollView *scrollView in self.scrollViews) {
-        scrollView.delegate = self;
+    NSString *winner_status = [NSString stringWithFormat:@"%@",[jsonReponse valueForKey:@"winner_status"]];
+    if ([winner_status isEqualToString:@"1"]) {
+        [_BTN_place_BID setTitle:@"CHECKOUT" forState:UIControlStateNormal];
+        [_BTN_place_BID addTarget:self action:@selector(checkout_API) forControlEvents:UIControlEventTouchUpInside];
     }
     
-    self.customStoryboardPageControl.numberOfPages = self.imagesData.count;
-    [self viewDidLayoutSubviews];
+    NSString *Initial_STAT = [[NSUserDefaults standardUserDefaults] valueForKey:@"Initial_STAT"];
+    if (Initial_STAT) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Initial_STAT"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        _lbl_count.layer.cornerRadius = 5.0f;
+        _lbl_count.layer.masksToBounds = YES;
+        _lbl_count.layer.backgroundColor = [UIColor whiteColor].CGColor;
+        
+        CGRect new_frame;
+        new_frame=self.scrollView1.frame;
+        new_frame.origin.y = 0;
+        _scrollView1.frame=new_frame;
+        
+        CGRect frame_page = _customStoryboardPageControl.frame;
+        frame_page.origin.y = _lbl_itemNAME.frame.origin.y - 50;
+        _customStoryboardPageControl.frame = frame_page;
+        
+        new_frame=self.lbl_itemNAME.frame;
+        new_frame.origin.y = self.scrollView1.frame.origin.y + self.scrollView1.frame.size.height + 10;
+        _lbl_itemNAME.frame=new_frame;
+        
+        new_frame = _lbl_CountDown.frame;
+        new_frame.origin.y = _lbl_itemNAME.frame.origin.y + _lbl_itemNAME.frame.size.height;
+        _lbl_CountDown.frame = new_frame;
+        
+        
+        new_frame = _BTN_place_BID.frame;
+        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+        {
+            new_frame.origin.y = _lbl_CountDown.frame.origin.y + _lbl_CountDown.frame.size.height + 15;
+        }
+        else
+        {
+            new_frame.origin.y = _lbl_CountDown.frame.origin.y + _lbl_CountDown.frame.size.height + 5;
+        }
+        _BTN_place_BID.frame = new_frame;
+        
+        new_frame = _BTN_watech.frame;
+        new_frame.origin.y = _BTN_place_BID.frame.origin.y + _BTN_place_BID.frame.size.height + 12;
+        
+        
+        _BTN_watech.frame = new_frame;
+        _BTN_watech.layer.borderWidth = 2.0f;
+        _BTN_watech.layer.borderColor = [UIColor blackColor].CGColor;
+        [_BTN_watech addTarget:self action:@selector(showActionSHEET) forControlEvents:UIControlEventTouchUpInside];
+        
+        new_frame = _VW_line1.frame;
+        
+        if ([STR_bidSTAT isEqualToString:@"Current Bid"])
+        {
+            _BTN_watech.hidden = NO;
+            _BTN_place_BID.hidden = NO;
+            new_frame.origin.y = _BTN_watech.frame.origin.y + _BTN_watech.frame.size.height + 10;
+//            new_frame.origin.y = _lbl_CountDown.frame.origin.y + _lbl_CountDown.frame.size.height + 10;
+        }
+        else if ([STR_bidSTAT isEqualToString:@"Starting Bid"])
+        {
+            _BTN_watech.hidden = YES;
+            _BTN_place_BID.hidden = YES;
+            new_frame.origin.y = _lbl_CountDown.frame.origin.y + _lbl_CountDown.frame.size.height + 10;
+        }
+        else
+        {
+            _BTN_watech.hidden = YES;
+            _BTN_place_BID.hidden = YES;
+            new_frame.origin.y = _lbl_CountDown.frame.origin.y + _lbl_CountDown.frame.size.height + 10;
+        }
+        
+        if ([winner_status isEqualToString:@"1"])
+        {
+            _BTN_watech.hidden = YES;
+            _BTN_place_BID.hidden = NO;
+            new_frame.origin.y = _BTN_place_BID.frame.origin.y + _BTN_place_BID.frame.size.height + 10;
+        }
+        
+        /*if (_BTN_place_BID.hidden == YES && _BTN_watech.hidden == YES) {
+            new_frame.origin.y = _lbl_CountDown.frame.origin.y + _lbl_CountDown.frame.size.height + 10;
+        }
+        else if (_BTN_watech.hidden == YES)
+        {
+            new_frame.origin.y = _BTN_place_BID.frame.origin.y + _BTN_place_BID.frame.size.height + 10;
+        }
+        else
+        {
+            new_frame.origin.y = _BTN_watech.frame.origin.y + _BTN_watech.frame.size.height + 10;
+        }*/
+        
+        _VW_line1.frame = new_frame;
+        
+        new_frame = _lbl_titl_item_descrip.frame;
+        new_frame.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
+        _lbl_titl_item_descrip.frame = new_frame;
+        
+        new_frame = _lbl_item_descrip.frame;
+        new_frame.origin.y = _lbl_titl_item_descrip.frame.origin.y + _lbl_titl_item_descrip.frame.size.height;
+//        new_frame.size.height = _lbl_item_descrip.contentSize.height;
+        _lbl_item_descrip.frame = new_frame;
+        
+        new_frame = _VW_line2.frame;
+        new_frame.origin.y = _lbl_item_descrip.frame.origin.y + _lbl_item_descrip.frame.size.height + 10;
+        _VW_line2.frame = new_frame;
+        
+        _lbl_title_silar_item.text = @"Similar Items";
+        new_frame = _lbl_title_silar_item.frame;
+        new_frame.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
+        _lbl_title_silar_item.frame = new_frame;
+        
+        new_frame = _collection_similar_item.frame;
+        new_frame.origin.y = _lbl_title_silar_item.frame.origin.y + _lbl_title_silar_item.frame.size.height + 10;
+        _collection_similar_item.frame = new_frame;
+        
+        CGRect frame_content;
+        frame_content = _VW_contents.frame;
+        frame_content.size.width = _scroll_contents.frame.size.width;
+        frame_content.size.height = _collection_similar_item.frame.origin.y + _collection_similar_item.frame.size.height + 20;
+        _VW_contents.frame = frame_content;
+        
+        [_scroll_contents addSubview:_VW_contents];
+        
+        
+//        float heiht = _lbl_itemNAME.frame.origin.y - 100;
+        
+        
+        
+        [self setupScrollViewImages];
+        
+//        for (UIScrollView *scrollView in self.scrollViews) {
+            _scrollView1.delegate = self;
+//        }
+        [self viewDidLayoutSubviews];
+        
+        self.customStoryboardPageControl.numberOfPages = self.imagesData.count;
+    }
+    else
+    {
+        CGRect new_frame = _lbl_CountDown.frame;
+        new_frame.origin.y = _lbl_itemNAME.frame.origin.y + _lbl_itemNAME.frame.size.height;
+        _lbl_CountDown.frame = new_frame;
+        
+        
+        new_frame = _BTN_place_BID.frame;
+        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+        {
+            new_frame.origin.y = _lbl_CountDown.frame.origin.y + _lbl_CountDown.frame.size.height + 15;
+        }
+        else
+        {
+            new_frame.origin.y = _lbl_CountDown.frame.origin.y + _lbl_CountDown.frame.size.height + 5;
+        }
+        _BTN_place_BID.frame = new_frame;
+        
+        new_frame = _BTN_watech.frame;
+        new_frame.origin.y = _BTN_place_BID.frame.origin.y + _BTN_place_BID.frame.size.height + 12;
+        
+        
+        _BTN_watech.frame = new_frame;
+        _BTN_watech.layer.borderWidth = 2.0f;
+        _BTN_watech.layer.borderColor = [UIColor blackColor].CGColor;
+        [_BTN_watech addTarget:self action:@selector(showActionSHEET) forControlEvents:UIControlEventTouchUpInside];
+        
+        new_frame = _VW_line1.frame;
+        
+        if ([STR_bidSTAT isEqualToString:@"Current Bid"])
+        {
+            _BTN_watech.hidden = NO;
+            _BTN_place_BID.hidden = NO;
+            new_frame.origin.y = _BTN_watech.frame.origin.y + _BTN_watech.frame.size.height + 10;
+            //            new_frame.origin.y = _lbl_CountDown.frame.origin.y + _lbl_CountDown.frame.size.height + 10;
+        }
+        else if ([STR_bidSTAT isEqualToString:@"Starting Bid"])
+        {
+            _BTN_watech.hidden = YES;
+            _BTN_place_BID.hidden = YES;
+            new_frame.origin.y = _lbl_CountDown.frame.origin.y + _lbl_CountDown.frame.size.height + 10;
+        }
+        else
+        {
+            _BTN_watech.hidden = YES;
+            _BTN_place_BID.hidden = YES;
+            new_frame.origin.y = _lbl_CountDown.frame.origin.y + _lbl_CountDown.frame.size.height + 10;
+        }
+        
+        if ([winner_status isEqualToString:@"1"])
+        {
+            _BTN_watech.hidden = YES;
+            _BTN_place_BID.hidden = NO;
+            new_frame.origin.y = _BTN_place_BID.frame.origin.y + _BTN_place_BID.frame.size.height + 10;
+        }
+        
+        _VW_line1.frame = new_frame;
+        
+        new_frame = _lbl_titl_item_descrip.frame;
+        new_frame.origin.y = _VW_line1.frame.origin.y + _VW_line1.frame.size.height + 10;
+        _lbl_titl_item_descrip.frame = new_frame;
+        
+        new_frame = _lbl_item_descrip.frame;
+        new_frame.origin.y = _lbl_titl_item_descrip.frame.origin.y + _lbl_titl_item_descrip.frame.size.height;
+        //        new_frame.size.height = _lbl_item_descrip.contentSize.height;
+        _lbl_item_descrip.frame = new_frame;
+        
+        new_frame = _VW_line2.frame;
+        new_frame.origin.y = _lbl_item_descrip.frame.origin.y + _lbl_item_descrip.frame.size.height + 10;
+        _VW_line2.frame = new_frame;
+        
+        _lbl_title_silar_item.text = @"Similar Items";
+        new_frame = _lbl_title_silar_item.frame;
+        new_frame.origin.y = _VW_line2.frame.origin.y + _VW_line2.frame.size.height + 10;
+        _lbl_title_silar_item.frame = new_frame;
+        
+        new_frame = _collection_similar_item.frame;
+        new_frame.origin.y = _lbl_title_silar_item.frame.origin.y + _lbl_title_silar_item.frame.size.height + 10;
+        _collection_similar_item.frame = new_frame;
+        
+        CGRect frame_content;
+        frame_content = _VW_contents.frame;
+        frame_content.size.width = _scroll_contents.frame.size.width;
+        frame_content.size.height = _collection_similar_item.frame.origin.y + _collection_similar_item.frame.size.height + 20;
+        _VW_contents.frame = frame_content;
+        
+        [_scroll_contents addSubview:_VW_contents];
+        [self viewDidLayoutSubviews];
+    }
+    
 }
 
 
@@ -552,6 +667,8 @@
 //    
 //    _lbl_count.text = [NSString stringWithFormat:@"%lu of %lu",(long)self.pageControl.currentPage + 1,(unsigned long)self.pageControl.numberOfPages];
 //}
+
+
 #pragma mark - Back Action
 -(void) backAction
 {
@@ -560,6 +677,31 @@
 -(void) more_ACTION
 {
     NSLog(@"More actions tapped");
+    NSString *user_watching_status = [NSString stringWithFormat:@"%@",[jsonReponse valueForKey:@"user_watching_status"]];
+    if ([user_watching_status isEqualToString:@"1"]) {
+        user_watching_status = @"Watching";
+    }
+    else
+    {
+        user_watching_status = @"Watch";
+    }
+    
+    NSLog(@"Show action sheet tapped");
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                             delegate:self
+                                                    cancelButtonTitle:@"Cancel"
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:user_watching_status,@"View Bidding History", @"Share This Item", nil];
+    
+    //    [actionSheet showInView:self.view];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        // In this case the device is an iPad.
+        [actionSheet showFromRect:[(UIButton *)_BTN_watech frame] inView:self.view animated:YES];
+    }
+    else{
+        // In this case the device is an iPhone/iPod Touch.
+        [actionSheet showInView:self.view];
+    }
 }
 
 
@@ -650,32 +792,25 @@
 #pragma mark - Show action sheet
 -(void) showActionSHEET
 {
-    
     NSString *user_watching_status = [NSString stringWithFormat:@"%@",[jsonReponse valueForKey:@"user_watching_status"]];
     if ([user_watching_status isEqualToString:@"1"]) {
-        user_watching_status = @"Watching";
+        //                [_BTN_watech addTarget:self action:@selector(watching_API) forControlEvents:UIControlEventTouchUpInside];
+        VW_overlay.hidden = NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(watch_API_call_remove) withObject:activityIndicatorView afterDelay:0.01];
     }
     else
     {
-        user_watching_status = @"Watch";
+        //                [_BTN_watech addTarget:self action:@selector(Watch_API) forControlEvents:UIControlEventTouchUpInside];
+        VW_overlay.hidden = NO;
+        [activityIndicatorView startAnimating];
+        [self performSelector:@selector(Watch_API_call) withObject:activityIndicatorView afterDelay:0.01];
     }
+}
+
+-(void) navigation_action_sheet
+{
     
-    NSLog(@"Show action sheet tapped");
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                             delegate:self
-                                                    cancelButtonTitle:@"Cancel"
-                                               destructiveButtonTitle:nil
-                                                    otherButtonTitles:user_watching_status,@"View Bidding History", @"Share This Item", nil];
-    
-//    [actionSheet showInView:self.view];
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        // In this case the device is an iPad.
-        [actionSheet showFromRect:[(UIButton *)_BTN_watech frame] inView:self.view animated:YES];
-    }
-    else{
-        // In this case the device is an iPhone/iPod Touch.
-        [actionSheet showInView:self.view];
-    }
 }
 
 #pragma mark - Actionsheet deligate
@@ -692,7 +827,7 @@
 //                [_BTN_watech addTarget:self action:@selector(watching_API) forControlEvents:UIControlEventTouchUpInside];
                 VW_overlay.hidden = NO;
                 [activityIndicatorView startAnimating];
-                [self performSelector:@selector(watch_API_call) withObject:activityIndicatorView afterDelay:0.01];
+                [self performSelector:@selector(watch_API_call_remove) withObject:activityIndicatorView afterDelay:0.01];
             }
             else
             {
@@ -872,21 +1007,26 @@ self.countdownLabel.text = [NSString stringWithFormat:@"%@/%@/%@ %@:%@:%@", days
     
     NSString *STR_bidSTAT = [[NSUserDefaults standardUserDefaults] valueForKey:@"STR_bidSTAT"];
     //Starting Bid,Current Bid,Closed
-    if ([STR_bidSTAT isEqualToString:@"Starting Bid"]) {
-         STR_time= [NSString stringWithFormat:@"Starting bid | %li D : %li H : %li M : %li S", (long)[breakdownInfo day], (long)[breakdownInfo hour], (long)[breakdownInfo minute], (long)[breakdownInfo second]];
-    }
-    else if ([STR_bidSTAT isEqualToString:@"Current Bid"])
-    {
-        STR_time= [NSString stringWithFormat:@"Current bid | %li D : %li H : %li M : %li S", (long)[breakdownInfo day], (long)[breakdownInfo hour], (long)[breakdownInfo minute], (long)[breakdownInfo second]];
+    
+    if ([breakdownInfo day] <= 0 && [breakdownInfo hour] <= 0 && [breakdownInfo minute] <= 0 && [breakdownInfo second] <= 0) {
+        
+        [self GETAuction_Item_details];
     }
     else
     {
-        _lbl_CountDown.text = @"Auction Closed";
+        if ([STR_bidSTAT isEqualToString:@"Starting Bid"]) {
+            STR_time= [NSString stringWithFormat:@"Starting bid | %li D : %li H : %li M : %li S", (long)[breakdownInfo day], (long)[breakdownInfo hour], (long)[breakdownInfo minute], (long)[breakdownInfo second]];
+        }
+        else if ([STR_bidSTAT isEqualToString:@"Current Bid"])
+        {
+            STR_time= [NSString stringWithFormat:@"Current bid | %li D : %li H : %li M : %li S", (long)[breakdownInfo day], (long)[breakdownInfo hour], (long)[breakdownInfo minute], (long)[breakdownInfo second]];
+        }
+        else
+        {
+            _lbl_CountDown.text = @"Auction Closed";
+        }
+        _lbl_CountDown.text = [NSString stringWithFormat:@"%@", STR_time];
     }
-    
-   
-    
-    _lbl_CountDown.text = [NSString stringWithFormat:@"%@", STR_time];
 }
 
 - (void) countdown: (NSTimer*) timer
@@ -927,6 +1067,30 @@ self.countdownLabel.text = [NSString stringWithFormat:@"%@/%@/%@ %@:%@:%@", days
     if (aData) {
         jsonReponse = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
         NSLog(@"The response VC auction detail page %@",jsonReponse);
+        
+        NSDictionary *auction_item = [jsonReponse valueForKey:@"auction_item"];
+        
+        NSString *STR_Expired = [NSString stringWithFormat:@"%@",[auction_item objectForKey:@"is_expired?"]];
+        NSString *STR_live = [NSString stringWithFormat:@"%@",[auction_item objectForKey:@"is_live?"]];
+        NSString *STR_bidSTAT;
+        
+        if ([STR_live isEqualToString:@"0"] && [STR_Expired isEqualToString:@"0"]) {
+            STR_bidSTAT = @"Starting Bid";
+        }
+        else if ([STR_live isEqualToString:@"1"])
+        {
+            STR_bidSTAT = @"Current Bid";
+        }
+        else
+        {
+            STR_bidSTAT = @"Closed";
+        }
+    
+        [[NSUserDefaults standardUserDefaults] setValue:STR_bidSTAT forKey:@"STR_bidSTAT"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [golfTimer invalidate];
+        golfTimer = nil;
     }
     
     [activityIndicatorView stopAnimating];
@@ -964,7 +1128,15 @@ self.countdownLabel.text = [NSString stringWithFormat:@"%@/%@/%@ %@:%@:%@", days
 -(void) place_BID_VW
 {
     NSString *STR_bidSTAT = [[NSUserDefaults standardUserDefaults] valueForKey:@"STR_bidSTAT"];
+    
     //Starting Bid,Current Bid,Closed
+    
+    NSDictionary *auction_item = [jsonReponse valueForKey:@"auction_item"];
+    NSString *minimum_bid_increment = [NSString stringWithFormat:@"%@",[auction_item valueForKey:@"minimum_bid_increment"]];
+    
+    
+    NSString *alert_title = [NSString stringWithFormat:@"Amount should be increment of $%.2f",[minimum_bid_increment floatValue]];
+    
     if ([STR_bidSTAT isEqualToString:@"Starting Bid"]) {
         NSLog(@"Bid Not yet started");
     }
@@ -972,7 +1144,7 @@ self.countdownLabel.text = [NSString stringWithFormat:@"%@/%@/%@ %@:%@:%@", days
     {
         NSLog(@"Bid open");
         alertController = [UIAlertController alertControllerWithTitle: @"Place Bid Amount"
-                                                              message: @"Amount should be increment of $10.00"
+                                                              message: alert_title
                                                        preferredStyle:UIAlertControllerStyleAlert];
 
         __weak VC_item_deatail *weakSelf = self;
@@ -1010,13 +1182,27 @@ self.countdownLabel.text = [NSString stringWithFormat:@"%@/%@/%@ %@:%@:%@", days
 
 -(void)textDidChange:(UITextField *)textField {
     NSDictionary *auction_item = [jsonReponse valueForKey:@"auction_item"];
+    NSString *minimum_bid_increment = [NSString stringWithFormat:@"%@",[auction_item valueForKey:@"minimum_bid_increment"]];
+    
+    NSNumberFormatter* nf = [[NSNumberFormatter alloc] init];
+    nf.positiveFormat = @"0.##";
+    
+    float min_BID = [nf numberFromString:minimum_bid_increment].floatValue;
+    
     float amount  = [textField.text floatValue];
     float strt_bid = [[auction_item valueForKey:@"starting_bid"] floatValue];
-    float current_bid = [[auction_item valueForKey:@"current_bid_amount" ] floatValue];
+    float current_bid;
+    
+    @try {
+        current_bid = [[auction_item valueForKey:@"current_bid_amount" ] floatValue];
+    } @catch (NSException *exception) {
+        current_bid = 0.00;
+    }
+    
     
     if(current_bid == 0)
     {
-        if (amount >= strt_bid + 10.00)
+        if (amount >= strt_bid + min_BID)
         {
             self.submit_action.enabled = YES;
         }
@@ -1027,7 +1213,7 @@ self.countdownLabel.text = [NSString stringWithFormat:@"%@/%@/%@ %@:%@:%@", days
     }
     else
     {
-        if(amount >= current_bid + 10.00)
+        if(amount >= current_bid + min_BID)
         {
             self.submit_action.enabled = YES;
         }
@@ -1113,8 +1299,8 @@ self.countdownLabel.text = [NSString stringWithFormat:@"%@/%@/%@ %@:%@:%@", days
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:status delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
                         [alert show];
                         
+                        
                         [self GETAuction_Item_details];
-                        [self setup_Values];
                         
                         
                     }
@@ -1178,12 +1364,110 @@ self.countdownLabel.text = [NSString stringWithFormat:@"%@/%@/%@ %@:%@:%@", days
 #pragma mark - Checkout Action
 -(void) checkout_API
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Checkout api" message:@"Continue checkout" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-    [alert show];
-    
-    
-    
+//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Checkout api" message:@"Continue checkout" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+//    [alert show];
+    VW_overlay.hidden = NO;
+    [activityIndicatorView startAnimating];
+    [self performSelector:@selector(checkout_withActivity) withObject:activityIndicatorView afterDelay:0.01];
 }
+
+-(void) checkout_withActivity
+{
+    @try {
+        
+        NSError *error;
+        NSHTTPURLResponse *response = nil;
+        NSString *auth_TOK = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+        
+        NSDictionary *auction_item = [jsonReponse valueForKey:@"auction_item"];
+        NSString *urlGetuser =[NSString stringWithFormat:@"%@auction/auction_order/%@",SERVER_URL,[auction_item valueForKey:@"id"]];
+        
+        NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+        [request setURL:urlProducts];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        [request setValue:auth_TOK forHTTPHeaderField:@"auth_token"];
+        
+        [request setHTTPShouldHandleCookies:NO];
+        NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        if (aData)
+        {
+            //        self->activityIndicatorView.hidden=YES;
+            NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+            
+
+            
+            NSLog(@"The response checkout api item detail %@",json_DATA);
+            
+      
+             
+                         @try
+                        {
+                             NSString *STR_error1 = [json_DATA valueForKey:@"error"];
+                             if (STR_error1)
+                             {
+                               [self sessionOUT];
+                             }
+                             else
+                             {
+             NSString *status=[json_DATA valueForKey:@"status"];
+                                NSString *error=[json_DATA valueForKey:@"errors"];
+                                 NSString *message=[json_DATA valueForKey:@"message"];
+             
+             if([status isEqualToString:@"Success"])
+             {
+                 [activityIndicatorView stopAnimating];
+                 VW_overlay.hidden=YES;
+             
+                 [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"checkout_data"];
+                 [[NSUserDefaults standardUserDefaults]synchronize];
+             
+                 [self performSegueWithIdentifier:@"conf_order" sender:self];
+             }
+                                 else if(error)
+                                 {
+                                     [activityIndicatorView stopAnimating];
+                                     VW_overlay.hidden=YES;
+                                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection failed" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                                    [alert show];
+                                }
+             
+                                 else
+                                {
+                                    [activityIndicatorView stopAnimating];
+                                    VW_overlay.hidden=YES;
+             
+                                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                                    [alert show];
+                                }
+                            }
+                        }
+                         @catch (NSException *exception)
+                         {
+                            [self sessionOUT];
+                        }
+            
+        }
+        else
+        {
+            [activityIndicatorView stopAnimating];
+            VW_overlay.hidden=YES;
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Connection error" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+            
+        }
+    }
+    @catch (NSException *exception)
+    {
+        [self sessionOUT];
+    }
+    
+    [activityIndicatorView stopAnimating];
+    VW_overlay.hidden=YES;
+}
+
 #pragma mark - Watch & Waching API
 -(void) Watch_API_call
 {
@@ -1236,7 +1520,6 @@ self.countdownLabel.text = [NSString stringWithFormat:@"%@/%@/%@ %@:%@:%@", days
                         [alert show];
                         
                         [self GETAuction_Item_details];
-                        [self setup_Values];
                         
                         
                     }
@@ -1280,7 +1563,7 @@ self.countdownLabel.text = [NSString stringWithFormat:@"%@/%@/%@ %@:%@:%@", days
     }
 }
 
--(void) watch_API_call
+-(void) watch_API_call_remove
 {
     @try {
         
@@ -1331,7 +1614,6 @@ self.countdownLabel.text = [NSString stringWithFormat:@"%@/%@/%@ %@:%@:%@", days
                         [alert show];
                         
                         [self GETAuction_Item_details];
-                        [self setup_Values];
                         
                         
                     }

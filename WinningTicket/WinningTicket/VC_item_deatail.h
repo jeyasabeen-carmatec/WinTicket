@@ -34,7 +34,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *BTN_watech;
 
 @property (weak, nonatomic) IBOutlet UIView *VW_line1;
-@property (weak, nonatomic) IBOutlet UILabel *lbl_item_descrip;
+@property (weak, nonatomic) IBOutlet UILabel *lbl_titl_item_descrip;
+@property (weak, nonatomic) IBOutlet UITextView *lbl_item_descrip;
 @property (weak, nonatomic) IBOutlet UIView *VW_line2;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_title_silar_item;
 
