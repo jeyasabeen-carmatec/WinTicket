@@ -61,8 +61,9 @@
     [self.view addSubview:VW_overlay];
     
     [self serialize_jsonData];
+     [_BTN_more addTarget:self action:@selector(button_More_TApped) forControlEvents:UIControlEventTouchUpInside];
     
-    [_BTN_more addTarget:self action:@selector(button_More_TApped) forControlEvents:UIControlEventTouchUpInside];
+   
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -266,7 +267,7 @@
         
          if ([_BTN_more.titleLabel.text isEqualToString:@"MORE "])
          {
-              _Lbl_course_Description.numberOfLines = 1;
+              _Lbl_course_Description.numberOfLines = 4;
            
              if (frame_oold.size.height < lbl_descrip_ht) {
                  _Lbl_course_Description.frame = frame_oold;
@@ -610,6 +611,16 @@
     {
         _Lbl_course_Description.text = @"Not Mentioned";
     }
+    if(_Lbl_course_Description.text.length > 70)
+    {
+        _BTN_more.hidden = NO;
+        
+    }
+    else
+    {
+        _BTN_more.hidden = YES;
+    }
+
     
     CGRect BTN_more_frame = _BTN_more.frame;
     BTN_more_frame.origin.y = _Lbl_course_Description.frame.origin.y + _Lbl_course_Description.frame.size.height;
@@ -962,7 +973,7 @@
           CGRect frame_oold = _Lbl_course_Description.frame;
   
         
-        _Lbl_course_Description.numberOfLines = 1;
+        _Lbl_course_Description.numberOfLines = 4;
         //  [_Lbl_course_Description sizeToFit];
         
         if (frame_oold.size.height > lbl_descrip_ht)
@@ -1014,7 +1025,7 @@
 
         
         [_BTN_more setTitle:@"MORE " forState:UIControlStateNormal];
-        //_BTN_more.titleLabel.text = @"MORE ";
+       
     }
 
 }

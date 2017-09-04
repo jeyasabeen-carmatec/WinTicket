@@ -18,7 +18,7 @@
     float BTN_originY,total;
     
     CGRect lbl_origin_FRAME;
-    NSMutableDictionary *states,*countryS,*checkout_data;
+    NSMutableDictionary *states,*countryS;
     UIView *VW_overlay;
     UIActivityIndicatorView *activityIndicatorView;
     //    UILabel *loadingLabel;
@@ -177,7 +177,7 @@
     
     
     NSError *error;
-   checkout_data = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"checkout_data"] options:NSASCIIStringEncoding error:&error];
+    NSDictionary *checkout_data = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"checkout_data"] options:NSASCIIStringEncoding error:&error];
     
     @try
     {
@@ -239,8 +239,11 @@
             self.lbl_name_ticket.text = @"Winning Ticket";
             
             NSString *item_name = [checkout_data valueForKey:@"item_name"];
-            NSString *location = [[checkout_data valueForKey:@"location"] capitalizedString];
             
+            NSString *location=[NSString stringWithFormat:@"%@",[checkout_data valueForKey:@"location"]];
+            location = [location stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
+            
+ 
             NSString *text = [NSString stringWithFormat:@"%@\n%@",item_name,location];
             
             text = [text stringByReplacingOccurrencesOfString:@"<null>" withString:@"Not Mentioned"];
@@ -259,7 +262,7 @@
                
                 
                 NSRange plce = [text rangeOfString:item_name];
-                [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:15.0]}range:plce];
+                [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:15.0]}range:plce];
                 
                 NSRange codeR = [text rangeOfString:location];
                 [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBook" size:15.0]}range:codeR];
@@ -1003,37 +1006,7 @@
         return [string isEqualToString:filtered];
     }
     
-    //    if(textField.tag==6)
-    //    {
-    //        NSInteger inte = textField.text.length;
-    //        if(inte >= 12)
-    //        {
-    //            if ([string isEqualToString:@""]) {
-    //                return YES;
-    //            }
-    //            else
-    //            {
-    //                return NO;
-    //            }
-    //        }
-    //        return YES;
-    //    }
-    //    if(textField.tag==7)
-    //    {
-    //        NSInteger inte = textField.text.length;
-    //        if(inte >= 60)
-    //        {
-    //            if ([string isEqualToString:@""]) {
-    //                return YES;
-    //            }
-    //            else
-    //            {
-    //                return NO;
-    //            }
-    //        }
-    //        return YES;
-    //    }
-    if(textField.tag==8)
+        if(textField.tag==8)
     {
         NSInteger inte = textField.text.length;
         if(inte >= 8)
@@ -1382,8 +1355,8 @@ requestsDismissalOfViewController:(UIViewController *)viewController {
                 [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"CHKOUTDETAIL"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 
-                [self performSegueWithIdentifier:@"billaddretocheckoutdetail" sender:self];
-                [self  parse_listEvents_api];
+                [self performSegueWithIdentifier:@"auction_billing_to_placeorder" sender:self];
+                //[self  parse_listEvents_api];
                 //                    }
                 //                }
                 //                @catch (NSException *exception)

@@ -39,33 +39,59 @@
     /*Text field event listener*/
     
     /*Add clear button in text field*/
-    clearButton_places = [UIButton buttonWithType:UIButtonTypeCustom];
-    [clearButton_places setImage:[UIImage imageNamed:@"cross_black"] forState:UIControlStateNormal];
-    [clearButton_places setFrame:CGRectMake(-10, 0, 20, 20)];
+//    clearButton_places = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [clearButton_places setImage:[UIImage imageNamed:@"cross_black"] forState:UIControlStateNormal];
+//    [clearButton_places setFrame:CGRectMake(-10, 0, 20, 20)];
+//    
+//    clearButton_places.layer.cornerRadius = 10.0f;
+//    clearButton_places.layer.masksToBounds = YES;
+//    clearButton_places.layer.borderWidth = 1.0f;
+//    clearButton_places.layer.borderColor = [UIColor blackColor].CGColor;
+//    
+//    [clearButton_places addTarget:self action:@selector(clearTextField_places) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    _TXT_places.rightViewMode = UITextFieldViewModeWhileEditing;
+//    [_TXT_places setRightView:clearButton_places];
+//    
+//    clearButton_courses = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [clearButton_courses setImage:[UIImage imageNamed:@"cross_black"] forState:UIControlStateNormal];
+//    [clearButton_courses setFrame:CGRectMake(-10, 0, 20, 20)];
+//    
+//    clearButton_courses.layer.cornerRadius = 10.0f;
+//    clearButton_courses.layer.masksToBounds = YES;
+//    clearButton_courses.layer.borderWidth = 1.0f;
+//    clearButton_courses.layer.borderColor = [UIColor blackColor].CGColor;
+    UIToolbar* numberToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+    numberToolbar.barStyle = UIBarStyleBlackTranslucent;
+    [numberToolbar sizeToFit];
     
-    clearButton_places.layer.cornerRadius = 10.0f;
-    clearButton_places.layer.masksToBounds = YES;
-    clearButton_places.layer.borderWidth = 1.0f;
-    clearButton_places.layer.borderColor = [UIColor blackColor].CGColor;
+    UIButton *close=[[UIButton alloc]init];
+    close.frame=CGRectMake(numberToolbar.frame.size.width - 100, 0, 100, numberToolbar.frame.size.height);
+    [close setTitle:@"Clear" forState:UIControlStateNormal];
+    [close addTarget:self action:@selector(buttonClick_places) forControlEvents:UIControlEventTouchUpInside];
     
-    [clearButton_places addTarget:self action:@selector(clearTextField_places) forControlEvents:UIControlEventTouchUpInside];
+    [numberToolbar addSubview:close];
+    _TXT_places.inputAccessoryView = numberToolbar;
     
-    _TXT_places.rightViewMode = UITextFieldViewModeWhileEditing;
-    [_TXT_places setRightView:clearButton_places];
     
-    clearButton_courses = [UIButton buttonWithType:UIButtonTypeCustom];
-    [clearButton_courses setImage:[UIImage imageNamed:@"cross_black"] forState:UIControlStateNormal];
-    [clearButton_courses setFrame:CGRectMake(-10, 0, 20, 20)];
+    UIToolbar* courses_toolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+    courses_toolbar.barStyle = UIBarStyleBlackTranslucent;
+    [courses_toolbar sizeToFit];
     
-    clearButton_courses.layer.cornerRadius = 10.0f;
-    clearButton_courses.layer.masksToBounds = YES;
-    clearButton_courses.layer.borderWidth = 1.0f;
-    clearButton_courses.layer.borderColor = [UIColor blackColor].CGColor;
+    UIButton *clear=[[UIButton alloc]init];
+    clear.frame=CGRectMake(courses_toolbar.frame.size.width - 100, 0, 100, courses_toolbar.frame.size.height);
+    [clear setTitle:@"Clear" forState:UIControlStateNormal];
+    [clear addTarget:self action:@selector(buttonClick_courses) forControlEvents:UIControlEventTouchUpInside];
     
-    [clearButton_courses addTarget:self action:@selector(clearTextField_courses) forControlEvents:UIControlEventTouchUpInside];
+    [courses_toolbar addSubview:clear];
+
+    _TXT_courses.inputAccessoryView = courses_toolbar;
+  
     
-    _TXT_courses.rightViewMode = UITextFieldViewModeWhileEditing;
-    [_TXT_courses setRightView:clearButton_courses];
+//    [clearButton_courses addTarget:self action:@selector(clearTextField_courses) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    _TXT_courses.rightViewMode = UITextFieldViewModeWhileEditing;
+//    [_TXT_courses setRightView:clearButton_courses];
     /*Add clear button in text field*/
     
     VW_overlay.hidden = NO;
@@ -166,6 +192,18 @@
     
     [activityIndicatorView stopAnimating];
     VW_overlay.hidden = YES;
+}
+-(void)buttonClick_places
+{
+    
+    _TXT_places.text = @"";
+
+    
+}
+-(void)buttonClick_courses
+{
+    _TXT_courses.text = @"";
+
 }
 -(void) API_search_BTN
 {
@@ -708,6 +746,7 @@
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     static NSString *simpleTableIdentifier = @"SimpleTableItem";
     Cell_search *cell = (Cell_search *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
     if (cell == nil)
@@ -723,7 +762,9 @@
         }
         cell = [nib objectAtIndex:0];
     }
-    
+    @try {
+        
+     
     if (tableView == _TBL_courses) {
         cell.lbl_eventName.text = [ARR_sorted_courses objectAtIndex:indexPath.row];
     }
@@ -733,6 +774,10 @@
     }
     cell.lbl_eventName.numberOfLines = 0;
     [cell.lbl_eventName sizeToFit];
+    }
+    @catch (NSException *exception) {
+        [self sessionOUT];
+    }
     return cell;
 }
 

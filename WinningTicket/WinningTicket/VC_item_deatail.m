@@ -847,8 +847,8 @@
             
         case 2:
         {
-            UIImage *image=[UIImage imageNamed:@"IMG_0011.PNG"];
-            NSArray *postItems=@[image];
+//            UIImage *image=[UIImage imageNamed:@"IMG_0011.PNG"];
+            NSArray *postItems=@[@"Sample text"];
             
             UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:postItems applicationActivities:nil];
             

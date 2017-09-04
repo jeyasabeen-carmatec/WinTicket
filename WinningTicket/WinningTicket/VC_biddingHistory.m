@@ -177,7 +177,17 @@
         
         NSString *status = [jsonReponse valueForKey:@"status"];
         NSString *winner_status = [NSString stringWithFormat:@"%@",[jsonReponse valueForKey:@"winner_status"]];
-        NSString *winning_bid_amount = [NSString stringWithFormat:@"%.2f",[[jsonReponse valueForKey:@"winning_bid_amount"] floatValue]];
+       
+        NSString *winning_bid_amount;
+        @try
+        {
+            
+         winning_bid_amount = [NSString stringWithFormat:@"%.2f",[[jsonReponse valueForKey:@"winning_bid_amount"] floatValue]];
+        }
+       @catch(NSException *exception)
+        {
+            winning_bid_amount = @"";
+        }
         
         if([status isEqualToString:@"Success"] && [winner_status isEqualToString:@"1"] && [bid isEqualToString:current_user_id] && [bid_amount isEqualToString:winning_bid_amount])
         {
