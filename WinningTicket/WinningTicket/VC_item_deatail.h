@@ -21,7 +21,8 @@
 
 @property (weak, nonatomic) IBOutlet UIView *VW_contents;
 @property (weak, nonatomic) IBOutlet UIScrollView *scroll_contents;
-
+@property (weak,nonatomic) IBOutlet UICollectionView *collection_IMG;
+@property(nonatomic,weak) IBOutlet UIView *nav_Bar;
 //@property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
 //@property (nonatomic, retain) IBOutlet UIPageControl *pageControl;
 

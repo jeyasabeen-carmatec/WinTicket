@@ -11,6 +11,7 @@
 #import "TAExampleDotView.h"
 #import "TAPageControl.h"
 #import "ViewController.h"
+#import "cell_auction_item_detail.h"
 
 #import <QuartzCore/CAAnimation.h>
 
@@ -24,7 +25,7 @@
     UITextField *amount_field;
 }
 
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView1;
+//@property (weak, nonatomic) IBOutlet UIScrollView *scrollView1;
 //@property (strong, nonatomic) IBOutletCollection(UIScrollView) NSArray *scrollViews;
 
 @property (weak, nonatomic) IBOutlet TAPageControl *customStoryboardPageControl;
@@ -82,7 +83,7 @@
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
        NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Medium" size:22.0f]}];
-    self.navigationItem.title = @"Silent Auction";
+    self.navigationItem.title = @"Item";
     
     
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -106,6 +107,17 @@
     VW_overlay.hidden = NO;
     [activityIndicatorView startAnimating];
     [self performSelector:@selector(GETAuction_Item_details) withObject:activityIndicatorView afterDelay:0.01];
+    
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+        [self.collection_IMG registerNib:[UINib nibWithNibName:@"cell_auction_item_detail~IPad" bundle:nil]  forCellWithReuseIdentifier:@"item_detail_identifier"];
+    }
+    else
+    {
+        [self.collection_IMG registerNib:[UINib nibWithNibName:@"cell_auction_item_detail" bundle:nil]  forCellWithReuseIdentifier:@"item_detail_identifier"];
+    }
+
     
 }
 
@@ -142,30 +154,30 @@
 
 -(void) viewDidLayoutSubviews
 {
-    float heiht = _scrollView1.frame.size.height;
+//    float heiht = _scrollView1.frame.size.height;
     [super viewDidLayoutSubviews];
     [_scroll_contents layoutIfNeeded];
     _scroll_contents.contentSize = CGSizeMake(_scroll_contents.frame.size.width, _VW_contents.frame.size.height);
 //    for (UIScrollView *scrollView in self.scrollViews) {
-        _scrollView1.contentSize = CGSizeMake(CGRectGetWidth(_scrollView1.frame) * self.imagesData.count, heiht);
+//        _scrollView1.contentSize = CGSizeMake(CGRectGetWidth(_scrollView1.frame) * self.imagesData.count, heiht);
 //    }
 
 }
 #pragma mark - ScrollView delegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    NSInteger pageIndex = scrollView.contentOffset.x / CGRectGetWidth(scrollView.frame);
-    
-    if (scrollView == self.scrollView1) {
-        self.customStoryboardPageControl.currentPage = pageIndex;
-        _lbl_count.text = [NSString stringWithFormat:@"%lu of %lu",(long)self.customStoryboardPageControl.currentPage + 1,(unsigned long)_imagesData.count];
-
-    }
-    NSLog(@"scrollview frame:%@",NSStringFromCGRect(_scrollView1.frame));
+//    NSInteger pageIndex = scrollView.contentOffset.x / CGRectGetWidth(scrollView.frame);
+//    
+//    if (scrollView == _collection_IMG) {
+//        self.customStoryboardPageControl.currentPage = _scrollView1;
+//        _lbl_count.text = [NSString stringWithFormat:@"%lu of %lu",(long)self.customStoryboardPageControl.currentPage + 1,(unsigned long)_imagesData.count];
+//
+//    }
+//    NSLog(@"scrollview frame:%@",NSStringFromCGRect(_scrollView1.frame));
 }
 
 #pragma mark - Utils
-- (void)setupScrollViewImages
+/*- (void)setupScrollViewImages
 {
     float heiht = _lbl_itemNAME.frame.origin.y - 50;
     //for (UIScrollView *scrollView in self.scrollViews) {
@@ -195,7 +207,7 @@
                 }
    // }
 }
-
+*/
 
 /*
 #pragma mark - Navigation
@@ -231,10 +243,17 @@
 //    pageControlBeingUsed = NO;
 //}
 //
-//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+/*- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
 //    pageControlBeingUsed = NO;
-//}
-//
+    if(scrollView == _collection_IMG)
+    {
+    for (cell_auction_item_detail *cell in [self.collection_IMG visibleCells]) {
+        NSIndexPath *indexPath = [self.collection_IMG indexPathForCell:cell];
+        NSLog(@"Final index %ld",(long)indexPath.row);
+    }
+    }
+}*/
+
 #pragma mark - UIView Customisation
 -(void) setup_VIEW
 {
@@ -437,18 +456,35 @@
         _lbl_count.layer.cornerRadius = 5.0f;
         _lbl_count.layer.masksToBounds = YES;
         _lbl_count.layer.backgroundColor = [UIColor whiteColor].CGColor;
+          CGRect new_frame;
+        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+        {
+          
+            new_frame=self.collection_IMG.frame;
+            new_frame.origin.y = _nav_Bar.frame.origin.y + _nav_Bar.frame.size.height;
+            _collection_IMG.frame=new_frame;
+        }
+        else
+        {
+           
+            new_frame=self.collection_IMG.frame;
+            new_frame.origin.y = 0;
+            _collection_IMG.frame=new_frame;
+        }
         
-        CGRect new_frame;
-        new_frame=self.scrollView1.frame;
-        new_frame.origin.y = 0;
-        _scrollView1.frame=new_frame;
+        
+       
+        
+        [_collection_IMG reloadData];
+        
+        NSLog(@"the collection view frame:%@",NSStringFromCGRect(_collection_IMG.frame));
         
         CGRect frame_page = _customStoryboardPageControl.frame;
         frame_page.origin.y = _lbl_itemNAME.frame.origin.y - 50;
         _customStoryboardPageControl.frame = frame_page;
         
         new_frame=self.lbl_itemNAME.frame;
-        new_frame.origin.y = self.scrollView1.frame.origin.y + self.scrollView1.frame.size.height + 10;
+        new_frame.origin.y = self.collection_IMG.frame.origin.y + self.collection_IMG.frame.size.height + 10;
         _lbl_itemNAME.frame=new_frame;
         
         new_frame = _lbl_CountDown.frame;
@@ -554,10 +590,10 @@
         
         
         
-        [self setupScrollViewImages];
+//        [self setupScrollViewImages];
         
 //        for (UIScrollView *scrollView in self.scrollViews) {
-            _scrollView1.delegate = self;
+//            _scrollView1.delegate = self;
 //        }
         [self viewDidLayoutSubviews];
         
@@ -708,7 +744,15 @@
 #pragma mark - CollectionView Deligate
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section
 {
-    return 5;
+    if(view == _collection_IMG)
+    {
+        return self.imagesData.count;
+    }
+    else {
+        
+         return 5;
+    }
+   
 }
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView
 {
@@ -719,8 +763,30 @@
     
     NSLog(@"cellForItemAtIndexPath %ld", (long)indexPath.row); // returns as expected
     static NSString *identifier = @"cellIdentifier";
+   
+   
+    if(collectionView == _collection_IMG)
+    {
+       cell_auction_item_detail *cell = (cell_auction_item_detail *)[collectionView dequeueReusableCellWithReuseIdentifier:@"item_detail_identifier" forIndexPath:indexPath];
+        
+
+      //  cell.auction_image.image =[UIImage imageNamed:[self.imagesData objectAtIndex:indexPath.row]];
+       [ cell.auction_image sd_setImageWithURL:[NSURL URLWithString:[_imagesData objectAtIndex:indexPath.row]]
+                                              placeholderImage:[UIImage imageNamed:@"Logo_WT.png"]];
+        cell.auction_image.contentMode = UIViewContentModeScaleAspectFit;
+        
+//        self.customStoryboardPageControl.currentPage = indexPath.row;
+//        _lbl_count.text = [NSString stringWithFormat:@"%lu of %lu",indexPath.row + 1,(unsigned long)_imagesData.count];
+        
+        return cell;
+        
+    }
+    else
+    {
+     similar_collectioncell *similar_cell = (similar_collectioncell *)[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+        return similar_cell;
+    }
     
-    similar_collectioncell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     
 /*
     
@@ -751,10 +817,11 @@
     cell.lbl_CAT_name.textAlignment = NSTextAlignmentCenter; */
     //    cell.lbl_CAT_name.adjustsFontSizeToFitWidth = YES;
     //    [cell.lbl_CAT_name sizeToFit];
-    return cell;
+    
     
 }
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+
+-(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
 }
@@ -770,23 +837,38 @@
     //    }
     //    else if (UIDeviceOrientationIsPortrait(devOrientation))
     //    {
-    
-    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+    if(collectionView == _collection_IMG)
     {
-        return CGSizeMake(self.view.frame.size.width/2.2f, 491);
+        return CGSizeMake(_collection_IMG.frame.size.width ,_collection_IMG.frame.size.height);
     }
     else
     {
-        return CGSizeMake(self.view.frame.size.width/2.2f, 258);
+        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+        {
+            return CGSizeMake(self.view.frame.size.width/2.2f, 491);
+        }
+        else
+        {
+            return CGSizeMake(self.view.frame.size.width/2.2f, 258);
+        }
     }
-    
     //    }
     //    return CGSizeMake(self.view.frame.size.width/2, 95);
 }
 
+
+
+
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(0, 10, 0, 9);
+    if(collectionView == _collection_IMG)
+    {
+        return UIEdgeInsetsMake(0, 0, 0, 0);
+    }
+    else
+    {
+        return UIEdgeInsetsMake(0, 10, 0, 9);
+    }
 }
 
 #pragma mark - Show action sheet
@@ -1656,5 +1738,46 @@ self.countdownLabel.text = [NSString stringWithFormat:@"%@/%@/%@ %@:%@:%@", days
         [self sessionOUT];
     }
 }
+#pragma mark scroll view delegate
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    for(UIScrollView *scroll in _collection_IMG.subviews)
+    {
+        scrollView = scroll;
+    }
+    
+    if (scrollView) {
+        float pageWidth = _collection_IMG.frame.size.width ; // width + space
+        
+        float currentOffset = _collection_IMG.contentOffset.x;
+        float targetOffset = targetContentOffset->x;
+        float newTargetOffset = 0;
+        
+        if (targetOffset > currentOffset)
+            newTargetOffset = ceilf(currentOffset / pageWidth) * pageWidth;
+        else
+            newTargetOffset = floorf(currentOffset / pageWidth) * pageWidth;
+        
+        if (newTargetOffset < 0)
+            newTargetOffset = 0;
+        else if (newTargetOffset > _collection_IMG.contentSize.width)
+            newTargetOffset = _collection_IMG.contentSize.width;
+        
+        targetContentOffset->x = currentOffset;
+        [_collection_IMG setContentOffset:CGPointMake(newTargetOffset  , _collection_IMG.contentOffset.y) animated:YES];
+//        CGRect visibleRect = (CGRect){.origin = self.collection_IMG.contentOffset, .size = self.collection_IMG.bounds.size};
+        CGPoint visiblePoint = CGPointMake(newTargetOffset, _collection_IMG.contentOffset.y);
+        NSIndexPath *visibleIndexPath = [self.collection_IMG indexPathForItemAtPoint:visiblePoint];
+        
+        
+        self.customStoryboardPageControl.currentPage = visibleIndexPath.row;
+        _lbl_count.text = [NSString stringWithFormat:@"%lu of %lu",(long)self.customStoryboardPageControl.currentPage + 1,(unsigned long)_imagesData.count];
+
+      
+
+    }
+    
+}
+
 
 @end

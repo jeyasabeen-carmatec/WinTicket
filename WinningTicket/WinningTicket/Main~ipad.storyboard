@@ -2530,7 +2530,7 @@ Team1</string>
                                         <rect key="frame" x="0.0" y="28" width="768" height="132"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="e1A-3E-1Mk" id="hKj-fQ-7x2">
-                                            <rect key="frame" x="0.0" y="0.0" width="768" height="131.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="768" height="132"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" id="HD4-cg-qgb">
@@ -2603,6 +2603,11 @@ Team1</string>
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" misplaced="YES" id="KpT-4b-Vbu">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="64"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" id="Ciu-RT-wmi">
                                 <rect key="frame" x="0.0" y="64" width="768" height="960"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2612,39 +2617,52 @@ Team1</string>
                     </view>
                     <navigationItem key="navigationItem" id="dfF-Ab-vYi"/>
                     <connections>
-                        <outlet property="BTN_place_BID" destination="mae-cF-MhP" id="Ita-Df-CRs"/>
-                        <outlet property="BTN_watech" destination="TR8-FV-zNY" id="zHA-5a-vyD"/>
-                        <outlet property="VW_contents" destination="9NX-N7-4Cz" id="2DA-Ue-zUe"/>
-                        <outlet property="VW_line1" destination="BVL-o2-oM2" id="cl4-ea-XTq"/>
-                        <outlet property="VW_line2" destination="gNB-u7-V2k" id="Z11-aQ-nEW"/>
-                        <outlet property="collection_similar_item" destination="NUT-Or-mt5" id="3aU-ee-gAP"/>
-                        <outlet property="customStoryboardPageControl" destination="tHU-sg-ssQ" id="Mom-dN-2Pg"/>
-                        <outlet property="lbl_CountDown" destination="1oc-OK-zR9" id="y3k-qQ-bxW"/>
-                        <outlet property="lbl_count" destination="JqM-5C-vK4" id="j3w-Jh-yEo"/>
-                        <outlet property="lbl_itemNAME" destination="fGD-js-Y4H" id="HhK-qc-fMU"/>
-                        <outlet property="lbl_item_descrip" destination="T29-o0-KAF" id="JAA-K4-Sqg"/>
-                        <outlet property="lbl_titl_item_descrip" destination="et0-zH-LOT" id="81s-4t-XQ2"/>
-                        <outlet property="lbl_title_silar_item" destination="ky5-fc-OkK" id="3Wq-GN-r8E"/>
-                        <outlet property="scrollView1" destination="jQY-O6-DC1" id="bZp-zt-4Jy"/>
+                        <outlet property="BTN_place_BID" destination="a47-L8-ARa" id="mCO-Dg-gHZ"/>
+                        <outlet property="BTN_watech" destination="sXa-X8-qQi" id="mHm-nU-oph"/>
+                        <outlet property="VW_contents" destination="Y6s-jp-YGP" id="xVM-Bz-Fps"/>
+                        <outlet property="VW_line1" destination="aRx-a8-lob" id="2ha-nb-ETB"/>
+                        <outlet property="VW_line2" destination="pAY-4J-Xqa" id="qcF-Id-6Ak"/>
+                        <outlet property="collection_IMG" destination="xBq-De-NFg" id="WDS-ul-ebI"/>
+                        <outlet property="collection_similar_item" destination="yhq-xD-49i" id="KmJ-sB-hxm"/>
+                        <outlet property="customStoryboardPageControl" destination="NAT-c4-yYt" id="GB8-Qf-sRB"/>
+                        <outlet property="lbl_CountDown" destination="bbC-pl-5XD" id="8U7-pE-14q"/>
+                        <outlet property="lbl_count" destination="beT-a9-DVR" id="GaI-f7-M1a"/>
+                        <outlet property="lbl_itemNAME" destination="BQZ-f0-ou1" id="hdv-p0-wXs"/>
+                        <outlet property="lbl_item_descrip" destination="WTq-qy-jr3" id="BKe-pi-T6n"/>
+                        <outlet property="lbl_titl_item_descrip" destination="hSc-xJ-6P3" id="Yfe-MI-KN3"/>
+                        <outlet property="lbl_title_silar_item" destination="2wE-Wz-GaU" id="yJX-XV-fHS"/>
+                        <outlet property="nav_Bar" destination="KpT-4b-Vbu" id="Hcv-aR-b3r"/>
                         <outlet property="scroll_contents" destination="Ciu-RT-wmi" id="V1F-IF-Abi"/>
                         <segue destination="WUy-67-bfW" kind="modal" identifier="itmdtailtobidhstryidentifier" animates="NO" id="ZiD-V8-mN8"/>
                         <segue destination="6nR-fi-70J" kind="push" identifier="conf_order" animates="NO" id="SbX-DT-0xi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VaQ-te-twC" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <view contentMode="scaleToFill" misplaced="YES" id="9NX-N7-4Cz">
-                    <rect key="frame" x="0.0" y="0.0" width="768" height="1658"/>
+                <view contentMode="scaleToFill" misplaced="YES" id="Y6s-jp-YGP">
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="1725"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="jQY-O6-DC1">
-                            <rect key="frame" x="0.0" y="0.0" width="768" height="618"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                        </scrollView>
-                        <view contentMode="scaleToFill" misplaced="YES" id="tHU-sg-ssQ" customClass="TAPageControl">
-                            <rect key="frame" x="4" y="527" width="760" height="72"/>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" id="xBq-De-NFg">
+                            <rect key="frame" x="0.0" y="0.0" width="768" height="537"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="0C5-ak-Qz8">
+                                <size key="itemSize" width="0.0" height="0.0"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </collectionViewFlowLayout>
+                            <cells/>
+                            <connections>
+                                <outlet property="dataSource" destination="grc-Nk-EPL" id="9tp-uM-IeX"/>
+                                <outlet property="delegate" destination="grc-Nk-EPL" id="rDD-KF-Vjl"/>
+                            </connections>
+                        </collectionView>
+                        <view contentMode="scaleToFill" id="NAT-c4-yYt" customClass="TAPageControl">
+                            <rect key="frame" x="4" y="549" width="760" height="72"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="7 of 7" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="JqM-5C-vK4">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7 of 7" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="beT-a9-DVR">
                             <rect key="frame" x="652" y="20" width="96" height="29"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="0.66034353599999995" colorSpace="calibratedRGB"/>
@@ -2653,7 +2671,7 @@ Team1</string>
                             <nil key="highlightedColor"/>
                             <size key="shadowOffset" width="0.0" height="1"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fGD-js-Y4H">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BQZ-f0-ou1">
                             <rect key="frame" x="20" y="626" width="728" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="20"/>
@@ -2661,85 +2679,93 @@ Team1</string>
                             <nil key="highlightedColor"/>
                             <size key="shadowOffset" width="0.0" height="0.0"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="mae-cF-MhP" customClass="BTN_Winnig_TKT">
-                            <rect key="frame" x="143" y="692" width="482" height="50"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="natural" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="8" id="bbC-pl-5XD">
+                            <rect key="frame" x="20" y="668" width="728" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="20"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                            <size key="shadowOffset" width="0.0" height="0.0"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="a47-L8-ARa" customClass="BTN_Winnig_TKT">
+                            <rect key="frame" x="143" y="747" width="482" height="50"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" red="0.078431372549019607" green="0.62745098039215685" blue="0.84705882352941175" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" red="0.078431372550000003" green="0.62745098040000002" blue="0.84705882349999995" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="20"/>
                             <state key="normal" title="PLACE BID">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="TR8-FV-zNY" customClass="BTN_Winnig_TKT">
-                            <rect key="frame" x="143" y="788" width="482" height="70"/>
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="sXa-X8-qQi" customClass="BTN_Winnig_TKT">
+                            <rect key="frame" x="143" y="843" width="482" height="70"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="30"/>
                             <state key="normal" title="WATCH">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                         </button>
-                        <view contentMode="scaleToFill" misplaced="YES" id="BVL-o2-oM2">
-                            <rect key="frame" x="8" y="866" width="752" height="1"/>
+                        <view contentMode="scaleToFill" misplaced="YES" id="aRx-a8-lob">
+                            <rect key="frame" x="8" y="921" width="752" height="1"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Item Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="et0-zH-LOT">
-                            <rect key="frame" x="14" y="888" width="740" height="33"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Item Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hSc-xJ-6P3">
+                            <rect key="frame" x="14" y="943" width="740" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="20"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                             <size key="shadowOffset" width="0.0" height="0.0"/>
                         </label>
-                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" editable="NO" text="Item desc" id="T29-o0-KAF">
-                            <rect key="frame" x="8" y="916" width="752" height="77"/>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" editable="NO" text="Item desc" id="WTq-qy-jr3">
+                            <rect key="frame" x="8" y="971" width="752" height="77"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" name="GothamBook" family="GothamBook" pointSize="20"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
-                        <view contentMode="scaleToFill" misplaced="YES" id="gNB-u7-V2k">
-                            <rect key="frame" x="8" y="1001" width="752" height="1"/>
+                        <view contentMode="scaleToFill" misplaced="YES" id="pAY-4J-Xqa">
+                            <rect key="frame" x="8" y="1056" width="752" height="1"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Similar Items" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ky5-fc-OkK">
-                            <rect key="frame" x="14" y="1015" width="297" height="45"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Similar Items" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2wE-Wz-GaU">
+                            <rect key="frame" x="14" y="1070" width="297" height="45"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="24"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="NUT-Or-mt5">
-                            <rect key="frame" x="0.0" y="1082" width="768" height="491"/>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="yhq-xD-49i">
+                            <rect key="frame" x="0.0" y="1137" width="768" height="491"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="20e-Ck-b2I">
+                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="P23-CN-nvW">
                                 <size key="itemSize" width="350" height="483"/>
                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                 <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                             </collectionViewFlowLayout>
                             <cells>
-                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" reuseIdentifier="cellIdentifier" id="Qpx-XN-bhM">
+                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cellIdentifier" id="Dgn-dY-Cnb">
                                     <rect key="frame" x="0.0" y="4" width="350" height="483"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                         <rect key="frame" x="0.0" y="0.0" width="350" height="483"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="BG_WT.png" id="mZ3-qp-erf">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BG_WT.png" id="e9q-by-w5e">
                                                 <rect key="frame" x="0.0" y="0.0" width="350" height="295"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label abelLabelLabel Label abelLabelLabel Label abelLabelLabel Label abelLabelLabel Label abelLabelLabel Label abelLabelLabel " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Uqy-64-2FP">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label abelLabelLabel Label abelLabelLabel Label abelLabelLabel Label abelLabelLabel Label abelLabelLabel Label abelLabelLabel " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fYs-te-4Dd">
                                                 <rect key="frame" x="8" y="306" width="334" height="67"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="20"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Exx-Ah-gDY">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Mc4-6G-u23">
                                                 <rect key="frame" x="8" y="384" width="334" height="79"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="26"/>
@@ -2751,18 +2777,10 @@ Team1</string>
                                 </collectionViewCell>
                             </cells>
                             <connections>
-                                <outlet property="dataSource" destination="grc-Nk-EPL" id="1ZD-XH-H4m"/>
-                                <outlet property="delegate" destination="grc-Nk-EPL" id="PZS-bg-1bf"/>
+                                <outlet property="dataSource" destination="grc-Nk-EPL" id="YSm-Xs-FsR"/>
+                                <outlet property="delegate" destination="grc-Nk-EPL" id="I3L-iC-JBF"/>
                             </connections>
                         </collectionView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="natural" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="8" id="1oc-OK-zR9">
-                            <rect key="frame" x="20" y="629" width="728" height="33"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="20"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                            <size key="shadowOffset" width="0.0" height="0.0"/>
-                        </label>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
@@ -2772,7 +2790,6 @@ Team1</string>
         <!--conf Ordr-->
         <scene sceneID="n1Y-mi-nH2">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="92k-mg-79P" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="6nR-fi-70J" customClass="VC_conf_Ordr" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="i3O-Uk-Pco">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
@@ -2942,6 +2959,7 @@ Team1</string>
                         <segue destination="Fq4-ky-gVO" kind="push" identifier="auction_checkout_to_auction_biling" animates="NO" id="5fa-pY-d4g"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="92k-mg-79P" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="16019" y="270"/>
         </scene>
@@ -3469,14 +3487,13 @@ Team1</string>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Starting Bid" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rc2-yJ-PfY">
                                             <rect key="frame" x="8" y="32" width="381" height="29"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" name="Gotham-MediumItalic" family="Gotham" pointSize="24"/>
-                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <fontDescription key="fontDescription" name="Gotham-LightItalic" family="Gotham" pointSize="24"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Nir-B5-0l0">
                                             <rect key="frame" x="639" y="32" width="122" height="29"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" name="Gotham-MediumItalic" family="Gotham" pointSize="23"/>
+                                            <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="23"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -5704,6 +5721,9 @@ Team1</string>
                                         <state key="normal" title="">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="button_back:" destination="Dhe-jA-jC6" eventType="touchUpInside" id="yhc-sz-UxA"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uln-nN-ibU">
                                         <rect key="frame" x="302" y="30" width="164" height="19"/>
@@ -5839,11 +5859,11 @@ Team1</string>
                                 </connections>
                             </tableView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" id="TE9-k5-rtG">
-                                <rect key="frame" x="0.0" y="805" width="768" height="104"/>
+                                <rect key="frame" x="0.0" y="779" width="768" height="130"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="U8C-N3-14w">
-                                    <size key="itemSize" width="315" height="107"/>
+                                    <size key="itemSize" width="768" height="104"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -7283,17 +7303,17 @@ Team1</string>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="qIB-vq-Bf6"/>
         <segue reference="j4i-FP-gqq"/>
         <segue reference="RzG-Pg-A7n"/>
         <segue reference="Ihv-Af-Gmp"/>
-        <segue reference="x8W-bK-8m0"/>
         <segue reference="al3-eI-ip9"/>
         <segue reference="B6X-WB-ZCH"/>
         <segue reference="n7A-AH-YVp"/>
-        <segue reference="qIB-vq-Bf6"/>
-        <segue reference="yaZ-kM-dL8"/>
-        <segue reference="0ik-bb-uAM"/>
+        <segue reference="OMt-xC-9u3"/>
         <segue reference="QIu-2y-D8e"/>
+        <segue reference="0ik-bb-uAM"/>
+        <segue reference="yaZ-kM-dL8"/>
         <segue reference="2yE-Jf-Xnt"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.01176470588" green="0.69019607839999997" blue="0.87843137250000003" alpha="1" colorSpace="calibratedRGB"/>

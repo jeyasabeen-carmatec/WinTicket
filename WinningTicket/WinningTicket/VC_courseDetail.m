@@ -489,9 +489,9 @@
             }
             else if ([couse_type isEqualToString:@"PUBLIC"])
             {
-                [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:13.0],NSBackgroundColorAttributeName: [UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0],NSForegroundColorAttributeName : [UIColor whiteColor],NSBaselineOffsetAttributeName : @3.0f,NSParagraphStyleAttributeName : paragraphStyle} range:rnge_coursename];
-                [attributedText setAttributes:@{NSFontAttributeName:small_text_font,NSBackgroundColorAttributeName: [UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0],NSForegroundColorAttributeName : [UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0],NSBaselineOffsetAttributeName : @3.0f,NSParagraphStyleAttributeName : paragraphStyle} range:range_one_char1];
-                [attributedText setAttributes:@{NSFontAttributeName:small_text_font,NSBackgroundColorAttributeName: [UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0],NSForegroundColorAttributeName : [UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0],NSBaselineOffsetAttributeName : @3.0f} range:range_one_char2];
+                [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"GothamBold" size:13.0],NSBackgroundColorAttributeName: [UIColor colorWithRed:0.00 green:0.65 blue:0.32 alpha:1.0],NSForegroundColorAttributeName : [UIColor whiteColor],NSBaselineOffsetAttributeName : @3.0f,NSParagraphStyleAttributeName : paragraphStyle} range:rnge_coursename];
+                [attributedText setAttributes:@{NSFontAttributeName:small_text_font,NSBackgroundColorAttributeName: [UIColor colorWithRed:0.00 green:0.65 blue:0.32 alpha:1.0],NSForegroundColorAttributeName : [UIColor colorWithRed:0.00 green:0.65 blue:0.32 alpha:1.0],NSBaselineOffsetAttributeName : @3.0f,NSParagraphStyleAttributeName : paragraphStyle} range:range_one_char1];
+                [attributedText setAttributes:@{NSFontAttributeName:small_text_font,NSBackgroundColorAttributeName: [UIColor colorWithRed:0.00 green:0.65 blue:0.32 alpha:1.0],NSForegroundColorAttributeName : [UIColor colorWithRed:0.00 green:0.65 blue:0.32 alpha:1.0],NSBaselineOffsetAttributeName : @3.0f} range:range_one_char2];
             }
             else
             {
@@ -519,8 +519,8 @@
             }
             else if ([couse_type isEqualToString:@"PUBLIC"])
             {
-                [attributedText setAttributes:@{NSFontAttributeName:small_text_font,NSBackgroundColorAttributeName: [UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0],NSForegroundColorAttributeName : [UIColor whiteColor],NSBaselineOffsetAttributeName : @3.0f,NSParagraphStyleAttributeName : paragraphStyle} range:rnge_coursename];
-                [attributedText setAttributes:@{NSFontAttributeName:small_text_font,NSBackgroundColorAttributeName: [UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0],NSForegroundColorAttributeName : [UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0],NSBaselineOffsetAttributeName : @3.0f,NSParagraphStyleAttributeName : paragraphStyle} range:range_one_char1];
+                [attributedText setAttributes:@{NSFontAttributeName:small_text_font,NSBackgroundColorAttributeName: [UIColor colorWithRed:0.00 green:0.65 blue:0.32 alpha:1.0],NSForegroundColorAttributeName : [UIColor whiteColor],NSBaselineOffsetAttributeName : @3.0f,NSParagraphStyleAttributeName : paragraphStyle} range:rnge_coursename];
+                [attributedText setAttributes:@{NSFontAttributeName:small_text_font,NSBackgroundColorAttributeName: [UIColor colorWithRed:0.00 green:0.65 blue:0.32 alpha:1.0],NSForegroundColorAttributeName : [UIColor colorWithRed:0.00 green:0.65 blue:0.32 alpha:1.0],NSBaselineOffsetAttributeName : @3.0f,NSParagraphStyleAttributeName : paragraphStyle} range:range_one_char1];
                 [attributedText setAttributes:@{NSFontAttributeName:small_text_font,NSBackgroundColorAttributeName: [UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0],NSForegroundColorAttributeName : [UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0],NSBaselineOffsetAttributeName : @3.0f,NSParagraphStyleAttributeName : paragraphStyle} range:range_one_char2];
             }
             else
@@ -770,7 +770,7 @@
         {
             UIImage *newImage = [cell.IMG_privacy.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
             UIGraphicsBeginImageContextWithOptions(cell.IMG_privacy.image.size, NO, newImage.scale);
-            [[UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0] set];
+            [[UIColor colorWithRed:0.00 green:0.65 blue:0.32 alpha:1.0] set];
             [newImage drawInRect:CGRectMake(0, 0, cell.IMG_privacy.image.size.width, newImage.size.height)];
             newImage = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();

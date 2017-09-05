@@ -254,20 +254,20 @@
             //[_cpy_dict objectForKey:@"key3"]; @"Startingbid"
             
             
-            NSString *STR_Expired = [NSString stringWithFormat:@"%@",[_cpy_dict objectForKey:@"is_expired?"]];
-            NSString *STR_live = [NSString stringWithFormat:@"%@",[_cpy_dict objectForKey:@"is_live?"]];
+            NSString *STR_Expired = [NSString stringWithFormat:@"%@",[_cpy_dict valueForKey:@"is_expired?"]];
+            NSString *STR_live = [NSString stringWithFormat:@"%@",[_cpy_dict valueForKey:@"is_live?"]];
             
             if ([STR_live isEqualToString:@"0"] && [STR_Expired isEqualToString:@"0"]) {
                 auc_cell.bid_Lbl.text = @"Starting Bid";
-                auc_cell.currency_lbl.text = [NSString stringWithFormat:@"US $%.2f",[[_cpy_dict objectForKey:@"starting_bid"] floatValue]];
+                auc_cell.currency_lbl.text = [NSString stringWithFormat:@"US $%.2f",[[_cpy_dict valueForKey:@"starting_bid"] floatValue]];
             }
             else if ([STR_live isEqualToString:@"1"])
             {
                 auc_cell.bid_Lbl.text = @"Current Bid";
                 @try {
-                    auc_cell.currency_lbl.text = [NSString stringWithFormat:@"US $%.2f",[[_cpy_dict objectForKey:@"current_bid_amount"] floatValue]];
+                    auc_cell.currency_lbl.text = [NSString stringWithFormat:@"US $%.2f",[[_cpy_dict valueForKey:@"current_bid_amount"] floatValue]];
                 } @catch (NSException *exception) {
-                    auc_cell.currency_lbl.text = [NSString stringWithFormat:@"US $%.2f",[[_cpy_dict objectForKey:@"starting_bid"] floatValue]];
+                    auc_cell.currency_lbl.text = [NSString stringWithFormat:@"US $%.2f",[[_cpy_dict valueForKey:@"starting_bid"] floatValue]];
                 }
             }
             else
@@ -276,11 +276,18 @@
                 auc_cell.bid_Lbl.text = @"Sold";
                 
                 @try {
-                    auc_cell.currency_lbl.text = [NSString stringWithFormat:@"US $%.2f",[[_cpy_dict objectForKey:@"current_bid_amount"] floatValue]];
+                    auc_cell.currency_lbl.text = [NSString stringWithFormat:@"US $%.2f",[[_cpy_dict valueForKey:@"current_bid_amount"] floatValue]];
                 } @catch (NSException *exception) {
-                    auc_cell.currency_lbl.text = [NSString stringWithFormat:@"US $%.2f",[[_cpy_dict objectForKey:@"starting_bid"] floatValue]];
+                    auc_cell.currency_lbl.text = [NSString stringWithFormat:@"US $%.2f",[[_cpy_dict valueForKey:@"starting_bid"] floatValue]];
                 }
             }
+            
+            NSString *tmp_bid = [_cpy_dict valueForKey:@"current_bid_amount"];
+            if (!tmp_bid) {
+                auc_cell.bid_Lbl.text = @"Starting Bid";
+            }
+            
+            
         } @catch (NSException *exception) {
             NSLog(@"Exception %@",exception);
         }
@@ -356,6 +363,11 @@
         {
             STR_bidSTAT = @"Closed";
         }
+        
+//        NSString *tmp_bid = [_cpy_dict valueForKey:@"current_bid_amount"];
+//        if (!tmp_bid) {
+//            auc_cell.bid_Lbl.text = @"Starting Bid";
+//        }
         
         NSDictionary *temp_DICTIN = [_sec_one_ARR objectAtIndex:indexPath.row];
         [[NSUserDefaults standardUserDefaults] setValue:STR_bidSTAT forKey:@"STR_bidSTAT"];

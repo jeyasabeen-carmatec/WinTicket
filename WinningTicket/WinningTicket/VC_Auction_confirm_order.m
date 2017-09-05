@@ -43,6 +43,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    self.navigationItem.hidesBackButton = YES;
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new]
                                                   forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.shadowImage = [UIImage new];
@@ -53,35 +54,34 @@
        NSFontAttributeName:[UIFont fontWithName:@"FontAwesome" size:32.0f]
        } forState:UIControlStateNormal];
     
-    //    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"cross"] style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
-//    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain
-//                                                                     target:self action:@selector(backAction)];
-//    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-//    
-//    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-//    {
-//        CGSize result = [[UIScreen mainScreen] bounds].size;
-//        if(result.height <= 480)
-//        {
-//            // iPhone Classic
-//            negativeSpacer.width = 0;
-//        }
-//        else if(result.height <= 568)
-//        {
-//            // iPhone 5
-//            negativeSpacer.width = -12;
-//        }
-//        else
-//        {
-//            negativeSpacer.width = -16;
-//        }
-//    }
-//    else
-//    {
-//        negativeSpacer.width = -12;
-//    }
+    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain
+                                                                     target:self action:@selector(backAction)];
+    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     
-    //[self.navigationItem setLeftBarButtonItems:@[negativeSpacer, anotherButton ] animated:NO];
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    {
+        CGSize result = [[UIScreen mainScreen] bounds].size;
+        if(result.height <= 480)
+        {
+            // iPhone Classic
+            negativeSpacer.width = 0;
+        }
+        else if(result.height <= 568)
+        {
+            // iPhone 5
+            negativeSpacer.width = -12;
+        }
+        else
+        {
+            negativeSpacer.width = -16;
+        }
+    }
+    else
+    {
+        negativeSpacer.width = -12;
+    }
+    
+    [self.navigationItem setLeftBarButtonItems:@[negativeSpacer, anotherButton ] animated:NO];
     
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSForegroundColorAttributeName:[UIColor whiteColor],
@@ -458,9 +458,9 @@
 
 -(void) backAction
 {
-    //    [self.navigationController popViewControllerAnimated:NO];
+    [self.navigationController popViewControllerAnimated:NO];
     //    checkoutTohome
-    NSError *error;
+   /* NSError *error;
     NSMutableDictionary *dict;
     @try {
         dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults] valueForKey:@"PurchaseRESPONSE"] options:NSJSONReadingAllowFragments error:&error];
@@ -497,7 +497,7 @@
     else
     {
         [self performSegueWithIdentifier:@"checkoutTohome" sender:self];
-    }
+    }*/
     
 }
 

@@ -191,7 +191,9 @@
         
         if([status isEqualToString:@"Success"] && [winner_status isEqualToString:@"1"] && [bid isEqualToString:current_user_id] && [bid_amount isEqualToString:winning_bid_amount])
         {
-            bidcell.amount.textColor = [UIColor greenColor];
+            bidcell.amount.textColor = [UIColor colorWithRed:0.00 green:0.65 blue:0.32 alpha:1.0];
+            [bidcell.AC_no setFont:[UIFont fontWithName:@"GothamMedium" size:bidcell.AC_no.font.pointSize]];
+
             status_lbl = @"wininng bid";
             date_lbl = [NSString stringWithFormat:@"%@\n%@",date_TXT,status_lbl];
             

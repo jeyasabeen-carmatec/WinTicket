@@ -646,7 +646,7 @@
     {
         UIImage *newImage = [cell.IMG_privacy.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         UIGraphicsBeginImageContextWithOptions(cell.IMG_privacy.image.size, NO, newImage.scale);
-        [[UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0] set];
+        [[UIColor colorWithRed:0.00 green:0.65 blue:0.32 alpha:1.0] set];
         [newImage drawInRect:CGRectMake(0, 0, cell.IMG_privacy.image.size.width, newImage.size.height)];
         newImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
@@ -732,7 +732,7 @@
 {
     courseCollectionCELL *cell = (courseCollectionCELL*)[self.Collection_course dequeueReusableCellWithReuseIdentifier:@"courseceldentifier" forIndexPath:indexPath];
     
-    cell.layer.shadowColor = [UIColor blackColor].CGColor;
+    cell.layer.shadowColor = [UIColor grayColor].CGColor;
     cell.layer.shadowOffset = CGSizeMake(0, 2.0f);
     cell.layer.shadowRadius = 2.0f;
     cell.layer.shadowOpacity = 1.0f;
@@ -755,8 +755,7 @@
     
     
     // If attributed text is supported (iOS6+)
-    if ([cell.lbl_courseName respondsToSelector:@selector(setAttributedText:)]) {
-        
+//    if ([cell.lbl_courseName respondsToSelector:@selector(setAttributedText:)]) {
         // Define general attributes for the entire text
         NSDictionary *attribs = @{
                                   NSForegroundColorAttributeName: cell.lbl_courseName.textColor,
@@ -772,7 +771,7 @@
         
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         {
-            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Gotham-BoldItalic" size:15.0]}
+            [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Gotham-MediumItalic" size:15.0]}
                                     range:cmp];
         }
         else
@@ -780,14 +779,12 @@
             [attributedText setAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Gotham-MediumItalic" size:12.0]}
                                     range:cmp];
         }
-        
-        
         cell.lbl_courseName.attributedText = attributedText;
-    }
-    else
-    {
-        cell.lbl_courseName.text = text;
-    }
+//    }
+//    else
+//    {
+//        cell.lbl_courseName.text = text;
+//    }
     
     cell.lbl_courseName.numberOfLines = 0;
     [cell.lbl_courseName sizeToFit];
@@ -822,7 +819,7 @@
     {
         UIImage *newImage = [cell.IMG_privacy.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         UIGraphicsBeginImageContextWithOptions(cell.IMG_privacy.image.size, NO, newImage.scale);
-        [[UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0] set];
+        [[UIColor colorWithRed:0.00 green:0.65 blue:0.32 alpha:1.0] set];
         [newImage drawInRect:CGRectMake(0, 0, cell.IMG_privacy.image.size.width, newImage.size.height)];
         newImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
@@ -893,24 +890,30 @@
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
     
-    float pageWidth = _Collection_course.frame.size.width - 10; // width + space
+    for (UIScrollView *scroll in _Collection_course.subviews) {
+        scrollView = scroll;
+    }
     
-    float currentOffset = scrollView.contentOffset.x;
-    float targetOffset = targetContentOffset->x;
-    float newTargetOffset = 0;
-    
-    if (targetOffset > currentOffset)
-        newTargetOffset = ceilf(currentOffset / pageWidth) * pageWidth;
-    else
-        newTargetOffset = floorf(currentOffset / pageWidth) * pageWidth;
-    
-    if (newTargetOffset < 0)
-        newTargetOffset = 0;
-    else if (newTargetOffset > scrollView.contentSize.width)
-        newTargetOffset = scrollView.contentSize.width;
-    
-    targetContentOffset->x = currentOffset;
-    [scrollView setContentOffset:CGPointMake(newTargetOffset, scrollView.contentOffset.y) animated:YES];
+    if (scrollView) {
+        float pageWidth = _Collection_course.frame.size.width - 10; // width + space
+        
+        float currentOffset = _Collection_course.contentOffset.x;
+        float targetOffset = targetContentOffset->x;
+        float newTargetOffset = 0;
+        
+        if (targetOffset > currentOffset)
+            newTargetOffset = ceilf(currentOffset / pageWidth) * pageWidth;
+        else
+            newTargetOffset = floorf(currentOffset / pageWidth) * pageWidth;
+        
+        if (newTargetOffset < 0)
+            newTargetOffset = 0;
+        else if (newTargetOffset > _Collection_course.contentSize.width)
+            newTargetOffset = _Collection_course.contentSize.width;
+        
+        targetContentOffset->x = currentOffset;
+        [_Collection_course setContentOffset:CGPointMake(newTargetOffset, _Collection_course.contentOffset.y) animated:YES];
+    }
 }
 
 #pragma mark - API Calling
