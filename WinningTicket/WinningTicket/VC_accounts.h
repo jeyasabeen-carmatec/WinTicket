@@ -20,5 +20,6 @@
 
 
 @property(nonatomic,weak)IBOutlet UIImageView *img_profile;
-
+@property(nonatomic,weak) IBOutlet UIView *VW_img_BG;
+@property(nonatomic,weak) IBOutlet UIImageView *IMG_profile;
 @end

@@ -308,19 +308,16 @@
     return [NSString stringWithFormat:@"%@ EST",[newFormat stringFromDate:currentDate]];
 }
 #pragma mark - Control datasource
-
 - (void)finishRefresh
 {
     [_tbl_contents finishRefresh];
 }
-
 - (void)finishLoadMore
 {
     [_tbl_contents finishLoadMore];
 }
 
 #pragma mark - Drag delegate methods
-
 - (void)dragTableDidTriggerRefresh:(UITableView *)tableView
 {
     //Pull up go to First Page

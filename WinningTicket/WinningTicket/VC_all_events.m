@@ -372,18 +372,16 @@
     [_TXT_todate resignFirstResponder];
     [_TXT_fromdate resignFirstResponder];
     
-    if ([_TXT_fromdate.text isEqualToString:@""])
+    if (![_TXT_fromdate.text isEqualToString:@""])
     {
-        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-        NSDate *eventDate = _picker_todate.date;
-        [dateFormat setDateFormat:@"dd-MM-YYYY"];
+//        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+//        NSDate *eventDate = _picker_todate.date;
+//        [dateFormat setDateFormat:@"dd-MM-YYYY"];
+//        
+//        NSString *dateString = [dateFormat stringFromDate:eventDate];
+//        _TXT_fromdate.text = [NSString stringWithFormat:@"%@",dateString];
+//        _TXT_todate.text = @"";
         
-        NSString *dateString = [dateFormat stringFromDate:eventDate];
-        _TXT_fromdate.text = [NSString stringWithFormat:@"%@",dateString];
-        _TXT_todate.text = @"";
-    }
-    else
-    {
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"dd-MM-yyyy"];
         
@@ -398,6 +396,17 @@
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         [dateFormat setDateFormat:@"dd-MM-YYYY "];
         _TXT_todate.text = [dateFormat stringFromDate:eventDate];
+    }
+    else
+    {
+        
+        
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        NSDate *eventDate = _picker_fromdate.date;
+        [dateFormat setDateFormat:@"dd-MM-YYYY"];
+        
+        NSString *dateString = [dateFormat stringFromDate:eventDate];
+        _TXT_todate.text = [NSString stringWithFormat:@"%@",dateString];
     }
 }
 
@@ -416,18 +425,16 @@
 
 -(void) todateTextField:(id)sender
 {
-    if ([_TXT_fromdate.text isEqualToString:@""])
+    if (![_TXT_fromdate.text isEqualToString:@""])
     {
-        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-        NSDate *eventDate = _picker_todate.date;
-        [dateFormat setDateFormat:@"dd-MM-YYYY"];
+//        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+//        NSDate *eventDate = _picker_todate.date;
+//        [dateFormat setDateFormat:@"dd-MM-YYYY"];
+//        
+//        NSString *dateString = [dateFormat stringFromDate:eventDate];
+//        _TXT_fromdate.text = [NSString stringWithFormat:@"%@",dateString];
+//        _TXT_todate.text = @"";
         
-        NSString *dateString = [dateFormat stringFromDate:eventDate];
-        _TXT_fromdate.text = [NSString stringWithFormat:@"%@",dateString];
-        _TXT_todate.text = @"";
-    }
-    else
-    {
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"dd-MM-yyyy"];
         
@@ -442,6 +449,18 @@
         NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
         [dateFormat setDateFormat:@"dd-MM-YYYY "];
         _TXT_todate.text = [dateFormat stringFromDate:eventDate];
+    }
+    else
+    {
+        
+        
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        NSDate *eventDate = _picker_fromdate.date;
+        [dateFormat setDateFormat:@"dd-MM-YYYY"];
+        
+        NSString *dateString = [dateFormat stringFromDate:eventDate];
+        _TXT_todate.text = [NSString stringWithFormat:@"%@",dateString];
+//        _TXT_todate.text = @"";
     }
 }
 /*
@@ -974,11 +993,49 @@
     [formatter setDateFormat:@"dd-mm-yyyy"];
     NSDate *fromdate=[formatter dateFromString:_TXT_fromdate.text];
     NSDate *todate=[formatter dateFromString:_TXT_todate.text];
-    NSString *str1=[formatter stringFromDate:fromdate];
-    NSString *str2=[formatter stringFromDate:todate];
+    NSString *str1,*str2,*state;
+    @try
+    {
+    NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults] valueForKey:@"states_dict"] options:NSASCIIStringEncoding error:&error];
+
+       state = [json_DATA valueForKey:_TXT_state.text];
+        if(!state)
+        {
+            state = @"";
+        }
+    }
+    @catch(NSException *exception)
+    {
+        state = @"";
+        
+        
+        
+    }
+
+    @try {
+         str1 =[formatter stringFromDate:fromdate];
+        if(!str1)
+        {
+            str1 = @"";
+        }
+         }
+        @catch (NSException *exception) {
+             str1 = @"";
+         }
+    @try {
+          str2=[formatter stringFromDate:todate];
+        if(!str2)
+        {
+            str2 = @"";
+        }
+        }
+        @catch (NSException *exception) {
+            str2 = @"";
+        }
+      
+       
     
-    
-    NSString *urlGetuser =[NSString stringWithFormat:@"%@events/all_events?start_date=%@&end_date=%@",SERVER_URL,str1,str2];
+    NSString *urlGetuser =[NSString stringWithFormat:@"%@events/all_events?event_state=%@&start_date=%@&end_date=%@",SERVER_URL,state,str1,str2];
     NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     [request setURL:urlProducts];
@@ -1103,7 +1160,7 @@
 }
 -(void) choose_to_DATE
 {
-    if ([_TXT_fromdate.text isEqualToString:@""])
+    if (![_TXT_fromdate.text isEqualToString:@""])
     {
         [self choose_from_DATE];
     }
@@ -1117,8 +1174,7 @@
         NSDate *min_date = [[NSDate alloc] init];
         min_date = [formatter dateFromString:STR_tmp];
         
-//        NSLog(@"Tapped to date");
-        
+        NSLog(@"Tapped to date");
     }
 }
 
@@ -1158,6 +1214,8 @@
     if(aData)
     {
     NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+        [[NSUserDefaults standardUserDefaults] setObject:aData forKey:@"states_dict"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
         
         @try
         {
@@ -1168,6 +1226,7 @@
             }
             else
             {
+                
                 sorted_STAES = [json_DATA allKeys];
                 _ARR_states = [sorted_STAES sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
             }

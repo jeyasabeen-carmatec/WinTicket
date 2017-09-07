@@ -12,5 +12,6 @@
 
 @property (nonatomic, retain) IBOutlet UITableView *tbl_search;
 @property (nonatomic, retain) IBOutlet UILabel *lbl_NoData;
+@property (nonatomic, retain) IBOutlet UITableView *auctiontab;
 
 @end

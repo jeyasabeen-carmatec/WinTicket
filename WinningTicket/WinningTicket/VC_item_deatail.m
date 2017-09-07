@@ -88,16 +88,41 @@
     
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setImage:[UIImage imageNamed:@"50"] forState:UIControlStateNormal];
+//    button.imageEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 0);
 //    [button setTitle:@"Settings" forState:UIControlStateNormal];
     [button addTarget:self action:@selector(more_ACTION)forControlEvents:UIControlEventTouchUpInside];
 //    [button sizeToFit];
-    CGRect btnframe = CGRectMake(0, 0, 30, 25);
+    CGRect btnframe = CGRectMake(0, 0, 18, 18);
     button.frame = btnframe;
     UIBarButtonItem *anotherButton1 = [[UIBarButtonItem alloc] initWithCustomView:button];
     
     [self.navigationItem setLeftBarButtonItems:@[negativeSpacer, anotherButton ] animated:NO];
     
-    [self.navigationItem setRightBarButtonItems:@[anotherButton1, negativeSpacer]animated:NO];
+    UIBarButtonItem *negativeSpacer1 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    {
+        CGSize result = [[UIScreen mainScreen] bounds].size;
+        if(result.height <= 480)
+        {
+            // iPhone Classic
+            negativeSpacer1.width = 0;
+        }
+        else if(result.height <= 568)
+        {
+            // iPhone 5
+            negativeSpacer1.width = -6;
+        }
+        else
+        {
+            negativeSpacer1.width = -10;
+        }
+    }
+    else
+    {
+        negativeSpacer1.width = -6;
+    }
+    
+    [self.navigationItem setRightBarButtonItems:@[negativeSpacer1,anotherButton1]animated:NO];
 
     
     [super viewDidLoad];
@@ -1747,7 +1772,7 @@ self.countdownLabel.text = [NSString stringWithFormat:@"%@/%@/%@ %@:%@:%@", days
     }
     
     if (scrollView) {
-        float pageWidth = _collection_IMG.frame.size.width ; // width + space
+        float pageWidth = _collection_IMG.frame.size.width; // width + space
         
         float currentOffset = _collection_IMG.contentOffset.x;
         float targetOffset = targetContentOffset->x;

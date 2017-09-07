@@ -313,12 +313,6 @@
              frame_setup.size.height = _tbl_nearbycourse.frame.origin.y + [_tbl_nearbycourse contentSize].height;
         _VW_nearby_courses.frame = frame_setup;
              
-             
-            
-    
-
-             
-
       
        [_BTN_more setTitle:@"MORE " forState:UIControlStateNormal];
   
@@ -521,7 +515,7 @@
             {
                 [attributedText setAttributes:@{NSFontAttributeName:small_text_font,NSBackgroundColorAttributeName: [UIColor colorWithRed:0.00 green:0.65 blue:0.32 alpha:1.0],NSForegroundColorAttributeName : [UIColor whiteColor],NSBaselineOffsetAttributeName : @3.0f,NSParagraphStyleAttributeName : paragraphStyle} range:rnge_coursename];
                 [attributedText setAttributes:@{NSFontAttributeName:small_text_font,NSBackgroundColorAttributeName: [UIColor colorWithRed:0.00 green:0.65 blue:0.32 alpha:1.0],NSForegroundColorAttributeName : [UIColor colorWithRed:0.00 green:0.65 blue:0.32 alpha:1.0],NSBaselineOffsetAttributeName : @3.0f,NSParagraphStyleAttributeName : paragraphStyle} range:range_one_char1];
-                [attributedText setAttributes:@{NSFontAttributeName:small_text_font,NSBackgroundColorAttributeName: [UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0],NSForegroundColorAttributeName : [UIColor colorWithRed:0.09 green:0.40 blue:0.14 alpha:1.0],NSBaselineOffsetAttributeName : @3.0f,NSParagraphStyleAttributeName : paragraphStyle} range:range_one_char2];
+                [attributedText setAttributes:@{NSFontAttributeName:small_text_font,NSBackgroundColorAttributeName: [UIColor colorWithRed:0.00 green:0.65 blue:0.32 alpha:1.0],NSForegroundColorAttributeName : [UIColor colorWithRed:0.00 green:0.65 blue:0.32 alpha:1.0],NSBaselineOffsetAttributeName : @3.0f,NSParagraphStyleAttributeName : paragraphStyle} range:range_one_char2];
             }
             else
             {
@@ -605,7 +599,7 @@
     
     NSString *STR_description = [selected_course valueForKey:@"description"];
     if (STR_description != (id)[NSNull null]) {
-        _Lbl_course_Description.text = @"my name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakashmy name is prakash";//STR_description;
+        _Lbl_course_Description.text = STR_description;
     }
     else
     {
@@ -619,6 +613,7 @@
     else
     {
         _BTN_more.hidden = YES;
+        [_Lbl_course_Description sizeToFit];
     }
 
     

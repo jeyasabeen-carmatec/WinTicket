@@ -15,11 +15,12 @@
 #pragma mark - Image Cache
 #import "SDWebImage/UIImageView+WebCache.h"
 
-@interface VC_accounts () <UIAlertViewDelegate>
+@interface VC_accounts () <UIAlertViewDelegate,UIGestureRecognizerDelegate>
 {
     NSArray *section1,*section2;
-    UIView *VW_overlay;
+    UIView *VW_overlay,*profile_view;
     UIActivityIndicatorView *activityIndicatorView;
+    NSDictionary *tempdict;
 //    UILabel *loadingLabel;
 }
 
@@ -31,7 +32,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self setup_VIEW];
+    
+    
 //    [_TBL_contents reloadData];
 }
 
@@ -77,10 +79,15 @@
     VW_overlay.hidden = NO;
     [activityIndicatorView startAnimating];
     [self performSelector:@selector(myaccount_API_calling) withObject:activityIndicatorView afterDelay:0.01];
+    [self setup_VIEW];
+    
+    
 }
 
 -(void) setup_VIEW
 {
+    
+
     [_segment_bottom setSelectedSegmentIndex:2];
     [_tab_HOME setSelectedItem:[_tab_HOME.items objectAtIndex:2]];
     for (int i=0; i<[self.segment_bottom.subviews count]; i++)
@@ -99,9 +106,61 @@
     }
     section1 = [[NSArray alloc]initWithObjects:@"Add Funds",@"Donate",@"Withdrawl",@"Transaction History", nil];
     section2 = [[NSArray alloc]initWithObjects:@"Notification Settings",@"How It Works",@"About Us",@"Contact Us",@"Terms of Use",@"Privacy Policy",@"Edit Account Information",@"Change Password",@"Log Out", nil];
+    
+    _img_profile .userInteractionEnabled = YES;
+    
+    UITapGestureRecognizer *tapGesture1 = [[UITapGestureRecognizer alloc] initWithTarget:self  action:@selector(tapGesture_profile)];
+    
+    tapGesture1.numberOfTapsRequired = 1;
+    
+    [tapGesture1 setDelegate:self];
+    
+    [_img_profile addGestureRecognizer:tapGesture1];
+
+}
+-(void)tapGesture_profile
+{
+    
+    
+    
+    CGRect profile_frame;
+    profile_frame = _VW_img_BG.frame;
+   
+    profile_frame.size.width = self.view.frame.size.width - 40;
+    profile_frame.size.height = self.view.frame.size.width - 40;
+    _VW_img_BG.frame = profile_frame;
+  _VW_img_BG.center = self.view.center;
+  //  profile.view.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:_VW_img_BG];
+    
+    
+    @try {
+        [_IMG_profile sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGE_URL,[tempdict valueForKey:@"avatar_url"]]]
+                        placeholderImage:[UIImage imageNamed:@"profile_pic.png"]];
+        
+        
+    } @catch (NSException *exception) {
+        NSLog(@"Exception");
+    }
+
+    
+  
+    VW_overlay.hidden = NO;
+    _VW_img_BG.hidden = NO;
+    
+}
+- (IBAction)BTN_close:(id)sender {
+    
+    VW_overlay.hidden = YES;
+    
+    _VW_img_BG.hidden = YES;
 }
 
-
+-(void)hidde_VW
+{
+    profile_view.hidden = YES;
+  
+}
 #pragma mark - Tabbar deligate
 -(void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
@@ -731,23 +790,25 @@
             }
             else
             {
-                NSDictionary *temp_dict=[account_data valueForKey:@"user"];
-                NSString *name_STR = [NSString stringWithFormat:@"%@ %@",[temp_dict valueForKey:@"first_name"],[temp_dict valueForKey:@"last_name"]];
+               tempdict=[account_data valueForKey:@"user"];
+                NSString *name_STR = [NSString stringWithFormat:@"%@ %@",[tempdict valueForKey:@"first_name"],[tempdict valueForKey:@"last_name"]];
                 name_STR = [name_STR stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
                 name_STR = [name_STR stringByReplacingOccurrencesOfString:@"<null>" withString:@""];
                 
                 self.first_name.text = name_STR;
 //                [self.first_name sizeToFit];
-                self.last_name.text=[temp_dict valueForKey:@"email"];
+                self.last_name.text=[tempdict valueForKey:@"email"];
 //                [self.last_name sizeToFit];
                 NSString *amount=[NSString stringWithFormat:@"%.2f",[[account_data valueForKey:@"wallet"] floatValue]];
                 self.amount.text =[NSString stringWithFormat:@"$%@",amount];
                 
-                NSLog(@"Image Url is %@",[NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_dict valueForKey:@"avatar_url"]]);
+                NSLog(@"Image Url is %@",[NSString stringWithFormat:@"%@%@",IMAGE_URL,[tempdict valueForKey:@"avatar_url"]]);
                 
                 @try {
-                    [_img_profile sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGE_URL,[temp_dict valueForKey:@"avatar_url"]]]
+                    [_img_profile sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGE_URL,[tempdict valueForKey:@"avatar_url"]]]
                                     placeholderImage:[UIImage imageNamed:@"profile_pic.png"]];
+                
+                    
                 } @catch (NSException *exception) {
                     NSLog(@"Exception");
                 }

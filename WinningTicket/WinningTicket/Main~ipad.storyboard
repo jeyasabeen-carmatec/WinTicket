@@ -2948,7 +2948,7 @@ Team1</string>
                         <outlet property="lbl_acbalance" destination="kRO-7f-4H6" id="GyK-C1-4NN"/>
                         <outlet property="lbl_acbalance_amount" destination="4U3-ax-wzM" id="ZEP-EM-96x"/>
                         <outlet property="lbl_arrowaccount" destination="nmJ-Ud-Cmq" id="hEX-qU-tsz"/>
-                        <outlet property="lbl_current_bal" destination="9E3-Bz-aa3" id="khu-fU-uTt"/>
+                        <outlet property="lbl_current_bal" destination="er6-5o-qG1" id="UQB-rn-AKr"/>
                         <outlet property="lbl_dataTotal" destination="n9I-xT-IEf" id="nwQ-Bg-WQU"/>
                         <outlet property="lbl_datasubtotal" destination="0At-JO-jAN" id="k7u-IP-OzJ"/>
                         <outlet property="lbl_price" destination="zsT-zi-pdM" id="BUH-6P-weU"/>
@@ -3450,7 +3450,7 @@ Team1</string>
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="64"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Referral" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2Wx-ft-Woz">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bidding History" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2Wx-ft-Woz">
                                         <rect key="frame" x="302" y="30" width="164" height="19"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
@@ -3490,7 +3490,7 @@ Team1</string>
                                             <fontDescription key="fontDescription" name="Gotham-LightItalic" family="Gotham" pointSize="24"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Nir-B5-0l0">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Nir-B5-0l0">
                                             <rect key="frame" x="639" y="32" width="122" height="29"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="23"/>
@@ -3603,9 +3603,12 @@ Team1</string>
                     </view>
                     <navigationItem key="navigationItem" id="Qk8-ks-Xdh"/>
                     <connections>
+                        <outlet property="IMG_profile" destination="NAM-V0-C4p" id="t04-bZ-Bin"/>
                         <outlet property="TBL_contents" destination="EKZ-0L-yHJ" id="l7i-rE-Wbf"/>
+                        <outlet property="VW_img_BG" destination="e41-2A-lvd" id="2lX-nd-6aS"/>
                         <outlet property="amount" destination="rle-1k-1IH" id="oOS-W7-hdm"/>
                         <outlet property="first_name" destination="Wpc-EN-egG" id="hoo-RC-Bpn"/>
+                        <outlet property="img_profile" destination="pIm-uG-pPQ" id="m7R-ZA-Zhy"/>
                         <outlet property="last_name" destination="flV-OG-6eu" id="eZo-me-HBJ"/>
                         <outlet property="segment_bottom" destination="rDh-I3-UsQ" id="RgR-FK-uEV"/>
                         <outlet property="tab_HOME" destination="u9f-R0-tEb" id="YSd-8C-Trg"/>
@@ -3627,6 +3630,25 @@ Team1</string>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hca-kU-V1t" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="e41-2A-lvd">
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="490"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="KRu-vl-Cmh">
+                            <rect key="frame" x="651" y="14" width="97" height="87"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" backgroundImage="close-2.png"/>
+                            <connections>
+                                <action selector="BTN_close:" destination="O3Y-Qw-gkH" eventType="touchUpInside" id="4Hf-9W-kkB"/>
+                            </connections>
+                        </button>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="NAM-V0-C4p" customClass="ZoomRotatePanImageView">
+                            <rect key="frame" x="135" y="65" width="499" height="361"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
             </objects>
             <point key="canvasLocation" x="3939" y="3532"/>
         </scene>
@@ -3988,8 +4010,12 @@ Team1</string>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="BTN_deduct_wallet" destination="Lyg-hv-7p8" id="Asb-Ky-4Mo"/>
                         <outlet property="BTN_deposit" destination="V7r-nw-hyl" id="lUU-8l-Sjx"/>
                         <outlet property="BTN_edit" destination="wSG-mN-G8M" id="pHf-2f-O6a"/>
+                        <outlet property="LBL_arrow_wallet" destination="IMg-lW-niT" id="2wn-YS-SvY"/>
+                        <outlet property="LBLwallet_balence" destination="sHi-vq-jBY" id="AUz-m5-n2V"/>
+                        <outlet property="SWITCH_wallet" destination="7kd-Sd-C9o" id="6PV-i0-QOq"/>
                         <outlet property="TXTVW_organisationname" destination="NgO-uT-h7K" id="3iP-yZ-WNk"/>
                         <outlet property="TXT_address1" destination="w9w-mm-3GL" id="x6p-sr-aKa"/>
                         <outlet property="TXT_address2" destination="KM2-ND-WrY" id="UpM-mw-wQp"/>
@@ -4004,8 +4030,10 @@ Team1</string>
                         <outlet property="VW_address" destination="kgK-O4-bdN" id="ERz-zj-Anx"/>
                         <outlet property="VW_organisationdetail" destination="AJU-GP-0Es" id="ZK9-Vc-nnT"/>
                         <outlet property="VW_titladdress" destination="QuU-YE-1fN" id="Bh9-3V-JYN"/>
+                        <outlet property="VW_wallet" destination="La2-Yo-7S2" id="o4d-V6-zoD"/>
                         <outlet property="lbl_address" destination="wgu-Xn-MHy" id="aOg-sd-UmN"/>
                         <outlet property="lbl_currencyTYP" destination="Se3-yS-7Sr" id="x4r-cI-DIP"/>
+                        <outlet property="lbl_titlbillingaddress" destination="1XL-20-koa" id="iSX-V4-1TC"/>
                         <outlet property="lbl_titledonationAMT" destination="ryc-7P-1DN" id="8qa-iw-E6L"/>
                         <outlet property="scroll_Contents" destination="baP-8n-h1o" id="6EL-4j-Wuu"/>
                         <segue destination="eTI-n0-WT4" kind="modal" identifier="donate_purchase" animates="NO" id="Zxk-2s-YNR"/>
@@ -4173,7 +4201,7 @@ Team1</string>
                     <color key="backgroundColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
                 <view contentMode="scaleToFill" misplaced="YES" id="AJU-GP-0Es">
-                    <rect key="frame" x="0.0" y="0.0" width="768" height="175"/>
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="385"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Event : " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Dyw-Tr-yb3">
@@ -4219,6 +4247,43 @@ Team1</string>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Lyg-hv-7p8">
+                            <rect key="frame" x="13" y="182" width="513" height="47"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="20"/>
+                            <state key="normal" title="Use Account Balance"/>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="IMg-lW-niT">
+                            <rect key="frame" x="706" y="173" width="37" height="38"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="32"/>
+                            <color key="textColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sHi-vq-jBY">
+                            <rect key="frame" x="13" y="237" width="730" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="20"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" misplaced="YES" id="La2-Yo-7S2">
+                            <rect key="frame" x="13" y="285" width="730" height="51"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="7kd-Sd-C9o">
+                                    <rect key="frame" x="0.0" y="2" width="51" height="31"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </switch>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Use account balance to pay" textAlignment="natural" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="6" id="7r6-5a-s68">
+                                    <rect key="frame" x="70" y="-6" width="652" height="46"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="20"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
@@ -4723,6 +4788,7 @@ Team1</string>
                     </view>
                     <connections>
                         <outlet property="tbl_contents" destination="zKt-oq-jQy" id="LkA-BF-dKp"/>
+                        <segue destination="SFs-IS-FKp" kind="modal" identifier="transactionDeatail" animates="NO" id="i0t-sx-ggH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GwX-GM-M6r" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -7281,6 +7347,119 @@ Team1</string>
             </objects>
             <point key="canvasLocation" x="1470" y="7094"/>
         </scene>
+        <!--trans Deatail-->
+        <scene sceneID="mar-MA-JZe">
+            <objects>
+                <viewController id="SFs-IS-FKp" customClass="VC_transDeatail" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="qNZ-Hi-kbZ">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="njB-GS-W5G">
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="64"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transaction History" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vYM-AB-tIH">
+                                        <rect key="frame" x="288" y="22" width="187" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="oat-li-Eof">
+                                        <rect key="frame" x="8" y="18" width="43" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="32"/>
+                                        <state key="normal" title="">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="BTN_back:" destination="SFs-IS-FKp" eventType="touchUpInside" id="aXq-wK-0hi"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="x0K-Ih-ciU">
+                                <rect key="frame" x="0.0" y="64" width="768" height="113"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.74901960779999999" green="0.90980392160000001" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" id="v80-23-pFE">
+                                <rect key="frame" x="260" y="72" width="240" height="240"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4jb-fq-yb4">
+                                        <rect key="frame" x="10" y="14" width="220" height="220"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="GothamBold" family="Gotham Bold" pointSize="12"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ln9-al-FSs">
+                                <rect key="frame" x="-7" y="314" width="774" height="71"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="f5X-kZ-t4G">
+                                <rect key="frame" x="0.0" y="401" width="768" height="623"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="E6f-K0-LyE"/>
+                    <connections>
+                        <outlet property="VW_contents" destination="yQI-qF-3h8" id="5CO-7f-75h"/>
+                        <outlet property="VW_hold_lbl" destination="v80-23-pFE" id="cDf-Ov-shY"/>
+                        <outlet property="lbl_ticketDetail" destination="fdr-eP-HJ2" id="v1j-rW-ZYQ"/>
+                        <outlet property="lbl_time" destination="hqt-gL-lIs" id="rHF-aS-9Bn"/>
+                        <outlet property="lbl_trans_TKT" destination="4jb-fq-yb4" id="Gu0-kC-fzd"/>
+                        <outlet property="lbl_transtype" destination="Ln9-al-FSs" id="u1u-xR-j1Y"/>
+                        <outlet property="scroll_contents" destination="f5X-kZ-t4G" id="M92-se-S6j"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="by6-WC-ObO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="yQI-qF-3h8">
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="369"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" id="iWI-Kh-bgE">
+                            <rect key="frame" x="5" y="0.0" width="758" height="2"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="0.59607843140000005" green="0.59607843140000005" blue="0.59607843140000005" alpha="1" colorSpace="calibratedRGB"/>
+                        </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" minimumFontSize="8" id="hqt-gL-lIs">
+                            <rect key="frame" x="0.0" y="16" width="768" height="53"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="25"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" id="xiS-ji-l44">
+                            <rect key="frame" x="5" y="81" width="758" height="2"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="0.59607843140000005" green="0.59607843140000005" blue="0.59607843140000005" alpha="1" colorSpace="calibratedRGB"/>
+                        </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fdr-eP-HJ2">
+                            <rect key="frame" x="16" y="105" width="736" height="30"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="20"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+            </objects>
+            <point key="canvasLocation" x="8751" y="6081"/>
+        </scene>
     </scenes>
     <resources>
         <image name="$.png" width="200" height="200"/>
@@ -7291,6 +7470,7 @@ Team1</string>
         <image name="Logo_WT.png" width="421" height="301"/>
         <image name="User-24X24.png" width="24" height="24"/>
         <image name="World.png" width="75" height="75"/>
+        <image name="close-2.png" width="64" height="64"/>
         <image name="detail_baground.png" width="100" height="40"/>
         <image name="events-icon_24X24.png" width="24" height="24"/>
         <image name="globe.jpg" width="200" height="200"/>
@@ -7306,15 +7486,15 @@ Team1</string>
         <segue reference="qIB-vq-Bf6"/>
         <segue reference="j4i-FP-gqq"/>
         <segue reference="RzG-Pg-A7n"/>
-        <segue reference="Ihv-Af-Gmp"/>
+        <segue reference="OMt-xC-9u3"/>
+        <segue reference="4wU-Kb-rBo"/>
+        <segue reference="cbC-uE-OEU"/>
+        <segue reference="2yE-Jf-Xnt"/>
+        <segue reference="0ik-bb-uAM"/>
+        <segue reference="QIu-2y-D8e"/>
         <segue reference="al3-eI-ip9"/>
         <segue reference="B6X-WB-ZCH"/>
         <segue reference="n7A-AH-YVp"/>
-        <segue reference="OMt-xC-9u3"/>
-        <segue reference="QIu-2y-D8e"/>
-        <segue reference="0ik-bb-uAM"/>
-        <segue reference="yaZ-kM-dL8"/>
-        <segue reference="2yE-Jf-Xnt"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.01176470588" green="0.69019607839999997" blue="0.87843137250000003" alpha="1" colorSpace="calibratedRGB"/>
 </document>

@@ -2756,7 +2756,7 @@ Team1</string>
                             </collectionViewFlowLayout>
                             <cells>
                                 <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cellIdentifier" id="GEi-5z-O8C">
-                                    <rect key="frame" x="0.0" y="1.5" width="183" height="255"/>
+                                    <rect key="frame" x="0.0" y="2" width="183" height="255"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                         <rect key="frame" x="0.0" y="0.0" width="183" height="255"/>
@@ -3297,8 +3297,8 @@ Team1</string>
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bidding Referals" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Sa4-YH-MYd">
-                                        <rect key="frame" x="86" y="21" width="148" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Bidding History" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Sa4-YH-MYd">
+                                        <rect key="frame" x="86" y="23" width="148" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="GothamMedium" family="GothamMedium" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -3337,7 +3337,7 @@ Team1</string>
                                             <fontDescription key="fontDescription" name="Gotham-LightItalic" family="Gotham" pointSize="19"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rFd-al-H22">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rFd-al-H22">
                                             <rect key="frame" x="190" y="17" width="122" height="29"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
@@ -3451,7 +3451,9 @@ Team1</string>
                     </view>
                     <navigationItem key="navigationItem" id="ISF-nL-U4d"/>
                     <connections>
+                        <outlet property="IMG_profile" destination="hpq-Vx-7J0" id="Znw-pC-iTz"/>
                         <outlet property="TBL_contents" destination="jzy-b6-PHi" id="B72-F0-A7P"/>
+                        <outlet property="VW_img_BG" destination="TuT-aM-gLw" id="10E-gH-eiL"/>
                         <outlet property="amount" destination="jB9-Fa-JXv" id="WUF-tP-zs5"/>
                         <outlet property="first_name" destination="tP4-3i-1tX" id="40c-xZ-gHY"/>
                         <outlet property="img_profile" destination="EcL-Jd-XJC" id="5UM-cM-Ki1"/>
@@ -3476,6 +3478,26 @@ Team1</string>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q31-z2-ap8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="TuT-aM-gLw">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="297"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cbb-Qy-rXE">
+                            <rect key="frame" x="250" y="7" width="54" height="53"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
+                            <state key="normal" backgroundImage="close-2.png"/>
+                            <connections>
+                                <action selector="BTN_close:" destination="KJ9-zF-nGz" eventType="touchUpInside" id="tE7-d2-HQm"/>
+                            </connections>
+                        </button>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" id="hpq-Vx-7J0" customClass="ZoomRotatePanImageView">
+                            <rect key="frame" x="70" y="68" width="187" height="186"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
             </objects>
             <point key="canvasLocation" x="1877" y="1630"/>
         </scene>
@@ -7624,6 +7646,7 @@ Team1</string>
         <image name="Logo_WT.png" width="421" height="301"/>
         <image name="User-24X24.png" width="24" height="24"/>
         <image name="World.png" width="75" height="75"/>
+        <image name="close-2.png" width="64" height="64"/>
         <image name="cross_black.png" width="64" height="64"/>
         <image name="detail_baground.png" width="100" height="40"/>
         <image name="events-icon_24X24.png" width="24" height="24"/>
@@ -7638,13 +7661,13 @@ Team1</string>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="aDF-05-jfq"/>
-        <segue reference="AmC-Xg-ce2"/>
-        <segue reference="m5f-k9-dzd"/>
+        <segue reference="KU5-Xe-DT4"/>
+        <segue reference="Bvk-xC-oni"/>
+        <segue reference="Kfz-vY-8cB"/>
+        <segue reference="D2f-xd-0V5"/>
         <segue reference="6Iw-xR-hwg"/>
         <segue reference="95q-65-OkS"/>
         <segue reference="ODo-qD-iEi"/>
-        <segue reference="Bvk-xC-oni"/>
-        <segue reference="D2f-xd-0V5"/>
         <segue reference="wI7-Ti-9mU"/>
         <segue reference="pDZ-0U-Rag"/>
         <segue reference="7yl-5E-R4B"/>

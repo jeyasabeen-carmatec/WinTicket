@@ -572,7 +572,7 @@
     
     NSMutableDictionary *temp_resp = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:[[NSUserDefaults standardUserDefaults] valueForKey:@"CHKOUTDETAIL"] options:NSASCIIStringEncoding error:&error];
     
-    float total = [[temp_resp valueForKey:@"price"] floatValue] * [[temp_resp valueForKey:@"quantity"] floatValue];
+    float total = [[temp_resp valueForKey:@"price"] floatValue];
     NSString *a = [NSString stringWithFormat:@"%.2f", total];
     
     NSString *nanunce = [[NSUserDefaults standardUserDefaults] valueForKey:@"NAUNCETOK"];
