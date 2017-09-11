@@ -8,7 +8,10 @@
 
 #import "VC_search_Course.h"
 #import "VC_courses.h"
+#import "ARR_singleTON.h"
 #import "ViewController.h"
+
+#import "API_search_course.h"
 
 #import "WinningTicket_Universal-Swift.h"
 
@@ -640,8 +643,8 @@
 //Search BTN search
 -(void) API_search_BTN_act :(NSDictionary *)Dictin_autosuggest
 {
-    NSHTTPURLResponse *response = nil;
-    NSError *error;
+//    NSHTTPURLResponse *response = nil;
+//    NSError *error;
     NSString *urlGetuser;
     NSString *STR_location = [Dictin_autosuggest valueForKey:@"places"];
     NSString *STR_courses = [Dictin_autosuggest valueForKey:@"courses"];
@@ -658,78 +661,86 @@
         urlGetuser =[NSString stringWithFormat:@"%@golfcourse/search_courses?course_name=%@",SERVER_URL,STR_courses];
     }
     
-    urlGetuser = [urlGetuser stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
-    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:urlProducts];
-    [request setHTTPMethod:@"GET"];
-    [request setHTTPShouldHandleCookies:NO];
-    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
+    API_search_course *API_course = [[API_search_course alloc]init];
+    //    Dictin_course =
+    ARR_singleTON *globals = [ARR_singleTON dictin];
+    globals.Dictin_course = [API_course API_courses:urlGetuser];
     
-    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    if(aData)
+//    urlGetuser = [urlGetuser stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+//    NSURL *urlProducts=[NSURL URLWithString:urlGetuser];
+//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+//    [request setURL:urlProducts];
+//    [request setHTTPMethod:@"GET"];
+//    [request setHTTPShouldHandleCookies:NO];
+//    NSString *auth_tok = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
+//    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+//    [request setValue:auth_tok forHTTPHeaderField:@"auth_token"];
+//    
+//    NSData *aData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+//    if(aData)
+//    {
+//        [activityIndicatorView stopAnimating];
+//        VW_overlay.hidden = YES;
+//        
+//        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
+//        NSString *STR_error;
+//        
+//        @try {
+//            STR_error = [dict valueForKey:@"error"];
+//            if (STR_error) {
+//                [self sessionOUT];
+//            }
+//        } @catch (NSException *exception) {
+//            NSLog(@"Exception in courses %@",exception);
+//            [self sessionOUT];
+//        }
+//        
+//        NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:kNilOptions error:&error];
+//
+//    }
+//    else
+//    {
+//        [activityIndicatorView stopAnimating];
+//        VW_overlay.hidden = YES;
+//    }
+    [self next_VC];
+}
+
+-(void) next_VC
+{
+    NSArray *all_courses,*private_course,*public;
+    ARR_singleTON *globals_dictin = [ARR_singleTON dictin];
+    
+    @try {
+        NSDictionary *all_course_arr = [globals_dictin.Dictin_course valueForKey:@"courses"];
+        all_courses = [all_course_arr valueForKey:@"all"];
+        private_course = [all_course_arr valueForKey:@"private"];
+        public = [all_course_arr valueForKey:@"public"];
+    } @catch (NSException *exception) {
+        [self navigate_courses];
+    }
+    //
+    //
+    if ([all_courses count] != 0) {
+        [[NSUserDefaults standardUserDefaults] setValue:@"SearchVC" forKey:@"SEARCH_STAT"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self navigate_courses];
+    }
+    else if ([private_course count] != 0)
     {
-        [activityIndicatorView stopAnimating];
-        VW_overlay.hidden = YES;
-        
-        NSMutableDictionary *dict=(NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:NSASCIIStringEncoding error:&error];
-        NSString *STR_error;
-        
-        @try {
-            STR_error = [dict valueForKey:@"error"];
-            if (STR_error) {
-                [self sessionOUT];
-            }
-        } @catch (NSException *exception) {
-            NSLog(@"Exception in courses %@",exception);
-            [self sessionOUT];
-        }
-        
-        NSMutableDictionary *json_DATA = (NSMutableDictionary *)[NSJSONSerialization JSONObjectWithData:aData options:kNilOptions error:&error];
-        
-        NSArray *all_courses,*private_course,*public;
-    
-        @try {
-            NSDictionary *all_course_arr = [json_DATA valueForKey:@"courses"];
-            all_courses = [all_course_arr valueForKey:@"all"];
-            private_course = [all_course_arr valueForKey:@"private"];
-            public = [all_course_arr valueForKey:@"public"];
-        } @catch (NSException *exception) {
-            [self navigate_courses];
-        }
-        
-        
-        if ([all_courses count] != 0) {
-            [[NSUserDefaults standardUserDefaults] setValue:aData forKey:@"COURSESDICTIN"];
-            [[NSUserDefaults standardUserDefaults] setValue:@"SearchVC" forKey:@"SEARCH_STAT"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            [self navigate_courses];
-        }
-        else if ([private_course count] != 0)
-        {
-            [[NSUserDefaults standardUserDefaults] setValue:aData forKey:@"COURSESDICTIN"];
-            [[NSUserDefaults standardUserDefaults] setValue:@"SearchVC" forKey:@"SEARCH_STAT"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            [self navigate_courses];
-        }
-        else if ([public count] !=0)
-        {
-            [[NSUserDefaults standardUserDefaults] setValue:aData forKey:@"COURSESDICTIN"];
-            [[NSUserDefaults standardUserDefaults] setValue:@"SearchVC" forKey:@"SEARCH_STAT"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            [self navigate_courses];
-        }
-        else
-        {
-            [self navigate_courses];
-        }
+        [[NSUserDefaults standardUserDefaults] setValue:@"SearchVC" forKey:@"SEARCH_STAT"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self navigate_courses];
+    }
+    else if ([public count] !=0)
+    {
+        [[NSUserDefaults standardUserDefaults] setValue:@"SearchVC" forKey:@"SEARCH_STAT"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self navigate_courses];
     }
     else
     {
-        [activityIndicatorView stopAnimating];
-        VW_overlay.hidden = YES;
+        [self navigate_courses];
     }
 }
 

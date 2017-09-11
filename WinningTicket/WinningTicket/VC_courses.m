@@ -12,39 +12,40 @@
 #import <QuartzCore/QuartzCore.h>
 #import "HMSegmentedControl.h"
 #import "course_service.h"
+#import "ARR_singleTON.h"
 
 #import "UIImageView+WebCache.h"
 #import "WinningTicket_Universal-Swift.h"
 
 #import "ViewController.h"
 
-@interface ARR_singleTON : NSObject
-@property (nonatomic, retain) NSMutableArray *ARR_colection_data;
-@property (nonatomic, retain) NSMutableArray *ARR_list_data;
-@property (nonatomic, retain) NSDictionary *Dictin_course;
-+(ARR_singleTON*)singleton;
-+(void) clearData;
-@end
-@implementation ARR_singleTON
-@synthesize ARR_colection_data,ARR_list_data,Dictin_course;
-+(ARR_singleTON *)singleton {
-    static dispatch_once_t pred;
-    static ARR_singleTON *shared = nil;
-    dispatch_once(&pred, ^{
-        shared = [[ARR_singleTON alloc] init];
-        shared.ARR_colection_data = [[NSMutableArray alloc]init];
-        shared.ARR_list_data = [[NSMutableArray alloc]init];
-        shared.Dictin_course = [[NSDictionary alloc]init];
-    });
-    return shared;
-}
-+(void) clearData {
-    ARR_singleTON *appData = [ARR_singleTON singleton];
-    [appData.ARR_colection_data removeAllObjects];
-    [appData.ARR_list_data removeAllObjects];
-}
-
-@end
+//@interface ARR_singleTON : NSObject
+//@property (nonatomic, retain) NSMutableArray *ARR_colection_data;
+//@property (nonatomic, retain) NSMutableArray *ARR_list_data;
+//@property (nonatomic, retain) NSDictionary *Dictin_course;
+//+(ARR_singleTON*)singleton;
+//+(void) clearData;
+//@end
+//@implementation ARR_singleTON
+//@synthesize ARR_colection_data,ARR_list_data,Dictin_course;
+//+(ARR_singleTON *)singleton {
+//    static dispatch_once_t pred;
+//    static ARR_singleTON *shared = nil;
+//    dispatch_once(&pred, ^{
+//        shared = [[ARR_singleTON alloc] init];
+//        shared.ARR_colection_data = [[NSMutableArray alloc]init];
+//        shared.ARR_list_data = [[NSMutableArray alloc]init];
+//        shared.Dictin_course = [[NSDictionary alloc]init];
+//    });
+//    return shared;
+//}
+//+(void) clearData {
+//    ARR_singleTON *appData = [ARR_singleTON singleton];
+//    [appData.ARR_colection_data removeAllObjects];
+//    [appData.ARR_list_data removeAllObjects];
+//}
+//
+//@end
 
 @interface VC_courses ()<CLLocationManagerDelegate>
 {
@@ -159,15 +160,16 @@
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SEARCH_STAT"];
         [[NSUserDefaults standardUserDefaults]synchronize];
         
+        _tbl_courses.hidden = YES;
         [self ADD_marker];
         
-        if ([ARR_map_data count] != 0) {
-            _Collection_course.hidden = NO;
-        }
-        else
-        {
-            _Collection_course.hidden = YES;
-        }
+//        if ([ARR_map_data count] != 0) {
+//            _Collection_course.hidden = NO;
+//        }
+//        else
+//        {
+//            _Collection_course.hidden = YES;
+//        }
     }
     else
     {
@@ -940,7 +942,7 @@
     
     course_service *API_course = [[course_service alloc]init];
 //    Dictin_course =
-    ARR_singleTON *globals = [ARR_singleTON singleton];
+    ARR_singleTON *globals = [ARR_singleTON dictin];
     globals.Dictin_course = [API_course get_ID:urlGetuser];
     NSString *STR_error;
     
@@ -1049,10 +1051,11 @@
     
     UIImage *image_icon = [UIImage imageNamed:@"GOlf-Icon"];
     [ARR_singleTON clearData];
+    ARR_singleTON *globals_dictin = [ARR_singleTON dictin];
     ARR_singleTON *globals = [ARR_singleTON singleton];
     
-    NSLog(@"Dictin all coures %@",globals.Dictin_course);
-    NSDictionary *all_course_arr = [globals.Dictin_course valueForKey:@"courses"];
+    NSLog(@"Dictin all coures %@",globals_dictin.Dictin_course);
+    NSDictionary *all_course_arr = [globals_dictin.Dictin_course valueForKey:@"courses"];
     
     
     

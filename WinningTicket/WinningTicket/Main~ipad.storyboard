@@ -5805,7 +5805,7 @@ Team1</string>
                                 <rect key="frame" x="0.0" y="64" width="768" height="115"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search by location" textAlignment="natural" minimumFontSize="17" id="O2d-Ui-1eo" customClass="ACFloatingTextField">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search by location" textAlignment="natural" minimumFontSize="17" id="O2d-Ui-1eo" customClass="TXT_clear_BTN">
                                         <rect key="frame" x="8" y="10" width="752" height="45"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -5816,7 +5816,7 @@ Team1</string>
                                             <outlet property="delegate" destination="Dhe-jA-jC6" id="lHY-LW-dns"/>
                                         </connections>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search by course name" textAlignment="natural" minimumFontSize="17" id="IrZ-HS-mdJ" customClass="ACFloatingTextField">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search by course name" textAlignment="natural" minimumFontSize="17" id="IrZ-HS-mdJ" customClass="TXT_clear_BTN">
                                         <rect key="frame" x="8" y="63" width="752" height="45"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

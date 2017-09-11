@@ -62,6 +62,8 @@
 		BE4EEECA1ED2AAFC003C1C24 /* TAPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = BE4EEEC61ED2AAFC003C1C24 /* TAPageControl.m */; };
 		BE4EEECD1ED2AB13003C1C24 /* TAExampleDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = BE4EEECC1ED2AB13003C1C24 /* TAExampleDotView.m */; };
 		BE4F35211F0B5C4700FD9CE5 /* TXT_float_BOLD.m in Sources */ = {isa = PBXBuildFile; fileRef = BE4F35201F0B5C4700FD9CE5 /* TXT_float_BOLD.m */; };
+		BE570BC71F628A32000F2BBE /* ARR_singleTON.m in Sources */ = {isa = PBXBuildFile; fileRef = BE570BC61F628A32000F2BBE /* ARR_singleTON.m */; };
+		BE570BCE1F6297D0000F2BBE /* API_search_course.m in Sources */ = {isa = PBXBuildFile; fileRef = BE570BCD1F6297D0000F2BBE /* API_search_course.m */; };
 		BE5F8DE61F0E66DF00280683 /* WinningTicket_Universal-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BE5F8DE51F0E66DF00280683 /* WinningTicket_Universal-Info.plist */; };
 		BE60C1A01EB1CC4000C4B522 /* left_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = BE60C19F1EB1CC3F00C4B522 /* left_arrow.png */; };
 		BE60C1A21EB1CE7A00C4B522 /* cross.png in Resources */ = {isa = PBXBuildFile; fileRef = BE60C1A11EB1CE7A00C4B522 /* cross.png */; };
@@ -366,6 +368,10 @@
 		BE4EEECC1ED2AB13003C1C24 /* TAExampleDotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAExampleDotView.m; sourceTree = "<group>"; };
 		BE4F351F1F0B5C4700FD9CE5 /* TXT_float_BOLD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TXT_float_BOLD.h; sourceTree = "<group>"; };
 		BE4F35201F0B5C4700FD9CE5 /* TXT_float_BOLD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TXT_float_BOLD.m; sourceTree = "<group>"; };
+		BE570BC51F628A32000F2BBE /* ARR_singleTON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARR_singleTON.h; sourceTree = "<group>"; };
+		BE570BC61F628A32000F2BBE /* ARR_singleTON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARR_singleTON.m; sourceTree = "<group>"; };
+		BE570BCC1F6297D0000F2BBE /* API_search_course.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = API_search_course.h; sourceTree = "<group>"; };
+		BE570BCD1F6297D0000F2BBE /* API_search_course.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = API_search_course.m; sourceTree = "<group>"; };
 		BE5F8DE51F0E66DF00280683 /* WinningTicket_Universal-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WinningTicket_Universal-Info.plist"; sourceTree = "<group>"; };
 		BE60C19F1EB1CC3F00C4B522 /* left_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_arrow.png; sourceTree = "<group>"; };
 		BE60C1A11EB1CE7A00C4B522 /* cross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cross.png; sourceTree = "<group>"; };
@@ -1656,10 +1662,14 @@
 			children = (
 				BE37FC091F592E720070EBB7 /* VC_courses.h */,
 				BE37FC0A1F592E720070EBB7 /* VC_courses.m */,
+				BE570BC51F628A32000F2BBE /* ARR_singleTON.h */,
+				BE570BC61F628A32000F2BBE /* ARR_singleTON.m */,
 				BEFCD3141F18A72C0005D82D /* private.png */,
 				BEC3E7EF1F1E12E5000ACB97 /* GOlf-Icon.png */,
 				BE37FC0C1F592E960070EBB7 /* API_courses.h */,
 				BE37FC0D1F592E960070EBB7 /* API_courses.m */,
+				BE570BCC1F6297D0000F2BBE /* API_search_course.h */,
+				BE570BCD1F6297D0000F2BBE /* API_search_course.m */,
 				BE37FC0E1F592E960070EBB7 /* course_service.h */,
 				BE37FC0F1F592E960070EBB7 /* course_service.m */,
 				BE37FC101F592E960070EBB7 /* selected_course.h */,
@@ -2030,6 +2040,7 @@
 				BE37FC401F596CDC0070EBB7 /* VC_conf_Ordr.m in Sources */,
 				BE811F6C1EBB6335003D7C0B /* DGActivityIndicatorBallSpinFadeLoader.m in Sources */,
 				BEFCD31A1F1C93860005D82D /* courseCollectionCELL.swift in Sources */,
+				BE570BC71F628A32000F2BBE /* ARR_singleTON.m in Sources */,
 				BE888A301E927FD000656580 /* VC_notificationsettings.m in Sources */,
 				BE4EEEC91ED2AAFC003C1C24 /* TADotView.m in Sources */,
 				BED71F7B1EE9216C00492E97 /* FLAnimatedImageView.m in Sources */,
@@ -2069,6 +2080,7 @@
 				BEB702C91ECDC289004CB729 /* VC_home.m in Sources */,
 				BEB702F91ECF0479004CB729 /* DGActivityIndicatorTriplePulseAnimation.m in Sources */,
 				BEB49DC21E76B3A900209E63 /* AppDelegate.m in Sources */,
+				BE570BCE1F6297D0000F2BBE /* API_search_course.m in Sources */,
 				BED71F631EE91FED00492E97 /* NSImage+WebCache.m in Sources */,
 				BE3721E91F177327001DA70A /* HMSegmentedControl.m in Sources */,
 				BEE6C3941F386BBF0001F00A /* LIve_scoring_VC.m in Sources */,
