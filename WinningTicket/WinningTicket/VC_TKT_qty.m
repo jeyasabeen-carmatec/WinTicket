@@ -1028,6 +1028,7 @@
             _lbl_acbalance_amount.text = _lbl_datasubtotal.text;
             
             total = 0.00f;
+            /*checking the text*/
             
             difference = subtotal;
         }
