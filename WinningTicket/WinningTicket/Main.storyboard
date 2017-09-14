@@ -771,7 +771,7 @@
                                         <rect key="frame" x="88" y="56" width="159" height="39"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="From" adjustsFontSizeToFit="NO" minimumFontSize="4" id="zeZ-Wo-0Ug" customClass="TXT_alighn_style">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="From" adjustsFontForContentSizeCategory="YES" minimumFontSize="2" id="zeZ-Wo-0Ug" customClass="TXT_alighn_style">
                                                 <rect key="frame" x="0.0" y="2" width="75" height="35"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                 <nil key="textColor"/>
@@ -783,7 +783,7 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </textField>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="To" adjustsFontSizeToFit="NO" minimumFontSize="4" id="A9U-re-gXj" customClass="TXT_alighn_style">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="To" adjustsFontForContentSizeCategory="YES" minimumFontSize="2" id="A9U-re-gXj" customClass="TXT_alighn_style">
                                                 <rect key="frame" x="83" y="2" width="75" height="35"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                 <nil key="textColor"/>
@@ -7663,15 +7663,15 @@ Team1</string>
         <segue reference="aDF-05-jfq"/>
         <segue reference="KU5-Xe-DT4"/>
         <segue reference="Bvk-xC-oni"/>
-        <segue reference="Kfz-vY-8cB"/>
         <segue reference="D2f-xd-0V5"/>
-        <segue reference="6Iw-xR-hwg"/>
-        <segue reference="95q-65-OkS"/>
-        <segue reference="ODo-qD-iEi"/>
+        <segue reference="Kfz-vY-8cB"/>
         <segue reference="wI7-Ti-9mU"/>
-        <segue reference="pDZ-0U-Rag"/>
         <segue reference="7yl-5E-R4B"/>
+        <segue reference="pDZ-0U-Rag"/>
         <segue reference="JQ9-ka-Ozf"/>
+        <segue reference="yxA-85-JlB"/>
+        <segue reference="ODo-qD-iEi"/>
+        <segue reference="95q-65-OkS"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.01176470588" green="0.69019607839999997" blue="0.87450980389999999" alpha="1" colorSpace="calibratedRGB"/>
 </document>
